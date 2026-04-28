@@ -1,0 +1,37 @@
+NUESTRO APLICATIVO:---------------------------------------------------------------
+usar la IA contra la IA
+aplicativo detección de plagio.
+usar la ia para indicar si algún formato la hizo una IA.
+la IA vota una API 
+textos imágenes video audios, multimedia general.
+Todo lo q se puede entregar como tarea.
+entre mas IAs mejor.
+Investigar cuantas se pueden usar.
+ADmin y usuario.
+Admimn= tiene acceso a todo, tiene acceso a la info de otros usuarios
+usuario= crea cuenta, sube archivo, hace análisis y genera reporte, se guarda, hay historial
+PROBLEMA
+Calcular cual de las IAs fue mas precisa
+-por separado hacer archivo ocn ia y propios, calibrar la IA. 
+-Decir cual se recomienda según el porcentaje de precisión y decir q tanto porcentaje de precisión tubo cada una.
+-hay q hacer "filetuning"--> buscar q es
+-------------------------------------------
+"esta ia dijo q tanto porcentaje, pero esta otra q tanto"
+marcar cual de todas las IAs es la mejor
+es para q el usuario se de un resultado mas grande
+INSTRUCCIONES GENERALES:
+--------------------------------------------------------------------
+Trabajar "tabla de auditoria"
+Todo aplicativo con info para una empresa se guarda ese registro "auditoria" "logs"
+ejemplo: si alguien creo una cuenta quede "tal persona creo una cuenta, cuando, a q horas, y desde donde"
+Todos los proyectos DEBEN TENER ESA TABLA.
+Tiene q tener incriptacion y vasn a tener hasheo (no se ha visto, es lo ultimo q se agrega)
+utilización de entorno grafico BONITO  -  Entorno grafico acorde al tema a resolver 
+Adelantamos: manual de marca visual (HTML css y js).
+requerimientos: que debe hacer el proyecto
+Gestion de proyectos: 1 en front, 1 en back, uno encargado de datos, y otro de gestión documental (asistri al front).
+Dentro de auditoria hay q decir cuando y donde paso tal cosa, tiene q quedar almacenada en la auditoria la direccion IP desde q se hbizo al solicitud, CONSUMIR API EXTERNA PARA ESOO.
+Hay que presentarlo lo mas gerencial posible, (vender la idea).
+Si queremos agregar mas cosas al aplicativo hacerlo si esta acorde con el tema.
+
+
