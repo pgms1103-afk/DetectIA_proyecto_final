@@ -1,38 +1,30 @@
-package co.edu.unbosque.detectia.entity;
+package co.edu.unbosque.detectia.dto;
 
 import java.util.Objects;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "usuario")
-public class Usuario {
-
-	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
+public class UsuarioDTO {
+	
+	private long id;
 	private String correo;
 	private String contrasena;
 	private String rol;
 	
-	public Usuario() {
+	public UsuarioDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Usuario(String correo, String contrasena, String rol) {
+	public UsuarioDTO(String correo, String contrasena, String rol) {
 		super();
 		this.correo = correo;
 		this.contrasena = contrasena;
 		this.rol = rol;
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -62,7 +54,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", correo=" + correo + ", contrasena=" + contrasena + ", rol=" + rol + "]";
+		return "UsuarioDTO [id=" + id + ", correo=" + correo + ", contrasena=" + contrasena + ", rol=" + rol + "]";
 	}
 
 	@Override
@@ -78,11 +70,11 @@ public class Usuario {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Usuario other = (Usuario) obj;
-		return Objects.equals(contrasena, other.contrasena) && Objects.equals(correo, other.correo)
-				&& Objects.equals(id, other.id) && Objects.equals(rol, other.rol);
+		UsuarioDTO other = (UsuarioDTO) obj;
+		return Objects.equals(contrasena, other.contrasena) && Objects.equals(correo, other.correo) && id == other.id
+				&& Objects.equals(rol, other.rol);
 	}
 	
 	
-	
+
 }
