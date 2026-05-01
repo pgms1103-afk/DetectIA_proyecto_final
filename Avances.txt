@@ -1,0 +1,59 @@
+
+PARA DAVID:
+
+Tarea: Módulo de Archivos
+Contexto
+El proyecto es un detector de contenido generado por IA llamado DetectIA. El usuario sube un archivo, el sistema lo analiza con varias IAs y genera un reporte. Tu tarea es crear la base para recibir y guardar esos archivos.
+
+Lo que debes crear:
+1. Entidad Archivo en el paquete entity
+Campos que debe tener:
+
+id → Long, autogenerado
+nombre → String, nombre del archivo
+tipo → String, puede ser: "TEXTO", "IMAGEN", "AUDIO", "VIDEO"
+rutaAlmacenamiento → String, dónde quedó guardado en el servidor
+fechaSubida → LocalDateTime, cuándo se subió
+usuario → relación con la entidad Usuario (un usuario puede tener muchos archivos)
+
+2. ArchivoDTO en el paquete dto
+
+Mismos campos que la entidad pero sin anotaciones JPA
+
+3. ArchivoRepository en el paquete repository
+
+Extiende JpaRepository<Archivo, Long>
+Agrega un método para buscar archivos por usuario
+
+4. ArchivoService en el paquete service
+
+Implementa CRUDoperation<ArchivoDTO>
+Métodos: create, getAll, deleteById, updateById
+Agrega un método para buscar archivos por usuario
+
+5. ArchivoController en el paquete controller
+
+@RequestMapping("/private/archivo")
+@PreAuthorize no es necesario, cualquier usuario autenticado puede subir archivos
+Endpoints:
+
+POST /private/archivo/subir → subir archivo
+GET /private/archivo/mis-archivos → ver archivos del usuario autenticado
+DELETE /private/archivo/eliminar → eliminar archivo por id
+
+
+
+
+Cosas importantes a tener en cuenta:
+
+Seguir el mismo patrón de código que ya existe en el proyecto, especialmente como está hecho el UsuarioService y UsuarioController
+Usar ModelMapper para convertir entre entidad y DTO
+Usar @Autowired para inyectar dependencias, no @RequiredArgsConstructor
+Todos los endpoints privados llevan @SecurityRequirement(name = "bearerAuth") a nivel de clase
+El @CrossOrigin va en todos los controllers
+
+
+Lo que NO debe tocar todavía:
+
+La lógica de análisis con IAs, eso viene después
+La subida real del archivo al servidor, por ahora solo guardar la info en la BD
