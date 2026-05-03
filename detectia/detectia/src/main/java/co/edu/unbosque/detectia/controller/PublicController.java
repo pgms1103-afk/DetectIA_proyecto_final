@@ -40,9 +40,10 @@ public class PublicController {
 	}
 	
 	@PostMapping("/registrarusuario")
-	public ResponseEntity<String> registrarUsuario(@RequestParam String correo, @RequestParam String contrasena) {
+	public ResponseEntity<String> registrarUsuario(@RequestParam String nombreUsuario, @RequestParam String correo, @RequestParam String contrasena) {
 		
 		UsuarioDTO nuevo = new UsuarioDTO ();
+		nuevo.setNombreUsuario(nombreUsuario);
 		nuevo.setCorreo(correo);
 		nuevo.setContrasena(contrasena);
 		int status = usuarioSer.create(nuevo);
