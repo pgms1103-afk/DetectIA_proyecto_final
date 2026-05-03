@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import co.edu.unbosque.detectia.dto.ZeroGPTResponseDTO;
 import io.jsonwebtoken.io.IOException;
@@ -32,8 +33,11 @@ public class ZeroGPTService {
 	            .build();
 
 	    public ZeroGPTResponseDTO detectarIA(String texto) throws java.io.IOException {
-	        String jsonBody = "{\"input_text\": \"" + texto + "\"}";
 
+	        JsonObject jsonObject = new JsonObject();
+	        jsonObject.addProperty("input_text", texto);
+	        String jsonBody = jsonObject.toString();
+	        
 	        HttpRequest solicitud = HttpRequest.newBuilder()
 	                .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
 	                .uri(URI.create(apiUrl))

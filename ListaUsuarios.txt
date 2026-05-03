@@ -1,0 +1,18 @@
+ADMINISTRADOR:
+ {
+    "nombreUsuario": admin,
+    "correo": "admin@",
+    "contrasena": "admin",
+    "rol": "ADMIN",
+  },
+
+
+
+USARIO NORMAL:
+  {
+    "nombreUsuario": "user",
+    "correo": "user@g",
+    "contrasena": "user",
+    "rol": "USUARIO",
+  },
+  {

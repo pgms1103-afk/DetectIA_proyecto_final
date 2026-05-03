@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 
 
-
+@SecurityRequirement(name = "bearerAuth")
 @PreAuthorize("hasAuthority('ADMIN')")  //Permite usar expresiones q se evaluan en tiempo de ejecucion para ver si el usuario tiene acceso a ese recurso
 @RestController
 @RequestMapping("/private/admin") //Tiene todas las rutas privadas
@@ -31,7 +31,7 @@ public class AdminController {
     @Autowired
     private UsuarioService usuarioSer;
 	
-    @SecurityRequirement(name = "bearerAuth")
+    
 	@PostMapping("/crearusuario")
 	public ResponseEntity<String> crearUsuario(@RequestParam String nombreUsuario, @RequestParam String correo, @RequestParam String contrasena) {
 		
@@ -47,13 +47,11 @@ public class AdminController {
 		}	
 	}
 	
-	@SecurityRequirement(name = "bearerAuth")
     @GetMapping("/admin") //Manejar a usuarios q quieren ingresar a la ruta admin y q sean admin
     public String admin() {
         return "Soy admin juasjuas";
     }
-	
-	@SecurityRequirement(name = "bearerAuth")
+
 	@GetMapping("/mostrarusuarios")
 	public ResponseEntity<List<UsuarioDTO>> mostrarUsuarios() {
 		List<UsuarioDTO> usuarios = usuarioSer.getAll();
@@ -63,8 +61,7 @@ public class AdminController {
 			return new ResponseEntity<List<UsuarioDTO>>(usuarios, HttpStatus.ACCEPTED);
 		}
 	}
-	
-	@SecurityRequirement(name = "bearerAuth")
+
 	@PutMapping("/actualizarusuarios")
 	public ResponseEntity<String> actualizarUsuarios(@RequestParam Long id, @RequestParam String nombreUsuario,
 			@RequestParam String correo, @RequestParam String contrasena, @RequestParam String rol){
@@ -76,8 +73,7 @@ public class AdminController {
 			return new ResponseEntity<>("Usuario no existe", HttpStatus.NO_CONTENT);
 		}
 	}
-	
-	@SecurityRequirement(name = "bearerAuth")
+
 	@DeleteMapping("/eliminarusuarios")
 	public ResponseEntity<String> eliminarUsuarios (@RequestParam Long id){
 		int status = usuarioSer.delateById(id);
