@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import co.edu.unbosque.detectia.dto.ArchivoDTO;
 import co.edu.unbosque.detectia.entity.Archivo;
@@ -14,6 +15,7 @@ import co.edu.unbosque.detectia.entity.Usuario;
 import co.edu.unbosque.detectia.repository.ArchivoRepository;
 import co.edu.unbosque.detectia.repository.UsuarioRepository;
 
+@Service
 public class ArchivoService implements CRUDoperation<ArchivoDTO>{
 	
 	@Autowired
@@ -96,6 +98,14 @@ public class ArchivoService implements CRUDoperation<ArchivoDTO>{
 		});
 		
 		return dtoList;
+	}
+	
+	public ArchivoDTO getById(Long id) {
+	    Optional<Archivo> encontrado = archivoRepo.findById(id);
+	    if (encontrado.isPresent()) {
+	        return mapper.map(encontrado.get(), ArchivoDTO.class);
+	    }
+	    return null;
 	}
 	
 	
