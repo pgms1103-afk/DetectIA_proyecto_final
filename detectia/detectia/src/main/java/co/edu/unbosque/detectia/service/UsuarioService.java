@@ -76,6 +76,7 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO>, UserDetailsSer
 		
 		if(encontrado.isPresent()) {
 			Usuario temp = encontrado.get();
+			temp.setNombreUsuario(data.getNombreUsuario());
 			temp.setCorreo(data.getCorreo());
 			temp.setContrasena(passwordEncoder.encode(data.getContrasena())); 
 			usuarioRepo.save(temp);
@@ -93,6 +94,32 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO>, UserDetailsSer
 		}
 		return new SecurityUser(entity.get());
 	}
+	
+	public UsuarioDTO getLoginUser(String correo) {
+		Optional<Usuario> entity = usuarioRepo.findByCorreo(correo);
+				if(entity.isEmpty()) {
+					throw new UsernameNotFoundException("Usuario no encontrado");
+				}
+	    return mapper.map(entity, UsuarioDTO.class);
+	}
+	
+	public int updateLoginPassword(String correo, String nuevaContrasena) {
+		
+		Optional<Usuario> encontrado = usuarioRepo.findByCorreo(correo);
+
+		if(encontrado.isPresent()) {
+			Usuario temp = encontrado.get();
+			temp.setContrasena(passwordEncoder.encode(nuevaContrasena)); 
+			usuarioRepo.save(temp);
+			return 0;
+		}
+		
+		return 1;
+	}
+	
+	
+	
+	
 	
 
 }

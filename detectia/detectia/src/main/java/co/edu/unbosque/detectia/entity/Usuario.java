@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 public class Usuario {
 
 	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
+	private String nombreUsuario;
 	private String correo;
 	private String contrasena;
 	private String rol;
@@ -21,8 +22,8 @@ public class Usuario {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Usuario(String correo, String contrasena, String rol) {
-		super();
+	public Usuario(String nombreUsuario, String correo, String contrasena, String rol) {
+		this.nombreUsuario = nombreUsuario;
 		this.correo = correo;
 		this.contrasena = contrasena;
 		this.rol = rol;
@@ -60,14 +61,23 @@ public class Usuario {
 		this.rol = rol;
 	}
 
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
+
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
+	}
+
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", correo=" + correo + ", contrasena=" + contrasena + ", rol=" + rol + "]";
+		return "Usuario [id=" + id + ", nombre=" + nombreUsuario + ", correo=" + correo + ", contrasena=" + contrasena
+				+ ", rol=" + rol + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(contrasena, correo, id, rol);
+		return Objects.hash(contrasena, correo, id, nombreUsuario, rol);
 	}
 
 	@Override
@@ -80,8 +90,11 @@ public class Usuario {
 			return false;
 		Usuario other = (Usuario) obj;
 		return Objects.equals(contrasena, other.contrasena) && Objects.equals(correo, other.correo)
-				&& Objects.equals(id, other.id) && Objects.equals(rol, other.rol);
+				&& Objects.equals(id, other.id) && Objects.equals(nombreUsuario, other.nombreUsuario)
+				&& Objects.equals(rol, other.rol);
 	}
+
+
 	
 	
 	
