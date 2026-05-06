@@ -1,0 +1,63 @@
+<aside class="sidebar" [class.collapsed]="isCollapsed">
+  <div class="sidebar-header">
+    <div class="logo-mark">🔍</div>
+    <span class="logo-text">DetectIA</span>
+  </div>
+
+  <button class="toggle-btn" (click)="toggleSidebar()">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+
+  <nav class="sidebar-nav">
+    <span class="nav-section-label">Principal</span>
+    <a class="nav-item active" href="#" data-tip="Detector">
+      <span class="nav-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></span>
+      <span class="nav-label">Detector</span>
+      <span class="nav-badge">Beta</span>
+    </a>
+    <a class="nav-item" href="#" data-tip="Historial">
+      <span class="nav-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+      <span class="nav-label">Historial</span>
+    </a>
+
+
+    <span class="nav-section-label">Herramientas Deteccion</span>
+    <a class="nav-item" href="#" data-tip="Texto">
+      <span class="nav-icon"><i class="fa-solid fa-book"></i></span>
+      <span class="nav-label">Texto</span>
+    </a>
+    <a class="nav-item" href="#" data-tip="Video">
+      <span class="nav-icon"><i class="fa-solid fa-video"></i></span>
+      <span class="nav-label">Video</span>
+    </a>
+    <a class="nav-item" href="#" data-tip="Imagenes">
+      <span class="nav-icon"><i class="fa-regular fa-image"></i></span>
+      <span class="nav-label">Imagenes</span>
+    </a>
+    <a class="nav-item" href="#" data-tip="Audio">
+      <span class="nav-icon"><i class="fa-regular fa-file-audio"></i></span>
+      <span class="nav-label">Audio</span>
+    </a>
+
+    <span class="nav-section-label">Otros</span>
+    <a class="nav-item" href="#" data-tip="Modelos">
+      <span class="nav-icon"><i class="fa-solid fa-microchip"></i></span>
+      <span class="nav-label">Gestionar modelos</span>
+    </a>
+    <a class="nav-item" href="#" data-tip="Calibración">
+      <span class="nav-icon"><i class="fa-solid fa-sliders"></i></span>
+      <span class="nav-label">Calibración</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a class="nav-item" href="#" data-tip="Configuración">
+      <span class="nav-icon"><i class="fa-solid fa-gear"></i></span>
+      <span class="nav-label">Configuración</span>
+    </a>
+    <a class="nav-item" href="#" data-tip="Ayuda">
+      <span class="nav-icon"><i class="fa-regular fa-circle-question"></i></span>
+      <span class="nav-label">Ayuda y docs</span>
+    </a>
+  </div>
+</aside>

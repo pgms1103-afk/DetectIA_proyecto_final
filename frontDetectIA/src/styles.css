@@ -1,1 +1,66 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --bg-void: #0a0a0b;
+  --bg-surface: #111113;
+  --bg-elevated: #18181b;
+  --bg-card: #1c1c1f;
+  --bg-hover: #222226;
+  --border-subtle: #2a2a2e;
+  --border-normal: #3a3a3f;
+  --border-active: #5a5a65;
+  --text-primary: #f0f0f2;
+  --text-secondary: #a0a0a8;
+  --text-muted: #5a5a65;
+  --text-ghost: #38383f;
+  --accent-orange: #d97706;
+  --accent-orange-light: #f59e0b;
+  --accent-orange-dim: rgba(217, 119, 6, 0.15);
+  --accent-green: #059669;
+  --accent-green-light: #10b981;
+  --accent-green-dim: rgba(5, 150, 105, 0.12);
+  --accent-red: #dc2626;
+  --accent-red-dim: rgba(220, 38, 38, 0.12);
+  --accent-blue: #3b82f6;
+  --accent-blue-dim: rgba(59, 130, 246, 0.12);
+  --sidebar-width: 260px;
+  --sidebar-collapsed: 64px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  background: var(--bg-void);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  overflow: hidden;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-normal); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-active); }
+
+/* ─── TOOLTIP ─── */
+[data-tip] { position: relative; }
+[data-tip]:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  background: var(--bg-card);
+  border: 1px solid var(--border-normal);
+  color: var(--text-secondary);
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 5px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin 0.8s linear infinite; }
