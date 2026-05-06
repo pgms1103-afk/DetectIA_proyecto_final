@@ -20,12 +20,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @RequestMapping("/private/user")
 @CrossOrigin(origins = { "http://localhost:8080", "*" })
+@SecurityRequirement(name = "bearerAuth")
 public class UserController {
 	
 	 @Autowired
 	 private UsuarioService usuarioSer;
 	 
-	 @SecurityRequirement(name = "bearerAuth")
+	 
 	 @GetMapping("/misdatos")
 	 public ResponseEntity<UsuarioDTO> datosUsuario(Authentication authentication) {
 		 String correoLogueado = authentication.getName();
@@ -33,8 +34,7 @@ public class UserController {
 		    UsuarioDTO dto = usuarioSer.getLoginUser(correoLogueado);
 		    return ResponseEntity.ok(dto);
 	 }
-	 
-	 @SecurityRequirement(name = "bearerAuth")
+
 	 @PutMapping("/actualizarcontraseña")
 	 public ResponseEntity<String> actualizarContrasenia(Authentication authentication, @RequestParam String contrasena) {
 	     String correoLogueado = authentication.getName();

@@ -35,7 +35,7 @@ public class ZeroGPTDataDTO {
 		 this.is_gpt_generated = is_gpt_generated;
 	 }
 
-	 public String getFeedback_message() {
+	 public String getFaseedback_message() {
 		 return feedback_message;
 	 }
 
