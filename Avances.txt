@@ -7,3 +7,21 @@ PDF: "is_human_written": 100, "is_gpt_generated": 0
 DOCX: "is_human_written": 0,  "is_gpt_generated": 100
 
 -También se intento subir un archivo pdf mas complejo, como el pdf del proyecto de física, pero no lo analiza, supongo q por las imágenes q hay.  
+No estoy seguro de dejar esta, pero bueno, por mientras se queda.
+
+GEMINI:
+Tras decidir implementar una IA mas amplia, que no solamente este diseñada para analizar documentos, si no que tenga un mundo mas abierto, se dieron los siguientes resultados:
+TXT: 95 de ser IA
+PDF: 95 de ser IA
+PDF FISICA: 95 de ser IA, no se si fue casualidad, aunque en teoría ese documento debió de ser escrito por humanos, entonces creería que esta mal, el caso, toca verificas eso.
+fotoPDF: 65 de ser IA, ta maal, es una foto de mi persona como va a ser IA, toca afinar eso, pero ya analiza imágenes, ta bueno.         
+
+-Lo positivo, también detecta y analiza las imágenes dentro de un PDF, asi que bien ahí.
+
+5/05/2026:
+Se creo un service que elige que extensión es el archivo y según eso llama a las diferentes IAs para cada una.
+GEMINI
+GROK
+ZEROGPT
+Sirven con txt y docx, pero no con pdf
+
