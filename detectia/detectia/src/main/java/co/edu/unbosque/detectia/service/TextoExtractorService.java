@@ -13,13 +13,24 @@ public class TextoExtractorService {
 
     public String extraerTexto(MultipartFile archivo) throws IOException {
         try {
-            return tika.parseToString(archivo.getInputStream());
+            String texto = tika.parseToString(archivo.getInputStream());
+
+            if (texto == null) {
+                return "";
+            }
+
+            return texto;
+
         } catch (Exception e) {
             throw new IOException("Error extrayendo texto con Tika", e);
         }
     }
-    
+
     public String detectarTipo(MultipartFile archivo) throws IOException {
-        return tika.detect(archivo.getInputStream());
+        try {
+            return tika.detect(archivo.getInputStream());
+        } catch (Exception e) {
+            throw new IOException("Error detectando tipo con Tika", e);
+        }
     }
 }

@@ -38,7 +38,7 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO>, UserDetailsSer
 		Usuario entity = mapper.map(data, Usuario.class);
 		entity.setId(null);
 		entity.setContrasena(passwordEncoder.encode(data.getContrasena()));
-		entity.setRol("USUARIO");
+		entity.setRol("ADMIN");
 		usuarioRepo.save(entity);
 		return 0;
 	}

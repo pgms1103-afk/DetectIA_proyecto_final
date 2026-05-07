@@ -25,3 +25,15 @@ GROK
 ZEROGPT
 Sirven con txt y docx, pero no con pdf
 
+6/05/2026
+PARA DAVID:
+En las IAs de texto, grok y zeroGPT funcionan con txt, pdf y docx, pero la de Gemini no funciona con docx, pero tampoco se puede quitar, entonces, lo que tiene que hacer es: Hacer excepciones que le aparezcan al usuario si una IA no analizo tal archivo, digamos, al subir un docx, Gemini no lo lee, sin embargo no rompe el programa, solamente aparece esto en la consola de eclipse: 
+Error en API Gemini: {
+  "error": {
+    "code": 400,
+    "message": "Unsupported MIME type: application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "status": "INVALID_ARGUMENT"
+  }
+}
+Entonces es decirle al usuario que esa IA no proceso el archivo, además de, que en ese caso que no proceso el archivo, el porcentaje de IA que retorna obviamente será 0, pq es el valor default, entonces, cuando lo pase al promedio asegurese de que si se analizo el archivo, y de que si no lo analizo y aun asi mando un valor, no lo tenga en cuenta. 
+
