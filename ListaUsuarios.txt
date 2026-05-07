@@ -1,7 +1,7 @@
 ADMINISTRADOR:
  {
     "nombreUsuario": admin,
-    "correo": "admin@",
+    "correo": "admin",
     "contrasena": "admin",
     "rol": "ADMIN",
   },
@@ -11,7 +11,7 @@ ADMINISTRADOR:
 USARIO NORMAL:
   {
     "nombreUsuario": "user",
-    "correo": "user@g",
+    "correo": "user",
     "contrasena": "user",
     "rol": "USUARIO",
   },

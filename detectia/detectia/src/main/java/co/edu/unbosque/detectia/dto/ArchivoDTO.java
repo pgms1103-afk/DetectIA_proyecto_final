@@ -22,10 +22,9 @@ public class ArchivoDTO {
 	}
 
 
-	public ArchivoDTO(Long id, String nombre, String tipo, String rutaAlmacenamiento, LocalDateTime fechaSubida,
+	public ArchivoDTO( String nombre, String tipo, String rutaAlmacenamiento, LocalDateTime fechaSubida,
 			Usuario usuario, double is_human_written, double is_gpt_generated) {
-		super();
-		this.id = id;
+		
 		this.nombre = nombre;
 		this.tipo = tipo;
 		this.rutaAlmacenamiento = rutaAlmacenamiento;
