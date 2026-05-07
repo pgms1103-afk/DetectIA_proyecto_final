@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import co.edu.unbosque.detectia.dto.ArchivoDTO;
 import co.edu.unbosque.detectia.entity.Archivo;
+import co.edu.unbosque.detectia.entity.ResultadoIA;
 import co.edu.unbosque.detectia.entity.Usuario;
 import co.edu.unbosque.detectia.repository.ArchivoRepository;
+import co.edu.unbosque.detectia.repository.ResultadoIARepository;
 import co.edu.unbosque.detectia.repository.UsuarioRepository;
 
 @Service
@@ -27,6 +29,9 @@ public class ArchivoService implements CRUDoperation<ArchivoDTO>{
 	@Autowired
 	private ModelMapper mapper;
 	
+	@Autowired
+	private ResultadoIARepository resultadoIARepo;
+	
 	public ArchivoService() {
 		// TODO Auto-generated constructor stub
 	}
@@ -38,6 +43,13 @@ public class ArchivoService implements CRUDoperation<ArchivoDTO>{
 		entity.setFechaSubida(LocalDateTime.now());
 		archivoRepo.save(entity);
 		return 0;
+	}
+	
+	public Archivo createAndReturn(ArchivoDTO data) {
+		Archivo entity = mapper.map(data, Archivo.class);
+		entity.setId(null);
+		entity.setFechaSubida(LocalDateTime.now());
+		return archivoRepo.save(entity);
 	}
 
 	@Override
@@ -57,8 +69,11 @@ public class ArchivoService implements CRUDoperation<ArchivoDTO>{
 	public int delateById(Long id) {
 		Optional<Archivo> encontrado = archivoRepo.findById(id);
 		if(encontrado.isPresent()) {
+			
+			List<ResultadoIA> resultados = resultadoIARepo.findByArchivo(encontrado.get());
 			ArchivoDTO dto =mapper.map(encontrado.get(), ArchivoDTO.class);
 			Archivo entity = mapper.map(dto, Archivo.class);
+			resultadoIARepo.deleteAll(resultados);
 			archivoRepo.delete(entity);
 			return 0;
 		}
