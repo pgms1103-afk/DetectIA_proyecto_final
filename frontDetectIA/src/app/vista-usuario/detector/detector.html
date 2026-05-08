@@ -18,7 +18,8 @@
 
     <!-- Text tab -->
     <div class="text-zone" *ngIf="activeTab === 'text'">
-      <textarea class="text-area" placeholder="Pega aquí el texto que deseas analizar... (mínimo 80 palabras para una detección precisa)"></textarea>
+      <textarea class="text-area"
+                placeholder="Pega aquí el texto que deseas analizar... (mínimo 80 palabras para una detección precisa)"></textarea>
       <div class="text-zone-footer">
         <span class="word-count">0 palabras</span>
         <div class="text-actions">
@@ -42,21 +43,21 @@
       </div>
     </div>
 
-    <!-- Analyze button -->
+    <!-- boton de analizar -->
     <button class="analyze-btn">
       <i class="fa-solid fa-magnifying-glass-chart"></i> Analizar texto
     </button>
   </div>
 
-  <!-- ── RESULTS PANEL ── -->
+  <!-- ── panel resultados -->
   <div class="results-panel">
     <!-- Gauge -->
     <div class="gauge-card">
       <span class="gauge-label">Probabilidad de IA</span>
       <div class="gauge-container">
         <svg class="gauge-svg" viewBox="-10 0 180 100">
-          <path class="gauge-bg" d="M 10 90 A 70 70 0 0 1 150 90" stroke-dasharray="220" stroke-dashoffset="0" />
-          <path class="gauge-fill" d="M 10 90 A 70 70 0 0 1 150 90" />
+          <path class="gauge-bg" d="M 10 90 A 70 70 0 0 1 150 90" stroke-dasharray="220" stroke-dashoffset="0"/>
+          <path class="gauge-fill" d="M 10 90 A 70 70 0 0 1 150 90"/>
         </svg>
         <div class="gauge-center">
           <div class="gauge-value">—</div>
@@ -72,7 +73,6 @@
     <!-- Breakdown -->
     <div class="breakdown-card">
       <span class="breakdown-title">Desglose</span>
-      <!-- Empty state inside breakdown -->
       <div class="empty-state">
         <i class="fa-solid fa-chart-pie empty-icon"></i>
         <span class="empty-title">Sin análisis</span>
@@ -80,29 +80,29 @@
       </div>
     </div>
 
-    <!-- Metrics -->
+    <!-- Metricas-->
     <div class="metrics-card">
       <div class="metric-row">
-        <span class="metric-name"><i class="fa-solid fa-font metric-icon"></i> Palabras analizadas</span>
+        <span class="metric-name"><i class="fa-brands fa-google"></i> Gemini</span>
         <span class="metric-val">—</span>
       </div>
       <div class="metric-row">
-        <span class="metric-name"><i class="fa-solid fa-ruler metric-icon"></i> Oraciones</span>
+        <span class="metric-name"><i class="fa-brands fa-openai"></i> ChatGPT</span>
         <span class="metric-val">—</span>
       </div>
       <div class="metric-row">
-        <span class="metric-name"><i class="fa-solid fa-wave-square metric-icon"></i> Perplejidad</span>
+        <span class="metric-name"><i class="fa-brands fa-claude"></i> Claude</span>
         <span class="metric-val">—</span>
       </div>
       <div class="metric-row">
-        <span class="metric-name"><i class="fa-solid fa-layer-group metric-icon"></i> Burstiness</span>
+        <span class="metric-name"><i class="fa-brands fa-claude"></i> DeepSeek</span>
         <span class="metric-val">—</span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- HISTORY STRIP -->
+<!-- historial -->
 <div class="history-strip">
   <span class="history-label">Recientes</span>
   <div class="history-items">
