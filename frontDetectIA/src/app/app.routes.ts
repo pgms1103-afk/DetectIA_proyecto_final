@@ -1,13 +1,9 @@
 import { Routes } from '@angular/router';
+import { LoginComponent } from './login/login';
+import { VistaUsuarioComponent } from './vista-usuario/vista-usuario';
 
 export const routes: Routes = [
-  {
-    path: '',
-    loadComponent: () => import('./login/login').then(m => m.LoginComponent)
-  },
-  {
-    path: 'detector',
-    loadComponent: () => import('./vista-usuario/vista-usuario').then(m => m.VistaUsuarioComponent)
-  },
+  { path: '', component: LoginComponent },
+  { path: 'vista-usuario', component: VistaUsuarioComponent },
   { path: '**', redirectTo: '' }
 ];

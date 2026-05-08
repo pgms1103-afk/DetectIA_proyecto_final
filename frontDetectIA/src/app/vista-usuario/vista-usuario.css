@@ -12,3 +12,13 @@
   overflow: hidden;
   background: var(--bg-void);
 }
+@media (max-width: 768px) {
+
+  .main-content {
+    width: 100vw !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block;
+  }
+}
+

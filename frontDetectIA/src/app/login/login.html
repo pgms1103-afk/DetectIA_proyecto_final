@@ -2,27 +2,21 @@
 
   <div class="form-side">
 
-    <div class="brand-logo">
-      <div class="logo-mark">
+    <div class="brand">
+      <div class="brand-mark">
         <i class="fa-solid fa-brain"></i>
       </div>
-      <span class="logo-text">DetectIA</span>
+      <span class="brand-text">DetectIA</span>
     </div>
 
     <div class="tagline-block">
       <h1 class="tagline">
-        @if (modo === 'login') {
-          Bienvenido<br><span class="tagline-accent">de vuelta.</span>
-        } @else {
-          Empieza a<br><span class="tagline-accent">detectar IA.</span>
-        }
+        <span *ngIf="modo === 'login'">Bienvenido<br><span class="tagline-accent">de vuelta.</span></span>
+        <span *ngIf="modo === 'signup'">Empieza a<br><span class="tagline-accent">detectar IA.</span></span>
       </h1>
       <p class="tagline-sub">
-        @if (modo === 'login') {
-          Inicia sesión para continuar con tus análisis.
-        } @else {
-          Crea tu cuenta comienza en segundos.
-        }
+        <span *ngIf="modo === 'login'">Inicia sesión para continuar con tus análisis.</span>
+        <span *ngIf="modo === 'signup'">Crea tu cuenta gratis y comienza en segundos.</span>
       </p>
     </div>
 
@@ -35,115 +29,105 @@
       </button>
     </div>
 
-    @if (modo === 'login') {
-      <div class="auth-form">
-
-        <div class="field-group">
-          <label class="field-label">Correo electrónico</label>
-          <div class="field-wrapper">
-            <i class="fa-regular fa-envelope field-icon"></i>
-            <input class="field-input" type="email" placeholder="nombre@ejemplo.com"/>
-          </div>
+    <div *ngIf="modo === 'login'" class="auth-form fade-in">
+      <div class="field-group">
+        <label class="field-label">Correo electrónico</label>
+        <div class="field-wrapper">
+          <i class="fa-regular fa-envelope field-icon"></i>
+          <input class="field-input" type="email" placeholder="nombre@ejemplo.com"/>
         </div>
-
-        <div class="field-group">
-          <div class="field-label-row">
-            <label class="field-label">Contraseña</label>
-            <a class="forgot-link" href="#">¿Olvidaste tu contraseña?</a>
-          </div>
-          <div class="field-wrapper">
-            <i class="fa-solid fa-lock field-icon"></i>
-            <input class="field-input" [type]="showLoginPass ? 'text' : 'password'" placeholder="••••••••"/>
-            <button type="button" class="eye-btn" (click)="toggleLoginPass()">
-              <i class="fa-regular" [class.fa-eye]="!showLoginPass" [class.fa-eye-slash]="showLoginPass"></i>
-            </button>
-          </div>
-        </div>
-
-
-        <button class="submit-btn" type="button" (click)="irAlSistema()">
-          <i class="fa-solid fa-arrow-right-to-bracket"></i> Iniciar sesión
-        </button>
-
       </div>
-    }
 
-    @if (modo === 'signup') {
-      <div class="auth-form">
-
-        <div class="field-group">
-          <label class="field-label">Nombre de usuario</label>
-          <div class="field-wrapper">
-            <i class="fa-regular fa-user field-icon"></i>
-            <input class="field-input" type="text" placeholder="Tu nombre o alias"/>
-          </div>
-        </div>
-
-        <div class="field-group">
-          <label class="field-label">Correo electrónico</label>
-          <div class="field-wrapper">
-            <i class="fa-regular fa-envelope field-icon"></i>
-            <input class="field-input" type="email" placeholder="nombre@ejemplo.com"/>
-          </div>
-        </div>
-
-        <div class="field-group">
+      <div class="field-group">
+        <div class="field-label-row">
           <label class="field-label">Contraseña</label>
-          <div class="field-wrapper">
-            <i class="fa-solid fa-lock field-icon"></i>
-            <input class="field-input" [type]="showSignupPass ? 'text' : 'password'" placeholder="Mínimo 8 caracteres"/>
-            <button type="button" class="eye-btn" (click)="toggleSignupPass()">
-              <i class="fa-regular" [class.fa-eye]="!showSignupPass" [class.fa-eye-slash]="showSignupPass"></i>
-            </button>
-          </div>
+          <a class="forgot-link" href="#">¿Olvidaste tu contraseña?</a>
+        </div>
+        <div class="field-wrapper">
+          <i class="fa-solid fa-lock field-icon"></i>
+          <input class="field-input" [type]="showLoginPass ? 'text' : 'password'" placeholder="••••••••"/>
+          <button type="button" class="eye-btn" (click)="showLoginPass = !showLoginPass">
+            <i class="fa-regular" [class.fa-eye]="!showLoginPass" [class.fa-eye-slash]="showLoginPass"></i>
+          </button>
+        </div>
+      </div>
 
-          <div class="strength-bar-wrap">
-            <div class="strength-bar">
-              <div class="strength-fill medium" style="width: 66%;"></div>
-            </div>
-            <span class="strength-label medium-text">Media</span>
-          </div>
+      <button class="submit-btn" type="button" (click)="irAlSistema()">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i> Iniciar sesión
+      </button>
+    </div>
+
+    <div *ngIf="modo === 'signup'" class="auth-form fade-in">
+      <div class="field-group">
+        <label class="field-label">Nombre de usuario</label>
+        <div class="field-wrapper">
+          <i class="fa-regular fa-user field-icon"></i>
+          <input class="field-input" type="text" placeholder="Tu nombre"/>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Correo electrónico</label>
+        <div class="field-wrapper">
+          <i class="fa-regular fa-envelope field-icon"></i>
+          <input class="field-input" type="email" placeholder="nombre@ejemplo.com"/>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Contraseña</label>
+        <div class="field-wrapper">
+          <i class="fa-solid fa-lock field-icon"></i>
+          <input class="field-input" [type]="showSignupPass ? 'text' : 'password'" placeholder="Mínimo 8 caracteres"/>
+          <button type="button" class="eye-btn" (click)="showSignupPass = !showSignupPass">
+            <i class="fa-regular" [class.fa-eye]="!showSignupPass" [class.fa-eye-slash]="showSignupPass"></i>
+          </button>
         </div>
 
-        <button class="submit-btn" type="button" (click)="cambiarModo('login')">
-          <i class="fa-solid fa-user-plus"></i> Crear cuenta
-        </button>
-
-        <p class="terms-note">
-          Al registrarte, aceptas nuestros
-          <a href="#">Términos de servicio</a> y
-          <a href="#">Política de privacidad</a>.
-        </p>
-
+        <div class="strength-bar-wrap">
+          <div class="strength-bar">
+            <div class="strength-fill medium" style="width: 66%;"></div>
+          </div>
+          <span class="strength-label medium-text">Media</span>
+        </div>
       </div>
-    }
+
+      <button class="submit-btn" type="button" (click)="cambiarModo('login')">
+        <i class="fa-solid fa-user-plus"></i> Crear cuenta gratis
+      </button>
+
+      <p class="terms-note">
+        Al registrarte, aceptas nuestros
+        <a href="#">Términos de servicio</a> y
+        <a href="#">Política de privacidad</a>.
+      </p>
+    </div>
 
   </div>
 
   <div class="visual-side">
-
     <div class="noise-overlay"></div>
     <div class="grid-lines"></div>
 
     <div class="slide-wrapper">
-      @for (slide of slides; track slide.tag; let i = $index) {
-        <div class="slide" [class.active]="currentSlide === i">
+      <div *ngFor="let slide of slides; let i = index"
+           class="slide"
+           [class.active]="currentSlide === i">
 
-          <div class="slide-orb" [style.--orb-color]="slide.color">
-            <i class="fa-solid {{ slide.icon }}"></i>
-          </div>
-
-          <div class="slide-tag" [style.color]="slide.color">{{ slide.tag }}</div>
-          <h2 class="slide-title">{{ slide.title }}</h2>
-          <p class="slide-desc">{{ slide.desc }}</p>
-
-          <div class="slide-chip" [style.--chip-color]="slide.color">
-            <i class="fa-solid {{ slide.highlightIcon }}"></i>
-            {{ slide.highlight }}
-          </div>
-
+        <div class="slide-orb" [style.--orb-color]="slide.color">
+          <i class="fa-solid {{ slide.icon }}"></i>
         </div>
-      }
+
+        <div class="slide-tag" [style.color]="slide.color">{{ slide.tag }}</div>
+        <h2 class="slide-title">{{ slide.title }}</h2>
+        <p class="slide-desc">{{ slide.desc }}</p>
+
+        <div class="slide-chip" [style.--chip-color]="slide.color">
+          <i class="fa-solid {{ slide.highlightIcon }}"></i>
+          {{ slide.highlight }}
+        </div>
+
+      </div>
     </div>
 
     <div class="slide-nav">
@@ -151,9 +135,10 @@
         <i class="fa-solid fa-chevron-left"></i>
       </button>
       <div class="slide-dots">
-        @for (slide of slides; track slide.tag; let i = $index) {
-          <button class="slide-dot" [class.active]="currentSlide === i" (click)="goToSlide(i)"></button>
-        }
+        <button *ngFor="let s of slides; let i = index"
+                class="slide-dot"
+                [class.active]="currentSlide === i"
+                (click)="goToSlide(i)"></button>
       </div>
       <button class="slide-arrow" (click)="nextSlide()">
         <i class="fa-solid fa-chevron-right"></i>
