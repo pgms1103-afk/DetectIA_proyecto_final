@@ -465,7 +465,6 @@
   font-weight: 600;
 }
 
-/* ── MINI CARD ── */
 .mini-card {
   width: 100%;
   max-width: 300px;
@@ -621,4 +620,27 @@
   font-size: 17px;
   letter-spacing: -0.02em;
   color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  .auth-shell {
+    flex-direction: column;
+  }
+
+  .visual-side {
+    display: none;
+  }
+
+  .form-side {
+    width: 100%;
+    padding: 30px 20px;
+  }
+
+  .brand {
+    margin-bottom: 24px;
+  }
+
+  .tagline {
+    font-size: 24px;
+  }
 }

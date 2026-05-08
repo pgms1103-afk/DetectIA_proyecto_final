@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,11 +12,12 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  modo: 'login' | 'signup' = 'login';
-  showLoginPass = false;
-  showSignupPass = false;
-
+  modo: string = 'login';
+  showLoginPass: boolean = false;
+  showSignupPass: boolean = false;
   currentSlide = 0;
+
+
   slides = [
     {
       icon: 'fa-magnifying-glass-chart',
@@ -55,20 +57,26 @@ export class LoginComponent {
     },
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
+  cambiarModo(m: string) {
+    this.modo = m;
+  }
 
   irAlSistema() {
-
     this.router.navigate(['/vista-usuario']);
   }
 
+  prevSlide() {
+    this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+  }
 
-  cambiarModo(m: 'login' | 'signup') { this.modo = m; }
-  toggleLoginPass()  { this.showLoginPass = !this.showLoginPass; }
-  toggleSignupPass() { this.showSignupPass = !this.showSignupPass; }
+  nextSlide() {
+    this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+  }
 
-  prevSlide() { this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length; }
-  nextSlide() { this.currentSlide = (this.currentSlide + 1) % this.slides.length; }
-  goToSlide(i: number) { this.currentSlide = i; }
+  goToSlide(i: number) {
+    this.currentSlide = i;
+  }
 }
