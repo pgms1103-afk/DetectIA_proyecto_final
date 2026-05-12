@@ -25,6 +25,9 @@ replay_pid*
 
 **/src/main/resources/application.properties
 
+**/bin/
+**/application.properties
+
 # Archivos temporales de Eclipse/STS
 .project
 .classpath
