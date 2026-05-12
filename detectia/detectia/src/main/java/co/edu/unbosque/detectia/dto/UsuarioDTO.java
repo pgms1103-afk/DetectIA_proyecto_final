@@ -1,33 +1,54 @@
 package co.edu.unbosque.detectia.dto;
 
+
+
 import java.util.Objects;
+
+import co.edu.unbosque.detectia.entity.Usuario.Role;
+
 
 
 public class UsuarioDTO {
 	
-	private long id;
+	private Long id;
 	private String nombreUsuario;
 	private String correo;
 	private String contrasena;
-	private String rol;
+	private Role role;
 	
 	public UsuarioDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UsuarioDTO(String nombreUsuario, String correo, String contrasena, String rol) {
+	public UsuarioDTO(String nombreUsuario, String correo, String contrasena, Role role) {
+		super();
 		this.nombreUsuario = nombreUsuario;
 		this.correo = correo;
 		this.contrasena = contrasena;
-		this.rol = rol;
+		this.role = role;
+	}
+	
+	public UsuarioDTO(String nombreUsuario, String correo, Role role) {
+		super();
+		this.nombreUsuario = nombreUsuario;
+		this.correo = correo;
+		this.role = role;
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
+
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
 	}
 
 	public String getCorreo() {
@@ -46,31 +67,23 @@ public class UsuarioDTO {
 		this.contrasena = contrasena;
 	}
 
-	public String getRol() {
-		return rol;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setRol(String rol) {
-		this.rol = rol;
-	}
-
-	public String getNombreUsuario() {
-		return nombreUsuario;
-	}
-
-	public void setNombreUsuario(String nombreUsuario) {
-		this.nombreUsuario = nombreUsuario;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombreUsuario + ", correo=" + correo + ", contrasena=" + contrasena
-				+ ", rol=" + rol + "]";
+		return "UsuarioDTO [id=" + id + ", nombreUsuario=" + nombreUsuario + ", correo=" + correo + ", contrasena="
+				+ contrasena + ", role=" + role + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(contrasena, correo, id, nombreUsuario, rol);
+		return Objects.hash(contrasena, correo, id, nombreUsuario, role);
 	}
 
 	@Override
@@ -83,8 +96,10 @@ public class UsuarioDTO {
 			return false;
 		UsuarioDTO other = (UsuarioDTO) obj;
 		return Objects.equals(contrasena, other.contrasena) && Objects.equals(correo, other.correo) && id == other.id
-				&& Objects.equals(nombreUsuario, other.nombreUsuario) && Objects.equals(rol, other.rol);
+				&& Objects.equals(nombreUsuario, other.nombreUsuario) && role == other.role;
 	}
+
+	
 
 	
 	

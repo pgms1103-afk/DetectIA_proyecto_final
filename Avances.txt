@@ -37,3 +37,18 @@ Error en API Gemini: {
 }
 Entonces es decirle al usuario que esa IA no proceso el archivo, además de, que en ese caso que no proceso el archivo, el porcentaje de IA que retorna obviamente será 0, pq es el valor default, entonces, cuando lo pase al promedio asegurese de que si se analizo el archivo, y de que si no lo analizo y aun asi mando un valor, no lo tenga en cuenta. 
 
+11/05/2026
+Se puso bien como era la congif de la autenticación y autorización
+En cuanto a las IAs pasa esto:
+TXT-------------------------------
+Grok: "porcentajeIA": 80
+ZeroGPT: "porcentajeIA": 0
+Gemini: "porcentajeIA": 85,
+PDF-------------------------------
+"Grok": 80,
+"ZeroGPT": 0,
+"Gemini": 90
+DOCX-------------------------------
+"Grok": 80,
+"ZeroGPT": 100,
+"Gemini": 0 (no soporta docx)

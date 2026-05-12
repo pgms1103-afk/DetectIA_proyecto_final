@@ -1,14 +1,17 @@
 package co.edu.unbosque.detectia.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,6 +25,8 @@ public class Archivo {
 	private LocalDateTime fechaSubida;
 	private double is_human_written;
 	private double is_gpt_generated;
+	@OneToMany(mappedBy = "archivo", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ResultadoIA> resultados;
 	
 	@ManyToOne 
 	

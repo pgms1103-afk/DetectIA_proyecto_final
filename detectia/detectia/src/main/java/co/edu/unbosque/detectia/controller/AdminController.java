@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,12 +18,12 @@ import co.edu.unbosque.detectia.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @SecurityRequirement(name = "bearerAuth")
-@PreAuthorize("hasAuthority('ADMIN')")  //Permite usar expresiones q se evaluan en tiempo de ejecucion para ver si el usuario tiene acceso a ese recurso
 @RestController
-@RequestMapping("/private/admin") //Tiene todas las rutas privadas
+@RequestMapping("/admin") //Tiene todas las rutas privadas
 @CrossOrigin(origins = { "http://localhost:8080", "*" })
 public class AdminController {
 	
@@ -63,10 +62,9 @@ public class AdminController {
 	}
 
 	@PutMapping("/actualizarusuarios")
-	public ResponseEntity<String> actualizarUsuarios(@RequestParam Long id, @RequestParam String nombreUsuario,
-			@RequestParam String correo, @RequestParam String contrasena, @RequestParam String rol){
-		UsuarioDTO actualizado = new UsuarioDTO (nombreUsuario, correo, contrasena, rol);
-		int status = usuarioSer.updateById(id, actualizado);
+	public ResponseEntity<String> actualizarUsuarios(@RequestParam
+	          Long id, @RequestBody UsuarioDTO newUser){
+		int status = usuarioSer.updateById(id, newUser);
 		if (status == 0) {
 			return new ResponseEntity<>("Usuario actualizado correctamente", HttpStatus.ACCEPTED);
 		} else {

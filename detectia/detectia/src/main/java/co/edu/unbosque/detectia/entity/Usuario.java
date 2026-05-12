@@ -1,32 +1,99 @@
 package co.edu.unbosque.detectia.entity;
 
-import java.util.Objects;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements UserDetails{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
+	@Column(unique=true)
 	private String nombreUsuario;
 	private String correo;
 	private String contrasena;
-	private String rol;
+	@Enumerated(EnumType.STRING)
+	private Role role;
+	/**
+	 * Indica si la cuenta del usuario no ha expirado.
+	 */
+	private boolean accountNonExpired;
+
+	/**
+	 * Indica si la cuenta del usuario no está bloqueada.
+	 */
+	private boolean accountNonLocked;
+
+	/**
+	 * Indica si las credenciales del usuario no han expirado.
+	 */
+	private boolean credentialsNonExpired;
+
+	/**
+	 * Indica si la cuenta del usuario está habilitada.
+	 */
+	private boolean enabled;
+	
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Archivo> archivos;
 	
 	public Usuario() {
-		// TODO Auto-generated constructor stub
+		this.accountNonExpired = true;
+		this.accountNonLocked = true;
+		this.credentialsNonExpired = true;
+		this.enabled = true;
+		this.role = Role.ADMIN;
 	}
 
-	public Usuario(String nombreUsuario, String correo, String contrasena, String rol) {
+	
+	
+	public Usuario(String nombreUsuario, String correo, String contrasena, Role role) {
+		super();
 		this.nombreUsuario = nombreUsuario;
 		this.correo = correo;
 		this.contrasena = contrasena;
-		this.rol = rol;
+		this.role = role;
+	}
+
+	
+
+
+	public Usuario(String nombreUsuario, String correo, Role role) {
+		super();
+		this.nombreUsuario = nombreUsuario;
+		this.correo = correo;
+		this.role = role;
+	}
+
+
+
+
+	public enum Role {
+		/** Usuario regular con permisos básicos */
+		USER, 
+		/** Administrador con permisos completos */
+		ADMIN
 	}
 
 	public Long getId() {
@@ -53,13 +120,7 @@ public class Usuario {
 		this.contrasena = contrasena;
 	}
 
-	public String getRol() {
-		return rol;
-	}
 
-	public void setRol(String rol) {
-		this.rol = rol;
-	}
 
 	public String getNombreUsuario() {
 		return nombreUsuario;
@@ -69,16 +130,28 @@ public class Usuario {
 		this.nombreUsuario = nombreUsuario;
 	}
 
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombreUsuario + ", correo=" + correo + ", contrasena=" + contrasena
-				+ ", rol=" + rol + "]";
+	public Role getRole() {
+		return role;
 	}
+
+
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+
+
+	
+
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(contrasena, correo, id, nombreUsuario, rol);
+		return Objects.hash(accountNonExpired, accountNonLocked, contrasena, correo, credentialsNonExpired, enabled, id,
+				nombreUsuario, role);
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -89,10 +162,115 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		return Objects.equals(contrasena, other.contrasena) && Objects.equals(correo, other.correo)
+		return accountNonExpired == other.accountNonExpired && accountNonLocked == other.accountNonLocked
+				&& Objects.equals(contrasena, other.contrasena) && Objects.equals(correo, other.correo)
+				&& credentialsNonExpired == other.credentialsNonExpired && enabled == other.enabled
 				&& Objects.equals(id, other.id) && Objects.equals(nombreUsuario, other.nombreUsuario)
-				&& Objects.equals(rol, other.rol);
+				&& role == other.role;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", nombreUsuario=" + nombreUsuario + ", correo=" + correo + ", contrasena="
+				+ contrasena + ", role=" + role + ", accountNonExpired=" + accountNonExpired + ", accountNonLocked="
+				+ accountNonLocked + ", credentialsNonExpired=" + credentialsNonExpired + ", enabled=" + enabled + "]";
+	}
+
+
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+	}
+	
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	/**
+	 * Verifica si la cuenta del usuario no está bloqueada.
+	 * Implementación del método de la interfaz UserDetails.
+	 * 
+	 * @return true si la cuenta no está bloqueada, false en caso contrario
+	 */
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	/**
+	 * Verifica si las credenciales del usuario no han expirado.
+	 * Implementación del método de la interfaz UserDetails.
+	 * 
+	 * @return true si las credenciales no han expirado, false en caso contrario
+	 */
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	/**
+	 * Verifica si la cuenta del usuario está habilitada.
+	 * Implementación del método de la interfaz UserDetails.
+	 * 
+	 * @return true si la cuenta está habilitada, false en caso contrario
+	 */
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
+
+
+	@Override
+	public String getPassword() {
+		return contrasena;
+	
+	}
+
+	@Override
+	public String getUsername() {
+		return nombreUsuario;
+	}
+
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+
+	public void setAccountNonExpired(boolean accountNonExpired) {
+		this.accountNonExpired = accountNonExpired;
+	}
+
+
+
+	public void setAccountNonLocked(boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
+
+
+
+	public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+		this.credentialsNonExpired = credentialsNonExpired;
+	}
+
+
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	
+	
+		
+
+	
+	
 
 
 	
