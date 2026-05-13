@@ -10,7 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 import co.edu.unbosque.detectia.dto.GeminiDTO;
 import co.edu.unbosque.detectia.dto.GrokDTO;
 import co.edu.unbosque.detectia.dto.HuggingFaceDTO;
+import co.edu.unbosque.detectia.dto.HiveVideoDTO;
 import co.edu.unbosque.detectia.dto.ResultadoAnalisisDTO;
+import co.edu.unbosque.detectia.dto.TwelveLabsDTO;
 import co.edu.unbosque.detectia.dto.ZeroGPTResponseDTO;
 
 @Service
@@ -36,6 +38,12 @@ public class EleccionService {
 	
 	@Autowired SightengineService sightengine;
 
+	@Autowired
+	private TwelveLabsService twelveLabs;
+
+	@Autowired
+	private HiveVideoService hiveVideo;
+
 	public Map<String, Double> analizar(MultipartFile archivo) throws Exception {
 	    String tipo = extractor.detectarTipo(archivo);
 	    
@@ -49,12 +57,11 @@ public class EleccionService {
 	    return new HashMap<>();
 	}
 
+	private Map<String, Double> analizarTexto(MultipartFile archivo) throws Exception {
+		String texto = extractor.extraerTexto(archivo);
 
-	// ===============================
-		// 📄 TEXTO (Ahora centraliza la lógica)
-		// ===============================
-		private Map<String, Double> analizarTexto(MultipartFile archivo) throws Exception {
-			String texto = extractor.extraerTexto(archivo);
+		System.out.println("TEXTO EXTRAIDO: [" + texto + "]");
+		System.out.println("LONGITUD: " + texto.length());
 
 			System.out.println("TEXTO EXTRAIDO: [" + texto + "]");
 			System.out.println("LONGITUD: " + texto.length());
@@ -96,6 +103,15 @@ public class EleccionService {
 		    return resultadosIA;
 		}
 
+		Map<String, Double> resultadosIA = new HashMap<>();
+
+//			resultadosIA.put("ZeroGPT", zeroGPT.detectarIA(texto).getData().getIs_gpt_generated());
+		resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
+		resultadosIA.put("Gemini", gemini.detectarIA(archivo.getBytes(), archivo.getContentType()).getPorcentajeIA());
+
+		return resultadosIA;
+	}
+
 	// ===============================
 	// 🖼 IMAGEN
 	// ===============================
@@ -109,8 +125,30 @@ public class EleccionService {
 			resultadosIA.put("Sightengine", sightengine.detectarIA(bytes, mimeType ).getAi_generated());
 			resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
 
-			return resultadosIA;
-		}
+		// Invocación a la API de visión
+		HuggingFaceResponseDTO r = huggingFace.analizarArchivo(archivo.getBytes());
+		resultadosIA.put("HuggingFace", r.getScore());
+
+		return resultadosIA;
+	}
+	
+	private Map<String, Double> analizarVideo(MultipartFile archivo) throws Exception {
+		Map<String, Double> resultadosIA = new HashMap<>();
+
+		TwelveLabsDTO tl = twelveLabs.detectarIA(
+				archivo.getBytes(),
+				archivo.getOriginalFilename(),
+				archivo.getContentType());
+		resultadosIA.put("TwelveLabs", tl.getPorcentajeIA());
+
+		HiveVideoDTO hv = hiveVideo.detectarIA(
+				archivo.getBytes(),
+				archivo.getOriginalFilename(),
+				archivo.getContentType());
+		resultadosIA.put("HiveVideo", hv.getPorcentajeIA());
+
+		return resultadosIA;
+	}
 
 	// ===============================
 	// 🔍 HELPERS
