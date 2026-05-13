@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import co.edu.unbosque.detectia.dto.GeminiDTO;
 import co.edu.unbosque.detectia.dto.GrokDTO;
-import co.edu.unbosque.detectia.dto.HuggingFaceResponseDTO;
+import co.edu.unbosque.detectia.dto.HuggingFaceDTO;
 import co.edu.unbosque.detectia.dto.ResultadoAnalisisDTO;
 import co.edu.unbosque.detectia.dto.ZeroGPTResponseDTO;
 
@@ -30,19 +30,19 @@ public class EleccionService {
 
 	@Autowired
 	private HuggingFaceService huggingFace;
+	
+	@Autowired
+	private MistralService mistral;
 
 	public Map<String, Double> analizar(MultipartFile archivo) throws Exception {
-		String tipo = extractor.detectarTipo(archivo);
-
-		if (esDocumento(tipo)) {
-			// DELEGAMOS la responsabilidad al método especializado
-			return analizarTexto(archivo);
-		} else if (tipo.startsWith("image")) {
-			// DELEGAMOS a la lógica de imagen
-			return analizarImagen(archivo);
-		}
-
-		return new HashMap<>();
+	    String tipo = extractor.detectarTipo(archivo);
+	    
+	    if (tipo.contains("pdf")) {
+	        return analizarPDF(archivo); // PDFs van a método especial
+	    } else if (esDocumento(tipo)) {
+	        return analizarTexto(archivo);
+	    }
+	    return new HashMap<>();
 	}
 
 
@@ -62,11 +62,34 @@ public class EleccionService {
 			Map<String, Double> resultadosIA = new HashMap<>();
 			
 			// Invocación a las APIs de texto
-			resultadosIA.put("ZeroGPT", zeroGPT.detectarIA(texto).getData().getIs_gpt_generated());
+			//resultadosIA.put("ZeroGPT", zeroGPT.detectarIA(texto).getData().getIs_gpt_generated());
 			resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
 			resultadosIA.put("Gemini", gemini.detectarIA(archivo.getBytes(), archivo.getContentType()).getPorcentajeIA());
+			resultadosIA.put("HuggingFace", huggingFace.detectarIA(texto).getPorcentajeIA());
+			resultadosIA.put("Mistral", mistral.detectarIA(texto, archivo.getBytes(), archivo.getContentType()).getFakePercentage());
 
 			return resultadosIA;
+		}
+		
+		private Map<String, Double> analizarPDF(MultipartFile archivo) throws Exception {
+		    String texto = extractor.extraerTexto(archivo);
+		    byte[] bytes = archivo.getBytes();
+		    String mimeType = archivo.getContentType();
+		    
+		    Map<String, Double> resultadosIA = new HashMap<>();
+
+		    // Gemini y Mistral reciben los bytes completos del PDF (analizan texto + imágenes)
+		    resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
+
+
+		    // Groq y HuggingFace solo pueden analizar el texto extraído
+		    if (texto != null && !texto.isBlank()) {
+		        resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
+		        resultadosIA.put("HuggingFace", huggingFace.detectarIA(texto).getPorcentajeIA());
+			    resultadosIA.put("Mistral", mistral.detectarIA(texto, bytes, mimeType).getFakePercentage());
+		    }
+
+		    return resultadosIA;
 		}
 
 	// ===============================
@@ -75,20 +98,21 @@ public class EleccionService {
 	// ===============================
 		// 🖼 IMAGEN (Ajustado para retornar Map)
 		// ===============================
-		private Map<String, Double> analizarImagen(MultipartFile archivo) throws Exception {
-			Map<String, Double> resultadosIA = new HashMap<>();
-			
-			// Invocación a la API de visión
-			HuggingFaceResponseDTO r = huggingFace.analizarArchivo(archivo.getBytes());
-			resultadosIA.put("HuggingFace", r.getScore());
-
-			return resultadosIA;
-		}
+//		private Map<String, Double> analizarImagen(MultipartFile archivo) throws Exception {
+//			Map<String, Double> resultadosIA = new HashMap<>();
+//			
+//			// Invocación a la API de visión
+//			HuggingFaceDTO r = huggingFace.analizarArchivo(archivo.getBytes());
+//			resultadosIA.put("HuggingFace", r.getScore());
+//
+//			return resultadosIA;
+//		}
 
 	// ===============================
 	// 🔍 HELPERS
 	// ===============================
-	private boolean esDocumento(String tipo) {
-		return tipo.startsWith("text") || tipo.contains("pdf") || tipo.contains("word");
-	}
+		private boolean esDocumento(String tipo) {
+		    return tipo.startsWith("text") || tipo.contains("word");
+		}
+
 }
