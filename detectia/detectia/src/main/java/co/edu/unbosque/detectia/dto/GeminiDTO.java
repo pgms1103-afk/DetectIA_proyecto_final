@@ -10,7 +10,6 @@ public class GeminiDTO {
 	}
 
 	   public GeminiDTO(double porcentajeIA, String veredicto) {
-		super();
 		this.porcentajeIA = porcentajeIA;
 		this.veredicto = veredicto;
 	   }

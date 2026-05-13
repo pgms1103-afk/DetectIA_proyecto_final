@@ -10,6 +10,7 @@ import java.util.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -120,7 +121,7 @@ public class GeminiService {
 
 	private GeminiDTO procesarRespuestaGemini(String responseBody) {
 		try {
-			com.google.gson.Gson gson = new com.google.gson.Gson();
+			Gson gson = new Gson();
 			JsonObject root = gson.fromJson(responseBody, JsonObject.class);
 
 			// Navegación por el JSON de Gemini
