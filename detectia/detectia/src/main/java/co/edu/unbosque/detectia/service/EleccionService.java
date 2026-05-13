@@ -33,6 +33,8 @@ public class EleccionService {
 	
 	@Autowired
 	private MistralService mistral;
+	
+	@Autowired SightengineService sightengine;
 
 	public Map<String, Double> analizar(MultipartFile archivo) throws Exception {
 	    String tipo = extractor.detectarTipo(archivo);
@@ -41,6 +43,8 @@ public class EleccionService {
 	        return analizarPDF(archivo); // PDFs van a método especial
 	    } else if (esDocumento(tipo)) {
 	        return analizarTexto(archivo);
+	    }else if (tipo.startsWith("image")){
+	    	return analizarImagen(archivo);
 	    }
 	    return new HashMap<>();
 	}
@@ -98,15 +102,15 @@ public class EleccionService {
 	// ===============================
 		// 🖼 IMAGEN (Ajustado para retornar Map)
 		// ===============================
-//		private Map<String, Double> analizarImagen(MultipartFile archivo) throws Exception {
-//			Map<String, Double> resultadosIA = new HashMap<>();
-//			
-//			// Invocación a la API de visión
-//			HuggingFaceDTO r = huggingFace.analizarArchivo(archivo.getBytes());
-//			resultadosIA.put("HuggingFace", r.getScore());
-//
-//			return resultadosIA;
-//		}
+		private Map<String, Double> analizarImagen(MultipartFile archivo) throws Exception {
+			Map<String, Double> resultadosIA = new HashMap<>();
+			byte[] bytes = archivo.getBytes();
+			String mimeType = archivo.getContentType();
+			resultadosIA.put("Sightengine", sightengine.detectarIA(bytes, mimeType ).getAi_generated());
+			resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
+
+			return resultadosIA;
+		}
 
 	// ===============================
 	// 🔍 HELPERS
