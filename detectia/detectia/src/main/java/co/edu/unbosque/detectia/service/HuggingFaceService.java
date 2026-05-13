@@ -14,10 +14,10 @@ import co.edu.unbosque.detectia.dto.HuggingFaceResponseDTO;
 @Service
 public class HuggingFaceService {
 
-    @Value("${hf.api.key}")
+    @Value("${huggingface.api.token}")
     private String hfToken;
 
-    @Value("${hf.api.url}")
+    @Value("${huggingface.api.url}")
     private String baseUrl;
 
     @Value("${hf.model.name}")
