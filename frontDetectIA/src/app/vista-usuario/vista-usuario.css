@@ -13,12 +13,12 @@
   background: var(--bg-void);
 }
 @media (max-width: 768px) {
-
   .main-content {
     width: 100vw !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    display: block;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
   }
 }
 
