@@ -65,15 +65,9 @@ public class EleccionService {
 
 		System.out.println("TEXTO EXTRAIDO: [" + texto + "]");
 		System.out.println("LONGITUD: " + texto.length());
+		
 
-			System.out.println("TEXTO EXTRAIDO: [" + texto + "]");
-			System.out.println("LONGITUD: " + texto.length());
-
-			if (texto == null || texto.isBlank()) {
-				return new HashMap<>();
-			}
-
-			Map<String, Double> resultadosIA = new HashMap<>();
+		Map<String, Double> resultadosIA = new HashMap<>();
 			
 			// Invocación a las APIs de texto
 			//resultadosIA.put("ZeroGPT", zeroGPT.detectarIA(texto).getData().getIs_gpt_generated());
