@@ -36,7 +36,8 @@ public class EleccionService {
 	@Autowired
 	private MistralService mistral;
 	
-	@Autowired SightengineService sightengine;
+	@Autowired 
+	private SightengineService sightengine;
 
 	@Autowired
 	private TwelveLabsService twelveLabs;
@@ -48,11 +49,13 @@ public class EleccionService {
 	    String tipo = extractor.detectarTipo(archivo);
 	    
 	    if (tipo.contains("pdf")) {
-	        return analizarPDF(archivo); // PDFs van a método especial
+	        return analizarPDF(archivo);
 	    } else if (esDocumento(tipo)) {
 	        return analizarTexto(archivo);
 	    }else if (tipo.startsWith("image")){
 	    	return analizarImagen(archivo);
+	    }else if (tipo.startsWith("video")) { 
+	        return analizarVideo(archivo);
 	    }
 	    return new HashMap<>();
 	}
@@ -103,21 +106,10 @@ public class EleccionService {
 		    return resultadosIA;
 		}
 
-		Map<String, Double> resultadosIA = new HashMap<>();
 
-//			resultadosIA.put("ZeroGPT", zeroGPT.detectarIA(texto).getData().getIs_gpt_generated());
-		resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
-		resultadosIA.put("Gemini", gemini.detectarIA(archivo.getBytes(), archivo.getContentType()).getPorcentajeIA());
-
-		return resultadosIA;
-	}
-
-	// ===============================
-	// 🖼 IMAGEN
-	// ===============================
-	// ===============================
 		// 🖼 IMAGEN (Ajustado para retornar Map)
 		// ===============================
+
 		private Map<String, Double> analizarImagen(MultipartFile archivo) throws Exception {
 			Map<String, Double> resultadosIA = new HashMap<>();
 			byte[] bytes = archivo.getBytes();
@@ -125,9 +117,6 @@ public class EleccionService {
 			resultadosIA.put("Sightengine", sightengine.detectarIA(bytes, mimeType ).getAi_generated());
 			resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
 
-		// Invocación a la API de visión
-		HuggingFaceResponseDTO r = huggingFace.analizarArchivo(archivo.getBytes());
-		resultadosIA.put("HuggingFace", r.getScore());
 
 		return resultadosIA;
 	}
