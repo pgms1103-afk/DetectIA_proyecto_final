@@ -535,8 +535,36 @@
   border-radius: inherit;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
+  .workspace {
+    flex-direction: column;
+    padding: 16px;
+    overflow-y: visible;
+    gap: 30px;
+  }
+
+  .input-panel {
+    width: 100% !important;
+    flex: none;
+  }
+
+  .text-area {
+    min-height: 250px;
+  }
+
   .results-panel {
-    width: 280px;
+    width: 100% !important;
+    flex: none;
+    padding-bottom: 40px;
+  }
+
+  .gauge-container {
+    width: 100%;
+    max-width: 220px;
+    margin: 0 auto;
+  }
+
+  .history-strip {
+    display: none;
   }
 }
