@@ -63,7 +63,7 @@ public class Usuario implements UserDetails{
 		this.accountNonLocked = true;
 		this.credentialsNonExpired = true;
 		this.enabled = true;
-		this.role = Role.ADMIN;
+		this.role = Role.USER;
 	}
 
 	

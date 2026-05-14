@@ -10,7 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 import co.edu.unbosque.detectia.dto.GeminiDTO;
 import co.edu.unbosque.detectia.dto.GrokDTO;
 import co.edu.unbosque.detectia.dto.HuggingFaceDTO;
+import co.edu.unbosque.detectia.dto.HiveVideoDTO;
 import co.edu.unbosque.detectia.dto.ResultadoAnalisisDTO;
+import co.edu.unbosque.detectia.dto.TwelveLabsDTO;
 import co.edu.unbosque.detectia.dto.ZeroGPTResponseDTO;
 
 @Service
@@ -33,33 +35,39 @@ public class EleccionService {
 	
 	@Autowired
 	private MistralService mistral;
+	
+	@Autowired 
+	private SightengineService sightengine;
+
+	@Autowired
+	private TwelveLabsService twelveLabs;
+
+	@Autowired
+	private HiveVideoService hiveVideo;
 
 	public Map<String, Double> analizar(MultipartFile archivo) throws Exception {
 	    String tipo = extractor.detectarTipo(archivo);
 	    
 	    if (tipo.contains("pdf")) {
-	        return analizarPDF(archivo); // PDFs van a método especial
+	        return analizarPDF(archivo);
 	    } else if (esDocumento(tipo)) {
 	        return analizarTexto(archivo);
+	    }else if (tipo.startsWith("image")){
+	    	return analizarImagen(archivo);
+	    }else if (tipo.startsWith("video")) { 
+	        return analizarVideo(archivo);
 	    }
 	    return new HashMap<>();
 	}
 
+	private Map<String, Double> analizarTexto(MultipartFile archivo) throws Exception {
+		String texto = extractor.extraerTexto(archivo);
 
-	// ===============================
-		// 📄 TEXTO (Ahora centraliza la lógica)
-		// ===============================
-		private Map<String, Double> analizarTexto(MultipartFile archivo) throws Exception {
-			String texto = extractor.extraerTexto(archivo);
+		System.out.println("TEXTO EXTRAIDO: [" + texto + "]");
+		System.out.println("LONGITUD: " + texto.length());
+		
 
-			System.out.println("TEXTO EXTRAIDO: [" + texto + "]");
-			System.out.println("LONGITUD: " + texto.length());
-
-			if (texto == null || texto.isBlank()) {
-				return new HashMap<>();
-			}
-
-			Map<String, Double> resultadosIA = new HashMap<>();
+		Map<String, Double> resultadosIA = new HashMap<>();
 			
 			// Invocación a las APIs de texto
 			//resultadosIA.put("ZeroGPT", zeroGPT.detectarIA(texto).getData().getIs_gpt_generated());
@@ -92,21 +100,38 @@ public class EleccionService {
 		    return resultadosIA;
 		}
 
-	// ===============================
-	// 🖼 IMAGEN
-	// ===============================
-	// ===============================
+
 		// 🖼 IMAGEN (Ajustado para retornar Map)
 		// ===============================
-//		private Map<String, Double> analizarImagen(MultipartFile archivo) throws Exception {
-//			Map<String, Double> resultadosIA = new HashMap<>();
-//			
-//			// Invocación a la API de visión
-//			HuggingFaceDTO r = huggingFace.analizarArchivo(archivo.getBytes());
-//			resultadosIA.put("HuggingFace", r.getScore());
-//
-//			return resultadosIA;
-//		}
+
+		private Map<String, Double> analizarImagen(MultipartFile archivo) throws Exception {
+			Map<String, Double> resultadosIA = new HashMap<>();
+			byte[] bytes = archivo.getBytes();
+			String mimeType = archivo.getContentType();
+			resultadosIA.put("Sightengine", sightengine.detectarIA(bytes, mimeType ).getAi_generated());
+			resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
+
+
+		return resultadosIA;
+	}
+	
+	private Map<String, Double> analizarVideo(MultipartFile archivo) throws Exception {
+		Map<String, Double> resultadosIA = new HashMap<>();
+
+		TwelveLabsDTO tl = twelveLabs.detectarIA(
+				archivo.getBytes(),
+				archivo.getOriginalFilename(),
+				archivo.getContentType());
+		resultadosIA.put("TwelveLabs", tl.getPorcentajeIA());
+
+		HiveVideoDTO hv = hiveVideo.detectarIA(
+				archivo.getBytes(),
+				archivo.getOriginalFilename(),
+				archivo.getContentType());
+		resultadosIA.put("HiveVideo", hv.getPorcentajeIA());
+
+		return resultadosIA;
+	}
 
 	// ===============================
 	// 🔍 HELPERS

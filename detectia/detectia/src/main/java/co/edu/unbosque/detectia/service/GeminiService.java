@@ -100,7 +100,7 @@ public class GeminiService {
 
 		// --- SECCIÓN: CONFIGURACIÓN (Opcional pero recomendada) ---
 		JsonObject generationConfig = new JsonObject();
-		generationConfig.addProperty("temperature", 0.3); // Baja temperatura para mayor precisión
+		generationConfig.addProperty("temperature", 0.2); // Baja temperatura para mayor precisión
 		jsonBody.add("generationConfig", generationConfig);
 
 		// 3. Crear la solicitud HTTP
@@ -111,6 +111,9 @@ public class GeminiService {
 		// 4. Enviar y procesar respuesta
 		HttpResponse<String> respuesta = HTTP_CLIENT.send(solicitud, HttpResponse.BodyHandlers.ofString());
 
+		 System.out.println("Gemini status: " + respuesta.statusCode());
+	     System.out.println("Gemini body: " + respuesta.body());
+	        
 		if (respuesta.statusCode() != 200) {
 			System.err.println("Error en API Gemini: " + respuesta.body());
 			return new GeminiDTO(0.0, "ERROR_CONEXION");
