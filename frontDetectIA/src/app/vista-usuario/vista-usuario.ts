@@ -1,13 +1,19 @@
 import { Component } from '@angular/core';
-import { Sidebar } from './sidebar/sidebar';
-import { Topbar } from './topbar/topbar';
-import { Detector } from './detector/detector';
+import { Sidebar } from './sidebar-usuario/sidebar';
+import { Topbar } from './topbar-usuario/topbar';
+import { Detector } from './detector-usuario/detector';
 
 @Component({
   selector: 'app-vista-usuario',
   standalone: true,
-  imports: [Sidebar, Topbar, Detector], // Aquí conectamos todo directo
+  imports: [Sidebar, Topbar, Detector],
   templateUrl: './vista-usuario.html',
-  styleUrls: ['./vista-usuario.css']
+  styleUrl: './vista-usuario.css'
 })
-export class VistaUsuarioComponent {}
+export class VistaUsuario {
+  herramientaActual = 'texto';
+
+  cambiarHerramienta(herramienta: string) {
+    this.herramientaActual = herramienta;
+  }
+}

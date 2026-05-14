@@ -1,0 +1,71 @@
+<div class="contenedor-dashboard">
+
+  <header class="cabecera-dashboard">
+    <div class="saludo">
+      <h1>Panel de Control <span class="badge-live">En vivo</span></h1>
+      <p>Bienvenido al núcleo de administración de DetectIA</p>
+    </div>
+    <div class="filtro-tiempo">
+      <button class="btn-tiempo activo">Hoy</button>
+      <button class="btn-tiempo">Semana</button>
+      <button class="btn-tiempo">Mes</button>
+    </div>
+  </header>
+
+  <div class="rejilla-metricas">
+    <div *ngFor="let m of metricas" class="tarjeta-metrica" [class]="m.color">
+      <div class="cuerpo-tarjeta">
+        <div class="icono-box">
+          <i class="fa-solid {{ m.icono }}"></i>
+        </div>
+        <div class="datos">
+          <span class="etiqueta">{{ m.titulo }}</span>
+          <span class="valor">{{ m.valor }}</span>
+        </div>
+      </div>
+      <div class="pie-tarjeta">
+        <span class="sub-info">{{ m.sub }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="seccion-inferior">
+
+    <div class="panel-actividad">
+      <div class="cabecera-sub">
+        <h3>Actividad del Sistema</h3>
+        <i class="fa-solid fa-ellipsis-vertical"></i>
+      </div>
+      <div class="lista-eventos">
+        <div *ngFor="let item of actividadReciente" class="evento-fila">
+          <div class="punto-evento" [class]="item.tipo"></div>
+          <div class="info-evento">
+            <span class="nombre-evento">{{ item.evento }}</span>
+            <span class="usuario-evento">Por {{ item.user }}</span>
+          </div>
+          <span class="hora-evento">{{ item.hora }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-modelos">
+      <div class="cabecera-sub">
+        <h3>Modelos de Detección</h3>
+      </div>
+      <div class="modelo-barra">
+        <div class="info-modelo"><span>GPT-4 Detector</span> <span class="porcent">98%</span></div>
+        <div class="barra-base"><div class="barra-progreso" style="width: 98%;"></div></div>
+      </div>
+      <div class="modelo-barra">
+        <div class="info-modelo"><span>Claude Check</span> <span class="porcent">94%</span></div>
+        <div class="barra-base"><div class="barra-progreso" style="width: 94%;"></div></div>
+      </div>
+      <div class="modelo-barra">
+        <div class="info-modelo"><span>Gemini Vision</span> <span class="porcent">82%</span></div>
+        <div class="barra-base"><div class="barra-progreso" style="width: 82%;"></div></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

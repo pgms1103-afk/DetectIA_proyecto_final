@@ -1,0 +1,102 @@
+.barra-superior-admin {
+  height: 64px;
+  background: var(--bg-void);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.seccion-izq, .seccion-der {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.contenedor-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icono-logo {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #6366f1, #4338ca); /* Color azul/púrpura para admin */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+}
+
+.info-titulo {
+  display: flex;
+  flex-direction: column;
+}
+
+.texto-logo {
+  color: white;
+  font-weight: 800;
+  font-size: 15px;
+  font-family: 'Syne', sans-serif;
+}
+
+.etiqueta-admin {
+  color: #6366f1;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-admin-accion {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.separador-v {
+  width: 1px;
+  height: 24px;
+  background: var(--border-subtle);
+}
+
+.perfil-admin-mini {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar-admin {
+  width: 30px;
+  height: 30px;
+  background: var(--bg-elevated);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--text-primary);
+  font-weight: 600;
+  border: 1px solid var(--border-subtle);
+}
+
+.nombre-admin {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .nombre-admin, .etiqueta-admin {
+    display: none;
+  }
+}
