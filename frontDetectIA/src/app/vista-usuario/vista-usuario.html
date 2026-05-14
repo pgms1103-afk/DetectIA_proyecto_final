@@ -1,10 +1,9 @@
+<div class="contenedor-app">
 
-<div class="app-shell">
+  <app-sidebar #menuLateral></app-sidebar>
 
-  <app-sidebar></app-sidebar>
-
-  <div class="main-content">
-    <app-topbar></app-topbar>
+  <div class="contenido-principal">
+    <app-topbar (menuToggle)="menuLateral.toggleMobileMenu()"></app-topbar>
     <app-detector></app-detector>
   </div>
 
