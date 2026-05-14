@@ -10,5 +10,8 @@ import { CommonModule } from '@angular/common';
 })
 export class Sidebar {
   isCollapsed = false;
+  mobileOpen = false;
+
   toggleSidebar() { this.isCollapsed = !this.isCollapsed; }
+  toggleMobileMenu() { this.mobileOpen = !this.mobileOpen; }
 }

@@ -1,24 +1,25 @@
-.app-shell {
+.contenedor-app {
   display: flex;
   height: 100vh;
   overflow: hidden;
   background: var(--bg-void);
 }
 
-.main-content {
+.contenido-principal {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   background: var(--bg-void);
 }
+
 @media (max-width: 768px) {
-  .main-content {
+  .contenido-principal {
     width: 100vw !important;
     height: 100vh;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block;
   }
 }
-

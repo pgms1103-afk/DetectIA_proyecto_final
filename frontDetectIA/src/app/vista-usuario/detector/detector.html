@@ -1,114 +1,93 @@
-<div class="workspace">
-  <!-- ── INPUT PANEL ── -->
-  <div class="input-panel">
-    <div class="panel-header">
-      <span class="panel-title">Entrada de texto</span>
-      <span class="char-counter">0 / 12.000 chars</span>
+<div class="area-trabajo">
+  <div class="panel-entrada">
+    <div class="cabecera-panel">
+      <span class="titulo-panel">Entrada de texto</span>
+      <span class="contador-caracteres">0 / 12.000 chars</span>
     </div>
 
-    <!-- Tabs -->
-    <div class="tab-group">
-      <button class="tab-btn" [class.active]="activeTab === 'text'" (click)="switchTab('text')">
+    <div class="grupo-pestanas">
+      <button class="btn-pestana" [class.activo]="activeTab === 'text'" (click)="switchTab('text')">
         <i class="fa-regular fa-keyboard"></i> Pegar texto
       </button>
-      <button class="tab-btn" [class.active]="activeTab === 'file'" (click)="switchTab('file')">
+      <button class="btn-pestana" [class.activo]="activeTab === 'file'" (click)="switchTab('file')">
         <i class="fa-solid fa-file-arrow-up"></i> Subir archivo
       </button>
     </div>
 
-    <!-- Text tab -->
-    <div class="text-zone" *ngIf="activeTab === 'text'">
-      <textarea class="text-area"
-                placeholder="Pega aquí el texto que deseas analizar... (mínimo 80 palabras para una detección precisa)"></textarea>
-      <div class="text-zone-footer">
-        <span class="word-count">0 palabras</span>
-        <div class="text-actions">
-          <button class="text-action-btn"><i class="fa-regular fa-clipboard"></i> Pegar</button>
-          <button class="text-action-btn"><i class="fa-solid fa-flask"></i> Muestra</button>
+    <div class="zona-texto" *ngIf="activeTab === 'text'">
+      <textarea class="area-texto" placeholder="Pega aquí el texto que deseas analizar..."></textarea>
+      <div class="pie-zona-texto">
+        <span class="contador-palabras">0 palabras</span>
+        <div class="acciones-texto">
+          <button class="btn-accion-texto"><i class="fa-regular fa-clipboard"></i> Pegar</button>
+          <button class="btn-accion-texto"><i class="fa-solid fa-flask"></i> Muestra</button>
         </div>
       </div>
     </div>
 
-    <!-- File tab -->
-    <div class="upload-zone visible" *ngIf="activeTab === 'file'">
+    <div class="zona-subida visible" *ngIf="activeTab === 'file'">
       <input type="file" accept=".txt,.pdf,.docx,.doc" hidden>
-      <i class="fa-solid fa-file-arrow-up upload-icon"></i>
-      <div class="upload-title">Arrastra o haz clic para subir</div>
-      <div class="upload-sub">El archivo será procesado de forma segura en tu sesión</div>
-      <div class="upload-formats">
-        <span class="format-tag">.TXT</span>
-        <span class="format-tag">.PDF</span>
-        <span class="format-tag">.DOCX</span>
-        <span class="format-tag">.DOC</span>
+      <i class="fa-solid fa-file-arrow-up icono-subida"></i>
+      <div class="titulo-subida">Arrastra o haz clic para subir</div>
+      <div class="sub-subida">El archivo será procesado de forma segura en tu sesión</div>
+      <div class="formatos-subida">
+        <span class="etiqueta-formato">.TXT</span>
+        <span class="etiqueta-formato">.PDF</span>
+        <span class="etiqueta-formato">.DOCX</span>
       </div>
     </div>
 
-    <!-- boton de analizar -->
-    <button class="analyze-btn">
+    <button class="btn-analizar">
       <i class="fa-solid fa-magnifying-glass-chart"></i> Analizar texto
     </button>
   </div>
 
-  <!-- ── panel resultados -->
-  <div class="results-panel">
-    <!-- Gauge -->
-    <div class="gauge-card">
-      <span class="gauge-label">Probabilidad de IA</span>
-      <div class="gauge-container">
-        <svg class="gauge-svg" viewBox="-10 0 180 100">
-          <path class="gauge-bg" d="M 10 90 A 70 70 0 0 1 150 90" stroke-dasharray="220" stroke-dashoffset="0"/>
-          <path class="gauge-fill" d="M 10 90 A 70 70 0 0 1 150 90"/>
+  <div class="panel-resultados">
+
+    <div class="tarjeta-medidor">
+      <span class="etiqueta-medidor">Probabilidad de IA</span>
+      <div class="contenedor-medidor">
+        <svg class="svg-medidor" viewBox="-10 0 180 100">
+          <path class="fondo-medidor" d="M 10 90 A 70 70 0 0 1 150 90" stroke-dasharray="220" stroke-dashoffset="0"/>
+          <path class="relleno-medidor" d="M 10 90 A 70 70 0 0 1 150 90"/>
         </svg>
-        <div class="gauge-center">
-          <div class="gauge-value">—</div>
-          <div class="gauge-unit">% IA</div>
+        <div class="centro-medidor">
+          <div class="valor-medidor">—</div>
+          <div class="unidad-medidor">% IA</div>
         </div>
       </div>
-      <div class="status-tag idle">
-        <span class="status-dot"></span>
+      <div class="etiqueta-estado inactivo">
+        <span class="punto-estado"></span>
         <span>Esperando análisis</span>
       </div>
     </div>
 
-    <!-- Breakdown -->
-    <div class="breakdown-card">
-      <span class="breakdown-title">Desglose</span>
-      <div class="empty-state">
-        <i class="fa-solid fa-chart-pie empty-icon"></i>
-        <span class="empty-title">Sin análisis</span>
-        <span class="empty-sub">Ingresa un texto y pulsa "Analizar" para ver los resultados</span>
+    <div class="tarjeta-desglose">
+      <span class="titulo-desglose">Desglose</span>
+      <div class="estado-vacio">
+        <i class="fa-solid fa-chart-pie icono-vacio"></i>
+        <span class="titulo-vacio">Sin análisis</span>
+        <span class="sub-vacio">Ingresa un texto y pulsa "Analizar" para ver los resultados</span>
       </div>
     </div>
 
-    <!-- Metricas-->
-    <div class="metrics-card">
-      <div class="metric-row">
-        <span class="metric-name"><i class="fa-brands fa-google"></i> Gemini</span>
-        <span class="metric-val">—</span>
+    <div class="tarjeta-metricas">
+      <div class="fila-metrica">
+        <span class="nombre-metrica"><i class="fa-brands fa-google"></i> Gemini</span>
+        <span class="valor-metrica">—</span>
       </div>
-      <div class="metric-row">
-        <span class="metric-name"><i class="fa-brands fa-openai"></i> ChatGPT</span>
-        <span class="metric-val">—</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-name"><i class="fa-brands fa-claude"></i> Claude</span>
-        <span class="metric-val">—</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-name"><i class="fa-brands fa-claude"></i> DeepSeek</span>
-        <span class="metric-val">—</span>
+      <div class="fila-metrica">
+        <span class="nombre-metrica"><i class="fa-brands fa-openai"></i> ChatGPT</span>
+        <span class="valor-metrica">—</span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- historial -->
-<div class="history-strip">
-  <span class="history-label">Recientes</span>
-  <div class="history-items">
-    <div class="history-chip"><span>Ensayo académico...</span><span class="chip-score high">87%</span></div>
-    <div class="history-chip"><span>Artículo de blog...</span><span class="chip-score mid">43%</span></div>
-    <div class="history-chip"><span>Reseña de producto...</span><span class="chip-score low">12%</span></div>
-    <div class="history-chip"><span>Informe trimestral...</span><span class="chip-score high">92%</span></div>
+<div class="franja-historial">
+  <span class="etiqueta-historial">Recientes</span>
+  <div class="elementos-historial">
+    <div class="chip-historial"><span>Ensayo académico...</span><span class="puntuacion-chip alto">87%</span></div>
+    <div class="chip-historial"><span>Artículo de blog...</span><span class="puntuacion-chip medio">43%</span></div>
   </div>
 </div>

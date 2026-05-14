@@ -1,61 +1,65 @@
-<aside class="sidebar" [class.collapsed]="isCollapsed">
-  <div class="sidebar-header">
-    <button class="toggle-btn-inner" (click)="toggleSidebar()" title="Alternar menú">
+<aside class="barra-lateral" [class.colapsado]="isCollapsed" [class.abierto-movil]="mobileOpen">
+
+  <div class="cabecera-lateral">
+    <button class="btn-alternar" (click)="toggleSidebar()" title="Alternar menú">
       <i *ngIf="isCollapsed" class="fa-solid fa-bars"></i>
       <i *ngIf="!isCollapsed" class="fa-solid fa-chevron-left"></i>
     </button>
+
+    <button class="btn-cerrar-movil" (click)="toggleMobileMenu()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
   </div>
 
-  <nav class="sidebar-nav">
-    <span class="nav-section-label">Principal</span>
-    <a class="nav-item active" href="#" data-tip="Detector">
-      <span class="nav-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></span>
-      <span class="nav-label">Detector</span>
-      <span class="nav-badge">Beta</span>
+  <nav class="navegacion-lateral">
+    <span class="etiqueta-seccion">Principal</span>
+    <a class="item-nav activo" href="#">
+      <span class="icono-nav"><i class="fa-solid fa-magnifying-glass-chart"></i></span>
+      <span class="texto-nav">Detector</span>
+      <span class="insignia-nav">Beta</span>
     </a>
-    <a class="nav-item" href="#" data-tip="Historial">
-      <span class="nav-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
-      <span class="nav-label">Historial</span>
-    </a>
-
-
-    <span class="nav-section-label">Herramientas Deteccion</span>
-    <a class="nav-item" href="#" data-tip="Texto">
-      <span class="nav-icon"><i class="fa-solid fa-book"></i></span>
-      <span class="nav-label">Texto</span>
-    </a>
-    <a class="nav-item" href="#" data-tip="Video">
-      <span class="nav-icon"><i class="fa-solid fa-video"></i></span>
-      <span class="nav-label">Video</span>
-    </a>
-    <a class="nav-item" href="#" data-tip="Imagenes">
-      <span class="nav-icon"><i class="fa-regular fa-image"></i></span>
-      <span class="nav-label">Imagenes</span>
-    </a>
-    <a class="nav-item" href="#" data-tip="Audio">
-      <span class="nav-icon"><i class="fa-regular fa-file-audio"></i></span>
-      <span class="nav-label">Audio</span>
+    <a class="item-nav" href="#">
+      <span class="icono-nav"><i class="fa-solid fa-clock-rotate-left"></i></span>
+      <span class="texto-nav">Historial</span>
     </a>
 
-    <span class="nav-section-label">Otros</span>
-    <a class="nav-item" href="#" data-tip="Modelos">
-      <span class="nav-icon"><i class="fa-solid fa-microchip"></i></span>
-      <span class="nav-label">Gestionar modelos</span>
+    <span class="etiqueta-seccion">Herramientas Detección</span>
+    <a class="item-nav" href="#">
+      <span class="icono-nav"><i class="fa-solid fa-book"></i></span>
+      <span class="texto-nav">Texto</span>
     </a>
-    <a class="nav-item" href="#" data-tip="Calibración">
-      <span class="nav-icon"><i class="fa-solid fa-sliders"></i></span>
-      <span class="nav-label">Calibración</span>
+    <a class="item-nav" href="#">
+      <span class="icono-nav"><i class="fa-solid fa-video"></i></span>
+      <span class="texto-nav">Video</span>
+    </a>
+    <a class="item-nav" href="#">
+      <span class="icono-nav"><i class="fa-regular fa-image"></i></span>
+      <span class="texto-nav">Imagenes</span>
+    </a>
+    <a class="item-nav" href="#">
+      <span class="icono-nav"><i class="fa-regular fa-file-audio"></i></span>
+      <span class="texto-nav">Audio</span>
+    </a>
+
+    <span class="etiqueta-seccion">Otros</span>
+    <a class="item-nav" href="#">
+      <span class="icono-nav"><i class="fa-solid fa-microchip"></i></span>
+      <span class="texto-nav">Gestionar modelos</span>
+    </a>
+    <a class="item-nav" href="#">
+      <span class="icono-nav"><i class="fa-solid fa-sliders"></i></span>
+      <span class="texto-nav">Calibración</span>
     </a>
   </nav>
 
-  <div class="sidebar-footer">
-    <a class="nav-item" href="#" data-tip="Configuración">
-      <span class="nav-icon"><i class="fa-solid fa-gear"></i></span>
-      <span class="nav-label">Configuración</span>
+  <div class="pie-lateral">
+    <a class="item-nav" href="#">
+      <span class="icono-nav"><i class="fa-solid fa-gear"></i></span>
+      <span class="texto-nav">Configuración</span>
     </a>
-    <a class="nav-item" href="#" data-tip="Ayuda">
-      <span class="nav-icon"><i class="fa-regular fa-circle-question"></i></span>
-      <span class="nav-label">Ayuda y docs</span>
+    <a class="item-nav" href="#">
+      <span class="icono-nav"><i class="fa-regular fa-circle-question"></i></span>
+      <span class="texto-nav">Ayuda y docs</span>
     </a>
   </div>
 </aside>
