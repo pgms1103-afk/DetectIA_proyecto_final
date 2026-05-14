@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class LoginComponent {
+export class Login {
 
   modo: string = 'login';
   showLoginPass: boolean = false;
@@ -65,7 +65,7 @@ export class LoginComponent {
   }
 
   irAlSistema() {
-    this.router.navigate(['/vista-usuario']);
+    this.router.navigate(['/admin']);
   }
 
   prevSlide() {

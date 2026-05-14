@@ -1,0 +1,16 @@
+<div class="contenedor-app">
+
+  <app-sidebar-admin #menuAdmin (vistaSeleccionada)="cambiarVista($event)"></app-sidebar-admin>
+
+  <div class="contenido-principal">
+
+    <app-topbar-admin (menuToggle)="menuAdmin.toggleMobileMenu()"></app-topbar-admin>
+
+    <main class="zona-scroll">
+      <app-dashboard-admin *ngIf="vistaActual === 'dashboard'"></app-dashboard-admin>
+      <app-gestion-usuarios *ngIf="vistaActual === 'usuarios'"></app-gestion-usuarios>
+    </main>
+
+  </div>
+
+</div>

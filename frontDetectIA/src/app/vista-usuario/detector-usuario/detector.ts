@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,9 +6,15 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './detector.html',
-  styleUrl: './detector.css',
+  styleUrl: './detector.css'
 })
 export class Detector {
+
+  @Input() tipoHerramienta: string = 'texto';
+
   activeTab: 'text' | 'file' = 'text';
-  switchTab(tab: 'text' | 'file') { this.activeTab = tab; }
+
+  switchTab(tab: 'text' | 'file') {
+    this.activeTab = tab;
+  }
 }

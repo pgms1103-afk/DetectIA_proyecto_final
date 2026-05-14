@@ -1,0 +1,37 @@
+<aside class="barra-lateral" [class.colapsado]="isCollapsed" [class.abierto-movil]="mobileOpen">
+  <div class="cabecera-lateral">
+    <button class="btn-alternar" (click)="toggleSidebar()">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button class="btn-cerrar-movil" (click)="toggleMobileMenu()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <nav class="navegacion-lateral">
+    <span class="etiqueta-seccion">SISTEMA</span>
+
+    <a class="item-nav" (click)="seleccionar('dashboard')" style="cursor: pointer;">
+      <span class="icono-nav"><i class="fa-solid fa-chart-line"></i></span>
+      <span class="texto-nav">Panel de Control</span>
+    </a>
+
+    <a class="item-nav" (click)="seleccionar('usuarios')" style="cursor: pointer;">
+      <span class="icono-nav"><i class="fa-solid fa-users-gear"></i></span>
+      <span class="texto-nav">Gestión Usuarios</span>
+    </a>
+
+    <span class="etiqueta-seccion">AUDITORÍA</span>
+    <a class="item-nav">
+      <span class="icono-nav"><i class="fa-solid fa-clipboard-list"></i></span>
+      <span class="texto-nav">Historial Global</span>
+    </a>
+  </nav>
+
+  <div class="pie-lateral">
+    <a class="item-nav" href="/login">
+      <span class="icono-nav"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+      <span class="texto-nav">Salir al Login</span>
+    </a>
+  </div>
+</aside>
