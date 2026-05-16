@@ -25,6 +25,7 @@ public class ResultadoIA {
 	private Archivo archivo;
 	
 	public ResultadoIA() {
+		this.fechaAnalisis = LocalDateTime.now();
 		
 	}
 

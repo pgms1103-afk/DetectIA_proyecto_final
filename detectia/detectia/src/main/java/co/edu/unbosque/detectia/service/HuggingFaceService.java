@@ -65,9 +65,10 @@ public class HuggingFaceService {
                 String label = clasificacion.get("label").getAsString();
                 double score = clasificacion.get("score").getAsDouble();
                 
-                if (label.equalsIgnoreCase("Fake") || label.equalsIgnoreCase("AI")) {
+                if (label.equalsIgnoreCase("Fake") || label.equalsIgnoreCase("AI") || label.equalsIgnoreCase("ChatGPT") || label.equalsIgnoreCase("LABEL_1")) {
                     porcentajeIA = score * 100;
                 }
+                
             }
 
             String veredicto = porcentajeIA >= 50 ? "PROBABLE IA" : "PROBABLE HUMANO";

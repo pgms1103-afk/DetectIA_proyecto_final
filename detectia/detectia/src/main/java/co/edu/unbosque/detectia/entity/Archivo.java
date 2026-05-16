@@ -20,50 +20,25 @@ public class Archivo {
 	
 	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 	private String nombre;
-	private String tipo;
 	private String rutaAlmacenamiento;
 	private LocalDateTime fechaSubida;
-	private double is_human_written;
-	private double is_gpt_generated;
+	
 	@OneToMany(mappedBy = "archivo", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ResultadoIA> resultados;
 	
-	@ManyToOne 
-	
-	/*
-	 * Le dice a JPA cuál es la naturaleza de 
-	 * la relación entre las dos entidades. En este caso:
-	 * 
-	 * "Muchos Archivo pertenecen a un solo Usuario"
-	 * 
-	 * Un usuario puede tener muchos archivos, 
-	 * pero cada archivo solo tiene un dueño. 
-	 * Esa es la cardinalidad Many(archivos) to One(usuario).
-	 */
-	
+	@ManyToOne
 	@JoinColumn(name ="usuario_id")
-	
-	/*
-	 * Le dice a JPA cómo representar esa relación físicamente en la base de datos. 
-	 * Específicamente, le indica que en la tabla archivo va a existir una columna 
-	 * llamada usuario_id que es la llave foránea que apunta al id de la tabla usuario.
-	 */
-	
 	private Usuario usuario;
 	
 	public Archivo() {
-
+		this.fechaSubida = LocalDateTime.now();
 	}
 
-	public Archivo(String nombre, String tipo, String rutaAlmacenamiento, LocalDateTime fechaSubida,
-			double is_human_written, double is_gpt_generated, Usuario usuario) {
+	public Archivo(String nombre, String rutaAlmacenamiento, LocalDateTime fechaSubida, Usuario usuario) {
 		super();
 		this.nombre = nombre;
-		this.tipo = tipo;
 		this.rutaAlmacenamiento = rutaAlmacenamiento;
 		this.fechaSubida = fechaSubida;
-		this.is_human_written = is_human_written;
-		this.is_gpt_generated = is_gpt_generated;
 		this.usuario = usuario;
 	}
 
@@ -83,14 +58,6 @@ public class Archivo {
 		this.nombre = nombre;
 	}
 
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
 	public String getRutaAlmacenamiento() {
 		return rutaAlmacenamiento;
 	}
@@ -107,22 +74,6 @@ public class Archivo {
 		this.fechaSubida = fechaSubida;
 	}
 
-	public double getIs_human_written() {
-		return is_human_written;
-	}
-
-	public void setIs_human_written(double is_human_written) {
-		this.is_human_written = is_human_written;
-	}
-
-	public double getIs_gpt_generated() {
-		return is_gpt_generated;
-	}
-
-	public void setIs_gpt_generated(double is_gpt_generated) {
-		this.is_gpt_generated = is_gpt_generated;
-	}
-
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -133,15 +84,14 @@ public class Archivo {
 
 	@Override
 	public String toString() {
-		return "Archivo [id=" + id + ", nombre=" + nombre + ", tipo=" + tipo + ", rutaAlmacenamiento="
-				+ rutaAlmacenamiento + ", fechaSubida=" + fechaSubida + ", is_human_written=" + is_human_written
-				+ ", is_gpt_generated=" + is_gpt_generated + ", usuario=" + usuario + "]";
+		return "Archivo [id=" + id + ", nombre=" + nombre + ", tipo="  + ", rutaAlmacenamiento="
+				+ rutaAlmacenamiento + ", fechaSubida=" + fechaSubida + ", is_human_written="
+				+ ", is_gpt_generated="  + ", usuario=" + usuario + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(fechaSubida, id, is_gpt_generated, is_human_written, nombre, rutaAlmacenamiento, tipo,
-				usuario);
+		return Objects.hash(fechaSubida, id, nombre, resultados, rutaAlmacenamiento, usuario);
 	}
 
 	@Override
@@ -154,11 +104,15 @@ public class Archivo {
 			return false;
 		Archivo other = (Archivo) obj;
 		return Objects.equals(fechaSubida, other.fechaSubida) && Objects.equals(id, other.id)
-				&& Double.doubleToLongBits(is_gpt_generated) == Double.doubleToLongBits(other.is_gpt_generated)
-				&& Double.doubleToLongBits(is_human_written) == Double.doubleToLongBits(other.is_human_written)
-				&& Objects.equals(nombre, other.nombre) && Objects.equals(rutaAlmacenamiento, other.rutaAlmacenamiento)
-				&& Objects.equals(tipo, other.tipo) && Objects.equals(usuario, other.usuario);
+				&& Objects.equals(nombre, other.nombre) && Objects.equals(resultados, other.resultados)
+				&& Objects.equals(rutaAlmacenamiento, other.rutaAlmacenamiento)
+				&& Objects.equals(usuario, other.usuario);
 	}
+
+
+	
+
+	
 
 		
 	

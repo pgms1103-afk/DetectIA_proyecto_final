@@ -50,7 +50,8 @@ public class SecurityConfig {
 		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> // Se autorizan las sigueientes solicitudes
 		auth.requestMatchers("/public/**") // Si la URL coiiuncide con eso, se le permite a todos.
 				.permitAll().requestMatchers("/swagger-ui/**", "/v3/api-docs/**")// Si la URL coiiuncide con eso, se le permite a todos.
-				.permitAll().requestMatchers("/private/archivo/**", "/private/resultadoporia/**", "/private/user/**")// Si la// URL coiiuncide con eso.
+				.permitAll().requestMatchers("/private/archivo/**", "/private/resultadoporia/**", 
+						"/private/user/**")// Si la// URL coiiuncide con eso.
 				.hasAnyRole("USER", "ADMIN")// Si la persona tiene el rol de user o admin.
 				.requestMatchers("/admin/**").hasRole("ADMIN").anyRequest().authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

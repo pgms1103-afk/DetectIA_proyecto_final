@@ -59,18 +59,18 @@ public class SightengineService {
     }
     
     private SightengineDTO procesarRespuesta (String responseBody) {
-    	try {
-    		Gson gson = new Gson();
-    		JsonObject root = gson.fromJson(responseBody, JsonObject.class);
-    		
-    		String estado = root.get("status").getAsString();
-    		double porcentajeIA = root.getAsJsonObject("type").get("ai_generated").getAsDouble();
-    		
-    		return new SightengineDTO(porcentajeIA, estado);
-    	}catch(Exception e) {
-    		System.err.println("Error al parsear respuesta " + e.getMessage());
-    		return new SightengineDTO(0.0, "fracaso");
-    	}
+        try {
+            Gson gson = new Gson();
+            JsonObject root = gson.fromJson(responseBody, JsonObject.class);
+
+            String estado = root.get("status").getAsString();
+            double porcentajeIA = root.getAsJsonObject("type").get("ai_generated").getAsDouble() * 100;
+
+            return new SightengineDTO(porcentajeIA, estado);
+        } catch(Exception e) {
+            System.err.println("Error al parsear respuesta " + e.getMessage());
+            return new SightengineDTO(0.0, "fracaso");
+        }
     }
     
     private byte[] createMultipartBody(String boundary, byte[] fileBytes, String fileName, String contentType) throws Exception {

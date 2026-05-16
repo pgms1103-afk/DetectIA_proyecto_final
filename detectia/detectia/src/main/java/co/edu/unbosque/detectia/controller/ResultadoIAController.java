@@ -40,9 +40,9 @@ public class ResultadoIAController {
 	@GetMapping("mostrarresultadosporcorreo")
 	public ResponseEntity<List<ResultadoIADTO>> mostrarResultadosPorCorreo(Authentication authentication) {
 
-	    String correo = authentication.getName();
+	    String name = authentication.getName();
 
-	    List<ResultadoIADTO> resultados = resultadoSer.getResultadosByCorreo(correo);
+	    List<ResultadoIADTO> resultados = resultadoSer.getResultadosByUsuario(name);
 
 	    if (resultados.isEmpty()) {
 	        return ResponseEntity.noContent().build();

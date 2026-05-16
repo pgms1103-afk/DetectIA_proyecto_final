@@ -85,8 +85,8 @@ public class MistralService {
 
         HttpResponse<String> respuesta = HTTP_CLIENT.send(solicitud, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println("M status: " + respuesta.statusCode());
-        System.out.println("Groq body: " + respuesta.body());
+        System.out.println("Mistral status: " + respuesta.statusCode());
+        System.out.println("Mistral body: " + respuesta.body());
         
         if (respuesta.statusCode() != 200) {
             System.err.println("Error Mistral API: " + respuesta.body());
@@ -103,7 +103,7 @@ public class MistralService {
     private MistralDTO procesarRespuesta(String body) {
         try {
             JsonObject root = gson.fromJson(body, JsonObject.class);
-            
+
             // Navegamos: choices[0] -> message -> content
             String contentString = root.getAsJsonArray("choices")
                     .get(0).getAsJsonObject()
@@ -114,7 +114,7 @@ public class MistralService {
             JsonObject innerJson = gson.fromJson(contentString, JsonObject.class);
 
             return new MistralDTO(
-                innerJson.get("fakePercentage").getAsDouble(),
+                innerJson.get("fakePercentage").getAsDouble() * 100,
                 innerJson.get("isAiGenerated").getAsBoolean()
             );
         } catch (Exception e) {
