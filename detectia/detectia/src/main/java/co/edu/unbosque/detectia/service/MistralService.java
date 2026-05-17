@@ -24,6 +24,9 @@ public class MistralService {
 
     @Value("${mistral.agent.id}")
     private String agentId;
+    
+    @Value("${mistral.api.url}")
+    private String apiUrl;
 
     private Gson gson = new Gson();
 
@@ -77,7 +80,7 @@ public class MistralService {
         jsonBody.add("response_format", respFormat);
 
         HttpRequest solicitud = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.mistral.ai/v1/agents/completions"))
+                .uri(URI.create(apiUrl))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + apiKey)
                 .POST(HttpRequest.BodyPublishers.ofString(jsonBody.toString()))
@@ -114,7 +117,7 @@ public class MistralService {
             JsonObject innerJson = gson.fromJson(contentString, JsonObject.class);
 
             return new MistralDTO(
-                innerJson.get("fakePercentage").getAsDouble() * 100,
+                innerJson.get("fakePercentage").getAsDouble(),
                 innerJson.get("isAiGenerated").getAsBoolean()
             );
         } catch (Exception e) {

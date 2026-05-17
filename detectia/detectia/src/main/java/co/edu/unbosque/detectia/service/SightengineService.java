@@ -1,6 +1,7 @@
 package co.edu.unbosque.detectia.service;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -57,6 +58,33 @@ public class SightengineService {
     	return procesarRespuesta (respuesta.body());
     	
     }
+    
+    public SightengineDTO detectarIAUrl (String imagenUrl) throws IOException, InterruptedException {
+    	
+    	 String url = String.format(
+    		        "https://api.sightengine.com/1.0/check.json?url=%s&models=%s&api_user=%s&api_secret=%s",
+    		        imagenUrl, model, apiUser, apiKey
+    		    );
+    	
+    	 HttpRequest solicitud = HttpRequest.newBuilder()
+    			 .uri(URI.create(url))
+    			 .GET()
+    			 .build();
+    	 
+    	 HttpResponse<String> respuesta = HTTP_CLIENT.send(solicitud, 
+    	            HttpResponse.BodyHandlers.ofString());
+
+    	    System.out.println("Sightengine URL status: " + respuesta.statusCode());
+    	    System.out.println("Sightengine URL body: " + respuesta.body());
+
+    	    if (respuesta.statusCode() != 200) {
+    	        System.err.println("Error en API Sightengine: " + respuesta.body());
+    	        return new SightengineDTO(0.0, "error");
+    	    }
+
+    	    return procesarRespuesta(respuesta.body());
+    	}
+    	
     
     private SightengineDTO procesarRespuesta (String responseBody) {
         try {
