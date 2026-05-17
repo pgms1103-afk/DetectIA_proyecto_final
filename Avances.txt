@@ -1,54 +1,13 @@
-ZERO GPT:
 
--Se subieron 3 archivos con el mismo texto generado por IA en .pdf .txt y .docx
--Los 3 fueron analizados correctamente pero con resultados diferentes:
-TXT: "is_human_written": 100, "is_gpt_generated": 0: 
-PDF: "is_human_written": 100, "is_gpt_generated": 0
-DOCX: "is_human_written": 0,  "is_gpt_generated": 100
+17/05/2026
+Gemini: buena para texto, e imágenes locales (falta probar PDF con imágenes)--
+Grok: buena para texto
+Hugging: maaaaliiiiisima pero mala mala para texto
+Mistral: medio para texto y mala para imágenes (falta probar PDF con imágenes, probablemente no sirva, mejor solo texto).
+Sightengine: buenísima para imágenes locales y url (falta probar videos)
+TwulveLabs: nose no he probao
+hiveVideos: nose no he probao
+Winston: buena con texto e imágenes. (falta probar PDF con imágenes y ver pq swus resultados dan negativos).
 
--También se intento subir un archivo pdf mas complejo, como el pdf del proyecto de física, pero no lo analiza, supongo q por las imágenes q hay.  
-No estoy seguro de dejar esta, pero bueno, por mientras se queda.
-
-GEMINI:
-Tras decidir implementar una IA mas amplia, que no solamente este diseñada para analizar documentos, si no que tenga un mundo mas abierto, se dieron los siguientes resultados:
-TXT: 95 de ser IA
-PDF: 95 de ser IA
-PDF FISICA: 95 de ser IA, no se si fue casualidad, aunque en teoría ese documento debió de ser escrito por humanos, entonces creería que esta mal, el caso, toca verificas eso.
-fotoPDF: 65 de ser IA, ta maal, es una foto de mi persona como va a ser IA, toca afinar eso, pero ya analiza imágenes, ta bueno.         
-
--Lo positivo, también detecta y analiza las imágenes dentro de un PDF, asi que bien ahí.
-
-5/05/2026:
-Se creo un service que elige que extensión es el archivo y según eso llama a las diferentes IAs para cada una.
-GEMINI
-GROK
-ZEROGPT
-Sirven con txt y docx, pero no con pdf
-
-6/05/2026
-PARA DAVID:
-En las IAs de texto, grok y zeroGPT funcionan con txt, pdf y docx, pero la de Gemini no funciona con docx, pero tampoco se puede quitar, entonces, lo que tiene que hacer es: Hacer excepciones que le aparezcan al usuario si una IA no analizo tal archivo, digamos, al subir un docx, Gemini no lo lee, sin embargo no rompe el programa, solamente aparece esto en la consola de eclipse: 
-Error en API Gemini: {
-  "error": {
-    "code": 400,
-    "message": "Unsupported MIME type: application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "status": "INVALID_ARGUMENT"
-  }
-}
-Entonces es decirle al usuario que esa IA no proceso el archivo, además de, que en ese caso que no proceso el archivo, el porcentaje de IA que retorna obviamente será 0, pq es el valor default, entonces, cuando lo pase al promedio asegurese de que si se analizo el archivo, y de que si no lo analizo y aun asi mando un valor, no lo tenga en cuenta. 
-
-11/05/2026
-Se puso bien como era la congif de la autenticación y autorización
-En cuanto a las IAs pasa esto:
-TXT-------------------------------
-Grok: "porcentajeIA": 80
-ZeroGPT: "porcentajeIA": 0
-Gemini: "porcentajeIA": 85,
-PDF-------------------------------
-"Grok": 80,
-"ZeroGPT": 0,
-"Gemini": 90
-DOCX-------------------------------
-"Grok": 80,
-"ZeroGPT": 100,
-"Gemini": 0 (no soporta docx)
+Falta hacer el promedio (analizis) de todas las IAs
+Falta ver las de video

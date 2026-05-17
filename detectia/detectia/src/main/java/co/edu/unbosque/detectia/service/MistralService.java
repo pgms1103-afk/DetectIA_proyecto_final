@@ -24,6 +24,9 @@ public class MistralService {
 
     @Value("${mistral.agent.id}")
     private String agentId;
+    
+    @Value("${mistral.api.url}")
+    private String apiUrl;
 
     private Gson gson = new Gson();
 
@@ -77,7 +80,7 @@ public class MistralService {
         jsonBody.add("response_format", respFormat);
 
         HttpRequest solicitud = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.mistral.ai/v1/agents/completions"))
+                .uri(URI.create(apiUrl))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + apiKey)
                 .POST(HttpRequest.BodyPublishers.ofString(jsonBody.toString()))
@@ -85,8 +88,8 @@ public class MistralService {
 
         HttpResponse<String> respuesta = HTTP_CLIENT.send(solicitud, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println("M status: " + respuesta.statusCode());
-        System.out.println("Groq body: " + respuesta.body());
+        System.out.println("Mistral status: " + respuesta.statusCode());
+        System.out.println("Mistral body: " + respuesta.body());
         
         if (respuesta.statusCode() != 200) {
             System.err.println("Error Mistral API: " + respuesta.body());
@@ -103,7 +106,7 @@ public class MistralService {
     private MistralDTO procesarRespuesta(String body) {
         try {
             JsonObject root = gson.fromJson(body, JsonObject.class);
-            
+
             // Navegamos: choices[0] -> message -> content
             String contentString = root.getAsJsonArray("choices")
                     .get(0).getAsJsonObject()

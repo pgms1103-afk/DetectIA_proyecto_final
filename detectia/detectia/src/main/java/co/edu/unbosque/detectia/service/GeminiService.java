@@ -6,6 +6,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Base64;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class GeminiService {
 
 	private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2)
 			.connectTimeout(Duration.ofSeconds(20)).build();
+
+	private static final Map<String, String> FORMATOS_IMAGEN_SOPORTADOS = Map.of("jpg", "image/jpeg", "jpeg",
+			"image/jpeg", "png", "image/png", "webp", "image/webp");
 
 	/**
 	 * Analiza archivos de forma multimodal (Texto, PDF, Imagen, Audio, Video)
@@ -90,8 +94,7 @@ public class GeminiService {
 		// Parte 2: El prompt de ejecución
 		JsonObject promptPart = new JsonObject();
 		promptPart.addProperty("text", "Analiza este archivo y responde SOLO con un número entre 0 y 100 "
-				+ "indicando la probabilidad de que sea generado por IA. "
-				+ "Solo el número, " + "nada más.");
+				+ "indicando la probabilidad de que sea generado por IA. " + "Solo el número, " + "nada más.");
 		parts.add(promptPart);
 
 		contentObject.add("parts", parts);
@@ -100,7 +103,7 @@ public class GeminiService {
 
 		// --- SECCIÓN: CONFIGURACIÓN (Opcional pero recomendada) ---
 		JsonObject generationConfig = new JsonObject();
-		generationConfig.addProperty("temperature", 0.3); // Baja temperatura para mayor precisión
+		generationConfig.addProperty("temperature", 0.2); // Baja temperatura para mayor precisión
 		jsonBody.add("generationConfig", generationConfig);
 
 		// 3. Crear la solicitud HTTP
@@ -111,12 +114,46 @@ public class GeminiService {
 		// 4. Enviar y procesar respuesta
 		HttpResponse<String> respuesta = HTTP_CLIENT.send(solicitud, HttpResponse.BodyHandlers.ofString());
 
+		System.out.println("Gemini status: " + respuesta.statusCode());
+		System.out.println("Gemini body: " + respuesta.body());
+
 		if (respuesta.statusCode() != 200) {
 			System.err.println("Error en API Gemini: " + respuesta.body());
 			return new GeminiDTO(0.0, "ERROR_CONEXION");
 		}
 
 		return procesarRespuestaGemini(respuesta.body());
+	}
+
+	/**
+	 * Descarga un archivo desde una URL pública y lo analiza con la API de Gemini
+	 * * @param urlPublica La dirección web del archivo (ej:
+	 * "https://sitio.com/gato.jpg")
+	 * 
+	 * @return GeminiDTO con el resultado del peritaje
+	 * @throws Exception Si ocurre un fallo en la descarga o en la API de Gemini
+	 */
+	public GeminiDTO detectarIAPorUrl(String urlPublica) throws Exception {
+
+		// A. Descargar los bytes de la imagen usando el HTTP_CLIENT del servicio
+		HttpRequest solicitudDescarga = HttpRequest.newBuilder().uri(URI.create(urlPublica)).GET().build();
+
+		HttpResponse<byte[]> respuestaDescarga = HTTP_CLIENT.send(solicitudDescarga,
+				HttpResponse.BodyHandlers.ofByteArray());
+
+		if (respuestaDescarga.statusCode() != 200) {
+			System.err.println("Error al descargar la imagen de la URL: " + respuestaDescarga.statusCode());
+			return new GeminiDTO(0.0, "ERROR_DESCARGA_URL");
+		}
+
+		byte[] archivoBytes = respuestaDescarga.body();
+
+		// B. Extraer la extensión y resolver el MIME type usando el mapa
+		String extension = urlPublica.substring(urlPublica.lastIndexOf(".") + 1).toLowerCase();
+		String mimeType = FORMATOS_IMAGEN_SOPORTADOS.getOrDefault(extension, "image/jpeg");
+
+		// C. Reutilizar tu método local pasándole los datos limpios
+		return detectarIA(archivoBytes, mimeType);
 	}
 
 	private GeminiDTO procesarRespuestaGemini(String responseBody) {

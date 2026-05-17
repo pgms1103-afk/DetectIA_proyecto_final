@@ -1,6 +1,7 @@
 package co.edu.unbosque.detectia.entity;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -55,15 +56,16 @@ public class Usuario implements UserDetails{
 	 */
 	private boolean enabled;
 	
+	// Usuario.java
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Archivo> archivos;
+	private List<Archivo> archivos = new ArrayList<>(); 
 	
 	public Usuario() {
 		this.accountNonExpired = true;
 		this.accountNonLocked = true;
 		this.credentialsNonExpired = true;
 		this.enabled = true;
-		this.role = Role.ADMIN;
+		this.role = Role.USER;
 	}
 
 	
