@@ -1,6 +1,7 @@
 package co.edu.unbosque.detectia.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,7 +25,7 @@ public class Archivo {
 	private LocalDateTime fechaSubida;
 	
 	@OneToMany(mappedBy = "archivo", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ResultadoIA> resultados;
+	private List<ResultadoIA> resultados = new ArrayList<>();
 	
 	@ManyToOne
 	@JoinColumn(name ="usuario_id")
