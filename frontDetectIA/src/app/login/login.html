@@ -1,0 +1,149 @@
+<div class="contenedor-auth">
+
+  <div class="panel-formulario">
+
+    <div class="contenedor-logo">
+      <div class="icono-logo">
+        <i class="fa-solid fa-brain"></i>
+      </div>
+      <span class="texto-logo">DetectIA</span>
+    </div>
+
+    <div class="bloque-lema">
+      <h1 class="lema">
+        <span *ngIf="modo === 'login'">Bienvenido<br><span class="lema-acento">de vuelta.</span></span>
+        <span *ngIf="modo === 'signup'">Empieza a<br><span class="lema-acento">detectar IA.</span></span>
+      </h1>
+      <p class="lema-sub">
+        <span *ngIf="modo === 'login'">Inicia sesión para continuar con tus análisis.</span>
+        <span *ngIf="modo === 'signup'">Crea tu cuenta gratis y comienza en segundos.</span>
+      </p>
+    </div>
+
+    <div class="pestanas-modo">
+      <button class="pestana-modo" [class.activo]="modo === 'login'" (click)="cambiarModo('login')">
+        Iniciar sesión
+      </button>
+      <button class="pestana-modo" [class.activo]="modo === 'signup'" (click)="cambiarModo('signup')">
+        Crear cuenta
+      </button>
+    </div>
+
+    <div *ngIf="modo === 'login'" class="formulario-auth animacion-aparecer">
+      <div class="grupo-campo">
+        <label class="etiqueta-campo">Correo electrónico</label>
+        <div class="contenedor-campo">
+          <i class="fa-regular fa-envelope icono-campo"></i>
+          <input class="entrada-campo" type="email" placeholder="nombre@ejemplo.com" />
+        </div>
+      </div>
+
+      <div class="grupo-campo">
+        <div class="fila-etiqueta-campo">
+          <label class="etiqueta-campo">Contraseña</label>
+          <a class="enlace-olvido" href="#">¿Olvidaste tu contraseña?</a>
+        </div>
+        <div class="contenedor-campo">
+          <i class="fa-solid fa-lock icono-campo"></i>
+          <input class="entrada-campo" [type]="showLoginPass ? 'text' : 'password'" placeholder="••••••••" />
+          <button type="button" class="btn-ojo" (click)="showLoginPass = !showLoginPass">
+            <i class="fa-regular" [class.fa-eye]="!showLoginPass" [class.fa-eye-slash]="showLoginPass"></i>
+          </button>
+        </div>
+      </div>
+
+      <button class="btn-enviar" type="button" (click)="irAlSistema()">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i> Iniciar sesión
+      </button>
+    </div>
+
+    <div *ngIf="modo === 'signup'" class="formulario-auth animacion-aparecer">
+      <div class="grupo-campo">
+        <label class="etiqueta-campo">Nombre de usuario</label>
+        <div class="contenedor-campo">
+          <i class="fa-regular fa-user icono-campo"></i>
+          <input class="entrada-campo" type="text" placeholder="Tu nombre" />
+        </div>
+      </div>
+
+      <div class="grupo-campo">
+        <label class="etiqueta-campo">Correo electrónico</label>
+        <div class="contenedor-campo">
+          <i class="fa-regular fa-envelope icono-campo"></i>
+          <input class="entrada-campo" type="email" placeholder="nombre@ejemplo.com" />
+        </div>
+      </div>
+
+      <div class="grupo-campo">
+        <label class="etiqueta-campo">Contraseña</label>
+        <div class="contenedor-campo">
+          <i class="fa-solid fa-lock icono-campo"></i>
+          <input class="entrada-campo" [type]="showSignupPass ? 'text' : 'password'" placeholder="Mínimo 8 caracteres" />
+          <button type="button" class="btn-ojo" (click)="showSignupPass = !showSignupPass">
+            <i class="fa-regular" [class.fa-eye]="!showSignupPass" [class.fa-eye-slash]="showSignupPass"></i>
+          </button>
+        </div>
+
+        <div class="contenedor-barra-fuerza">
+          <div class="barra-fuerza">
+            <div class="relleno-fuerza medio" style="width: 66%;"></div>
+          </div>
+          <span class="etiqueta-fuerza texto-medio">Media</span>
+        </div>
+      </div>
+
+      <button class="btn-enviar" type="button" (click)="cambiarModo('login')">
+        <i class="fa-solid fa-user-plus"></i> Crear cuenta gratis
+      </button>
+
+      <p class="nota-terminos">
+        Al registrarte, aceptas nuestros
+        <a href="#">Términos de servicio</a> y
+        <a href="#">Política de privacidad</a>.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="panel-visual">
+    <div class="superposicion-ruido"></div>
+    <div class="lineas-cuadricula"></div>
+
+    <div class="contenedor-carrusel">
+      <div *ngFor="let slide of slides; let i = index"
+           class="diapositiva"
+           [class.activa]="currentSlide === i">
+
+        <div class="orbe-diapositiva" [style.--orb-color]="slide.color">
+          <i class="fa-solid {{ slide.icon }}"></i>
+        </div>
+
+        <div class="etiqueta-diapositiva" [style.color]="slide.color">{{ slide.tag }}</div>
+        <h2 class="titulo-diapositiva">{{ slide.title }}</h2>
+        <p class="desc-diapositiva">{{ slide.desc }}</p>
+
+        <div class="chip-diapositiva" [style.--chip-color]="slide.color">
+          <i class="fa-solid {{ slide.highlightIcon }}"></i>
+          {{ slide.highlight }}
+        </div>
+
+      </div>
+    </div>
+
+    <div class="nav-carrusel">
+      <button class="flecha-carrusel" (click)="prevSlide()">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <div class="puntos-carrusel">
+        <button *ngFor="let s of slides; let i = index"
+                class="punto-carrusel"
+                [class.activo]="currentSlide === i"
+                (click)="goToSlide(i)"></button>
+      </div>
+      <button class="flecha-carrusel" (click)="nextSlide()">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+</div>

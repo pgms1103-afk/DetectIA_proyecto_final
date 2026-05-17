@@ -1,0 +1,109 @@
+.barra-superior {
+  height: 64px;
+  background: var(--bg-void);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.seccion-izq, .seccion-der {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.contenedor-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icono-logo {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--accent-orange), #92400e);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(217, 119, 6, 0.25);
+  flex-shrink: 0;
+}
+
+.texto-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.btn-accion {
+  height: 36px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-accion:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-accion.primario {
+  border-color: var(--accent-orange);
+  color: var(--accent-orange);
+}
+
+/* --- PARA CELULAR --- */
+.btn-menu-movil {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px;
+  margin-right: 5px;
+  transition: color 0.2s;
+}
+
+.btn-menu-movil:active {
+  color: var(--accent-orange);
+}
+
+@media (max-width: 768px) {
+  .barra-superior {
+    height: 56px;
+    padding: 0 15px;
+  }
+
+  .seccion-izq {
+    gap: 10px;
+  }
+
+  .btn-menu-movil {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .texto-logo, .btn-accion span {
+    display: none;
+  }
+}
