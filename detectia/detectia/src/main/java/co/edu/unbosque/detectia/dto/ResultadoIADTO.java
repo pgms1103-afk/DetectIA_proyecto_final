@@ -12,18 +12,20 @@ public class ResultadoIADTO {
 	private String nombreIA;
 	private double porcentajeIA;
 	private LocalDateTime fechaAnalisis;
-	private Archivo archivo;
+	private String nombreArchivo;
 	
 	public ResultadoIADTO() {
 			
 	}
 
-	public ResultadoIADTO(String nombreIA, double porcentajeIA, LocalDateTime fechaAnalisis, Archivo archivo) {
-	
+	public ResultadoIADTO(Long id, String nombreIA, double porcentajeIA, LocalDateTime fechaAnalisis,
+			String nombreArchivo) {
+		super();
+		this.id = id;
 		this.nombreIA = nombreIA;
 		this.porcentajeIA = porcentajeIA;
 		this.fechaAnalisis = fechaAnalisis;
-		this.archivo = archivo;
+		this.nombreArchivo = nombreArchivo;
 	}
 
 	public Long getId() {
@@ -58,23 +60,23 @@ public class ResultadoIADTO {
 		this.fechaAnalisis = fechaAnalisis;
 	}
 
-	public Archivo getArchivo() {
-		return archivo;
+	public String getNombreArchivo() {
+		return nombreArchivo;
 	}
 
-	public void setArchivo(Archivo archivo) {
-		this.archivo = archivo;
+	public void setNombreArchivo(String nombreArchivo) {
+		this.nombreArchivo = nombreArchivo;
 	}
 
 	@Override
 	public String toString() {
 		return "ResultadoIADTO [id=" + id + ", nombreIA=" + nombreIA + ", porcentajeIA=" + porcentajeIA
-				+ ", fechaAnalisis=" + fechaAnalisis + ", archivo=" + archivo + "]";
+				+ ", fechaAnalisis=" + fechaAnalisis + ", nombreArchivo=" + nombreArchivo + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(archivo, fechaAnalisis, id, nombreIA, porcentajeIA);
+		return Objects.hash(fechaAnalisis, id, nombreArchivo, nombreIA, porcentajeIA);
 	}
 
 	@Override
@@ -86,11 +88,11 @@ public class ResultadoIADTO {
 		if (getClass() != obj.getClass())
 			return false;
 		ResultadoIADTO other = (ResultadoIADTO) obj;
-		return Objects.equals(archivo, other.archivo) && Objects.equals(fechaAnalisis, other.fechaAnalisis)
-				&& Objects.equals(id, other.id) && Objects.equals(nombreIA, other.nombreIA)
+		return Objects.equals(fechaAnalisis, other.fechaAnalisis) && Objects.equals(id, other.id)
+				&& Objects.equals(nombreArchivo, other.nombreArchivo) && Objects.equals(nombreIA, other.nombreIA)
 				&& Double.doubleToLongBits(porcentajeIA) == Double.doubleToLongBits(other.porcentajeIA);
 	}
-	
+
 	
 	
 	
