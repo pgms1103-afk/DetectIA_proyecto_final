@@ -42,7 +42,7 @@ public class HiveVideoService {
 		jsonBody.add("input", inputArray);
 
 		HttpRequest solicitud = HttpRequest.newBuilder().uri(URI.create(apiUrl))
-				.header("Content-Type", "application/json").header("authorization", "Bearer " + apiKey)
+				.header("Content-Type", "application/json").header("authorization", "token" + apiKey)
 				.POST(HttpRequest.BodyPublishers.ofString(jsonBody.toString())).build();
 
 		HttpResponse<String> respuesta = HTTP_CLIENT.send(solicitud, HttpResponse.BodyHandlers.ofString());
