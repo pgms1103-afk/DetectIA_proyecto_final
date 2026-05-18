@@ -26,9 +26,9 @@ public class TwelveLabsService {
 	private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2)
 			.connectTimeout(Duration.ofSeconds(30)).build();
 
-	public TwelveLabsDTO detectarIA(byte[] videoBytes, String fileName, String contentType) throws Exception {
+	public TwelveLabsDTO detectarIA(byte[] videoBytes, String contentType) throws Exception {
 
-		String assetId = crearAsset(videoBytes, fileName, contentType);
+		String assetId = crearAsset(videoBytes, contentType);
 		if (assetId == null) {
 			return new TwelveLabsDTO(0.0, "ERROR_SUBIDA");
 		}
@@ -41,9 +41,9 @@ public class TwelveLabsService {
 		return analizarVideo(assetId);
 	}
 
-	private String crearAsset(byte[] videoBytes, String fileName, String contentType) throws Exception {
+	private String crearAsset(byte[] videoBytes, String contentType) throws Exception {
 		String boundary = "Boundary" + System.currentTimeMillis();
-		byte[] cuerpo = construirMultipart(boundary, fileName, contentType, videoBytes);
+		byte[] cuerpo = construirMultipart(boundary, "archivo", contentType, videoBytes);
 
 		HttpRequest solicitud = HttpRequest.newBuilder().uri(URI.create(apiUrl + "/assets"))
 				.header("Content-Type", "multipart/form-data; boundary=" + boundary).header("x-api-key", apiKey)
