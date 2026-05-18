@@ -44,6 +44,9 @@ public class EleccionService {
 
 	@Autowired
 	private WinstonService winston;
+	
+	@Autowired
+	private ACRCloudService acrCloude;
 
 
 	public Map<String, Double> analizar(MultipartFile archivo) throws Exception {
@@ -57,6 +60,8 @@ public class EleccionService {
 			return analizarImagen(archivo);
 		} else if (tipo.startsWith("video")) {
 			return analizarVideo(archivo);
+		}else if (tipo.startsWith("audio") || tipo.contains("mpeg") || tipo.contains("wav") || tipo.contains("ogg")) {
+			return analizarMusica(archivo);
 		}
 		return new HashMap<>();
 	}
@@ -64,13 +69,13 @@ public class EleccionService {
 	public Map<String, Double> analizar(String url) throws Exception {
 	    String urlMinuscula = url.toLowerCase();
 	    
+	    // 1. Enrutador para Imágenes por URL
 	    if (urlMinuscula.endsWith(".jpg") || urlMinuscula.endsWith(".jpeg") || 
 	        urlMinuscula.endsWith(".png") || urlMinuscula.endsWith(".webp")) {
 	        
 	        return analizarImagenURL(url);
 	    }
 	    
-	    // Si en el futuro manejas URLs de videos o páginas web, pondrías los otros else if aquí
 	    return new HashMap<>();
 	}
 
@@ -123,7 +128,6 @@ public class EleccionService {
 		/*SIRVE*///resultadosIA.put("Sightengine", sightengine.detectarIA(bytes, mimeType).getAi_generated());
 		/*SIRVE*///resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
 		/*Mala para imagenes, mala mala*///resultadosIA.put("Mistral", mistral.detectarIAImagen(bytes, mimeType).getFakePercentage());
-
 		return resultadosIA;
 	}
 
@@ -138,15 +142,23 @@ public class EleccionService {
 
 	private Map<String, Double> analizarVideo(MultipartFile archivo) throws Exception {
 		Map<String, Double> resultadosIA = new HashMap<>();
-
-		TwelveLabsDTO tl = twelveLabs.detectarIA(archivo.getBytes(), archivo.getOriginalFilename(),
-				archivo.getContentType());
-		resultadosIA.put("TwelveLabs", tl.getPorcentajeIA());
+		
+		byte[] bytes = archivo.getBytes();
+		String mimeType = archivo.getContentType();
+		
+		resultadosIA.put("TwelveLabs", twelveLabs.detectarIA(bytes, mimeType).getPorcentajeIA());
 
 		HiveVideoDTO hv = hiveVideo.detectarIA(archivo.getBytes(), archivo.getOriginalFilename(),
 				archivo.getContentType());
 		resultadosIA.put("HiveVideo", hv.getPorcentajeIA());
 
+		return resultadosIA;
+	}
+	
+	
+	private Map<String, Double> analizarMusica(MultipartFile archivo) throws Exception {
+		Map<String, Double> resultadosIA = new HashMap<>();
+		/*Regular con audios, buenisima con música*///resultadosIA.put("ACRCloud", acrCloude.detectarIAArchivo(archivo).getAi_probability());
 		return resultadosIA;
 	}
 

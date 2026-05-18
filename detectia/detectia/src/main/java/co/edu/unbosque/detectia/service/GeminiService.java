@@ -29,9 +29,6 @@ public class GeminiService {
 	private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2)
 			.connectTimeout(Duration.ofSeconds(20)).build();
 
-	private static final Map<String, String> FORMATOS_IMAGEN_SOPORTADOS = Map.of("jpg", "image/jpeg", "jpeg",
-			"image/jpeg", "png", "image/png", "webp", "image/webp");
-
 	/**
 	 * Analiza archivos de forma multimodal (Texto, PDF, Imagen, Audio, Video)
 	 * 
@@ -71,7 +68,7 @@ public class GeminiService {
 						"Para AUDIO analiza: "
 						+ "entonación monótona o demasiado perfecta, ausencia de respiración natural, "
 						+ "pausas artificiales, pronunciación perfecta sin variaciones naturales. " +
-
+					    
 						"IMPORTANTE: Responde ÚNICAMENTE con un número entre 0 y 100. "
 						+ "Sin explicaciones, sin texto adicional, solo el número.");
 		siParts.add(siTextPart);
@@ -133,26 +130,43 @@ public class GeminiService {
 	 * @return GeminiDTO con el resultado del peritaje
 	 * @throws Exception Si ocurre un fallo en la descarga o en la API de Gemini
 	 */
+	/**
+	 * Descarga un archivo (Imagen o Audio) desde una URL pública y lo analiza con
+	 * Gemini * @param urlPublica La dirección web del archivo
+	 * 
+	 * @return GeminiDTO con el resultado del peritaje
+	 * @throws Exception Si ocurre un fallo en la descarga o en la API de Gemini
+	 */
 	public GeminiDTO detectarIAPorUrl(String urlPublica) throws Exception {
 
-		// A. Descargar los bytes de la imagen usando el HTTP_CLIENT del servicio
+		// A. Descargar los bytes del archivo usando el HTTP_CLIENT del servicio
 		HttpRequest solicitudDescarga = HttpRequest.newBuilder().uri(URI.create(urlPublica)).GET().build();
 
 		HttpResponse<byte[]> respuestaDescarga = HTTP_CLIENT.send(solicitudDescarga,
 				HttpResponse.BodyHandlers.ofByteArray());
 
 		if (respuestaDescarga.statusCode() != 200) {
-			System.err.println("Error al descargar la imagen de la URL: " + respuestaDescarga.statusCode());
+			System.err.println("Error al descargar el archivo de la URL: " + respuestaDescarga.statusCode());
 			return new GeminiDTO(0.0, "ERROR_DESCARGA_URL");
 		}
 
 		byte[] archivoBytes = respuestaDescarga.body();
 
-		// B. Extraer la extensión y resolver el MIME type usando el mapa
-		String extension = urlPublica.substring(urlPublica.lastIndexOf(".") + 1).toLowerCase();
-		String mimeType = FORMATOS_IMAGEN_SOPORTADOS.getOrDefault(extension, "image/jpeg");
+		// 💡 B. CORREGIDO: Deducir el MIME type de forma nativa y automática (Soporta
+		// imágenes, audios y videos)
+		String mimeType = java.net.URLConnection.guessContentTypeFromName(urlPublica);
 
-		// C. Reutilizar tu método local pasándole los datos limpios
+		// Salvavidas por si la URL es extraña o no tiene extensión clara
+		if (mimeType == null) {
+			if (urlPublica.toLowerCase().contains("mp3"))
+				mimeType = "audio/mpeg";
+			else if (urlPublica.toLowerCase().contains("wav"))
+				mimeType = "audio/wav";
+			else
+				mimeType = "image/jpeg"; // Fallback por defecto
+		}
+
+		// C. Reutilizar tu método local pasándole los datos limpios y el tipo correcto
 		return detectarIA(archivoBytes, mimeType);
 	}
 
