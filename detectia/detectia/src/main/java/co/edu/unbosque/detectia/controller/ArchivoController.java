@@ -41,68 +41,82 @@ public class ArchivoController {
 
 	@Autowired
 	private ResultadoIAService resultadoIAser;
-
+	
 	@PostMapping(value = "/analizar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> analizar(@RequestParam String nombre, @RequestParam MultipartFile archivo,
-			Authentication authentication) throws Exception {
+	public ResponseEntity<?> analizar(@RequestParam String nombre, @RequestParam MultipartFile archivo) throws Exception {
 
-		String username = authentication.getName();
-		UsuarioDTO usuario = usuarioSer.getLoginUser(username);
-
-		Map<String, Double> votosIAs = eleccionSer.analizar(archivo);
-
-		ArchivoDTO nuevo = new ArchivoDTO();
-		nuevo.setRutaAlmacenamiento(archivo.getOriginalFilename());
-		nuevo.setNombre(nombre);
-		nuevo.setUsuarioId(usuario.getId());
-		Archivo archivoGuardado = archivoSer.createAndReturn(nuevo);
-
-		int status;
-		if (archivoGuardado != null) {
-			status = 0;
-		} else {
-			status = 1;
-		}
-
-		if (status == 0) {
-			resultadoIAser.guardarResultados(votosIAs, archivoGuardado.getNombre());
-			return new ResponseEntity<>(votosIAs, HttpStatus.CREATED);
-		} else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+	    Map<String, Double> votosIAs = eleccionSer.analizar(archivo);
+	    return new ResponseEntity<>(votosIAs, HttpStatus.CREATED);
 	}
 
 	@PostMapping("/analizarurl")
-	public ResponseEntity<?> analizarURL(@RequestParam String nombre, 
-			@RequestParam String url, 
-			Authentication authentication) throws Exception {
+	public ResponseEntity<?> analizarURL(@RequestParam String nombre, @RequestParam String url) throws Exception {
 
-		String username = authentication.getName();
-		UsuarioDTO usuario = usuarioSer.getLoginUser(username);
-
-		Map<String, Double> votosIAs = eleccionSer.analizar(url);
-
-		ArchivoDTO nuevo = new ArchivoDTO();
-		nuevo.setRutaAlmacenamiento(url);
-		nuevo.setNombre(nombre);
-		nuevo.setUsuarioId(usuario.getId());
-		Archivo archivoGuardado = archivoSer.createAndReturn(nuevo);
-
-		int status;
-		if (archivoGuardado != null) {
-			status = 0;
-		} else {
-			status = 1;
-		}
-
-		if (status == 0) {
-			resultadoIAser.guardarResultados(votosIAs, archivoGuardado.getNombre());
-			return new ResponseEntity<>(votosIAs, HttpStatus.CREATED);
-		} else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
+	    Map<String, Double> votosIAs = eleccionSer.analizar(url);
+	    return new ResponseEntity<>(votosIAs, HttpStatus.CREATED);
 	}
+
+//	@PostMapping(value = "/analizar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//	public ResponseEntity<?> analizar(@RequestParam String nombre, @RequestParam MultipartFile archivo,
+//			Authentication authentication) throws Exception {
+//
+//		String username = authentication.getName();
+//		UsuarioDTO usuario = usuarioSer.getLoginUser(username);
+//
+//		Map<String, Double> votosIAs = eleccionSer.analizar(archivo);
+//
+//		ArchivoDTO nuevo = new ArchivoDTO();
+//		nuevo.setRutaAlmacenamiento(archivo.getOriginalFilename());
+//		nuevo.setNombre(nombre);
+//		//nuevo.setUsuarioId(usuario.getId());
+//		Archivo archivoGuardado = archivoSer.createAndReturn(nuevo);
+//
+//		int status;
+//		if (archivoGuardado != null) {
+//			status = 0;
+//		} else {
+//			status = 1;
+//		}
+//
+//		if (status == 0) {
+//			resultadoIAser.guardarResultados(votosIAs, archivoGuardado.getNombre());
+//			return new ResponseEntity<>(votosIAs, HttpStatus.CREATED);
+//		} else {
+//			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//		}
+//	}
+//
+//	@PostMapping("/analizarurl")
+//	public ResponseEntity<?> analizarURL(@RequestParam String nombre, 
+//			@RequestParam String url ,
+//			Authentication authentication) throws Exception {
+//
+//		String username = authentication.getName();
+//		UsuarioDTO usuario = usuarioSer.getLoginUser(username);
+//
+//		Map<String, Double> votosIAs = eleccionSer.analizar(url);
+//
+//		ArchivoDTO nuevo = new ArchivoDTO();
+//		nuevo.setRutaAlmacenamiento(url);
+//		nuevo.setNombre(nombre);
+//		//nuevo.setUsuarioId(usuario.getId());
+//		Archivo archivoGuardado = archivoSer.createAndReturn(nuevo);
+//
+//		int status;
+//		if (archivoGuardado != null) {
+//			status = 0;
+//		} else {
+//			status = 1;
+//		}
+//
+//		if (status == 0) {
+//			resultadoIAser.guardarResultados(votosIAs, archivoGuardado.getNombre());
+//			return new ResponseEntity<>(votosIAs, HttpStatus.CREATED);
+//		} else {
+//			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//		}
+//		
+//	}
 
 	@GetMapping("/mis-archivos")
 	public ResponseEntity<List<ArchivoDTO>> misArchivos(Authentication authentication) {

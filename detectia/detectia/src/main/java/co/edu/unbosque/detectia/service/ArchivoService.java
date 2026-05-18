@@ -32,6 +32,7 @@ public class ArchivoService implements CRUDoperation<ArchivoDTO>{
 
 	@Override
 	public int create(ArchivoDTO data) {
+		
 		 Optional<Usuario> encontrado = usuarioRepo.findById(data.getUsuarioId());
 	        if (encontrado.isEmpty()) {
 	            return 1;
@@ -44,6 +45,7 @@ public class ArchivoService implements CRUDoperation<ArchivoDTO>{
 	}
 	
 	public Archivo createAndReturn(ArchivoDTO data) {
+		
 	    Optional<Usuario> encontrado = usuarioRepo.findById(data.getUsuarioId());
 	    if (encontrado.isEmpty()) {
 	        return null;

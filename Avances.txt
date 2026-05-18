@@ -1,13 +1,29 @@
+NO SE PODRAN SUBIR AUDIOS DE VOZ, SOLO MUSICA.
 
-17/05/2026
-Gemini: buena para texto, e imágenes locales (falta probar PDF con imágenes)--
-Grok: buena para texto
-Hugging: maaaaliiiiisima pero mala mala para texto
+MULTIMODAL:
+Gemini: 
+buena para texto, imágenes locales, audios, musica (falta probar PDF con imágenes) (no se hará ni con audios ni con musica)
 Mistral: medio para texto y mala para imágenes (falta probar PDF con imágenes, probablemente no sirva, mejor solo texto).
-Sightengine: buenísima para imágenes locales y url (falta probar videos)
-TwulveLabs: nose no he probao
-hiveVideos: nose no he probao
 Winston: buena con texto e imágenes. (falta probar PDF con imágenes y ver pq swus resultados dan negativos).
 
+
+TEXTO:
+Grok: buena para texto
+Hugging: maaaaliiiiisima pero mala mala para texto
+
+IMAGENES:
+Sightengine: buenísima para imágenes locales y url (falta probar videos)
+
+
+VIDEOS:
+TwulveLabs: nose no he probao
+hiveVideos: nose no he probao
+
+AUDIOS:
+ACRCloude: Regular para audios buenísima para musica (le gano detectando musica hecha por IA a Gemini). (no se hará con audios)
+
+PENDIENDTES:
 Falta hacer el promedio (analizis) de todas las IAs
 Falta ver las de video
+
+
