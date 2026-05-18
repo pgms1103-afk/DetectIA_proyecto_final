@@ -29,7 +29,7 @@
     <div class="zona-enlace" *ngIf="activeTab === 'text' && tipoHerramienta !== 'texto'">
       <div class="contenedor-input-enlace">
         <i class="fa-solid fa-link icono-enlace"></i>
-        <input type="url" class="input-enlace" placeholder="Pega la URL de tu {{tipoHerramienta}} aquí...">
+        <input type="url" class="input-enlace" [(ngModel)]="url" placeholder="Pega la URL de tu {{tipoHerramienta}} aquí...">
       </div>
       <p class="nota-enlace">
         El archivo de {{tipoHerramienta}} será analizado directamente desde el enlace.
@@ -37,32 +37,35 @@
     </div>
 
     <div class="zona-subida visible" *ngIf="activeTab === 'file'">
-      <input type="file" accept=".txt,.pdf,.docx,.doc" hidden>
-      <i class="fa-solid fa-file-arrow-up icono-subida"></i>
-      <div class="titulo-subida">Arrastra o haz clic para subir</div>
-      <div class="sub-subida">El archivo será procesado de forma segura en tu sesión</div>
-
-      <div class="formatos-subida" *ngIf="tipoHerramienta === 'texto'">
-        <span class="etiqueta-formato">.TXT</span><span class="etiqueta-formato">.PDF</span><span class="etiqueta-formato">.DOCX</span>
-      </div>
-      <div class="formatos-subida" *ngIf="tipoHerramienta === 'video'">
-        <span class="etiqueta-formato">.MP4</span><span class="etiqueta-formato">.MOV</span><span class="etiqueta-formato">.AVI</span>
-      </div>
-      <div class="formatos-subida" *ngIf="tipoHerramienta === 'imagen'">
-        <span class="etiqueta-formato">.JPG</span><span class="etiqueta-formato">.PNG</span><span class="etiqueta-formato">.WEBP</span>
-      </div>
-      <div class="formatos-subida" *ngIf="tipoHerramienta === 'audio'">
-        <span class="etiqueta-formato">.MP3</span><span class="etiqueta-formato">.WAV</span><span class="etiqueta-formato">.OGG</span>
+      <input type="file" #inputArchivo hidden (change)="onFileChange($event)">
+      <div style="cursor:pointer" (click)="inputArchivo.click()">
+        <i class="fa-solid fa-file-arrow-up icono-subida"></i>
+        <div class="titulo-subida">Arrastra o haz clic para subir</div>
+        <div class="sub-subida">El archivo será procesado de forma segura en tu sesión</div>
+        <div class="formatos-subida" *ngIf="tipoHerramienta === 'texto'">
+          <span class="etiqueta-formato">.TXT</span><span class="etiqueta-formato">.PDF</span><span class="etiqueta-formato">.DOCX</span>
+        </div>
+        <div class="formatos-subida" *ngIf="tipoHerramienta === 'video'">
+          <span class="etiqueta-formato">.MP4</span><span class="etiqueta-formato">.MOV</span><span class="etiqueta-formato">.AVI</span>
+        </div>
+        <div class="formatos-subida" *ngIf="tipoHerramienta === 'imagen'">
+          <span class="etiqueta-formato">.JPG</span><span class="etiqueta-formato">.PNG</span><span class="etiqueta-formato">.WEBP</span>
+        </div>
+        <div class="formatos-subida" *ngIf="tipoHerramienta === 'audio'">
+          <span class="etiqueta-formato">.MP3</span><span class="etiqueta-formato">.WAV</span><span class="etiqueta-formato">.OGG</span>
+        </div>
       </div>
     </div>
 
-    <button class="btn-analizar">
+    <!-- Input nombre, visible siempre -->
+    <input type="text" class="input-enlace" [(ngModel)]="nombre" placeholder="Nombre del análisis">
+
+    <button class="btn-analizar" (click)="activeTab === 'file' ? subirArchivoLocal() : subirArchivoUrl()">
       <i class="fa-solid fa-magnifying-glass-chart"></i> Analizar {{ tipoHerramienta }}
     </button>
   </div>
 
   <div class="panel-resultados">
-
     <div class="tarjeta-medidor">
       <span class="etiqueta-medidor">Probabilidad de IA</span>
       <div class="contenedor-medidor">

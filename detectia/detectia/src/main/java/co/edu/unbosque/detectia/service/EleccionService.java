@@ -88,11 +88,11 @@ public class EleccionService {
 		Map<String, Double> resultadosIA = new HashMap<>();
 
 		// Invocación a las APIs de texto
-		/*SIRVE*///resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
-		/*SIRVE*///resultadosIA.put("Gemini", gemini.detectarIA(archivo.getBytes(), archivo.getContentType()).getPorcentajeIA());
+		/*SIRVE*/resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
+		/*SIRVE*/resultadosIA.put("Gemini", gemini.detectarIA(archivo.getBytes(), archivo.getContentType()).getPorcentajeIA());
 		/*pienso en quitarla, muy malos resultados*///resultadosIA.put("HuggingFace", huggingFace.detectarIA(texto).getPorcentajeIA());
-		/*SIRVE*///resultadosIA.put("Mistral",mistral.detectarIATexto(texto).getFakePercentage());
-		/*SIRVE*///resultadosIA.put("Winston", winston.detectarIA(texto).getScore());
+		/*SIRVE*/resultadosIA.put("Mistral",mistral.detectarIA(texto, archivo.getBytes(), archivo.getContentType()).getFakePercentage());
+		/*SIRVE*/resultadosIA.put("Winston", winston.detectarIA(texto).getScore());
 		return resultadosIA;
 	}
 
@@ -106,13 +106,13 @@ public class EleccionService {
 		// Gemini y Mistral reciben los bytes completos del PDF (analizan texto +
 		// imágenes)
 		resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
-		/*SIRVE*///resultadosIA.put("Mistral", mistral.detectarIA(texto, bytes, mimeType).getFakePercentage());
+		/*SIRVE*/resultadosIA.put("Mistral", mistral.detectarIA(texto, bytes, mimeType).getFakePercentage());
 		// Groq y HuggingFace solo pueden analizar el texto extraído
 		if (texto != null && !texto.isBlank()) {
-			/*SIRVE*///resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
+			/*SIRVE*/resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
 			/*pienso en quitarla, muy malos resultados*///resultadosIA.put("HuggingFace", huggingFace.detectarIA(texto).getPorcentajeIA());
 			
-			/*SIRVE*///resultadosIA.put("Winston", winston.detectarIA(texto).getScore());
+			/*SIRVE*/resultadosIA.put("Winston", winston.detectarIA(texto).getScore());
 		}
 
 		return resultadosIA;
@@ -125,8 +125,8 @@ public class EleccionService {
 		Map<String, Double> resultadosIA = new HashMap<>();
 		byte[] bytes = archivo.getBytes();
 		String mimeType = archivo.getContentType();
-		/*SIRVE*///resultadosIA.put("Sightengine", sightengine.detectarIA(bytes, mimeType).getAi_generated());
-		/*SIRVE*///resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
+		/*SIRVE*/resultadosIA.put("Sightengine", sightengine.detectarIA(bytes, mimeType).getAi_generated());
+		/*SIRVE*/resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
 		/*Mala para imagenes, mala mala*///resultadosIA.put("Mistral", mistral.detectarIAImagen(bytes, mimeType).getFakePercentage());
 		return resultadosIA;
 	}
@@ -158,7 +158,7 @@ public class EleccionService {
 	
 	private Map<String, Double> analizarMusica(MultipartFile archivo) throws Exception {
 		Map<String, Double> resultadosIA = new HashMap<>();
-		/*Regular con audios, buenisima con música*///resultadosIA.put("ACRCloud", acrCloude.detectarIAArchivo(archivo).getAi_probability());
+		/*Regular con audios, buenisima con música*/resultadosIA.put("ACRCloud", acrCloude.detectarIAArchivo(archivo).getAi_probability());
 		return resultadosIA;
 	}
 
