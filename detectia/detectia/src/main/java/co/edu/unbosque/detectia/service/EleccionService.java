@@ -39,8 +39,8 @@ public class EleccionService {
 	@Autowired
 	private TwelveLabsService twelveLabs;
 
-	@Autowired
-	private HiveVideoService hiveVideo;
+//	@Autowired
+//	private HiveVideoService hiveVideo;
 
 	@Autowired
 	private WinstonService winston;
@@ -147,10 +147,10 @@ public class EleccionService {
 		String mimeType = archivo.getContentType();
 		
 		resultadosIA.put("TwelveLabs", twelveLabs.detectarIA(bytes, mimeType).getPorcentajeIA());
-
-		HiveVideoDTO hv = hiveVideo.detectarIA(archivo.getBytes(), archivo.getOriginalFilename(),
-				archivo.getContentType());
-		resultadosIA.put("HiveVideo", hv.getPorcentajeIA());
+	
+//		HiveVideoDTO hv = hiveVideo.detectarIA(archivo.getBytes(), archivo.getOriginalFilename(),
+//				archivo.getContentType());
+//		resultadosIA.put("HiveVideo", hv.getPorcentajeIA());
 
 		return resultadosIA;
 	}
