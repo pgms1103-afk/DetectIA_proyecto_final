@@ -1,5 +1,5 @@
 <aside class="barra-lateral" [class.colapsado]="isCollapsed" [class.abierto-movil]="mobileOpen">
-  <div class="cabecera-lateral">
+  <div class="cabecera-lateral animate__animated animate__fadeInDown">
     <button class="btn-alternar" (click)="toggleSidebar()">
       <i class="fa-solid fa-chevron-left"></i>
     </button>
@@ -9,26 +9,26 @@
   </div>
 
   <nav class="navegacion-lateral">
-    <span class="etiqueta-seccion">SISTEMA</span>
+    <span class="etiqueta-seccion animate__animated animate__fadeIn animate__delay-1s">SISTEMA</span>
 
-    <a class="item-nav" (click)="seleccionar('dashboard')" style="cursor: pointer;">
+    <a class="item-nav animate__animated animate__fadeInLeft" style="animation-delay: 0.1s; cursor: pointer;" (click)="seleccionar('dashboard')">
       <span class="icono-nav"><i class="fa-solid fa-chart-line"></i></span>
       <span class="texto-nav">Panel de Control</span>
     </a>
 
-    <a class="item-nav" (click)="seleccionar('usuarios')" style="cursor: pointer;">
+    <a class="item-nav animate__animated animate__fadeInLeft" style="animation-delay: 0.2s; cursor: pointer;" (click)="seleccionar('usuarios')">
       <span class="icono-nav"><i class="fa-solid fa-users-gear"></i></span>
       <span class="texto-nav">Gestión Usuarios</span>
     </a>
 
-    <span class="etiqueta-seccion">AUDITORÍA</span>
-    <a class="item-nav">
+    <span class="etiqueta-seccion animate__animated animate__fadeIn animate__delay-1s">AUDITORÍA</span>
+    <a class="item-nav animate__animated animate__fadeInLeft" style="animation-delay: 0.3s; cursor: pointer;">
       <span class="icono-nav"><i class="fa-solid fa-clipboard-list"></i></span>
       <span class="texto-nav">Historial Global</span>
     </a>
   </nav>
 
-  <div class="pie-lateral">
+  <div class="pie-lateral animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
     <a class="item-nav" href="/login">
       <span class="icono-nav"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
       <span class="texto-nav">Salir al Login</span>
