@@ -1,13 +1,13 @@
 <div class="area-trabajo">
   <div class="panel-entrada">
     <div class="cabecera-panel">
-      <span class="titulo-panel" style="text-transform: capitalize;">Detección de {{ tipoHerramienta }}</span>
+      <span class="titulo-panel" style="text-transform: capitalize;">Entrada de {{ tipoHerramienta }}</span>
       <span class="contador-caracteres" *ngIf="tipoHerramienta === 'texto'">0 / 12.000 chars</span>
     </div>
 
     <div class="grupo-pestanas">
       <button class="btn-pestana" [class.activo]="activeTab === 'text'" (click)="switchTab('text')">
-        <i class="fa-solid" [ngClass]="tipoHerramienta === 'texto' ? 'fa-keyboard' : 'fa-link'"></i>
+        <i class="fa-solid" [ngClass]="tipoHerramienta === 'texto' ? 'fa-regular fa-keyboard' : 'fa-solid fa-link'"></i>
         {{ tipoHerramienta === 'texto' ? 'Pegar texto' : 'Pegar enlace' }}
       </button>
       <button class="btn-pestana" [class.activo]="activeTab === 'file'" (click)="switchTab('file')">
@@ -21,7 +21,7 @@
         <span class="contador-palabras">0 palabras</span>
         <div class="acciones-texto">
           <button class="btn-accion-texto"><i class="fa-regular fa-clipboard"></i> Pegar</button>
-          <button class="btn-accion-texto"><i class="fa-regular fa-copy"></i> Copiar</button>
+          <button class="btn-accion-texto"><i class="fa-solid fa-flask"></i> Muestra</button>
         </div>
       </div>
     </div>
@@ -29,50 +29,53 @@
     <div class="zona-enlace" *ngIf="activeTab === 'text' && tipoHerramienta !== 'texto'">
       <div class="contenedor-input-enlace">
         <i class="fa-solid fa-link icono-enlace"></i>
-        <input type="url" class="input-enlace" [(ngModel)]="url" placeholder="Pega la URL de tu {{tipoHerramienta}} aquí...">
+        <input type="url" class="input-enlace" placeholder="Pega la URL de tu {{ tipoHerramienta }} aquí...">
       </div>
       <p class="nota-enlace">
-        El archivo de {{tipoHerramienta}} será analizado directamente desde el enlace.
+        El archivo multimedia será procesado de forma segura desde este enlace.
       </p>
     </div>
 
-    <div class="zona-subida visible" *ngIf="activeTab === 'file'">
-      <input type="file" #inputArchivo hidden (change)="onFileChange($event)">
-      <div style="cursor:pointer" (click)="inputArchivo.click()">
-        <i class="fa-solid fa-file-arrow-up icono-subida"></i>
-        <div class="titulo-subida">Arrastra o haz clic para subir</div>
-        <div class="sub-subida">El archivo será procesado de forma segura en tu sesión</div>
-        <div class="formatos-subida" *ngIf="tipoHerramienta === 'texto'">
-          <span class="etiqueta-formato">.TXT</span><span class="etiqueta-formato">.PDF</span><span class="etiqueta-formato">.DOCX</span>
-        </div>
-        <div class="formatos-subida" *ngIf="tipoHerramienta === 'video'">
-          <span class="etiqueta-formato">.MP4</span><span class="etiqueta-formato">.MOV</span><span class="etiqueta-formato">.AVI</span>
-        </div>
-        <div class="formatos-subida" *ngIf="tipoHerramienta === 'imagen'">
-          <span class="etiqueta-formato">.JPG</span><span class="etiqueta-formato">.PNG</span><span class="etiqueta-formato">.WEBP</span>
-        </div>
-        <div class="formatos-subida" *ngIf="tipoHerramienta === 'audio'">
-          <span class="etiqueta-formato">.MP3</span><span class="etiqueta-formato">.WAV</span><span class="etiqueta-formato">.OGG</span>
-        </div>
+    <div class="zona-subida" [class.visible]="activeTab === 'file'">
+      <input type="file" accept=".txt,.pdf,.docx,.doc" hidden>
+      <i class="fa-solid fa-file-arrow-up icono-subida"></i>
+      <div class="titulo-subida">Arrastra o haz clic para subir</div>
+      <div class="sub-subida">El archivo será procesado de forma segura en tu sesión</div>
+
+      <div class="formatos-subida" *ngIf="tipoHerramienta === 'texto'">
+        <span class="etiqueta-formato">.TXT</span>
+        <span class="etiqueta-formato">.PDF</span>
+        <span class="etiqueta-formato">.DOCX</span>
+      </div>
+      <div class="formatos-subida" *ngIf="tipoHerramienta === 'video'">
+        <span class="etiqueta-formato">.MP4</span>
+        <span class="etiqueta-formato">.MOV</span>
+        <span class="etiqueta-formato">.AVI</span>
+      </div>
+      <div class="formatos-subida" *ngIf="tipoHerramienta === 'imagen'">
+        <span class="etiqueta-formato">.JPG</span>
+        <span class="etiqueta-formato">.PNG</span>
+        <span class="etiqueta-formato">.WEBP</span>
+      </div>
+      <div class="formatos-subida" *ngIf="tipoHerramienta === 'audio'">
+        <span class="etiqueta-formato">.MP3</span>
+        <span class="etiqueta-formato">.WAV</span>
+        <span class="etiqueta-formato">.OGG</span>
       </div>
     </div>
 
-    <!-- Input nombre, visible siempre -->
-    <input type="text" class="input-enlace" [(ngModel)]="nombre" placeholder="Nombre del análisis">
-
-    <button class="btn-analizar" (click)="activeTab === 'file' ? subirArchivoLocal() : subirArchivoUrl()">
+    <button class="btn-analizar">
       <i class="fa-solid fa-magnifying-glass-chart"></i> Analizar {{ tipoHerramienta }}
     </button>
   </div>
 
-  <div class="panel-resultados">
+  <div class="panel-resultados animate__animated animate__fadeIn animate__faster">
     <div class="tarjeta-medidor">
       <span class="etiqueta-medidor">Probabilidad de IA</span>
       <div class="contenedor-medidor">
-        <svg class="svg-medidor" viewBox="-10 0 180 100">
-          <path class="fondo-medidor" d="M 10 90 A 70 70 0 0 1 150 90" stroke-dasharray="220" stroke-dashoffset="0"/>
-          <path class="relleno-medidor" d="M 10 90 A 70 70 0 0 1 150 90"/>
-        </svg>
+
+        <canvas id="iaProbabilityChart"></canvas>
+
         <div class="centro-medidor">
           <div class="valor-medidor">—</div>
           <div class="unidad-medidor">% IA</div>
@@ -109,17 +112,7 @@
 <div class="franja-historial">
   <span class="etiqueta-historial">Recientes</span>
   <div class="elementos-historial">
-    <div class="chip-historial">
-      <span>Ensayo académico...</span>
-      <span class="puntuacion-chip alto">87%</span>
-    </div>
-    <div class="chip-historial">
-      <span>Artículo de blog...</span>
-      <span class="puntuacion-chip medio">43%</span>
-    </div>
-    <div class="chip-historial">
-      <span>Reporte técnico...</span>
-      <span class="puntuacion-chip bajo" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">12%</span>
-    </div>
+    <div class="chip-historial"><span>Ensayo académico...</span><span class="puntuacion-chip alto">87%</span></div>
+    <div class="chip-historial"><span>Artículo de blog...</span><span class="puntuacion-chip medio">43%</span></div>
   </div>
 </div>
