@@ -102,10 +102,10 @@ public class EleccionService {
 		Map<String, Double> resultadosIA = new HashMap<>();
 		byte[] bytes = archivo.getBytes();
 		String mimeType = archivo.getContentType();
-		/*SIRVE*///resultadosIA.put("Sightengine", sightengine.detectarIA(bytes, mimeType).getAi_generated());
-		/*SIRVE*///resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
-		/*SIRVE*///resultadosIA.put("Hive Moderation", hiveModeration.detectarIA(bytes, mimeType).getAi_generated())
-		/*SIRVE MEH PASANDO A BIEN*///resultadosIA.put("Groq", grok.detectarIAImagen(bytes, mimeType).getPorcentajeIA());
+		/*SIRVE*/resultadosIA.put("Sightengine", sightengine.detectarIA(bytes, mimeType).getAi_generated());
+		/*SIRVE*/resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
+		/*SIRVE*/resultadosIA.put("Hive Moderation", hiveModeration.detectarIA(bytes, mimeType).getAi_generated());
+		/*SIRVE MEH PASANDO A BIEN*/resultadosIA.put("Groq", grok.detectarIAImagen(bytes, mimeType).getPorcentajeIA());
 		return resultadosIA;
 	}
 
@@ -123,8 +123,8 @@ public class EleccionService {
 		Map<String, Double> resultadosIA = new HashMap<>();
 		byte[] bytes = archivo.getBytes();
 		String mimeType = archivo.getContentType();
-		/*SIRVE A MEDIAS*///resultadosIA.put("TwelveLabs", twelveLabs.detectarIA(bytes, mimeType).getPorcentajeIA());
-		/*SIRVE*///resultadosIA.put("Hive Moderation", hiveModeration.detectarIA(bytes, mimeType).getAi_generated());
+		/*SIRVE A MEDIAS*/resultadosIA.put("TwelveLabs", twelveLabs.detectarIA(bytes, mimeType).getPorcentajeIA());
+		/*SIRVE*/resultadosIA.put("Hive Moderation", hiveModeration.detectarIA(bytes, mimeType).getAi_generated());
 
 		return resultadosIA;
 	}

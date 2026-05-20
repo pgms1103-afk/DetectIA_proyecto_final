@@ -16,6 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+// --- NUEVAS IMPORTACIONES PARA CORS ---
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -47,28 +53,61 @@ public class SecurityConfig {
 	 */
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> // Se autorizan las sigueientes solicitudes
-		auth.requestMatchers("/public/**") // Si la URL coiiuncide con eso, se le permite a todos.
-				.permitAll().requestMatchers("/swagger-ui/**", "/v3/api-docs/**")// Si la URL coiiuncide con eso, se le permite a todos.
-				.permitAll().requestMatchers("/private/archivo/**", "/private/resultadoporia/**", 
-						"/private/user/**")// Si la// URL coiiuncide con eso.
-				.hasAnyRole("USER", "ADMIN")// Si la persona tiene el rol de user o admin.
-				.requestMatchers("/admin/**").hasRole("ADMIN").anyRequest().authenticated())
+		http
+				// 1. ACTIVAMOS CORS AQUÍ llamando al Bean que creamos más abajo
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+				
+				.csrf(csrf -> csrf.disable())
+				.authorizeHttpRequests(auth -> // Se autorizan las siguientes solicitudes
+						auth.requestMatchers("/public/**") // Si la URL coincide con eso, se le permite a todos.
+								.permitAll()
+								.requestMatchers("/swagger-ui/**", "/v3/api-docs/**") // Si la URL coincide con eso, se le permite a todos.
+								.permitAll()
+								.requestMatchers("/private/archivo/**", "/private/resultadoporia/**", "/private/user/**") // Rutas privadas
+								.hasAnyRole("USER", "ADMIN") // Si la persona tiene el rol de user o admin.
+								.requestMatchers("/admin/**")
+								.hasRole("ADMIN")
+								.anyRequest().authenticated()
+				)
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authenticationProvider())
-				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);// Vaya y verifique user y
-																							// contra
+				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Verifica usuario y contra
 
 		return http.build();
 	}
 
+	// --- 2. CREAMOS EL BEAN DE CONFIGURACIÓN DE CORS ---
 	/**
-	 * Configura el proveedor de autenticación. Establece el servicio de detalles de
-	 * usuario y el codificador de contraseñas.
+	 * Configura las reglas de CORS para permitir peticiones desde el frontend (Angular).
+	 */
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		
+		// Permitir el origen donde corre Angular
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+		
+		// Permitir los métodos HTTP que vas a usar
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+		
+		// Permitir las cabeceras que usa Angular, incluyendo el token y los archivos multipart
+		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+		
+		// Permitir el envío de credenciales (fundamental para que JWT funcione con CORS)
+		configuration.setAllowCredentials(true);
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		// Aplicar estas reglas a todas las rutas del backend (/**)
+		source.registerCorsConfiguration("/**", configuration);
+		
+		return source;
+	}
+
+	/**
+	 * Configura el proveedor de autenticación.
 	 *
 	 * @return Proveedor de autenticación configurado
 	 */
-
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
@@ -89,8 +128,7 @@ public class SecurityConfig {
 	}
 
 	/**
-	 * Configura el codificador de contraseñas. Utiliza BCrypt para el hash de
-	 * contraseñas.
+	 * Configura el codificador de contraseñas.
 	 *
 	 * @return Codificador de contraseñas BCrypt
 	 */

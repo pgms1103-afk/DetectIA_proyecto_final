@@ -32,12 +32,12 @@ public class AdminController {
 	
     
 	@PostMapping("/crearusuario")
-	public ResponseEntity<String> crearUsuario(@RequestParam String nombreUsuario, @RequestParam String correo, @RequestParam String contrasena) {
+	public ResponseEntity<String> crearUsuario(@RequestBody UsuarioDTO dto) {
 		
 		UsuarioDTO nuevo = new UsuarioDTO ();
-		nuevo.setNombreUsuario(nombreUsuario);
-		nuevo.setCorreo(correo);
-		nuevo.setContrasena(contrasena);
+		nuevo.setNombreUsuario(dto.getNombreUsuario());
+		nuevo.setCorreo(dto.getCorreo());
+		nuevo.setContrasena(dto.getContrasena());
 		int status = usuarioSer.create(nuevo);
 		if (status == 0) {
 			return new ResponseEntity<>("Usuario creado con éxito", HttpStatus.CREATED);
@@ -45,11 +45,6 @@ public class AdminController {
 			return new ResponseEntity<>("Error al crear usuario", HttpStatus.BAD_REQUEST);
 		}	
 	}
-	
-    @GetMapping("/admin") //Manejar a usuarios q quieren ingresar a la ruta admin y q sean admin
-    public String admin() {
-        return "Soy admin juasjuas";
-    }
 
 	@GetMapping("/mostrarusuarios")
 	public ResponseEntity<List<UsuarioDTO>> mostrarUsuarios() {
