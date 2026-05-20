@@ -22,29 +22,21 @@
         <th>Usuario</th>
         <th>Correo Electrónico</th>
         <th>Rol</th>
-        <th>Estado</th>
-        <th>Fecha Registro</th>
         <th>Acciones</th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let user of listaUsuarios; let i = index"
+      <tr *ngFor="let user of usuarios; let i = index"
           class="animate__animated animate__fadeIn"
           [style.animation-delay]="(0.4 + (i * 0.05)) + 's'">
         <td>
           <div class="celda-usuario">
-            <div class="avatar-tabla">{{ user.nombre.substring(0,2).toUpperCase() }}</div>
-            <span>{{ user.nombre }}</span>
+            <div class="avatar-tabla">{{ user.nombreUsuario.substring(0,2).toUpperCase() }}</div>
+            <span>{{ user.nombreUsuario }}</span>
           </div>
         </td>
         <td>{{ user.correo }}</td>
-        <td><span class="badge-rol">{{ user.rol }}</span></td>
-        <td>
-            <span class="badge-estado" [class.activo]="user.activo">
-              {{ user.activo ? 'Activo' : 'Inactivo' }}
-            </span>
-        </td>
-        <td>{{ user.fecha }}</td>
+        <td><span class="badge-rol">{{ user.role }}</span></td>
         <td>
           <div class="acciones-fila">
             <button class="btn-icono" title="Editar" (click)="abrirModalEditar()">
