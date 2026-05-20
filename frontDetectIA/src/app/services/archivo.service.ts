@@ -29,7 +29,7 @@ export class ArchivoService {
 
   postAnalizarUrl(nombre:string, url:string){
     return this.cliente.post(this.urlbase + "/analizarurl?nombre="+ nombre +
-      "i&url="+url,
+      " &url="+url,
       null);
   }
 

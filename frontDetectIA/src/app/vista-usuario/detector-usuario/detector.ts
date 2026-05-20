@@ -17,6 +17,7 @@ interface ModeloIA {
   nombre: string;
   icono: string;
   color: string;
+  valor?: number | null;
 }
 
 @Component({
@@ -31,6 +32,27 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   public nombre: string = '';
   public archivo: File | null = null;
   public url: string = '';
+  public promedioActual: string='';
+  public veredictoActual: string = '';
+
+
+  // Getter para definir las extensiones permitidas según la herramienta actual
+  get extensionesPermitidas(): string {
+    switch (this.tipoHerramienta?.toLowerCase()) {
+      case 'texto':
+        return '.txt,.pdf,.docx,.doc';
+      case 'imagen':
+        return '.jpg,.jpeg,.png,.webp';
+      case 'video':
+        return '.mp4,.mov,.avi';
+      case 'audio':
+      case 'musica':
+        return '.mp3,.wav,.ogg';
+      default:
+        return '*/*'; // Si no coincide nada, permite todo
+    }
+  }
+
 
   @Input() tipoHerramienta: string = 'texto';
 
@@ -139,11 +161,24 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
     }
 
     this.archivoService.postAnalizarArchivo(this.nombre, this.archivo).subscribe({
-      next: (resp) => {
-        console.log(resp);
+      next: (resp: any) => {
+        console.log('Respuesta del servidor:', resp);
+
+        // 1. Actualizar la gráfica central (el doughnut chart)
+        this.actualizarPorcentaje(resp.promedio);
+
+        // 2. Actualizar el centro del medidor en el HTML (opcional, si tienes una variable para esto)
+         this.promedioActual = resp.promedio;
+
+         this.veredictoActual = resp.veredicto;
+
+        // 3. Actualizar la lista de modelos con sus valores individuales
+        this.actualizarValoresModelos(resp.resultados);
+
+
       },
       error: (err) => {
-        console.error(err);
+        console.error('Error al subir el archivo:', err);
       },
     });
   }
@@ -165,5 +200,31 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
 
   onFileChange(event: any) {
     this.archivo = event.target.files[0];
+  }
+
+  ejecutarAnalisis() {
+    console.log(`Iniciando análisis. Pestaña activa: ${this.activeTab}`);
+
+    if (this.activeTab === 'file') {
+      this.subirArchivoLocal();
+    } else if (this.activeTab === 'text' && this.tipoHerramienta !== 'texto') {
+      this.subirArchivoUrl();
+    } else {
+      console.warn('Para texto directo necesitas crear un método/endpoint específico.');
+    }
+  }
+
+  actualizarValoresModelos(resultadosBackend: any) {
+    // Recorremos los modelos que se están mostrando en pantalla
+    this.modelosActuales = this.modelosActuales.map(modelo => {
+      // Buscamos si el backend devolvió un valor para este modelo específico
+      const valor = resultadosBackend[modelo.nombre];
+
+      return {
+        ...modelo,
+        // Si hay valor lo guardamos, si no, lo dejamos en 0 o nulo
+        valor: valor !== undefined ? valor : null
+      };
+    });
   }
 }

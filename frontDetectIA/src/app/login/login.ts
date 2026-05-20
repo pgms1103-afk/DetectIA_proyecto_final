@@ -130,7 +130,7 @@ export class Login {
     this.mensajeError = '';
     this.mensajeExito = '';
 
-    if(!this.registroNombreUsuario || !this.registroContrasena || !this.registroContrasena){
+    if(!this.registroNombreUsuario || !this.registroContrasena || !this.registroCorreo){
       this.mensajeError = 'Debe completar todos los campos.';
       return;
     }

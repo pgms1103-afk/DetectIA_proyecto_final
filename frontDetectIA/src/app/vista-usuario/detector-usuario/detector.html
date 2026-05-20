@@ -36,8 +36,9 @@
       </p>
     </div>
 
-    <div class="zona-subida" [class.visible]="activeTab === 'file'">
-      <input type="file" accept=".txt,.pdf,.docx,.doc" hidden>
+    <div class="zona-subida" [class.visible]="activeTab === 'file'" (click)="fileInput.click()" style="cursor: pointer;">
+
+      <input type="file" #fileInput [accept]="extensionesPermitidas" hidden (change)="onFileChange($event)">
       <i class="fa-solid fa-file-arrow-up icono-subida"></i>
       <div class="titulo-subida">Arrastra o haz clic para subir</div>
       <div class="sub-subida">El archivo será procesado de forma segura en tu sesión</div>
@@ -64,7 +65,7 @@
       </div>
     </div>
 
-    <button class="btn-analizar">
+    <button class="btn-analizar" (click)="ejecutarAnalisis()">
       <i class="fa-solid fa-magnifying-glass-chart"></i> Analizar {{ tipoHerramienta }}
     </button>
   </div>
@@ -75,13 +76,13 @@
       <div class="contenedor-medidor">
         <canvas id="iaProbabilityChart"></canvas>
         <div class="centro-medidor">
-          <div class="valor-medidor">—</div>
+          <div class="valor-medidor">{{ promedioActual !== '' ? promedioActual : '—' }}</div>
           <div class="unidad-medidor">% IA</div>
         </div>
       </div>
       <div class="etiqueta-estado inactivo">
         <span class="punto-estado"></span>
-        <span>Esperando análisis</span>
+        <span>{{ veredictoActual !== '' ? veredictoActual.toLowerCase() : 'Esperando análisis' }}</span>
       </div>
     </div>
 
@@ -101,7 +102,7 @@
       </div>
 
       <div class="lista-modelos animate__animated animate__fadeIn">
-        <div class="fila-metrica"
+        <div class="fila-me trica"
              *ngFor="let modelo of modelosActuales; let i = index"
              [style.animation-delay]="(i * 0.06) + 's'"
              [style.animation-name]="'fadeInRight'"
@@ -116,7 +117,7 @@
           </span>
 
 
-          <span class="valor-metrica">—</span>
+          <span class="valor-metrica">{{ modelo.valor != null ? modelo.valor + '%' : '—' }}</span>
         </div>
       </div>
 
