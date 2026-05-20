@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,10 @@ import co.edu.unbosque.detectia.repository.UsuarioRepository;
 public class LoadDatabase {
   /** Logger para registrar mensajes durante la carga de datos. */
   private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
+  
+  @Value("${app.default-password}")
+  private String defaultPassword;
+  
 
   /**
    * Inicializa la base de datos con usuarios predeterminados. Crea un usuario administrador y un
@@ -33,7 +38,7 @@ public class LoadDatabase {
       if (found.isPresent()) {
         log.info("El administrador ya existe, omitiendo la creación del administrador...");
       } else {
-    	  Usuario adminUser = new Usuario("admin", "admin@gmail", passwordEncoder.encode("1234567890"), Usuario.Role.ADMIN);
+    	  Usuario adminUser = new Usuario("admin", "admin@gmail", passwordEncoder.encode(defaultPassword), Usuario.Role.ADMIN);
         userRepo.save(adminUser);
         log.info("Precargando usuario administrador");
       }
@@ -42,7 +47,7 @@ public class LoadDatabase {
         log.info("El usuario normal ya existe, omitiendo la creación del usuario normal...");
       } else {
     	  Usuario normalUser =
-            new Usuario("normaluser", "user@gmail", passwordEncoder.encode("1234567890"), Usuario.Role.USER);
+            new Usuario("normaluser", "user@gmail", passwordEncoder.encode(defaultPassword), Usuario.Role.USER);
         userRepo.save(normalUser);
         log.info("Precargando usuario normal");
       }
