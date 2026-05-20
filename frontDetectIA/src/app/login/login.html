@@ -31,10 +31,10 @@
 
     <div *ngIf="modo === 'login'" class="formulario-auth animacion-aparecer">
       <div class="grupo-campo">
-        <label class="etiqueta-campo">Correo electrónico</label>
+        <label class="etiqueta-campo">Usuario</label>
         <div class="contenedor-campo">
           <i class="fa-regular fa-envelope icono-campo"></i>
-          <input class="entrada-campo" type="email" placeholder="nombre@ejemplo.com" />
+          <input class="entrada-campo" [(ngModel)]="loginNombreUsuario" type="email" placeholder="Tu nombre" />
         </div>
       </div>
 
@@ -45,14 +45,14 @@
         </div>
         <div class="contenedor-campo">
           <i class="fa-solid fa-lock icono-campo"></i>
-          <input class="entrada-campo" [type]="showLoginPass ? 'text' : 'password'" placeholder="••••••••" />
+          <input class="entrada-campo" [(ngModel)]="loginContrasena" [type]="showLoginPass ? 'text' : 'password'" placeholder="••••••••" />
           <button type="button" class="btn-ojo" (click)="showLoginPass = !showLoginPass">
             <i class="fa-regular" [class.fa-eye]="!showLoginPass" [class.fa-eye-slash]="showLoginPass"></i>
           </button>
         </div>
       </div>
 
-      <button class="btn-enviar" type="button" (click)="irAlSistema()">
+      <button class="btn-enviar" type="button" (click)="login()">
         <i class="fa-solid fa-arrow-right-to-bracket"></i> Iniciar sesión
       </button>
     </div>
@@ -62,7 +62,7 @@
         <label class="etiqueta-campo">Nombre de usuario</label>
         <div class="contenedor-campo">
           <i class="fa-regular fa-user icono-campo"></i>
-          <input class="entrada-campo" type="text" placeholder="Tu nombre" />
+          <input class="entrada-campo" [(ngModel)]="registroNombreUsuario" type="text" placeholder="Tu nombre" />
         </div>
       </div>
 
@@ -70,7 +70,7 @@
         <label class="etiqueta-campo">Correo electrónico</label>
         <div class="contenedor-campo">
           <i class="fa-regular fa-envelope icono-campo"></i>
-          <input class="entrada-campo" type="email" placeholder="nombre@ejemplo.com" />
+          <input class="entrada-campo" [(ngModel)]="registroCorreo" type="email" placeholder="nombre@ejemplo.com" />
         </div>
       </div>
 
@@ -78,7 +78,7 @@
         <label class="etiqueta-campo">Contraseña</label>
         <div class="contenedor-campo">
           <i class="fa-solid fa-lock icono-campo"></i>
-          <input class="entrada-campo" [type]="showSignupPass ? 'text' : 'password'" placeholder="Mínimo 8 caracteres" />
+          <input class="entrada-campo" [(ngModel)]="registroContrasena" [type]="showSignupPass ? 'text' : 'password'" placeholder="Mínimo 8 caracteres" />
           <button type="button" class="btn-ojo" (click)="showSignupPass = !showSignupPass">
             <i class="fa-regular" [class.fa-eye]="!showSignupPass" [class.fa-eye-slash]="showSignupPass"></i>
           </button>
@@ -92,7 +92,7 @@
         </div>
       </div>
 
-      <button class="btn-enviar" type="button" (click)="cambiarModo('login')">
+      <button class="btn-enviar" type="button" (click)="registrar()">
         <i class="fa-solid fa-user-plus"></i> Crear cuenta gratis
       </button>
 

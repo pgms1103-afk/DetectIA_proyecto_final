@@ -44,15 +44,15 @@ public class PublicController {
 	}
 	
 	@PostMapping("/registrarusuario")
-	public ResponseEntity<String> registrarUsuario(@RequestParam String nombreUsuario, @RequestParam String correo, @RequestParam String contrasena) {
-		 if (usuarioSer.findUsernameAlreadyTaken(nombreUsuario)) {
+	public ResponseEntity<String> registrarUsuario(@RequestBody UsuarioDTO dto) {
+		 if (usuarioSer.findUsernameAlreadyTaken(dto.getNombreUsuario())) {
 		      return ResponseEntity.status(HttpStatus.CONFLICT).body("El nombre de usuario ya existe");
 		    }
 		 
 		UsuarioDTO nuevo = new UsuarioDTO ();
-		nuevo.setNombreUsuario(nombreUsuario);
-		nuevo.setCorreo(correo);
-		nuevo.setContrasena(contrasena);
+		nuevo.setNombreUsuario(dto.getNombreUsuario());
+		nuevo.setCorreo(dto.getCorreo());
+		nuevo.setContrasena(dto.getContrasena());
 		int status = usuarioSer.create(nuevo);
 		if (status == 0) {
 			return new ResponseEntity<>("Usuario registrado con éxito", HttpStatus.CREATED);
@@ -62,12 +62,12 @@ public class PublicController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<Object> login(@RequestParam String usuario, @RequestParam String contrasena) {
+	public ResponseEntity<Object> login(@RequestBody UsuarioDTO dto) {
 		 try {
 		      Authentication authentication =
 		          authenticationManager.authenticate(
 		              new UsernamePasswordAuthenticationToken(
-		            		  usuario, contrasena));
+		            		  dto.getNombreUsuario(), dto.getContrasena()));
 
 		      UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		      String jwt = jwtUtil.generateToken(userDetails);

@@ -1,11 +1,11 @@
-<div class="area-gestion">
+<div class="area-gestion animate__animated animate__fadeIn animate__faster">
   <header class="cabecera-gestion">
     <div class="info-izq">
-      <h2 class="titulo-pagina">Gestión de Usuarios</h2>
-      <p class="subtitulo-pagina">Visualiza y gestiona las cuentas registradas en DetectIA</p>
+      <h2 class="titulo-pagina animate__animated animate__fadeInDown">Gestión de Usuarios</h2>
+      <p class="subtitulo-pagina animate__animated animate__fadeInDown" style="animation-delay: 0.1s;">Visualiza y gestiona las cuentas registradas en DetectIA</p>
     </div>
 
-    <div class="acciones-cabecera">
+    <div class="acciones-cabecera animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;">
       <button class="btn-secundario-admin" title="Actualizar lista desde la BD">
         <i class="fa-solid fa-arrows-rotate"></i>
       </button>
@@ -15,7 +15,7 @@
     </div>
   </header>
 
-  <div class="contenedor-tabla">
+  <div class="contenedor-tabla animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
     <table class="tabla-premium">
       <thead>
       <tr>
@@ -28,7 +28,9 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let user of listaUsuarios">
+      <tr *ngFor="let user of listaUsuarios; let i = index"
+          class="animate__animated animate__fadeIn"
+          [style.animation-delay]="(0.4 + (i * 0.05)) + 's'">
         <td>
           <div class="celda-usuario">
             <div class="avatar-tabla">{{ user.nombre.substring(0,2).toUpperCase() }}</div>
@@ -61,48 +63,27 @@
 
 <div class="superposicion-modal" *ngIf="mostrarModal">
   <div class="caja-modal animacion-aparecer">
-
     <div class="cabecera-modal">
       <h3>{{ modoModal === 'crear' ? 'Crear Nuevo Usuario' : 'Actualizar Usuario' }}</h3>
       <button class="btn-cerrar-modal" (click)="cerrarModal()"><i class="fa-solid fa-xmark"></i></button>
     </div>
-
     <div class="cuerpo-modal">
-      <div class="grupo-input">
-        <label>Nombre Completo</label>
-        <input type="text" placeholder="Ej: Juan Pérez">
-      </div>
-
-      <div class="grupo-input">
-        <label>Correo Electrónico</label>
-        <input type="email" placeholder="ejemplo@correo.com">
-      </div>
-
+      <div class="grupo-input"><label>Nombre Completo</label><input type="text" placeholder="Ej: Juan Pérez"></div>
+      <div class="grupo-input"><label>Correo Electrónico</label><input type="email" placeholder="ejemplo@correo.com"></div>
       <div class="fila-inputs">
         <div class="grupo-input">
           <label>Rol del Sistema</label>
-          <select>
-            <option value="Usuario">Usuario Regular</option>
-            <option value="Admin">Administrador</option>
-          </select>
+          <select><option value="Usuario">Usuario Regular</option><option value="Admin">Administrador</option></select>
         </div>
-
         <div class="grupo-input">
           <label>Estado de la cuenta</label>
-          <select>
-            <option value="true">Activa</option>
-            <option value="false">Inactiva (Bloqueada)</option>
-          </select>
+          <select><option value="true">Activa</option><option value="false">Inactiva (Bloqueada)</option></select>
         </div>
       </div>
     </div>
-
     <div class="pie-modal">
       <button class="btn-cancelar" (click)="cerrarModal()">Cancelar</button>
-      <button class="btn-guardar" (click)="simularGuardar()">
-        {{ modoModal === 'crear' ? 'Crear Usuario' : 'Guardar Cambios' }}
-      </button>
+      <button class="btn-guardar" (click)="simularGuardar()">{{ modoModal === 'crear' ? 'Crear Usuario' : 'Guardar Cambios' }}</button>
     </div>
-
   </div>
 </div>
