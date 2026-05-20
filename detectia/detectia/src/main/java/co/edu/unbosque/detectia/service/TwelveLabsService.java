@@ -22,6 +22,9 @@ public class TwelveLabsService {
 
 	@Value("${twelvelabs.api.url}")
 	private String apiUrl;
+	
+	@Value("${twelvelabs.index.id}")
+	private String indexId;
 
 	private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2)
 			.connectTimeout(Duration.ofSeconds(30)).build();
@@ -37,7 +40,7 @@ public class TwelveLabsService {
 		if (!listo) {
 			return new TwelveLabsDTO(0.0, "ERROR_PROCESAMIENTO");
 		}
-
+		
 		return analizarVideo(assetId);
 	}
 
@@ -62,6 +65,8 @@ public class TwelveLabsService {
 		JsonObject json = gson.fromJson(respuesta.body(), JsonObject.class);
 		return json.get("_id").getAsString();
 	}
+	
+	
 
 	private boolean esperarAsset(String assetId) throws Exception {
 		int intentos = 0;
@@ -93,33 +98,41 @@ public class TwelveLabsService {
 	}
 
 	private TwelveLabsDTO analizarVideo(String assetId) throws Exception {
-		JsonObject jsonBody = new JsonObject();
-		jsonBody.addProperty("video_id", assetId);
-		jsonBody.addProperty("prompt",
-				"Eres un sistema forense digital especializado en detectar contenido generado por IA. "
-						+ "Analiza este video y responde ÚNICAMENTE con un número entre 0 y 100 que represente "
-						+ "la probabilidad de que haya sido generado por IA o sea un deepfake, donde: "
-						+ "0 = completamente real y grabado por un humano, 100 = completamente generado por IA. "
-						+ "Para VIDEOS analiza: movimientos antinaturales, iluminación inconsistente, "
-						+ "bordes difusos alrededor de personas, sincronización labial incorrecta, "
-						+ "parpadeo antinatural, texturas de piel demasiado perfectas. "
-						+ "IMPORTANTE: Responde ÚNICAMENTE con el número. Sin explicaciones, solo el número.");
-		jsonBody.addProperty("stream", false);
+	    JsonObject video = new JsonObject();
+	    video.addProperty("type", "asset_id");
+	    video.addProperty("asset_id", assetId);
 
-		HttpRequest solicitud = HttpRequest.newBuilder().uri(URI.create(apiUrl + "/analyze"))
-				.header("Content-Type", "application/json").header("x-api-key", apiKey)
-				.POST(HttpRequest.BodyPublishers.ofString(jsonBody.toString())).build();
+	    JsonObject jsonBody = new JsonObject();
+	    jsonBody.add("video", video);
+	    jsonBody.addProperty("model_name", "pegasus1.5");
+	    jsonBody.addProperty("stream", false);
+	    jsonBody.addProperty("prompt",
+	            "Eres un sistema forense digital especializado en detectar contenido generado por IA. "
+	            + "Analiza este video y responde ÚNICAMENTE con un número entre 0 y 100 que represente "
+	            + "la probabilidad de que haya sido generado por IA o sea un deepfake, donde: "
+	            + "0 = completamente real y grabado por un humano, 100 = completamente generado por IA. "
+	            + "Para VIDEOS analiza: movimientos antinaturales, iluminación inconsistente, "
+	            + "bordes difusos alrededor de personas, sincronización labial incorrecta, "
+	            + "parpadeo antinatural, texturas de piel demasiado perfectas. "
+	            + "IMPORTANTE: Responde ÚNICAMENTE con el número. Sin explicaciones, solo el número.");
 
-		HttpResponse<String> respuesta = HTTP_CLIENT.send(solicitud, HttpResponse.BodyHandlers.ofString());
+	    HttpRequest solicitud = HttpRequest.newBuilder()
+	            .uri(URI.create(apiUrl + "/analyze"))
+	            .header("Content-Type", "application/json")
+	            .header("x-api-key", apiKey)
+	            .POST(HttpRequest.BodyPublishers.ofString(jsonBody.toString()))
+	            .build();
 
-		System.out.println("TwelveLabs analyze status: " + respuesta.statusCode());
-		System.out.println("TwelveLabs analyze body: " + respuesta.body());
+	    HttpResponse<String> respuesta = HTTP_CLIENT.send(solicitud, HttpResponse.BodyHandlers.ofString());
 
-		if (respuesta.statusCode() != 200) {
-			return new TwelveLabsDTO(0.0, "ERROR_ANALISIS");
-		}
+	    System.out.println("TwelveLabs analyze status: " + respuesta.statusCode());
+	    System.out.println("TwelveLabs analyze body: " + respuesta.body());
 
-		return procesarRespuesta(respuesta.body());
+	    if (respuesta.statusCode() != 200) {
+	        return new TwelveLabsDTO(0.0, "ERROR_ANALISIS");
+	    }
+
+	    return procesarRespuesta(respuesta.body());
 	}
 
 	private TwelveLabsDTO procesarRespuesta(String body) {

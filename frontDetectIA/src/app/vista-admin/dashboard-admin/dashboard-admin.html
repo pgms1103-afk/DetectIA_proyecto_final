@@ -1,4 +1,4 @@
-<div class="contenedor-dashboard">
+<div class="contenedor-dashboard animate__animated animate__fadeIn animate__faster">
 
   <header class="cabecera-dashboard">
     <div class="saludo">
@@ -13,7 +13,10 @@
   </header>
 
   <div class="rejilla-metricas">
-    <div *ngFor="let m of metricas" class="tarjeta-metrica" [class]="m.color">
+    <div *ngFor="let m of metricas; let i = index"
+         class="tarjeta-metrica animate__animated animate__fadeInUp"
+         [style.animation-delay]="(i * 0.08) + 's'"
+         [class]="m.color">
       <div class="cuerpo-tarjeta">
         <div class="icono-box">
           <i class="fa-solid {{ m.icono }}"></i>
@@ -31,13 +34,15 @@
 
   <div class="seccion-inferior">
 
-    <div class="panel-actividad">
+    <div class="panel-actividad animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
       <div class="cabecera-sub">
         <h3>Actividad del Sistema</h3>
         <i class="fa-solid fa-ellipsis-vertical"></i>
       </div>
       <div class="lista-eventos">
-        <div *ngFor="let item of actividadReciente" class="evento-fila">
+        <div *ngFor="let item of actividadReciente; let i = index"
+             class="evento-fila animate__animated animate__fadeInRight"
+             [style.animation-delay]="(0.4 + (i * 0.1)) + 's'">
           <div class="punto-evento" [class]="item.tipo"></div>
           <div class="info-evento">
             <span class="nombre-evento">{{ item.evento }}</span>
@@ -48,7 +53,7 @@
       </div>
     </div>
 
-    <div class="panel-modelos">
+    <div class="panel-modelos animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
       <div class="cabecera-sub">
         <h3>Modelos de Detección</h3>
       </div>
@@ -65,7 +70,22 @@
         <div class="barra-base"><div class="barra-progreso" style="width: 82%;"></div></div>
       </div>
     </div>
+  </div>
 
+  <div class="contenedor-graficas animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
+    <div class="tarjeta-grafica">
+      <h3>Tráfico de Análisis (Últimos 7 días)</h3>
+      <div class="canvas-container">
+        <canvas id="traficoChart"></canvas>
+      </div>
+    </div>
+
+    <div class="tarjeta-grafica">
+      <h3>Detecciones Globales</h3>
+      <div class="canvas-container">
+        <canvas id="estadoModelosChart"></canvas>
+      </div>
+    </div>
   </div>
 
 </div>

@@ -48,7 +48,7 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> // Se autorizan las sigueientes solicitudes
-		auth.requestMatchers("/public/**", "/private/archivo/**") // Si la URL coiiuncide con eso, se le permite a todos.
+		auth.requestMatchers("/public/**") // Si la URL coiiuncide con eso, se le permite a todos.
 				.permitAll().requestMatchers("/swagger-ui/**", "/v3/api-docs/**")// Si la URL coiiuncide con eso, se le permite a todos.
 				.permitAll().requestMatchers("/private/archivo/**", "/private/resultadoporia/**", 
 						"/private/user/**")// Si la// URL coiiuncide con eso.

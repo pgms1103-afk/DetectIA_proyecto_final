@@ -33,3 +33,4 @@ replay_pid*
 .classpath
 .settings/
 bin/
+detectia/detectia/src/main/resources/application.properties

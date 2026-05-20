@@ -3,27 +3,46 @@ NO SE PODRAN SUBIR AUDIOS DE VOZ, SOLO MUSICA.
 MULTIMODAL:
 Gemini: 
 buena para texto, imágenes locales, audios, musica (falta probar PDF con imágenes) (no se hará ni con audios ni con musica)
+
 Mistral: medio para texto y mala para imágenes (falta probar PDF con imágenes, probablemente no sirva, mejor solo texto).
+
 Winston: buena con texto e imágenes. (falta probar PDF con imágenes y ver pq swus resultados dan negativos).
 
+Hive Moderation: Detecta muy bien videos reales, hechos por IA y hechos por IA no tan obvios. 
+Buenísima para imágenes también.
+Malisima para musica. 
 
-TEXTO:
-Grok: buena para texto
-Hugging: maaaaliiiiisima pero mala mala para texto
-
+Grok: Buena para textos y regular pasando a buena en imágenes.
+---------------------------------------------------------------------------------------------------------------------
 IMAGENES:
 Sightengine: buenísima para imágenes locales y url (falta probar videos)
 
+---------------------------------------------------------------------------------------------------------------------
 
 VIDEOS:
-TwulveLabs: nose no he probao
-hiveVideos: nose no he probao
+TwulveLabs: Detecta bien los videos reales y los que se nota demasiado que son IA, pero nada bien los que son IA no tan obvios. (Se deja pq no hay mucho mas).
+
+---------------------------------------------------------------------------------------------------------------------
+
 
 AUDIOS:
-ACRCloude: Regular para audios buenísima para musica (le gano detectando musica hecha por IA a Gemini). (no se hará con audios)
+ACRCloude: Buenísima para musica (le gano detectando musica hecha por IA a Gemini). (no se hará con audios)
+
+
 
 PENDIENDTES:
 Falta hacer el promedio (analizis) de todas las IAs
-Falta ver las de video
+
+
+PRUEBAS FRONT:
+TEXTO-------------------------
+DOXC: Correcto.
+TXT: Correcto.
+PDF: Correcto.
+IMAGENES---------------------
+JPEG: Correcto.
+JPG: Correcto.
+MUSICA---------------------
+MP3: Correcto, tanto IA como Real.
 
 

@@ -100,12 +100,12 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO>, UserDetailsSer
 
 	
 	
-	public UsuarioDTO getLoginUser(String correo) {
-		Optional<Usuario> entity = usuarioRepo.findByCorreo(correo);
+	public UsuarioDTO getLoginUser(String nombre) {
+		Optional<Usuario> entity = usuarioRepo.findByNombreUsuario(nombre);
 				if(entity.isEmpty()) {
 					throw new UsernameNotFoundException("Usuario no encontrado");
 				}
-	    return mapper.map(entity, UsuarioDTO.class);
+	    return mapper.map(entity.get(), UsuarioDTO.class);
 	}
 	
 	public int updateLoginPassword(String correo, String nuevaContrasena) {

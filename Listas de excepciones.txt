@@ -1,0 +1,5 @@
+1.Excepciones para los usuarios
+2.Videos, no mas de 200mp y 1min de duración
+3.Cuando las apis no tiren 200 no se cuenten para el porcentaje de analizis
+4.Lea la documentacion de cada API y vea que extensiones reciben y póngalo
+5.Limites de las apis
