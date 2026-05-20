@@ -48,7 +48,7 @@ export class Login {
       icon: 'fa-chart-pie',
       tag: 'COMPARACIÓN',
       title: "Comparacion entre IA'S",
-      desc: 'Comparacion entre diferentes Inteligencias Aritificiales para visualizar cual fue el porsentaje de detección.',
+      desc: 'Comparacion entre diferentes Inteligencias Aritificiales para visualizar cual fue el porcentaje de detección.',
       highlight: '8 inteligencias diferentes',
       highlightIcon: 'fa-layer-group',
       color: '#10b981',
