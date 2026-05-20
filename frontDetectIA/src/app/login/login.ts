@@ -2,21 +2,37 @@ import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {Router} from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { HttpClient } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class Login {
-
   modo: string = 'login';
   showLoginPass: boolean = false;
   showSignupPass: boolean = false;
   currentSlide = 0;
 
+  mensajeError = '';
+  mensajeExito = '';
+
+  registroNombreUsuario: string = '';
+  registroContrasena: string = '';
+  registroCorreo: string = '';
+
+  loginNombreUsuario: string = '';
+  loginContrasena: string = '';
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   slides = [
     {
@@ -57,11 +73,10 @@ export class Login {
     },
   ];
 
-  constructor(private router: Router) {
-  }
-
   cambiarModo(m: string) {
     this.modo = m;
+    this.mensajeError = '';
+    this.mensajeExito = '';
   }
 
   irAlSistema() {
@@ -78,5 +93,60 @@ export class Login {
 
   goToSlide(i: number) {
     this.currentSlide = i;
+  }
+
+  private static extraerError(err: unknown): string {
+    const errorObj = err as { error?: string | { message?: string } };
+    if (errorObj?.error) {
+      if (typeof errorObj.error === 'string') return errorObj.error;
+      if (errorObj.error.message) return errorObj.error.message;
+    }
+    return 'Ocurrió un error en el servidor.';
+  }
+
+  login(){
+    this.mensajeError = '';
+    this.mensajeExito = '';
+
+    if(!this.loginNombreUsuario || !this.loginContrasena){
+      this.mensajeError = 'Debe ingresar usuario y contraseña'
+      return;
+    }
+    this.authService.iniciarSesion(this.loginNombreUsuario, this.loginContrasena).subscribe({
+      next: (res) => {
+        if(res.role === 'ADMIN')  {
+          this.router.navigate(['/admin']);
+        }else{
+          this.router.navigate(['/usuario']);
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        this.mensajeError =  Login.extraerError(err);
+      }
+    })
+  }
+
+  registrar(){
+    this.mensajeError = '';
+    this.mensajeExito = '';
+
+    if(!this.registroNombreUsuario || !this.registroContrasena || !this.registroContrasena){
+      this.mensajeError = 'Debe completar todos los campos.';
+      return;
+    }
+    this.authService.registrarUsuario(this.registroNombreUsuario,
+      this.registroCorreo,
+      this.registroContrasena).subscribe({
+      next: () => {
+        this.mensajeExito = 'Registrado correctamente, puede ingresar.';
+        this.registroNombreUsuario = '';
+        this.registroCorreo = '';
+        this.registroContrasena = '';
+        setTimeout(() => {this.cambiarModo('login');}, 2000);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.mensajeError =  Login.extraerError(err);
+      }
+    })
   }
 }
