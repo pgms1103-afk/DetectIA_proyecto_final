@@ -11,7 +11,7 @@ declare var Chart: any;
   styleUrl: './dashboard-admin.css'
 })
 export class DashboardAdmin implements AfterViewInit {
-  
+
   metricas = [
     { titulo: 'Usuarios Totales', valor: '1,284', icono: 'fa-users', color: 'naranja' },
     { titulo: 'Análisis Realizados', valor: '45,602', icono: 'fa-magnifying-glass-chart', color: 'purpura' },
