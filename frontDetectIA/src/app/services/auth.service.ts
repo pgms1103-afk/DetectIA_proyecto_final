@@ -3,7 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-
+export interface AuthResponse {
+  token: string;
+  role: string;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -13,10 +16,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  iniciarSesion(usuario: string, contrasena: string): Observable<any> {
-    const body = { username: usuario, password: contrasena };
+  iniciarSesion(usuario: string, contrasena: string): Observable<AuthResponse> {
+    const body = { nombreUsuario: usuario, contrasena: contrasena };
 
-    return this.http.post<any>(`${this.urlServidor}/login`, body).pipe(
+    return this.http.post<AuthResponse>(`${this.urlServidor}/login`, body).pipe(
       tap(respuesta => {
         if (respuesta && respuesta.token) {
           this.guardarToken(respuesta.token);
@@ -29,8 +32,8 @@ export class AuthService {
     );
   }
 
-  registrarUsuario(nombreUsuario: string, contrasena: string): Observable<any> {
-    const body = { username: nombreUsuario, password: contrasena };
+  registrarUsuario(nombreUsuario: string, correo: string, contrasena: string): Observable<any> {
+    const body = { nombreUsuario: nombreUsuario, correo: correo, contrasena: contrasena };
 
     return this.http.post(`${this.urlServidor}/registrarusuario`, body, {
       responseType: 'text'

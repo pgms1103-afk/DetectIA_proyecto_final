@@ -74,7 +74,7 @@ public class EleccionService {
 	private Map<String, Double> analizarTexto(MultipartFile archivo) throws Exception {
 		String texto = extractor.extraerTexto(archivo);
 		Map<String, Double> resultadosIA = new HashMap<>();
-		/*SIRVE*/resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
+		/*SIRVE*///resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
 		/*SIRVE*///resultadosIA.put("Gemini", gemini.detectarIA(archivo.getBytes(), archivo.getContentType()).getPorcentajeIA());
 		/*SIRVE*///resultadosIA.put("Mistral",mistral.detectarIA(texto, archivo.getBytes(), archivo.getContentType()).getFakePercentage());
 		/*SIRVE*///resultadosIA.put("Winston", winston.detectarIA(texto).getScore());
@@ -105,7 +105,7 @@ public class EleccionService {
 		/*SIRVE*///resultadosIA.put("Sightengine", sightengine.detectarIA(bytes, mimeType).getAi_generated());
 		/*SIRVE*///resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
 		/*SIRVE*///resultadosIA.put("Hive Moderation", hiveModeration.detectarIA(bytes, mimeType).getAi_generated())
-		resultadosIA.put("Groq", grok.detectarIAImagen(bytes, mimeType).getPorcentajeIA());
+		/*SIRVE MEH PASANDO A BIEN*///resultadosIA.put("Groq", grok.detectarIAImagen(bytes, mimeType).getPorcentajeIA());
 		return resultadosIA;
 	}
 
@@ -114,7 +114,7 @@ public class EleccionService {
 		/*SIRVE*///resultadosIA.put("Winston", winston.detectarIAImagen(url).getScore());
 		/*SIRVE*///resultadosIA.put("Sightengine", sightengine.detectarIAUrl(url).getAi_generated());
 		/*SIRVE*///resultadosIA.put("Gemini", gemini.detectarIAPorUrl(url).getPorcentajeIA());
-		resultadosIA.put("Groq", grok.detectarIAImagenUrl(url).getPorcentajeIA());
+		/*SIRVE MEH PASANDO A BIEN*///resultadosIA.put("Groq", grok.detectarIAImagenUrl(url).getPorcentajeIA());
 		
 		return resultadosIA;
 	}
