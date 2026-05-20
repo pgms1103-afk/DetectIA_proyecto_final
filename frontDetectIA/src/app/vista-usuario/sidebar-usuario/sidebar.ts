@@ -11,6 +11,18 @@ import { CommonModule } from '@angular/common';
 export class Sidebar {
   @Output() herramientaSeleccionada = new EventEmitter<string>();
 
+  showProfileMenu: boolean = false;
+  user = {
+    name: 'Jose Manuel',
+    email: 'jose.manuel@elbosque.edu.co',
+    time: '14h 20m',
+    files: 28
+  };
+
+  toggleProfileMenu() {
+    this.showProfileMenu = !this.showProfileMenu;
+  }
+
   isCollapsed = false;
   mobileOpen = false;
   herramientaActual = 'texto';
