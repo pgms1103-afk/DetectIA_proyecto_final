@@ -15,6 +15,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import co.edu.unbosque.detectia.dto.GrokDTO;
+import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
+import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 
 @Service
 public class GrokService {
@@ -67,6 +69,17 @@ public class GrokService {
      * Análisis avanzado de Imágenes (Multimodal)
      */
     public GrokDTO detectarIAImagen(byte[] archivoBytes, String contentType) throws Exception {
+    	
+    	if(!contentType.equals("image/gif") && !contentType.equals("image/jpeg") &&
+    	   !contentType.equals("image/png") && !contentType.equals("image/webp")) {
+    		throw new ExtensionInvalidaException("Groq no permite este tipo de imagen "+contentType+" Formatos acepetados:JPEG,PNG,GIF,WEPB");
+    	}
+    	
+    	if(archivoBytes.length > 20L*1024*1024) {
+    		double mp = archivoBytes.length/ (1024*1024);
+    		throw new TamanoInvalidoException(String.format("Groq el archivo(%.1f MB) supera el limite permitibo de MB", mp));
+    	}
+    	
         String base64Imagen = Base64.getEncoder().encodeToString(archivoBytes);
         String dataUrl = "data:" + contentType + ";base64," + base64Imagen;
 

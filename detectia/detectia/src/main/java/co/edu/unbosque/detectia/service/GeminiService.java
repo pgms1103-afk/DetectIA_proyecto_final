@@ -16,6 +16,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import co.edu.unbosque.detectia.dto.GeminiDTO;
+import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 
 @Service
 public class GeminiService {
@@ -37,6 +38,21 @@ public class GeminiService {
 	 * @return GeminiDTO con el porcentaje y veredicto
 	 */
 	public GeminiDTO detectarIA(byte[] archivoBytes, String mimeType) throws Exception {
+
+		if (!mimeType.equals("image/gif") && !mimeType.equals("image/jpeg") &&
+			!mimeType.equals("image/png") && !mimeType.equals("image/webp") &&
+			!mimeType.equals("image/heic") && !mimeType.equals("image/heif") && 
+			!mimeType.equals("aplication/pdf") && !mimeType.equals("text/plain") &&
+			!mimeType.equals("video/mp4") && !mimeType.equals("video/mov") &&
+			!mimeType.equals("video/avi") && !mimeType.equals("video/mkv") &&
+			!mimeType.equals("video/webm") && !mimeType.equals("video/3gpp") &&
+			!mimeType.equals("video/quicktime")) {
+			throw new ExtensionInvalidaException(
+					"Gemini no permite este tipo de formato " + mimeType + " Formatos acepetados:JPEG,PNG,GIF,WEPB,HEIF,HEIC,PDF,texto,");
+		}
+		
+		
+		
 
 		// 1. Convertir archivo a Base64 para el envío inline_data
 		String base64Data = Base64.getEncoder().encodeToString(archivoBytes);
@@ -68,7 +84,7 @@ public class GeminiService {
 						"Para AUDIO analiza: "
 						+ "entonación monótona o demasiado perfecta, ausencia de respiración natural, "
 						+ "pausas artificiales, pronunciación perfecta sin variaciones naturales. " +
-					    
+
 						"IMPORTANTE: Responde ÚNICAMENTE con un número entre 0 y 100. "
 						+ "Sin explicaciones, sin texto adicional, solo el número.");
 		siParts.add(siTextPart);
