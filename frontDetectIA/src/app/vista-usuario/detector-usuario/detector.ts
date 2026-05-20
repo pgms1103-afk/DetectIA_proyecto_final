@@ -1,9 +1,23 @@
-import { Component, inject, Input, OnInit, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnInit,
+  AfterViewInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArchivoService } from '../../services/archivo.service';
 import { FormsModule } from '@angular/forms';
 
 declare var Chart: any;
+
+interface ModeloIA {
+  nombre: string;
+  icono: string;
+  color: string;
+}
 
 @Component({
   selector: 'app-detector',
@@ -12,7 +26,7 @@ declare var Chart: any;
   templateUrl: './detector.html',
   styleUrl: './detector.css',
 })
-export class Detector implements OnInit, AfterViewInit {
+export class Detector implements OnInit, AfterViewInit, OnChanges {
   private archivoService: ArchivoService = inject(ArchivoService);
   public nombre: string = '';
   public archivo: File | null = null;
@@ -21,18 +35,59 @@ export class Detector implements OnInit, AfterViewInit {
   @Input() tipoHerramienta: string = 'texto';
 
   activeTab: 'text' | 'file' = 'text';
-
   chartMedidor: any;
+
+  private mapaModelos: Record<string, ModeloIA[]> = {
+    texto: [
+      { nombre: 'Grok',    icono: 'fa-bolt',          color: '#f59e0b' },
+      { nombre: 'Gemini',  icono: 'fa-google',        color: '#3b82f6' },
+      { nombre: 'Mistral', icono: 'fa-wind',          color: '#a78bfa' },
+      { nombre: 'Winston', icono: 'fa-shield-halved', color: '#10b981' },
+    ],
+    imagen: [
+      { nombre: 'Sightengine',     icono: 'fa-eye',           color: '#f59e0b' },
+      { nombre: 'Gemini',          icono: 'fa-google',        color: '#3b82f6' },
+      { nombre: 'Hive Moderation', icono: 'fa-shield-halved', color: '#10b981' },
+      { nombre: 'Grok',            icono: 'fa-bolt',          color: '#a78bfa' },
+    ],
+    video: [
+      { nombre: 'TwelveLabs',      icono: 'fa-film',          color: '#f59e0b' },
+      { nombre: 'Hive Moderation', icono: 'fa-shield-halved', color: '#10b981' },
+    ],
+    audio: [
+      { nombre: 'ACRCloud', icono: 'fa-music', color: '#f59e0b' },
+    ],
+    musica: [
+      { nombre: 'ACRCloud', icono: 'fa-music', color: '#f59e0b' },
+    ],
+  };
+
+  modelosActuales: ModeloIA[] = [];
+
+
+  ngOnInit(): void {
+    this.actualizarModelos();
+  }
+
+  ngAfterViewInit(): void {
+    this.inicializarGraficaVacia();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['tipoHerramienta']) {
+      this.actualizarModelos();
+    }
+  }
+
+  private actualizarModelos(): void {
+    const clave = this.tipoHerramienta?.toLowerCase() ?? 'texto';
+    this.modelosActuales = this.mapaModelos[clave] ?? this.mapaModelos['texto'];
+  }
 
   switchTab(tab: 'text' | 'file') {
     this.activeTab = tab;
   }
 
-  ngOnInit(): void {}
-
-  ngAfterViewInit() {
-    this.inicializarGraficaVacia();
-  }
 
   inicializarGraficaVacia() {
     const ctx = document.getElementById('iaProbabilityChart');

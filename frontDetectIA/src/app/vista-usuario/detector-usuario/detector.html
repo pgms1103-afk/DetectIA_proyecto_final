@@ -73,9 +73,7 @@
     <div class="tarjeta-medidor">
       <span class="etiqueta-medidor">Probabilidad de IA</span>
       <div class="contenedor-medidor">
-
         <canvas id="iaProbabilityChart"></canvas>
-
         <div class="centro-medidor">
           <div class="valor-medidor">—</div>
           <div class="unidad-medidor">% IA</div>
@@ -87,32 +85,56 @@
       </div>
     </div>
 
-    <div class="tarjeta-desglose">
-      <span class="titulo-desglose">Desglose</span>
-      <div class="estado-vacio">
-        <i class="fa-solid fa-chart-pie icono-vacio"></i>
-        <span class="titulo-vacio">Sin análisis</span>
-        <span class="sub-vacio">Ingresa un texto y pulsa "Analizar" para ver los resultados</span>
+    <div class="tarjeta-metricas">
+
+      <div class="cabecera-modelos">
+        <span class="titulo-modelos">Modelos de detección</span>
+        <span class="badge-herramienta">
+          <i class="fa-solid"
+             [class.fa-font]="tipoHerramienta === 'texto'"
+             [class.fa-image]="tipoHerramienta === 'imagen'"
+             [class.fa-film]="tipoHerramienta === 'video'"
+             [class.fa-music]="tipoHerramienta === 'audio' || tipoHerramienta === 'musica'">
+          </i>
+          {{ tipoHerramienta | titlecase }}
+        </span>
       </div>
+
+      <div class="lista-modelos animate__animated animate__fadeIn">
+        <div class="fila-metrica"
+             *ngFor="let modelo of modelosActuales; let i = index"
+             [style.animation-delay]="(i * 0.06) + 's'"
+             [style.animation-name]="'fadeInRight'"
+             class="fila-metrica animate__animated animate__fadeInRight">
+
+
+          <span class="nombre-metrica">
+            <span class="icono-modelo" [style.color]="modelo.color">
+              <i class="fa-solid {{ modelo.icono }}"></i>
+            </span>
+            {{ modelo.nombre }}
+          </span>
+
+
+          <span class="valor-metrica">—</span>
+        </div>
+      </div>
+
     </div>
 
-    <div class="tarjeta-metricas">
-      <div class="fila-metrica">
-        <span class="nombre-metrica"><i class="fa-brands fa-google"></i> Gemini</span>
-        <span class="valor-metrica">—</span>
-      </div>
-      <div class="fila-metrica">
-        <span class="nombre-metrica"><i class="fa-brands fa-openai"></i> ChatGPT</span>
-        <span class="valor-metrica">—</span>
-      </div>
-    </div>
   </div>
 </div>
 
 <div class="franja-historial">
   <span class="etiqueta-historial">Recientes</span>
   <div class="elementos-historial">
-    <div class="chip-historial"><span>Ensayo académico...</span><span class="puntuacion-chip alto">87%</span></div>
-    <div class="chip-historial"><span>Artículo de blog...</span><span class="puntuacion-chip medio">43%</span></div>
+    <div class="chip-historial">
+      <span>Ensayo académico...</span>
+      <span class="puntuacion-chip alto">87%</span>
+    </div>
+    <div class="chip-historial">
+      <span>Artículo de blog...</span>
+      <span class="puntuacion-chip medio">43%</span>
+    </div>
   </div>
 </div>
