@@ -35,14 +35,14 @@ public class AdminController {
 
 	@PostMapping("/crearusuario")
 	public ResponseEntity<String> crearUsuario(@RequestBody UsuarioDTO dto) {
-		
-		UsuarioDTO nuevo = new UsuarioDTO ();
-		nuevo.setNombreUsuario(dto.getNombreUsuario());
-		nuevo.setCorreo(dto.getCorreo());
-		nuevo.setContrasena(dto.getContrasena());
-		nuevo.setRole(dto.getRole());
-		int status = usuarioSer.create(nuevo);
-		if (status == 0) {
+
+		try {
+			UsuarioDTO nuevo = new UsuarioDTO();
+			nuevo.setNombreUsuario(dto.getNombreUsuario());
+			nuevo.setCorreo(dto.getCorreo());
+			nuevo.setContrasena(dto.getContrasena());
+			usuarioSer.create(nuevo);
+
 			return new ResponseEntity<>("Usuario creado con éxito", HttpStatus.CREATED);
 		} catch (NombreInvalidoException | PasswordNotValidException | CorreoInvalidoException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
