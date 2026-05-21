@@ -1,7 +1,7 @@
 import { Role } from './role.enum';
 
 export interface UsuarioModel{
-  id: number;
+  id?: number;
   nombreUsuario: string;
   correo: string;
   contrasena?: string;
