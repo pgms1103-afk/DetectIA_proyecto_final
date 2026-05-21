@@ -1,6 +1,5 @@
 package co.edu.unbosque.detectia.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.unbosque.detectia.dto.UsuarioDTO;
+import co.edu.unbosque.detectia.exception.IdExistException;
+import co.edu.unbosque.detectia.exception.PasswordNotValidException;
 import co.edu.unbosque.detectia.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
@@ -22,32 +23,31 @@ import org.springframework.web.bind.annotation.PutMapping;
 @CrossOrigin(origins = { "http://localhost:8080", "*" })
 @SecurityRequirement(name = "bearerAuth")
 public class UserController {
-	
-	 @Autowired
-	 private UsuarioService usuarioSer;
-	 
-	 
-	 @GetMapping("/misdatos")
-	 public ResponseEntity<UsuarioDTO> datosUsuario(Authentication authentication) {
-		 String correoLogueado = authentication.getName();
-		    
-		    UsuarioDTO dto = usuarioSer.getLoginUser(correoLogueado);
-		    return ResponseEntity.ok(dto);
-	 }
 
-	 @PutMapping("/actualizarcontraseña")
-	 public ResponseEntity<String> actualizarContrasenia(Authentication authentication, @RequestParam String contrasena) {
-	     String correoLogueado = authentication.getName();
-	     
-	     int resultado = usuarioSer.updateLoginPassword(correoLogueado, contrasena);
-	     
-	     if (resultado == 0) {
-				return new ResponseEntity<>("Contraseña actulizada correctamente", HttpStatus.ACCEPTED);
-			} else {
-				return new ResponseEntity<>("Contraseña no existe", HttpStatus.NO_CONTENT);
+	@Autowired
+	private UsuarioService usuarioSer;
 
-			}
-	 }
-	 
+	@GetMapping("/misdatos")
+	public ResponseEntity<UsuarioDTO> datosUsuario(Authentication authentication) {
+		String correoLogueado = authentication.getName();
+
+		UsuarioDTO dto = usuarioSer.getLoginUser(correoLogueado);
+		return ResponseEntity.ok(dto);
+	}
+
+	@PutMapping("/actualizarcontraseña")
+	public ResponseEntity<String> actualizarContrasenia(Authentication authentication,
+			@RequestParam String contrasena) {
+		try {
+			String correoLogueado = authentication.getName();
+			usuarioSer.updateLoginPassword(correoLogueado, contrasena);
+			return new ResponseEntity<>("Contraseña actulizada correctamente", HttpStatus.ACCEPTED);
+		} catch (PasswordNotValidException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+
+		} catch (IdExistException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+		}
+	}
 
 }

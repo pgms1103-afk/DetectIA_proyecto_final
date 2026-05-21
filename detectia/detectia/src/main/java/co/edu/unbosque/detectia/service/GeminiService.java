@@ -6,7 +6,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Base64;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,7 @@ import com.google.gson.JsonObject;
 
 import co.edu.unbosque.detectia.dto.GeminiDTO;
 import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
+import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 
 @Service
 public class GeminiService {
@@ -39,20 +39,27 @@ public class GeminiService {
 	 */
 	public GeminiDTO detectarIA(byte[] archivoBytes, String mimeType) throws Exception {
 
-		if (!mimeType.equals("image/gif") && !mimeType.equals("image/jpeg") &&
-			!mimeType.equals("image/png") && !mimeType.equals("image/webp") &&
-			!mimeType.equals("image/heic") && !mimeType.equals("image/heif") && 
-			!mimeType.equals("aplication/pdf") && !mimeType.equals("text/plain") &&
-			!mimeType.equals("video/mp4") && !mimeType.equals("video/mov") &&
-			!mimeType.equals("video/avi") && !mimeType.equals("video/mkv") &&
-			!mimeType.equals("video/webm") && !mimeType.equals("video/3gpp") &&
-			!mimeType.equals("video/quicktime")) {
-			throw new ExtensionInvalidaException(
-					"Gemini no permite este tipo de formato " + mimeType + " Formatos acepetados:JPEG,PNG,GIF,WEPB,HEIF,HEIC,PDF,texto,");
+		if (!mimeType.equals("image/gif") && !mimeType.equals("image/jpeg") && !mimeType.equals("image/png")
+				&& !mimeType.equals("image/webp") && !mimeType.equals("image/heic") && !mimeType.equals("image/heif")
+				&& !mimeType.equals("aplication/pdf") && !mimeType.equals("text/plain") && !mimeType.equals("video/mp4")
+				&& !mimeType.equals("video/mov") && !mimeType.equals("video/avi") && !mimeType.equals("video/mkv")
+				&& !mimeType.equals("video/webm") && !mimeType.equals("video/3gpp")
+				&& !mimeType.equals("video/quicktime")) {
+			throw new ExtensionInvalidaException("Gemini no permite este tipo de formato " + mimeType
+					+ " Formatos acepetados:JPEG,PNG,GIF,WEPB,HEIF,HEIC,PDF,texto,MP4,MOV,AVI,MKV,WEBM");
 		}
-		
-		
-		
+
+		if (archivoBytes.length > 2048L * 1024 * 1024) {
+			double mb = archivoBytes.length / (1024 * 1024);
+			throw new TamanoInvalidoException(
+					String.format("Gemini: el video(%.1f MB) supera el limite permitibo de MB", mb));
+		}
+
+		if (archivoBytes.length > 100L * 1024 * 1024) {
+			double mb = archivoBytes.length / (1024 * 1024);
+			throw new TamanoInvalidoException(
+					String.format("Gemini: el archivo(%.1f MB) supera el limite permitibo de MB", mb));
+		}
 
 		// 1. Convertir archivo a Base64 para el envío inline_data
 		String base64Data = Base64.getEncoder().encodeToString(archivoBytes);
@@ -84,6 +91,16 @@ public class GeminiService {
 						"Para AUDIO analiza: "
 						+ "entonación monótona o demasiado perfecta, ausencia de respiración natural, "
 						+ "pausas artificiales, pronunciación perfecta sin variaciones naturales. " +
+
+						"Para VIDEOS analiza: "
+						+ "movimientos faciales poco naturales, parpadeo irregular o inexistente, "
+						+ "desincronización entre labios y voz, cambios extraños entre frames, "
+						+ "manos o dedos deformes en movimiento, iluminación inconsistente entre escenas, "
+						+ "bordes inestables alrededor de personas u objetos, "
+						+ "expresiones faciales rígidas o demasiado suaves, "
+						+ "transiciones artificiales, físicas imposibles o animaciones poco naturales, "
+						+ "artefactos visuales temporales, deformaciones repentinas y pérdida de consistencia entre cuadros. "
+						+
 
 						"IMPORTANTE: Responde ÚNICAMENTE con un número entre 0 y 100. "
 						+ "Sin explicaciones, sin texto adicional, solo el número.");

@@ -16,6 +16,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import co.edu.unbosque.detectia.dto.HiveModerationDTO;
+import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 
 @Service
 public class HiveModerationService {
@@ -33,6 +34,17 @@ public class HiveModerationService {
 
     // Por archivo local
     public HiveModerationDTO detectarIA(byte[] archivo, String contentType) throws Exception {
+    	
+    	if (!contentType.equals("image/gif") && !contentType.equals("image/jpeg") && 
+    		!contentType.equals("image/png") && !contentType.equals("image/webp") && 
+    		!contentType.equals("image/bmp") && !contentType.equals("video/mp4") && 
+			!contentType.equals("video/mov") && !contentType.equals("video/avi") && 
+			!contentType.equals("video/mkv") && !contentType.equals("video/webm") && 
+			!contentType.equals("video/quicktime") && !contentType.equals("video/x-msvideo")) {
+			throw new ExtensionInvalidaException("Hive Ai no permite este tipo de formato " + contentType
+					+ " Formatos acepetados:JPEG,PNG,GIF,WEPB,BMP,MP4,MOV,AVI,MKV,WEBM");
+		}
+    	
         String boundary = "---------------------------" + System.currentTimeMillis();
         byte[] body = createMultipartBody(boundary, archivo, "media", contentType);
 

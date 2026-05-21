@@ -33,6 +33,15 @@ public class WinstonService {
 	
 	public WinstonDTO detectarIA (String texto) throws IOException, InterruptedException {
 		
+		if(texto == null || texto.isBlank()) {
+			throw new IllegalArgumentException("Winston Ai: el texto no puede estar vacio");
+		}
+		
+		if(texto.length() < 500) {
+			throw new IllegalArgumentException("Se requieren mínimo " + 500 + " caracteres para un análisis válido");
+		}
+		
+		
 		JsonObject body = new JsonObject();
 		body.addProperty("text", texto);
 		

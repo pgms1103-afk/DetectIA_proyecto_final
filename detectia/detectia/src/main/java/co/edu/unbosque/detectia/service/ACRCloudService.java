@@ -16,6 +16,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import co.edu.unbosque.detectia.dto.ACRCloudeDTO;
+import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 
 
 @Service
@@ -40,6 +41,22 @@ public class ACRCloudService {
     // ─── ENDPOINT 1: archivo ───────────────────────────────────────────────────
 
     public ACRCloudeDTO detectarIAArchivo(MultipartFile archivo) throws IOException, InterruptedException {
+    	
+    	String mimeType = archivo.getContentType();
+    	
+    	if (!"audio/mpeg".equals(mimeType) && 
+    		!"audio/mp3".equals(mimeType) &&
+    		!"audio/wav".equals(mimeType) &&
+    		!"audio/ogg".equals(mimeType) &&
+    		!"audio/flac".equals(mimeType) &&
+    		!"audio/aac".equals(mimeType) &&
+    		!"audio/m4a".equals(mimeType) &&
+    		!"audio/amr".equals(mimeType) &&
+    		!"audio/x-wav".equals(mimeType) &&
+    		!"audio/x-flac".equals(mimeType)) {
+			throw new ExtensionInvalidaException("ACRCloud no permite este tipo de formato " + mimeType
+					+ " Formatos acepetados:MPEG,MP3,WAV,AAC,M4A,AMR");
+		}
 
         // Construir multipart/form-data manualmente
         String boundary = "----Boundary" + System.currentTimeMillis();

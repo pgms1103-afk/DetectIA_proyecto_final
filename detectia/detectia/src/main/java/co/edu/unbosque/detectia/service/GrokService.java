@@ -76,8 +76,8 @@ public class GrokService {
     	}
     	
     	if(archivoBytes.length > 20L*1024*1024) {
-    		double mp = archivoBytes.length/ (1024*1024);
-    		throw new TamanoInvalidoException(String.format("Groq el archivo(%.1f MB) supera el limite permitibo de MB", mp));
+    		double mb = archivoBytes.length/ (1024*1024);
+    		throw new TamanoInvalidoException(String.format("Groq el archivo(%.1f MB) supera el limite permitibo de MB", mb));
     	}
     	
         String base64Imagen = Base64.getEncoder().encodeToString(archivoBytes);
