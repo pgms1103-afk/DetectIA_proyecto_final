@@ -2,18 +2,27 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuarioModel } from '../../models/usuario.model';
 import { UsuarioService } from '../../services/usuario.service';
+import { Role } from '../../models/role.enum';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-gestion-usuarios',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './gestion-usuarios.html',
   styleUrl: './gestion-usuarios.css',
 })
 export class GestionUsuarios implements OnInit {
+  public usuarios: UsuarioModel[] = [];
+  private usuarioService: UsuarioService = inject(UsuarioService);
+  public id: number | undefined = undefined;
 
-  usuarios: UsuarioModel[] = [];
-  usuarioService: UsuarioService = inject(UsuarioService);
+  usuarioNuevo: UsuarioModel = {
+    nombreUsuario: '',
+    correo: '',
+    contrasena: '',
+    role: Role.USER,
+  };
 
   ngOnInit(): void {
     this.cargarUsuarios();
@@ -21,50 +30,14 @@ export class GestionUsuarios implements OnInit {
 
   cargarUsuarios() {
     this.usuarioService.getMostrarUsuarios().subscribe({
-      next: (datos) =>{
+      next: (datos) => {
         this.usuarios = datos;
-        console.log(this.usuarios);
       },
       error: (e) => {
-        console.error("Algo fallo");
-      }
-    })
+        console.error('Algo fallo');
+      },
+    });
   }
-
-  listaUsuarios = [
-    {
-      id: 1,
-      nombre: 'Jose Manuel Toro',
-      correo: 'jose.toro@unbosque.edu.co',
-      rol: 'Admin',
-      activo: true,
-      fecha: '12 May 2026',
-    },
-    {
-      id: 2,
-      nombre: 'Nelson Cipagauta',
-      correo: 'nelson.c@email.com',
-      rol: 'Usuario',
-      activo: true,
-      fecha: '10 May 2026',
-    },
-    {
-      id: 3,
-      nombre: 'Gloria Toro',
-      correo: 'gloria.t@email.com',
-      rol: 'Usuario',
-      activo: false,
-      fecha: '01 May 2026',
-    },
-    {
-      id: 4,
-      nombre: 'Yireth Fonseca',
-      correo: 'yireth.f@email.com',
-      rol: 'Usuario',
-      activo: true,
-      fecha: '28 Abr 2026',
-    },
-  ];
 
   mostrarModal = false;
   modoModal: 'crear' | 'editar' = 'crear';
@@ -74,23 +47,60 @@ export class GestionUsuarios implements OnInit {
     this.mostrarModal = true;
   }
 
-  abrirModalEditar() {
+  abrirModalEditar(user: UsuarioModel) {
     this.modoModal = 'editar';
     this.mostrarModal = true;
+    this.id = user.id;
+    this.usuarioNuevo = {
+      id: user.id,
+      nombreUsuario: user.nombreUsuario,
+      correo: user.correo,
+      contrasena: '', // La contraseña se deja vacía por seguridad en la edición
+      role: user.role
+    };
   }
 
   cerrarModal() {
     this.mostrarModal = false;
   }
 
-  simularGuardar() {
-    console.log('Aquí se enviará la petición POST/PUT a Spring Boot');
-    this.cerrarModal();
+  crearOactualizar(){
+    if(this.modoModal === 'crear'){
+      this.usuarioService.postCrearUsuario(this.usuarioNuevo).subscribe({
+        next: (datos) => {
+          console.log('Se creo el usuario');
+          this.cargarUsuarios();//Es para refresar la tabla cuando se realiza la accion, no la borren
+        },
+        error: (e) => {
+          console.error('No se creo el usuario');
+        },
+      });
+    }else{
+      if (this.id === undefined) {
+        alert('No se ha seleccionado ningún usuario para editar.');
+        return;
+      }
+      this.usuarioService.putActualizarUsuario(this.id, this.usuarioNuevo).subscribe({
+        next: (datos) => {
+          console.log('Se actualizó correctamente');
+          this.cargarUsuarios();//Es para refresar la tabla cuando se realiza la accion, no la borren
+        }, error: (e) => {
+          console.error('No se actualizó');
+        }
+      })
+    }
   }
 
-  simularEliminar() {
-    console.log('Aquí se enviará la petición DELETE a Spring Boot');
+  eliminarUsuario(user: any) {
+
+    this.usuarioService.deleteUsuarios(user.id).subscribe({
+      next: (datos) => {
+        console.log('Se eliminó el usuario');
+        this.cargarUsuarios();
+      },
+      error: (e) => {
+        console.error("No se pudo eliminar el usuario", e);
+      }
+    });
   }
-
-
 }
