@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpContextToken, HttpParams } from '@angular/common/http';
 import { UsuarioModel } from '../models/usuario.model';
 import { Observable, Subject } from 'rxjs'
 
@@ -21,15 +21,20 @@ export class UsuarioService {
   tipoFiltro$ = this.tipoFiltro.asObservable();
 
   postCrearUsuario(usuario: UsuarioModel):Observable<string>{
-    return this.cliente.post(this.urlbase + '/crearUsuario', usuario, {responseType: 'text'});
+    return this.cliente.post(this.urlbase + '/crearusuario', usuario, {responseType: 'text'});
   }
 
   getMostrarUsuarios(): Observable<UsuarioModel[]>{
     return this.cliente.get<UsuarioModel[]>(this.urlbase + '/mostrarusuarios',)
   }
 
-  putActualizarUsuario(id:number, usuario:UsuarioModel): Observable<string>{
-    return this.cliente.put(this.urlbase+'/actualizarusuarios', usuario, {responseType: 'text'});
+  putActualizarUsuario(id: number, usuario: UsuarioModel): Observable<string>{
+    const parametros = new HttpParams().set('id', id.toString());
+    return this.cliente.put(`${this.urlbase}/actualizarusuarios`, usuario,{
+      params: parametros,
+      responseType: 'text'
+    });
+
   }
 
   deleteUsuarios(id:number): Observable<string>{

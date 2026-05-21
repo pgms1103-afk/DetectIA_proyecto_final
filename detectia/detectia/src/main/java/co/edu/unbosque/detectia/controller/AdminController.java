@@ -38,6 +38,7 @@ public class AdminController {
 		nuevo.setNombreUsuario(dto.getNombreUsuario());
 		nuevo.setCorreo(dto.getCorreo());
 		nuevo.setContrasena(dto.getContrasena());
+		nuevo.setRole(dto.getRole());
 		int status = usuarioSer.create(nuevo);
 		if (status == 0) {
 			return new ResponseEntity<>("Usuario creado con éxito", HttpStatus.CREATED);
