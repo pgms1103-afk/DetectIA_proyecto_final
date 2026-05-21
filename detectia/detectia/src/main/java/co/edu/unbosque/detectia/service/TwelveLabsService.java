@@ -13,6 +13,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import co.edu.unbosque.detectia.dto.TwelveLabsDTO;
+import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
+import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 
 @Service
 public class TwelveLabsService {
@@ -30,15 +32,31 @@ public class TwelveLabsService {
 			.connectTimeout(Duration.ofSeconds(30)).build();
 
 	public TwelveLabsDTO detectarIA(byte[] videoBytes, String contentType) throws Exception {
+		
+		if (!contentType.equals("image/gif") && !contentType.equals("image/jpeg") && 
+	    	!contentType.equals("image/png") && !contentType.equals("image/webp") && 
+	    	!contentType.equals("image/bmp") && !contentType.equals("video/mp4") && 
+			!contentType.equals("video/mov") && !contentType.equals("video/avi") && 
+			!contentType.equals("video/mkv") && !contentType.equals("video/webm") && 
+			!contentType.equals("video/quicktime") && !contentType.equals("video/x-msvideo")) {
+			
+				throw new ExtensionInvalidaException("Gemini no permite este tipo de formato " + contentType
+						+ " Formatos acepetados:JPEG,PNG,GIF,WEPB,BMP,MP4,MOV,AVI,MKV,WEBM");
+			}
+		
+		if(videoBytes.length > 200L*1024*1024) {
+			double mb = videoBytes.length/ (1024*1024);
+    		throw new TamanoInvalidoException(String.format("TwelveLabs el archivo(%.1f MB) supera el limite permitibo de MB", mb));
+		}
 
 		String assetId = crearAsset(videoBytes, contentType);
 		if (assetId == null) {
-			return new TwelveLabsDTO(0.0, "ERROR_SUBIDA");
+			throw new RuntimeException("Error al subir el video a la plataforma");
 		}
 
 		boolean listo = esperarAsset(assetId);
 		if (!listo) {
-			return new TwelveLabsDTO(0.0, "ERROR_PROCESAMIENTO");
+			throw new RuntimeException("Tiempo de espera agotado o error en el procesamiento del video");
 		}
 		
 		return analizarVideo(assetId);
