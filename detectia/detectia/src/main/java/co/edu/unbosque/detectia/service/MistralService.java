@@ -15,6 +15,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import co.edu.unbosque.detectia.dto.MistralDTO;
+import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
+import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 
 @Service
 public class MistralService {
@@ -40,6 +42,21 @@ public class MistralService {
      * Recibe los datos ya procesados por EleccionService para decidir qué enviar a Mistral.
      */
     public MistralDTO detectarIA(String contenido, byte[] archivoBytes, String mimeType) throws Exception {
+    	
+    	if(archivoBytes.length > 512L*1024*1024) {
+    		double mb = archivoBytes.length / (1024*1024);
+    		throw new TamanoInvalidoException(
+					String.format("Gemini: el archivo(%.1f MB) supera el limite permitibo de MB", mb));
+    	}
+    	
+    	if(mimeType != null && mimeType.startsWith("image/") &&
+    	   !mimeType.equals("image/gif") && !mimeType.equals("image/jpeg") &&
+    	   !mimeType.equals("image/png") && !mimeType.equals("image/webp")) {
+    		
+    		throw new ExtensionInvalidaException("Mistral no soporta el tipo de imagen: "+ mimeType 
+    				+" Formatos aceptados: JPEG, PNG, WEBP, GIF");
+    		
+    	}
         
         // Estructura de mensaje
         JsonObject userMessage = new JsonObject();
