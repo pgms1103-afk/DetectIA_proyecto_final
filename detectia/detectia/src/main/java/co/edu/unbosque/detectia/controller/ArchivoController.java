@@ -19,6 +19,8 @@ import co.edu.unbosque.detectia.dto.ArchivoDTO;
 import co.edu.unbosque.detectia.dto.UsuarioDTO;
 import co.edu.unbosque.detectia.entity.Archivo;
 import co.edu.unbosque.detectia.service.AnalisisService;
+import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
+import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 import co.edu.unbosque.detectia.service.ArchivoService;
 import co.edu.unbosque.detectia.service.EleccionService;
 import co.edu.unbosque.detectia.service.ResultadoIAService;
@@ -46,6 +48,7 @@ public class ArchivoController {
 	@Autowired
 	private AnalisisService analisisSer;
 	
+
 //	@PostMapping(value = "/analizar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 //	public ResponseEntity<?> analizar(@RequestParam String nombre, @RequestParam MultipartFile archivo) throws Exception {
 //
@@ -64,62 +67,45 @@ public class ArchivoController {
 	public ResponseEntity<?> analizar(@RequestParam String nombre, @RequestParam MultipartFile archivo,
 			Authentication authentication) throws Exception {
 
-		String username = authentication.getName();
-		UsuarioDTO usuario = usuarioSer.getLoginUser(username);
+		try {
+			String username = authentication.getName();
+			UsuarioDTO usuario = usuarioSer.getLoginUser(username);
 
-		Map<String, Double> votosIAs = eleccionSer.analizar(archivo);
+			Map<String, Double> votosIAs = eleccionSer.analizar(archivo);
 
-		ArchivoDTO nuevo = new ArchivoDTO();
-		nuevo.setRutaAlmacenamiento(archivo.getOriginalFilename());
-		nuevo.setNombre(nombre);
-		nuevo.setUsuarioId(usuario.getId());
-		Archivo archivoGuardado = archivoSer.createAndReturn(nuevo);
-
-		int status;
-		if (archivoGuardado != null) {
-			status = 0;
-		} else {
-			status = 1;
-		}
-
-		if (status == 0) {
+			ArchivoDTO nuevo = new ArchivoDTO();
+			nuevo.setRutaAlmacenamiento(archivo.getOriginalFilename());
+			nuevo.setNombre(nombre);
+			nuevo.setUsuarioId(usuario.getId());
+			Archivo archivoGuardado = archivoSer.createAndReturn(nuevo);
 			resultadoIAser.guardarResultados(votosIAs, archivoGuardado);
-			return new ResponseEntity<>(analisisSer.calcularResumen(votosIAs, archivoGuardado), HttpStatus.CREATED);
-		} else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(archivoSer.calcularResumen(votosIAs), HttpStatus.CREATED);
+		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PostMapping("/analizarurl")
-	public ResponseEntity<?> analizarURL(@RequestParam String nombre, 
-			@RequestParam String url ,
+	public ResponseEntity<?> analizarURL(@RequestParam String nombre, @RequestParam String url,
 			Authentication authentication) throws Exception {
 
-		String username = authentication.getName();
-		UsuarioDTO usuario = usuarioSer.getLoginUser(username);
+		try {
+			String username = authentication.getName();
+			UsuarioDTO usuario = usuarioSer.getLoginUser(username);
 
-		Map<String, Double> votosIAs = eleccionSer.analizar(url);
-		
-		ArchivoDTO nuevo = new ArchivoDTO();
-		nuevo.setRutaAlmacenamiento(url);
-		nuevo.setNombre(nombre);
-		nuevo.setUsuarioId(usuario.getId());
-		Archivo archivoGuardado = archivoSer.createAndReturn(nuevo);
+			Map<String, Double> votosIAs = eleccionSer.analizar(url);
 
-		int status;
-		if (archivoGuardado != null) {
-			status = 0;
-		} else {
-			status = 1;
+			ArchivoDTO nuevo = new ArchivoDTO();
+			nuevo.setRutaAlmacenamiento(url);
+			nuevo.setNombre(nombre);
+			nuevo.setUsuarioId(usuario.getId());
+			Archivo archivoGuardado = archivoSer.createAndReturn(nuevo);
+			resultadoIAser.guardarResultados(votosIAs, archivoGuardado.getNombre());
+			return new ResponseEntity<>(archivoSer.calcularResumen(votosIAs), HttpStatus.CREATED);
+		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 
-		if (status == 0) {
-			resultadoIAser.guardarResultados(votosIAs, archivoGuardado);
-			return new ResponseEntity<>(analisisSer.calcularResumen(votosIAs, archivoGuardado), HttpStatus.CREATED);
-		} else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
 	}
 
 	@GetMapping("/mis-archivos")
@@ -128,7 +114,7 @@ public class ArchivoController {
 		List<ArchivoDTO> archivos = archivoSer.getArchivosByuser(user);
 
 		if (archivos.isEmpty()) {
-			return new ResponseEntity<>(archivos, HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(archivos, HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(archivos, HttpStatus.ACCEPTED);
 		}
@@ -140,7 +126,7 @@ public class ArchivoController {
 		if (status == 0) {
 			return new ResponseEntity<>("Archivo eliminado correctamente", HttpStatus.ACCEPTED);
 		} else {
-			return new ResponseEntity<>("Archivo no existe", HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>("Archivo no existe", HttpStatus.NOT_FOUND);
 		}
 	}
 
