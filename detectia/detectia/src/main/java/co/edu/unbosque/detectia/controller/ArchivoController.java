@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import co.edu.unbosque.detectia.dto.ArchivoDTO;
 import co.edu.unbosque.detectia.dto.UsuarioDTO;
 import co.edu.unbosque.detectia.entity.Archivo;
+import co.edu.unbosque.detectia.service.AnalisisService;
 import co.edu.unbosque.detectia.service.ArchivoService;
 import co.edu.unbosque.detectia.service.EleccionService;
 import co.edu.unbosque.detectia.service.ResultadoIAService;
@@ -41,6 +42,9 @@ public class ArchivoController {
 
 	@Autowired
 	private ResultadoIAService resultadoIAser;
+	
+	@Autowired
+	private AnalisisService analisisSer;
 	
 //	@PostMapping(value = "/analizar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 //	public ResponseEntity<?> analizar(@RequestParam String nombre, @RequestParam MultipartFile archivo) throws Exception {
@@ -79,8 +83,8 @@ public class ArchivoController {
 		}
 
 		if (status == 0) {
-			resultadoIAser.guardarResultados(votosIAs, archivoGuardado.getNombre());
-			return new ResponseEntity<>(archivoSer.calcularResumen(votosIAs), HttpStatus.CREATED);
+			resultadoIAser.guardarResultados(votosIAs, archivoGuardado);
+			return new ResponseEntity<>(analisisSer.calcularResumen(votosIAs, archivoGuardado), HttpStatus.CREATED);
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -110,8 +114,8 @@ public class ArchivoController {
 		}
 
 		if (status == 0) {
-			resultadoIAser.guardarResultados(votosIAs, archivoGuardado.getNombre());
-			return new ResponseEntity<>(archivoSer.calcularResumen(votosIAs), HttpStatus.CREATED);
+			resultadoIAser.guardarResultados(votosIAs, archivoGuardado);
+			return new ResponseEntity<>(analisisSer.calcularResumen(votosIAs, archivoGuardado), HttpStatus.CREATED);
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

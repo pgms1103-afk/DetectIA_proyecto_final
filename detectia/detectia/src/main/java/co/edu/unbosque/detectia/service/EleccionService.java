@@ -74,10 +74,10 @@ public class EleccionService {
 	private Map<String, Double> analizarTexto(MultipartFile archivo) throws Exception {
 		String texto = extractor.extraerTexto(archivo);
 		Map<String, Double> resultadosIA = new HashMap<>();
-		/*SIRVE*///resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
-		/*SIRVE*///resultadosIA.put("Gemini", gemini.detectarIA(archivo.getBytes(), archivo.getContentType()).getPorcentajeIA());
-		/*SIRVE*///resultadosIA.put("Mistral",mistral.detectarIA(texto, archivo.getBytes(), archivo.getContentType()).getFakePercentage());
-		/*SIRVE*///resultadosIA.put("Winston", winston.detectarIA(texto).getScore());
+		/*SIRVE*/resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
+		/*SIRVE*/resultadosIA.put("Gemini", gemini.detectarIA(archivo.getBytes(), archivo.getContentType()).getPorcentajeIA());
+		/*SIRVE*/resultadosIA.put("Mistral",mistral.detectarIA(texto, archivo.getBytes(), archivo.getContentType()).getFakePercentage());
+		/*SIRVE*/resultadosIA.put("Winston", winston.detectarIA(texto).getScore());
 		return resultadosIA;
 	}
 
@@ -87,11 +87,11 @@ public class EleccionService {
 		String mimeType = archivo.getContentType();
 
 		Map<String, Double> resultadosIA = new HashMap<>();
-		/*no se si si sirva*///resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
-		/*no se si si sirva*///resultadosIA.put("Mistral", mistral.detectarIA(texto, bytes, mimeType).getFakePercentage());
+		/*no se si si sirva*/resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
+		/*no se si si sirva*/resultadosIA.put("Mistral", mistral.detectarIA(texto, bytes, mimeType).getFakePercentage());
 		if (texto != null && !texto.isBlank()) {
-			/*no se si si sirva*///resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
-			/*no se si si sirva*///resultadosIA.put("Winston", winston.detectarIA(texto).getScore());
+			/*no se si si sirva*/resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
+			/*no se si si sirva*/resultadosIA.put("Winston", winston.detectarIA(texto).getScore());
 		}
 
 		return resultadosIA;
@@ -111,10 +111,10 @@ public class EleccionService {
 
 	private Map<String, Double> analizarImagenURL(String url) throws Exception {
 		Map<String, Double> resultadosIA = new HashMap<>();
-		/*SIRVE*///resultadosIA.put("Winston", winston.detectarIAImagen(url).getScore());
-		/*SIRVE*///resultadosIA.put("Sightengine", sightengine.detectarIAUrl(url).getAi_generated());
-		/*SIRVE*///resultadosIA.put("Gemini", gemini.detectarIAPorUrl(url).getPorcentajeIA());
-		/*SIRVE MEH PASANDO A BIEN*///resultadosIA.put("Groq", grok.detectarIAImagenUrl(url).getPorcentajeIA());
+		/*SIRVE*/resultadosIA.put("Winston", winston.detectarIAImagen(url).getScore());
+		/*SIRVE*/resultadosIA.put("Sightengine", sightengine.detectarIAUrl(url).getAi_generated());
+		/*SIRVE*/resultadosIA.put("Gemini", gemini.detectarIAPorUrl(url).getPorcentajeIA());
+		/*SIRVE MEH PASANDO A BIEN*/resultadosIA.put("Groq", grok.detectarIAImagenUrl(url).getPorcentajeIA());
 		
 		return resultadosIA;
 	}
@@ -132,7 +132,7 @@ public class EleccionService {
 	
 	private Map<String, Double> analizarMusica(MultipartFile archivo) throws Exception {
 		Map<String, Double> resultadosIA = new HashMap<>();
-		/*SIRVE*///resultadosIA.put("ACRCloud", acrCloude.detectarIAArchivo(archivo).getAi_probability());
+		/*SIRVE*/resultadosIA.put("ACRCloud", acrCloude.detectarIAArchivo(archivo).getAi_probability());
 		return resultadosIA;
 	}
 	
