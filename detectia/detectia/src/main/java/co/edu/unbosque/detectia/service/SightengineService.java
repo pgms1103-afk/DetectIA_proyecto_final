@@ -15,6 +15,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import co.edu.unbosque.detectia.dto.SightengineDTO;
+import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
+import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 
 @Service
 public class SightengineService {
@@ -32,6 +34,19 @@ public class SightengineService {
 			.connectTimeout(Duration.ofSeconds(20)).build();
 
 	public SightengineDTO detectarIA(byte[] archivo, String contentType) throws Exception {
+
+		if (!contentType.equals("image/gif") && !contentType.equals("image/jpeg") && 
+			!contentType.equals("image/png") && !contentType.equals("image/webp") && 
+			!contentType.equals("image/bmp")) {
+			throw new ExtensionInvalidaException("Sightengine no permite este tipo de imagen " + contentType
+					+ " Formatos acepetados:JPEG,PNG,GIF,WEPB,BMP");
+		}
+		
+		if(archivo.length > 50L*1024*1024) {
+    		double mb = archivo.length/ (1024*1024);
+    		throw new TamanoInvalidoException(String.format("Sightengine: el archivo(%.1f MB) supera el limite permitibo de MB", mb));
+    	}
+		
 
 		String url = String.format("https://api.sightengine.com/1.0/check.json?models=%s&api_user=%s&api_secret=%s",
 				model, apiUser, apiKey);
@@ -76,11 +91,6 @@ public class SightengineService {
 
 		return procesarRespuesta(respuesta.body());
 	}
-	
-	
-
-	
-	
 
 	private SightengineDTO procesarRespuesta(String responseBody) {
 		try {
@@ -112,8 +122,5 @@ public class SightengineService {
 		baos.write(("\r\n--" + boundary + "--\r\n").getBytes());
 		return baos.toByteArray();
 	}
-	
-
-	
 
 }

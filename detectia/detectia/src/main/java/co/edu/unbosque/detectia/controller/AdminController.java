@@ -14,37 +14,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.unbosque.detectia.dto.UsuarioDTO;
+import co.edu.unbosque.detectia.exception.CorreoInvalidoException;
+import co.edu.unbosque.detectia.exception.IdExistException;
+import co.edu.unbosque.detectia.exception.NombreInvalidoException;
+import co.edu.unbosque.detectia.exception.PasswordNotValidException;
 import co.edu.unbosque.detectia.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @SecurityRequirement(name = "bearerAuth")
 @RestController
-@RequestMapping("/admin") //Tiene todas las rutas privadas
+@RequestMapping("/admin") // Tiene todas las rutas privadas
 @CrossOrigin(origins = { "http://localhost:8080", "*" })
 public class AdminController {
-	
-    @Autowired
-    private UsuarioService usuarioSer;
-	
-    
+
+	@Autowired
+	private UsuarioService usuarioSer;
+
 	@PostMapping("/crearusuario")
 	public ResponseEntity<String> crearUsuario(@RequestBody UsuarioDTO dto) {
-		
-		UsuarioDTO nuevo = new UsuarioDTO ();
-		nuevo.setNombreUsuario(dto.getNombreUsuario());
-		nuevo.setCorreo(dto.getCorreo());
-		nuevo.setContrasena(dto.getContrasena());
-		nuevo.setRole(dto.getRole());
-		int status = usuarioSer.create(nuevo);
-		if (status == 0) {
+
+		try {
+			UsuarioDTO nuevo = new UsuarioDTO();
+			nuevo.setNombreUsuario(dto.getNombreUsuario());
+			nuevo.setCorreo(dto.getCorreo());
+			nuevo.setContrasena(dto.getContrasena());
+			usuarioSer.create(nuevo);
+
 			return new ResponseEntity<>("Usuario creado con éxito", HttpStatus.CREATED);
-		}else {
-			return new ResponseEntity<>("Error al crear usuario", HttpStatus.BAD_REQUEST);
-		}	
+		} catch (NombreInvalidoException | PasswordNotValidException | CorreoInvalidoException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@GetMapping("/mostrarusuarios")
@@ -58,29 +60,25 @@ public class AdminController {
 	}
 
 	@PutMapping("/actualizarusuarios")
-	public ResponseEntity<String> actualizarUsuarios(@RequestParam
-	          Long id, @RequestBody UsuarioDTO newUser){
-		int status = usuarioSer.updateById(id, newUser);
-		if (status == 0) {
+	public ResponseEntity<String> actualizarUsuarios(@RequestParam Long id, @RequestBody UsuarioDTO newUser) {
+		try {
+			usuarioSer.updateById(id, newUser);
 			return new ResponseEntity<>("Usuario actualizado correctamente", HttpStatus.ACCEPTED);
-		} else {
-			return new ResponseEntity<>("Usuario no existe", HttpStatus.NO_CONTENT);
+		} catch (NombreInvalidoException | PasswordNotValidException | CorreoInvalidoException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@DeleteMapping("/eliminarusuarios")
-	public ResponseEntity<String> eliminarUsuarios (@RequestParam Long id){
-		int status = usuarioSer.delateById(id);
-		if (status == 0) {
+	public ResponseEntity<String> eliminarUsuarios(@RequestParam Long id) {
+
+		try {
+			usuarioSer.delateById(id);
 			return new ResponseEntity<>("Usuario eliminado correctamente", HttpStatus.ACCEPTED);
-		} else {
-			return new ResponseEntity<>("Usuario no existe", HttpStatus.NO_CONTENT);
+		} catch (IdExistException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
 
 		}
 	}
-	
-	
-	
-	
 
 }
