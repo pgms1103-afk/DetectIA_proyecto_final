@@ -39,10 +39,10 @@
         <td><span class="badge-rol">{{ user.role }}</span></td>
         <td>
           <div class="acciones-fila">
-            <button class="btn-icono" title="Editar" (click)="abrirModalEditar()">
+            <button class="btn-icono" title="Editar" (click)="abrirModalEditar(user)">
               <i class="fa-solid fa-pen-to-square"></i>
             </button>
-            <button class="btn-icono eliminar" title="Eliminar" (click)="simularEliminar()">
+            <button class="btn-icono eliminar" title="Eliminar" (click)="eliminarUsuario(user)">
               <i class="fa-solid fa-trash-can"></i>
             </button>
           </div>
@@ -60,22 +60,36 @@
       <button class="btn-cerrar-modal" (click)="cerrarModal()"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="cuerpo-modal">
-      <div class="grupo-input"><label>Nombre Completo</label><input type="text" placeholder="Ej: Juan Pérez"></div>
-      <div class="grupo-input"><label>Correo Electrónico</label><input type="email" placeholder="ejemplo@correo.com"></div>
+      <div class="grupo-input">
+        <label>Nombre Completo</label>
+        <input type="text" [(ngModel)]="usuarioNuevo.nombreUsuario" name="nombreUsuario" placeholder="Ej: Juan Pérez">
+      </div>
+
+      <div class="grupo-input">
+        <label>Correo Electrónico</label>
+        <input type="email" [(ngModel)]="usuarioNuevo.correo" name="correo" placeholder="ejemplo@correo.com">
+      </div>
+
       <div class="fila-inputs">
         <div class="grupo-input">
           <label>Rol del Sistema</label>
-          <select><option value="Usuario">Usuario Regular</option><option value="Admin">Administrador</option></select>
+
+          <select [(ngModel)]="usuarioNuevo.role" name="role">
+            <option value="USER">Usuario Regular</option>
+            <option value="ADMIN">Administrador</option>
+          </select>
+
         </div>
+
         <div class="grupo-input">
-          <label>Estado de la cuenta</label>
-          <select><option value="true">Activa</option><option value="false">Inactiva (Bloqueada)</option></select>
+          <label>Contraseña</label>
+          <input type="password" [(ngModel)]="usuarioNuevo.contrasena" name="contrasena" placeholder="Tu contraseña">
         </div>
       </div>
     </div>
     <div class="pie-modal">
       <button class="btn-cancelar" (click)="cerrarModal()">Cancelar</button>
-      <button class="btn-guardar" (click)="simularGuardar()">{{ modoModal === 'crear' ? 'Crear Usuario' : 'Guardar Cambios' }}</button>
+      <button class="btn-guardar" (click)="crearOactualizar()">{{ modoModal === 'crear' ? 'Crear Usuario' : 'Guardar Cambios' }}</button>
     </div>
   </div>
 </div>

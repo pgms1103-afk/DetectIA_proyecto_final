@@ -1,0 +1,9 @@
+FRONT:
+Mensajes de validación al crear, actualizar y eliminar.
+Campo para escribir el nombre del archivo.
+Al darle a eliminar, salta el mensaje de la ventana emergente de arriba diciendo "No se ha seleccionado ningún usuario para editar" pq? toca arreglarlo.
+
+
+BACK:
+Auditorias.
+Supongo q mas excepciones.
