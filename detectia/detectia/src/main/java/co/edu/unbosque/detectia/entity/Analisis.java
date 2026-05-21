@@ -17,8 +17,9 @@ public class Analisis {
 	
 	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 	private double porcentajeFinal;
+	private double porcentajeIA;
 	private String veredicto;
-	private String iaRecomendada;
+	private String nombreIA;
 	private LocalDateTime fechaAnalisis;
 	
 	@ManyToOne
@@ -33,16 +34,33 @@ public class Analisis {
 		
 	}
 
-	public Analisis(double porcentajeFinal, String veredicto, String iaRecomendada, LocalDateTime fechaAnalisis,
-			Archivo archivo, Usuario usuario) {
-		
+	
+
+	public Analisis(double porcentajeFinal, double porcentajeIA, String veredicto, String nombreIA,
+			LocalDateTime fechaAnalisis, Archivo archivo, Usuario usuario) {
+		super();
 		this.porcentajeFinal = porcentajeFinal;
+		this.porcentajeIA = porcentajeIA;
 		this.veredicto = veredicto;
-		this.iaRecomendada = iaRecomendada;
+		this.nombreIA = nombreIA;
 		this.fechaAnalisis = fechaAnalisis;
 		this.archivo = archivo;
 		this.usuario = usuario;
 	}
+
+
+
+	public double getPorcentajeIA() {
+		return porcentajeIA;
+	}
+
+
+
+	public void setPorcentajeIA(double porcentajeIA) {
+		this.porcentajeIA = porcentajeIA;
+	}
+
+
 
 	public Long getId() {
 		return id;
@@ -68,12 +86,12 @@ public class Analisis {
 		this.veredicto = veredicto;
 	}
 
-	public String getIaRecomendada() {
-		return iaRecomendada;
+	public String getNombreIA() {
+		return nombreIA;
 	}
 
-	public void setIaRecomendada(String iaRecomendada) {
-		this.iaRecomendada = iaRecomendada;
+	public void setNombreIA(String nombreIA) {
+		this.nombreIA = nombreIA;
 	}
 
 	public LocalDateTime getFechaAnalisis() {
@@ -100,17 +118,23 @@ public class Analisis {
 		this.usuario = usuario;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Analisis [id=" + id + ", porcentajeFinal=" + porcentajeFinal + ", veredicto=" + veredicto
-				+ ", iaRecomendada=" + iaRecomendada + ", fechaAnalisis=" + fechaAnalisis + ", archivo=" + archivo
-				+ ", usuario=" + usuario + "]";
+		return "Analisis [id=" + id + ", porcentajeFinal=" + porcentajeFinal + ", porcentajeIA=" + porcentajeIA
+				+ ", veredicto=" + veredicto + ", nombreIA=" + nombreIA + ", fechaAnalisis=" + fechaAnalisis
+				+ ", archivo=" + archivo + ", usuario=" + usuario + "]";
 	}
+
+
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(archivo, fechaAnalisis, iaRecomendada, id, porcentajeFinal, usuario, veredicto);
+		return Objects.hash(archivo, fechaAnalisis, id, nombreIA, porcentajeFinal, porcentajeIA, usuario, veredicto);
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -122,10 +146,15 @@ public class Analisis {
 			return false;
 		Analisis other = (Analisis) obj;
 		return Objects.equals(archivo, other.archivo) && Objects.equals(fechaAnalisis, other.fechaAnalisis)
-				&& Objects.equals(iaRecomendada, other.iaRecomendada) && Objects.equals(id, other.id)
+				&& Objects.equals(id, other.id) && Objects.equals(nombreIA, other.nombreIA)
 				&& Double.doubleToLongBits(porcentajeFinal) == Double.doubleToLongBits(other.porcentajeFinal)
+				&& Double.doubleToLongBits(porcentajeIA) == Double.doubleToLongBits(other.porcentajeIA)
 				&& Objects.equals(usuario, other.usuario) && Objects.equals(veredicto, other.veredicto);
 	}
+
+	
+
+	
 	
 	
 	

@@ -29,7 +29,7 @@
     <div class="zona-enlace" *ngIf="activeTab === 'text' && tipoHerramienta !== 'texto'">
       <div class="contenedor-input-enlace">
         <i class="fa-solid fa-link icono-enlace"></i>
-        <input type="url" class="input-enlace" placeholder="Pega la URL de tu {{ tipoHerramienta }} aquí...">
+        <input type="url" class="input-enlace" [(ngModel)]="url" placeholder="Pega la URL de tu {{ tipoHerramienta }} aquí...">
       </div>
       <p class="nota-enlace">
         El archivo multimedia será procesado de forma segura desde este enlace.
@@ -76,7 +76,7 @@
       <div class="contenedor-medidor">
         <canvas id="iaProbabilityChart"></canvas>
         <div class="centro-medidor">
-          <div class="valor-medidor">{{ promedioActual !== '' ? promedioActual : '—' }}</div>
+          <div class="valor-medidor">{{ promedioActual !== null ? promedioActual : 0 }}</div>
           <div class="unidad-medidor">% IA</div>
         </div>
       </div>

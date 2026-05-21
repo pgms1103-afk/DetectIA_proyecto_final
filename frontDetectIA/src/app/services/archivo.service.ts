@@ -1,7 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ArchivoModel } from '../models/archivo.model';
+import { AnalisisModel } from '../models/analisis.model';
 
 
 @Injectable({
@@ -17,20 +18,27 @@ export class ArchivoService {
 
   public listaArchivos = new Subject<ArchivoModel[]>();
   listaUsuarios$ = this.listaArchivos.asObservable();
+  public archivoSeleccionado$ = new Subject<ArchivoModel>();
 
-  postAnalizarArchivo(nombre:string, archivo: File){
+// 🟢 CORREGIDO: Le decimos que retorna un Observable de tipo AnalisisModel
+  postAnalizarArchivo(nombre: string, archivo: File): Observable<AnalisisModel> {
     const formData = new FormData();
     formData.append('nombre', nombre);
     formData.append('archivo', archivo);
-    return this.cliente.post(this.urlbase
-    + '/analizar',
-    formData
-    );}
 
-  postAnalizarUrl(nombre:string, url:string){
-    return this.cliente.post(this.urlbase + "/analizarurl?nombre="+ nombre +
-      " &url="+url,
-      null);
+    // 🟢 CORREGIDO: Le pasamos el tipo <AnalisisModel> al método post
+    return this.cliente.post<AnalisisModel>(
+      this.urlbase + '/analizar',
+      formData
+    );
+  }
+
+  // 🟢 CORREGIDO TAMBIÉN AQUÍ: Para que tu medidor por URL tampoco tire error
+  postAnalizarUrl(nombre: string, url: string): Observable<AnalisisModel> {
+    return this.cliente.post<AnalisisModel>(
+      this.urlbase + "/analizarurl?nombre=" + nombre + "&url=" + url,
+      null
+    );
   }
 
   getMisArchivos() {
