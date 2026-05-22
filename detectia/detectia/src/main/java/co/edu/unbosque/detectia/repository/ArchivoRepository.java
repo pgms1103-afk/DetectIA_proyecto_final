@@ -13,6 +13,7 @@ public interface ArchivoRepository extends CrudRepository<Archivo, Long>{
 	
 	public List<Archivo> findByUsuario(Usuario usuario);
 	public List<Archivo> findByNombre(String nombre);
-	
+
+
 
 }
