@@ -87,6 +87,140 @@
   color: var(--accent-orange);
 }
 
+.seccion-der {
+  display: flex;
+  align-items: center;
+  position: relative; /* Clave para que el menú salga desde aquí */
+}
+
+.perfil-contenedor-topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 6px 12px 6px 6px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 30px; /* Forma de píldora redonda */
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.perfil-contenedor-topbar:hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-normal);
+}
+
+.avatar-usuario {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, var(--accent-orange), #b45309);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 13px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.info-usuario-topbar {
+  display: flex;
+  flex-direction: column;
+}
+
+.nombre-usuario {
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+}
+
+.flecha-menu {
+  font-size: 10px;
+  color: var(--text-muted);
+  transition: transform 0.3s;
+  margin-left: 4px;
+}
+
+.flecha-menu.rotado {
+  transform: rotate(180deg);
+}
+
+
+.menu-desplegable-topbar {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 250px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  animation: fadeInDown 0.2s ease-out;
+  cursor: default;
+}
+
+.cabecera-menu {
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.cabecera-menu span {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.datos-usuario p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 8px 0;
+}
+
+.datos-usuario strong {
+  color: white;
+  font-weight: 600;
+}
+
+.estadisticas-menu {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border-subtle);
+  font-size: 12px;
+  color: var(--accent-orange-light, #f59e0b);
+  font-weight: 600;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .info-usuario-topbar {
+    display: none;
+  }
+
+  .menu-desplegable-topbar {
+    right: -10px;
+  }
+}
+
 @media (max-width: 768px) {
   .barra-superior {
     height: 56px;

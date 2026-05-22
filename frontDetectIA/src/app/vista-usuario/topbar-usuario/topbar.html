@@ -14,12 +14,28 @@
   </div>
 
   <div class="seccion-der">
-    <button class="btn-accion">
-      <i class="fa-solid fa-trash-can"></i> <span>Limpiar</span>
-    </button>
-    <button class="btn-accion primario">
-      <i class="fa-solid fa-file-export"></i> <span>Exportar</span>
-    </button>
-  </div>
+    <div class="perfil-contenedor-topbar" (click)="toggleProfileMenu()">
+      <div class="avatar-usuario">{{ user.name.substring(0,2).toUpperCase() }}</div>
 
+      <div class="info-usuario-topbar">
+        <span class="nombre-usuario">{{ user.name }}</span>
+      </div>
+
+      <i class="fa-solid fa-chevron-down flecha-menu" [class.rotado]="showProfileMenu"></i>
+
+      <div class="menu-desplegable-topbar" *ngIf="showProfileMenu" (click)="$event.stopPropagation()">
+        <div class="cabecera-menu">
+          <span>Datos del Perfil</span>
+        </div>
+        <div class="datos-usuario">
+          <p><strong>Usuario:</strong> {{ user.name }}</p>
+          <p><strong>Correo:</strong> {{ user.email }}</p>
+          <div class="estadisticas-menu">
+            <span title="Tiempo de sesión"><i class="fa-solid fa-clock"></i> {{ user.time }}</span>
+            <span title="Análisis realizados"><i class="fa-solid fa-chart-simple"></i> {{ user.files }} Análisis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </header>
