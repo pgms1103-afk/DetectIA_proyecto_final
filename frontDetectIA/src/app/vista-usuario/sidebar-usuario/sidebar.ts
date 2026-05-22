@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ArchivoService } from '../../services/archivo.service'; // 🟢 Importamos el servicio
 import { ArchivoModel } from '../../models/archivo.model';
 import { ResultadoIAService } from '../../services/resultadoIA.service'; // 🟢 Importamos el modelo
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,6 +23,8 @@ export class Sidebar implements OnInit { // 🟢 Implementamos OnInit
 
   // 🟢 2. Arreglo para guardar el historial que viene de la BD
   public historialArchivos: ArchivoModel[] = [];
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   showProfileMenu: boolean = false;
   user = {
@@ -91,5 +95,10 @@ export class Sidebar implements OnInit { // 🟢 Implementamos OnInit
     this.herramientaActual = herramienta;
     this.herramientaSeleccionada.emit(herramienta);
     if (this.mobileOpen) this.toggleMobileMenu();
+  }
+
+  cerrarSesion() {
+    this.authService.cerrarSesion();
+    this.router.navigate(['/login']);
   }
 }
