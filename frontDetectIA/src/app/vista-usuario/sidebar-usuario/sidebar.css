@@ -261,6 +261,11 @@
   color: var(--accent-orange);
 }
 
+.btn-cerrar-sesion:hover {
+  color: var(--accent-orange, #b15e24) !important;
+  background: rgba(245, 158, 11, 0.05) !important;
+}
+
 @media (max-width: 768px) {
   .barra-lateral {
     position: fixed;

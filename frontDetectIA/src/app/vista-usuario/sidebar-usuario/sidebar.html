@@ -50,26 +50,9 @@
   </nav>
 
   <div class="pie-lateral">
-    <div class="perfil-contenedor" (click)="toggleProfileMenu()">
-      <div class="avatar-usuario">JM</div>
-      <div class="info-usuario">
-        <span class="nombre-usuario">{{ user.name }}</span>
-      </div>
-      <i class="fa-solid fa-chevron-up flecha-menu" [class.rotado]="!showProfileMenu"></i>
-    </div>
-
-    <div class="menu-desplegable" *ngIf="showProfileMenu">
-      <div class="cabecera-menu">
-        <span>Datos del Usuario</span>
-      </div>
-      <div class="datos-usuario">
-        <p><strong>Nombre:</strong> {{ user.name }}</p>
-        <p><strong>Correo:</strong> {{ user.email }}</p>
-        <div class="estadisticas-menu">
-          <span><i class="fa-solid fa-clock"></i> {{ user.time }}</span>
-          <span><i class="fa-solid fa-file"></i> {{ user.files }} archivos</span>
-        </div>
-      </div>
-    </div>
+    <a class="item-nav btn-cerrar-sesion" (click)="cerrarSesion()" style="cursor: pointer;">
+      <span class="icono-nav"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+      <span class="texto-nav" *ngIf="!isCollapsed">Cerrar Sesión</span>
+    </a>
   </div>
 </aside>

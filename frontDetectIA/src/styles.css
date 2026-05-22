@@ -11,15 +11,15 @@
   --text-secondary: #a0a0a8;
   --text-muted: #5a5a65;
   --text-ghost: #38383f;
-  --accent-orange: #d97706;
-  --accent-orange-light: #f59e0b;
+  --accent-orange: #ef9d48;
+  --accent-orange-light: #b15e24;
   --accent-orange-dim: rgba(217, 119, 6, 0.15);
   --accent-green: #059669;
   --accent-green-light: #10b981;
   --accent-green-dim: rgba(5, 150, 105, 0.12);
   --accent-red: #dc2626;
   --accent-red-dim: rgba(220, 38, 38, 0.12);
-  --accent-blue: #3b82f6;
+  --accent-blue: #6366f1;
   --accent-blue-dim: rgba(59, 130, 246, 0.12);
   --sidebar-width: 260px;
   --sidebar-collapsed: 64px;
