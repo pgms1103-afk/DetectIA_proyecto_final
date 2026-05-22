@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import co.edu.unbosque.detectia.dto.UsuarioDTO;
 import co.edu.unbosque.detectia.entity.Usuario;
+import co.edu.unbosque.detectia.repository.ArchivoRepository;
 import co.edu.unbosque.detectia.repository.UsuarioRepository;
 import co.edu.unbosque.detectia.exception.IdExistException;
 import co.edu.unbosque.detectia.exception.CorreoInvalidoException;
@@ -29,6 +30,9 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private ArchivoRepository archivoRepo;
 
 	public UsuarioService() {
 		// TODO Auto-generated constructor stub
@@ -100,12 +104,26 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 		List<Usuario> entityList = (List<Usuario>) usuarioRepo.findAll();
 		List<UsuarioDTO> dtoList = new ArrayList<>();
 		entityList.forEach((entity) -> {
+			long totalArchivos = archivoRepo.countByUsuarioId(entity.getId());
 			UsuarioDTO dto = mapper.map(entity, UsuarioDTO.class);
+			dto.setTotalArchivos(totalArchivos);
 			dtoList.add(dto);
 		});
 		return dtoList;
 	}
 
+	public UsuarioDTO getLoginUser(String nombre) {
+	    Optional<Usuario> entity = usuarioRepo.findByNombreUsuario(nombre);
+	    if (entity.isEmpty()) {
+	        throw new UsernameNotFoundException("Usuario no encontrado");
+	    }
+	    Usuario usuario = entity.get(); // ← el que encontraste, no uno vacío
+	    UsuarioDTO dto = mapper.map(usuario, UsuarioDTO.class);
+	    long totalArchivos = archivoRepo.countByUsuarioId(usuario.getId());
+	    dto.setTotalArchivos(totalArchivos);
+	    return dto;
+	}
+	
 	@Override
 	public int delateById(Long id) {
 		if (!usuarioRepo.existsById(id)) {
@@ -172,13 +190,7 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 		return 0;
 	}
 
-	public UsuarioDTO getLoginUser(String nombre) {
-		Optional<Usuario> entity = usuarioRepo.findByNombreUsuario(nombre);
-		if (entity.isEmpty()) {
-			throw new UsernameNotFoundException("Usuario no encontrado");
-		}
-		return mapper.map(entity.get(), UsuarioDTO.class);
-	}
+	
 
 	public int updateLoginPassword(String correo, String nuevaContrasena) {
 
