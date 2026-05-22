@@ -19,7 +19,7 @@ import co.edu.unbosque.detectia.repository.ResultadoIARepository;
 import co.edu.unbosque.detectia.repository.UsuarioRepository;
 
 @Service
-public class ResultadoIAService implements CRUDoperation<ResultadoIADTO> {
+public class ResultadoIAService{
 
 	@Autowired
 	private ResultadoIARepository resultadoIARepo;
@@ -36,15 +36,23 @@ public class ResultadoIAService implements CRUDoperation<ResultadoIADTO> {
 	public ResultadoIAService() {
 	}
 
-	@Override
-	public int create(ResultadoIADTO data) {
-		ResultadoIA entity = mapper.map(data, ResultadoIA.class);
-		entity.setFechaAnalisis(LocalDateTime.now());
-		resultadoIARepo.save(entity);
-		return 0;
-	}
 
-	@Override
+	public void guardarResultados(Map<String, Double> votosIAs, Archivo archivoReciente) {
+	    
+	    if (archivoReciente == null) return;
+
+	    for (Map.Entry<String, Double> voto : votosIAs.entrySet()) {
+	        ResultadoIA entity = new ResultadoIA();
+	        entity.setNombreIA(voto.getKey());
+	        entity.setPorcentajeIA(voto.getValue());
+	        entity.setFechaAnalisis(LocalDateTime.now());	    
+	        entity.setArchivo(archivoReciente);              
+	        
+	        resultadoIARepo.save(entity);
+	    }
+	}
+	
+
 	public List<ResultadoIADTO> getAll() {
 		List<ResultadoIA> entityList = resultadoIARepo.findAll();
 		List<ResultadoIADTO> dtoList = new ArrayList<>();
@@ -58,31 +66,6 @@ public class ResultadoIAService implements CRUDoperation<ResultadoIADTO> {
 			dtoList.add(dto);
 		});
 		return dtoList;
-	}
-
-	@Override
-	public int delateById(Long id) {
-		Optional<ResultadoIA> encontrado = resultadoIARepo.findById(id);
-		if (encontrado.isPresent()) {
-			ResultadoIADTO dto = mapper.map(encontrado.get(), ResultadoIADTO.class);
-			ResultadoIA entity = mapper.map(dto, ResultadoIA.class);
-			resultadoIARepo.delete(entity);
-			return 0;
-		}
-		return 1;
-	}
-
-	@Override
-	public int updateById(Long id, ResultadoIADTO data) {
-		Optional<ResultadoIA> encontrado = resultadoIARepo.findById(id);
-		if (encontrado.isPresent()) {
-			ResultadoIA temp = encontrado.get();
-			temp.setNombreIA(data.getNombreIA());
-			temp.setPorcentajeIA(data.getPorcentajeIA());
-			resultadoIARepo.save(temp);
-			return 0;
-		}
-		return 1;
 	}
 
 	public List<ResultadoIADTO> getResultadosByUsuario(String username) {
@@ -101,48 +84,31 @@ public class ResultadoIAService implements CRUDoperation<ResultadoIADTO> {
 	    });
 	    return dtoList;
 	}
+	
+	public List<ResultadoIADTO> getResultadosByArchivoId(long id) {
+	    List<ResultadoIADTO> dtoList = new ArrayList<>();
+	    
+	    Optional<Archivo> archivoOpt = archivoRepo.findById(id);
 
-//	public List<ResultadoIADTO> getResultadosByUser(String user) {
-//
-//		List<ResultadoIA> entityList = archivoRepo.findResultadoByUsuario(user);
-//
-//		List<ResultadoIADTO> dtoList = new ArrayList<>();
-//
-//		entityList.forEach(entity -> {
-//			dtoList.add(mapper.map(entity, ResultadoIADTO.class));
-//		});
-//
-//		return dtoList;
-//	}
-
-	public void guardarResultados(Map<String, Double> votosIAs, String nombreArchivo) {
-	    List<Archivo> archivo = archivoRepo.findByNombre(nombreArchivo);
-	    if (archivo.isEmpty()) return;
-
-	    for (Map.Entry<String, Double> voto : votosIAs.entrySet()) {
-	        ResultadoIA entity = new ResultadoIA();
-	        entity.setNombreIA(voto.getKey());
-	        entity.setPorcentajeIA(voto.getValue());
-	        entity.setFechaAnalisis(LocalDateTime.now());
-	        entity.setArchivo(archivo.get(0));              
-	        resultadoIARepo.save(entity);
+	    if (archivoOpt.isPresent()) {
+	        Archivo archivoEncontrado = archivoOpt.get();
+	        
+	        List<ResultadoIA> resultados = resultadoIARepo.findByArchivo(archivoEncontrado);
+	        
+	        resultados.forEach(entity -> {
+	            ResultadoIADTO dto = mapper.map(entity, ResultadoIADTO.class);
+	            dtoList.add(dto);
+	        });
 	    }
+	    
+	    return dtoList;
 	}
+	
 
-//	public List<ResultadoIADTO> getResultadosByCorreo (String correo){{
-//	Optional<Usuario> usuarioEncontrado = usuarioRepo.findByCorreo(correo);	
-//	if(usuarioEncontrado.isEmpty()) {
-//		return new ArrayList<>();
-//	}
-//	
-//	List<ResultadoIA> entityList = resultadoIARepo.findByUsuario(usuarioEncontrado.get());
-//	List<ResultadoIADTO> dtoList = new ArrayList<>();
-//	entityList.forEach((entity) -> {
-//		ResultadoIADTO dto = mapper.map(entity, ResultadoIADTO.class);
-//		dtoList.add(dto);
-//	});
-//	return dtoList;
-//}
+	
+	
+	
+
 
 
 }

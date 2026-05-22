@@ -27,6 +27,9 @@ public class Archivo {
 	@OneToMany(mappedBy = "archivo", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ResultadoIA> resultados = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "archivo", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Analisis> analisis = new ArrayList<>();
+	
 	@ManyToOne
 	@JoinColumn(name ="usuario_id")
 	private Usuario usuario;
@@ -41,6 +44,23 @@ public class Archivo {
 		this.rutaAlmacenamiento = rutaAlmacenamiento;
 		this.fechaSubida = fechaSubida;
 		this.usuario = usuario;
+	}
+
+	
+	public List<ResultadoIA> getResultados() {
+		return resultados;
+	}
+
+	public void setResultados(List<ResultadoIA> resultados) {
+		this.resultados = resultados;
+	}
+
+	public List<Analisis> getAnalisis() {
+		return analisis;
+	}
+
+	public void setAnalisis(List<Analisis> analisis) {
+		this.analisis = analisis;
 	}
 
 	public Long getId() {

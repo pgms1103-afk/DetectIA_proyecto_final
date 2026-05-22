@@ -133,30 +133,6 @@ public class ArchivoService implements CRUDoperation<ArchivoDTO>{
 	}
 	
 		
-	public Map<String,Object> calcularResumen(Map<String,Double> votosIAs){
-		double promedio = 0;
-		if(!votosIAs.isEmpty()) {
-			double suma = 0;
-			for(Double porcentaje : votosIAs.values()) {
-				suma += porcentaje;
-			}
-			
-			promedio =  suma/votosIAs.size();
-		}
-		
-		String veredicto;
-		if (promedio >= 50) {
-		    veredicto = "PROBABLE IA";
-		} else {
-		    veredicto = "PROBABLE HUMANO";
-		}
-
-		Map<String, Object> resumen = new HashMap<>();
-		resumen.put("resultados", votosIAs);
-		resumen.put("promedio", Math.round(promedio * 100.0) / 100.0);
-		resumen.put("veredicto", veredicto);
-		
-		return resumen;
-	}
+	
 	
 }
