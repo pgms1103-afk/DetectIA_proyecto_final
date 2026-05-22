@@ -34,6 +34,7 @@ public class Usuario implements UserDetails{
 	private String nombreUsuario;
 	private String correo;
 	private String contrasena;
+	private long totalArchivos;
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	/**
@@ -70,12 +71,13 @@ public class Usuario implements UserDetails{
 
 	
 	
-	public Usuario(String nombreUsuario, String correo, String contrasena, Role role) {
+	public Usuario(String nombreUsuario, String correo, String contrasena, Role role, long totalArchivos) {
 		super();
 		this.nombreUsuario = nombreUsuario;
 		this.correo = correo;
 		this.contrasena = contrasena;
 		this.role = role;
+		this.totalArchivos = totalArchivos;
 	}
 
 	
@@ -147,10 +149,24 @@ public class Usuario implements UserDetails{
 	
 
 
+	public long getTotalArchivos() {
+		return totalArchivos;
+	}
+
+
+
+	public void setTotalArchivos(long totalArchivos) {
+		this.totalArchivos = totalArchivos;
+	}
+
+
+
+
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(accountNonExpired, accountNonLocked, contrasena, correo, credentialsNonExpired, enabled, id,
-				nombreUsuario, role);
+		return Objects.hash(accountNonExpired, accountNonLocked, archivos, contrasena, correo, credentialsNonExpired,
+				enabled, id, nombreUsuario, role, totalArchivos);
 	}
 
 
@@ -165,10 +181,11 @@ public class Usuario implements UserDetails{
 			return false;
 		Usuario other = (Usuario) obj;
 		return accountNonExpired == other.accountNonExpired && accountNonLocked == other.accountNonLocked
-				&& Objects.equals(contrasena, other.contrasena) && Objects.equals(correo, other.correo)
-				&& credentialsNonExpired == other.credentialsNonExpired && enabled == other.enabled
-				&& Objects.equals(id, other.id) && Objects.equals(nombreUsuario, other.nombreUsuario)
-				&& role == other.role;
+				&& Objects.equals(archivos, other.archivos) && Objects.equals(contrasena, other.contrasena)
+				&& Objects.equals(correo, other.correo) && credentialsNonExpired == other.credentialsNonExpired
+				&& enabled == other.enabled && Objects.equals(id, other.id)
+				&& Objects.equals(nombreUsuario, other.nombreUsuario) && role == other.role
+				&& totalArchivos == other.totalArchivos;
 	}
 
 
@@ -176,8 +193,9 @@ public class Usuario implements UserDetails{
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nombreUsuario=" + nombreUsuario + ", correo=" + correo + ", contrasena="
-				+ contrasena + ", role=" + role + ", accountNonExpired=" + accountNonExpired + ", accountNonLocked="
-				+ accountNonLocked + ", credentialsNonExpired=" + credentialsNonExpired + ", enabled=" + enabled + "]";
+				+ contrasena + ", totalArchivos=" + totalArchivos + ", role=" + role + ", accountNonExpired="
+				+ accountNonExpired + ", accountNonLocked=" + accountNonLocked + ", credentialsNonExpired="
+				+ credentialsNonExpired + ", enabled=" + enabled + ", archivos=" + archivos + "]";
 	}
 
 

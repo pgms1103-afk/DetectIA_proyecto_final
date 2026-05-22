@@ -1,14 +1,11 @@
+
+
 FRONT:
 Un logo chimba de carga al analizar un archivo.
 
-Mensajes de validación al crear, actualizar y eliminar (Pa Davi).
-
 Poner botones al lado del nombre del archivo del historial para eliminar archivo y editarlo. (urgente)
 
-
-Campo para escribir el nombre del archivo, el cual, si selecciona un archivo del historial, se llene automáticamente (urgente).
-
-En la herramienta de video, donde esta TwelveLabs y Hive Moderation agrege a gemini tambien. (urgente).
+Hacer mas clara la letra en la tabla donde se muestran los usuarios.	
 
 Que al subir un archivo, ese archivo se vea en la pantalla, y al cargar algo del historial, ese archivo también se vea en la pantalla. (urgente).
 
@@ -18,11 +15,18 @@ Quitar el apartado que dice "principal, detector" no es nada.
 
 Creeria que es bueno hacer mas amplio el apartado donde se ven las respuestas individuales y el promedio de las IAs, acortar un poco el lugar donde se sube el archivo, y hacer mas notorio las respuestas.
 
-Quitar los botones de "limpiar" y "exportar" en la parte superior derecha.
 
 En la parte de abajo, donde dice lo de "recientes" si dejamos eso? es que seria llenar esa parte con puros archivos, y es un poco lo mismo de historial.
 
-Boton de cerrar sesión.
+Al subir un archivo aparecen 2 mensajes del toastr, el verde y uno amarillo.
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ADMINISTRADOR:
+
+Que opina? estaría chimba hacer
+Quitar la campanita en la parte superior derecha o darle una función. 
+
 
 
 

@@ -1,7 +1,6 @@
 <header class="barra-superior-admin">
   <div class="seccion-izq">
-    <button class="btn-menu-movil" (click)="notificarToggle()">
-    </button>
+    <button class="btn-menu-movil" (click)="abrirMenu()"></button>
 
     <div class="contenedor-logo">
       <div class="icono-logo">
@@ -15,13 +14,27 @@
   </div>
 
   <div class="seccion-der">
-    <button class="btn-admin-accion">
-      <i class="fa-solid fa-bell"></i>
-    </button>
-    <div class="separador-v"></div>
-    <div class="perfil-admin-mini">
-      <div class="avatar-admin">AD</div>
-      <span class="nombre-admin">Administrador</span>
+    <div class="perfil-contenedor-topbar" (click)="toggleProfileMenu()">
+      <div class="avatar-usuario">{{ user.name.substring(0,2).toUpperCase() }}</div>
+
+      <div class="info-usuario-topbar">
+        <span class="nombre-usuario">{{ user.name }}</span>
+      </div>
+
+      <i class="fa-solid fa-chevron-down flecha-menu" [class.rotado]="showProfileMenu"></i>
+
+      <div class="menu-desplegable-topbar" *ngIf="showProfileMenu" (click)="$event.stopPropagation()">
+        <div class="cabecera-menu">
+          <span>Datos del Perfil</span>
+        </div>
+        <div class="datos-usuario">
+          <p><strong>Usuario:</strong> {{ user.name }}</p>
+          <p><strong>Correo:</strong> {{ user.email }}</p>
+          <div class="estadisticas-menu">
+            <span title="Análisis realizados"><i class="fa-solid fa-chart-simple"></i> {{ user.files }} Análisis</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </header>

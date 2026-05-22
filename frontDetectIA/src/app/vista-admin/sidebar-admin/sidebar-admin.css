@@ -95,7 +95,7 @@
   text-decoration: none;
 }
 
-/* Efecto hover púrpura/indigo exclusivo para admin */
+
 .item-nav:hover {
   background: rgba(99, 102, 241, 0.1);
   color: #6366f1;
@@ -129,7 +129,7 @@
   flex-direction: column;
 }
 
-/* --- EXCLUSIVO MÓVIL --- */
+
 .btn-cerrar-movil {
   display: none;
   background: transparent;
@@ -144,6 +144,12 @@
 .btn-cerrar-movil:active {
   color: #6366f1;
 }
+
+.btn-cerrar-sesion:hover {
+  color: var(--accent-blue, #5356ea) !important;
+  background: rgba(99, 102, 241, 0.1) !important;
+}
+
 
 @media (max-width: 768px) {
   .barra-lateral {
