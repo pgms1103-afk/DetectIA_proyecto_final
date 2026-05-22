@@ -22,7 +22,7 @@ export class Sidebar implements OnInit {
   // 🟢 1. Inyectamos tu servicio de archivos
   private archivoService: ArchivoService = inject(ArchivoService);
   private resultadoService: ResultadoIAService = inject(ResultadoIAService);
-  public nombreArchivo: string = '';
+  public nombreArchivo = '';
 
   // 🟢 2. Arreglo para guardar el historial que viene de la BD
   public historialArchivos: ArchivoModel[] = [];

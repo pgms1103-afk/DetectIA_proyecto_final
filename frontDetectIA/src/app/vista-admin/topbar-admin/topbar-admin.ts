@@ -18,7 +18,7 @@ export class TopbarAdmin implements OnInit {
 
   @Output() menuToggle = new EventEmitter<void>();
 
-  showProfileMenu: boolean = false;
+  showProfileMenu = false;
 
   user = {
     name: 'cargando...',
@@ -36,12 +36,11 @@ export class TopbarAdmin implements OnInit {
   mostrarMisDatos() {
     this.usuarioService.getDatosUsuarioRegistrado().subscribe({
       next: (resultado) => {
-        console.log('Datos traidos');
         this.user.name = resultado.nombreUsuario;
         this.user.email = resultado.correo;
         this.user.files = resultado.totalArchivos;
       },
-      error: (error) => {
+      error: (_) => {
         console.error('No se trajeron los datos');
       },
     });

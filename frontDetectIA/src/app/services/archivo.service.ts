@@ -54,10 +54,10 @@ export class ArchivoService {
     );
   }
 
-  getBuscarArchivosPorNombre(nombreArchivo:string){
-    return this.cliente.get<ArchivoModel[]>(this.urlbase + '/buscarpornombre',{
+  getBuscarArchivosPorNombre(nombreArchivo: string) {
+    return this.cliente.get<ArchivoModel[]>(`${this.urlbase}/buscarpornombre`, {
       observe: 'response',
-      params: {nombreArchivo:nombreArchivo}
+      params: { nombreArchivo }
     });
   }
 
