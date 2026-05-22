@@ -1,5 +1,7 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,6 +12,9 @@ import { CommonModule } from '@angular/common';
 })
 export class Sidebar {
   @Output() herramientaSeleccionada = new EventEmitter<string>();
+
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   showProfileMenu: boolean = false;
   user = {
@@ -34,5 +39,10 @@ export class Sidebar {
     this.herramientaActual = herramienta;
     this.herramientaSeleccionada.emit(herramienta);
     if (this.mobileOpen) this.toggleMobileMenu();
+  }
+
+  cerrarSesion() {
+    this.authService.cerrarSesion();
+    this.router.navigate(['/login']);
   }
 }

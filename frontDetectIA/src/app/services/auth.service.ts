@@ -54,4 +54,8 @@ export class AuthService {
     localStorage.removeItem('rol_diario');
     localStorage.removeItem('usuario_diario');
   }
+
+  logout() {
+    this.cerrarSesion();
+  }
 }
