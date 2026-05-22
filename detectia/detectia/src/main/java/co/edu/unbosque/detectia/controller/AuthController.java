@@ -10,7 +10,10 @@ import co.edu.unbosque.detectia.exception.CorreoInvalidoException;
 import co.edu.unbosque.detectia.exception.NombreInvalidoException;
 import co.edu.unbosque.detectia.exception.PasswordNotValidException;
 import co.edu.unbosque.detectia.security.JwtUtil;
+import co.edu.unbosque.detectia.service.AuditoriaLogService;
 import co.edu.unbosque.detectia.service.UsuarioService;
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,15 +41,23 @@ public class AuthController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	@Autowired
+	private AuditoriaLogService auditoriaLogSer;
+
 	@GetMapping("home") // No requiere autenticación
 	public String home() {
 		return "Metodo publico";
 	}
 
 	@PostMapping("/registrarusuario")
-	public ResponseEntity<String> registrarUsuario(@RequestBody UsuarioDTO dto) {
+	public ResponseEntity<String> registrarUsuario(@RequestBody UsuarioDTO dto, HttpServletRequest request) {
 		try {
 			if (usuarioSer.findUsernameAlreadyTaken(dto.getNombreUsuario())) {
+
+				auditoriaLogSer.registrarAuditoria(dto.getCorreo(), dto.getNombreUsuario(), "REGISTRO", "AUTENTICACION",
+						"Intento de registro fallido: nombre de usuario ya existe", request.getRemoteAddr(),
+						request.getHeader("User-Agent"), null, null, "Usuario", null, false);
+
 				return ResponseEntity.status(HttpStatus.CONFLICT).body("El nombre de usuario ya existe");
 			}
 
@@ -55,14 +66,24 @@ public class AuthController {
 			nuevo.setCorreo(dto.getCorreo());
 			nuevo.setContrasena(dto.getContrasena());
 			usuarioSer.create(nuevo);
+
+			auditoriaLogSer.registrarAuditoria(dto.getCorreo(), dto.getNombreUsuario(), "REGISTRO", "AUTENTICACION",
+					"Usuario registrado exitosamente", request.getRemoteAddr(), request.getHeader("User-Agent"), null,
+					dto.getNombreUsuario(), "Usuario", null, true);
+
 			return new ResponseEntity<>("Usuario registrado con éxito", HttpStatus.CREATED);
 		} catch (NombreInvalidoException | PasswordNotValidException | CorreoInvalidoException e) {
+
+			auditoriaLogSer.registrarAuditoria(dto.getCorreo(), dto.getNombreUsuario(), "REGISTRO", "AUTENTICACION",
+					"Registro fallido: " + e.getMessage(), request.getRemoteAddr(), request.getHeader("User-Agent"),
+					null, null, "Usuario", null, false);
+
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<Object> login(@RequestBody UsuarioDTO dto) {
+	public ResponseEntity<Object> login(@RequestBody UsuarioDTO dto, HttpServletRequest request) {
 		try {
 			Authentication authentication = authenticationManager
 					.authenticate(new UsernamePasswordAuthenticationToken(dto.getNombreUsuario(), dto.getContrasena()));
@@ -77,8 +98,17 @@ public class AuthController {
 				role = user.getRole().name();
 			}
 
+			auditoriaLogSer.registrarAuditoria(null, dto.getNombreUsuario(), "LOGIN", "AUTENTICACION",
+					"Inicio de sesión exitoso con rol: " + role, request.getRemoteAddr(),
+					request.getHeader("User-Agent"), null, null, "Sesion", null, true);
+
 			return ResponseEntity.ok(new AuthResponse(jwt, role));
 		} catch (AuthenticationException e) {
+
+			auditoriaLogSer.registrarAuditoria(null, dto.getNombreUsuario(), "LOGIN", "AUTENTICACION",
+					"Intento de login fallido: credenciales inválidas", request.getRemoteAddr(),
+					request.getHeader("User-Agent"), null, null, "Sesion", null, false);
+
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 					.body("Nombre de usuario o contraseña inválidos o usuario no encontrado");
