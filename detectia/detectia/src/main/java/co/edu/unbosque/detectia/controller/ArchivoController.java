@@ -79,7 +79,7 @@ public class ArchivoController {
 			nuevo.setUsuarioId(usuario.getId());
 			Archivo archivoGuardado = archivoSer.createAndReturn(nuevo);
 			resultadoIAser.guardarResultados(votosIAs, archivoGuardado);
-			return new ResponseEntity<>(archivoSer.calcularResumen(votosIAs), HttpStatus.CREATED);
+			return new ResponseEntity<>(analisisSer.calcularResumen(votosIAs, archivoGuardado), HttpStatus.CREATED);
 		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
@@ -100,8 +100,8 @@ public class ArchivoController {
 			nuevo.setNombre(nombre);
 			nuevo.setUsuarioId(usuario.getId());
 			Archivo archivoGuardado = archivoSer.createAndReturn(nuevo);
-			resultadoIAser.guardarResultados(votosIAs, archivoGuardado.getNombre());
-			return new ResponseEntity<>(archivoSer.calcularResumen(votosIAs), HttpStatus.CREATED);
+			resultadoIAser.guardarResultados(votosIAs, archivoGuardado);
+			return new ResponseEntity<>(analisisSer.calcularResumen(votosIAs, archivoGuardado), HttpStatus.CREATED);
 		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
