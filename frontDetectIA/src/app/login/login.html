@@ -29,15 +29,6 @@
       </button>
     </div>
 
-    <div class="alerta-mensaje error animate__animated animate__shakeX" *ngIf="mensajeError">
-      <i class="fa-solid fa-triangle-exclamation"></i>
-      <span>{{ mensajeError }}</span>
-    </div>
-    <div class="alerta-mensaje exito animate__animated animate__fadeIn" *ngIf="mensajeExito">
-      <i class="fa-solid fa-circle-check"></i>
-      <span>{{ mensajeExito }}</span>
-    </div>
-
     <div *ngIf="modo === 'login'" class="formulario-auth animacion-aparecer">
       <div class="grupo-campo">
         <label class="etiqueta-campo">Usuario</label>
@@ -91,6 +82,13 @@
           <button type="button" class="btn-ojo" (click)="showSignupPass = !showSignupPass">
             <i class="fa-regular" [class.fa-eye]="!showSignupPass" [class.fa-eye-slash]="showSignupPass"></i>
           </button>
+        </div>
+
+        <div class="contenedor-barra-fuerza">
+          <div class="barra-fuerza">
+            <div class="relleno-fuerza medio" style="width: 66%;"></div>
+          </div>
+          <span class="etiqueta-fuerza texto-medio">Media</span>
         </div>
       </div>
 

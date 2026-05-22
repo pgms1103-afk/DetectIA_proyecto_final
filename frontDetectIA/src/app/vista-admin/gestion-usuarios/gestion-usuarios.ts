@@ -4,7 +4,6 @@ import { UsuarioModel } from '../../models/usuario.model';
 import { UsuarioService } from '../../services/usuario.service';
 import { Role } from '../../models/role.enum';
 import { FormsModule } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-gestion-usuarios',
@@ -16,31 +15,17 @@ import { ToastrService } from 'ngx-toastr';
 export class GestionUsuarios implements OnInit {
   public usuarios: UsuarioModel[] = [];
   private usuarioService: UsuarioService = inject(UsuarioService);
-  private toastr: ToastrService = inject(ToastrService);
   public id: number | undefined = undefined;
-
-  mensajeError = '';
-  mensajeExito = '';
 
   usuarioNuevo: UsuarioModel = {
     nombreUsuario: '',
     correo: '',
     contrasena: '',
     role: Role.USER,
-    totalArchivos: 0,
   };
 
   ngOnInit(): void {
     this.cargarUsuarios();
-  }
-
-  private static extraerError(err: unknown): string {
-    const errorObj = err as { error?: string | { message?: string } };
-    if (errorObj?.error) {
-      if (typeof errorObj.error === 'string') return errorObj.error;
-      if (errorObj.error.message) return errorObj.error.message;
-    }
-    return 'Ocurrió un error en el servidor.';
   }
 
   cargarUsuarios() {
@@ -49,7 +34,7 @@ export class GestionUsuarios implements OnInit {
         this.usuarios = datos;
       },
       error: (e) => {
-        this.toastr.error(e.error ||'Error al cargar los usuarios', 'Error');
+        console.error('Algo fallo');
       },
     });
   }
@@ -59,25 +44,19 @@ export class GestionUsuarios implements OnInit {
 
   abrirModalCrear() {
     this.modoModal = 'crear';
-    this.mensajeError = '';
-    this.mensajeExito = '';
-    this.usuarioNuevo = { nombreUsuario: '', correo: '', contrasena: '', role: Role.USER, totalArchivos: 0 };
     this.mostrarModal = true;
   }
 
   abrirModalEditar(user: UsuarioModel) {
     this.modoModal = 'editar';
-    this.mensajeError = '';
-    this.mensajeExito = '';
     this.mostrarModal = true;
     this.id = user.id;
     this.usuarioNuevo = {
       id: user.id,
       nombreUsuario: user.nombreUsuario,
       correo: user.correo,
-      contrasena: '',
-      role: user.role,
-      totalArchivos: user.totalArchivos
+      contrasena: '', // La contraseña se deja vacía por seguridad en la edición
+      role: user.role
     };
   }
 
@@ -86,39 +65,29 @@ export class GestionUsuarios implements OnInit {
   }
 
   crearOactualizar(){
-    this.mensajeError = '';
-    this.mensajeExito = '';
-
-    if(!this.usuarioNuevo.nombreUsuario || !this.usuarioNuevo.correo || (!this.usuarioNuevo.contrasena && this.modoModal === 'crear')){
-      this.mensajeError = 'Debe completar todos los campos obligatorios.';
-      return;
-    }
-
     if(this.modoModal === 'crear'){
       this.usuarioService.postCrearUsuario(this.usuarioNuevo).subscribe({
         next: (datos) => {
-          this.toastr.success('Usuario creado con exito', 'Exito');
+          console.log('Se creo el usuario');
           this.cargarUsuarios();//Es para refresar la tabla cuando se realiza la accion, no la borren
-          this.cerrarModal();
         },
         error: (e) => {
-          this.toastr.error(e.error || 'No se pudo crear el usuario', 'Error');
+          console.error('No se creo el usuario');
         },
       });
     }else{
       if (this.id === undefined) {
-        this.mensajeError = 'No se ha seleccionado ningún usuario para editar.';
+        alert('No se ha seleccionado ningún usuario para editar.');
         return;
       }
       this.usuarioService.putActualizarUsuario(this.id, this.usuarioNuevo).subscribe({
         next: (datos) => {
-          this.toastr.success('Se actualizó correctamente el usuario', 'Exito');
+          console.log('Se actualizó correctamente');
           this.cargarUsuarios();//Es para refresar la tabla cuando se realiza la accion, no la borren
-          this.cerrarModal();
         }, error: (e) => {
-          this.toastr.error(e.error ||'No se pudo actualizar el usuario', 'Error');
+          console.error('No se actualizó');
         }
-      });
+      })
     }
   }
 
@@ -126,11 +95,11 @@ export class GestionUsuarios implements OnInit {
 
     this.usuarioService.deleteUsuarios(user.id).subscribe({
       next: (datos) => {
-        this.toastr.success('Se eliminó correctamene el usuario', 'Exito');
+        console.log('Se eliminó el usuario');
         this.cargarUsuarios();
       },
       error: (e) => {
-        this.toastr.error(e.error ||"No se pudo eliminar el usuario", 'Error');
+        console.error("No se pudo eliminar el usuario", e);
       }
     });
   }

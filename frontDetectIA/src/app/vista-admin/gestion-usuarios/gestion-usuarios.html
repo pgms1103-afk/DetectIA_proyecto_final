@@ -21,7 +21,6 @@
       <tr>
         <th>Usuario</th>
         <th>Correo Electrónico</th>
-        <th>Archivos Analizados</th>
         <th>Rol</th>
         <th>Acciones</th>
       </tr>
@@ -37,14 +36,6 @@
           </div>
         </td>
         <td>{{ user.correo }}</td>
-
-        <td>
-          <div class="flex items-center gap-2 text-gray-300">
-            <i class="fa-solid fa-file-lines text-orange-500"></i>
-            <span>{{ user.totalArchivos || 0 }}</span>
-          </div>
-        </td>
-
         <td><span class="badge-rol">{{ user.role }}</span></td>
         <td>
           <div class="acciones-fila">
@@ -64,22 +55,9 @@
 
 <div class="superposicion-modal" *ngIf="mostrarModal">
   <div class="caja-modal animacion-aparecer">
-
     <div class="cabecera-modal">
       <h3>{{ modoModal === 'crear' ? 'Crear Nuevo Usuario' : 'Actualizar Usuario' }}</h3>
       <button class="btn-cerrar-modal" (click)="cerrarModal()"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-
-    <div style="padding: 0 24px; margin-top: 16px;">
-      <div class="alerta-mensaje error animate__animated animate__shakeX" *ngIf="mensajeError">
-        <i class="fa-solid fa-triangle-exclamation"></i>
-        <span>{{ mensajeError }}</span>
-      </div>
-
-      <div class="alerta-mensaje exito animate__animated animate__fadeIn" *ngIf="mensajeExito">
-        <i class="fa-solid fa-circle-check"></i>
-        <span>{{ mensajeExito }}</span>
-      </div>
     </div>
     <div class="cuerpo-modal">
       <div class="grupo-input">
@@ -95,10 +73,12 @@
       <div class="fila-inputs">
         <div class="grupo-input">
           <label>Rol del Sistema</label>
+
           <select [(ngModel)]="usuarioNuevo.role" name="role">
             <option value="USER">Usuario Regular</option>
             <option value="ADMIN">Administrador</option>
           </select>
+
         </div>
 
         <div class="grupo-input">
@@ -106,7 +86,6 @@
           <input type="password" [(ngModel)]="usuarioNuevo.contrasena" name="contrasena" placeholder="Tu contraseña">
         </div>
       </div>
-
     </div>
     <div class="pie-modal">
       <button class="btn-cancelar" (click)="cerrarModal()">Cancelar</button>

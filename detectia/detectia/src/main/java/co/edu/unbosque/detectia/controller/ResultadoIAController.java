@@ -31,6 +31,31 @@ public class ResultadoIAController {
 	
 	@Autowired
 	private AnalisisService analisisSer;
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@GetMapping("mostrarresultados")
+	public ResponseEntity<List<ResultadoIADTO>> mostrarResultados() {
+		List<ResultadoIADTO> resultados = resultadoSer.getAll();
+		if (resultados.isEmpty()) {
+			return new ResponseEntity<>(resultados, HttpStatus.NO_CONTENT);
+		} else {
+			return new ResponseEntity<>(resultados, HttpStatus.ACCEPTED);
+		}
+	}
+	
+	@GetMapping("mostrarresultadosporcorreo")
+	public ResponseEntity<List<ResultadoIADTO>> mostrarResultadosPorCorreo(Authentication authentication) {
+
+	    String name = authentication.getName();
+
+	    List<ResultadoIADTO> resultados = resultadoSer.getResultadosByUsuario(name);
+
+	    if (resultados.isEmpty()) {
+	        return ResponseEntity.noContent().build();
+	    }
+
+	    return ResponseEntity.ok(resultados);
+	}
 	
 	@GetMapping("mostrarresultadoporarchivo")
 	public ResponseEntity<List<ResultadoIADTO>> mostrarResultadosPorArchivo(@RequestParam long id) {
@@ -55,7 +80,19 @@ public class ResultadoIAController {
 
 	    return new ResponseEntity<List<AnalisisDTO>>(resultados, HttpStatus.OK);
 	}
+	
+	@GetMapping("/mostraranalisis")
+	public ResponseEntity<List<AnalisisDTO>> mostrarAnalisis (Authentication authentication) {
+		  String name = authentication.getName();
 
+		    List<AnalisisDTO> resultados = analisisSer.getResultadosByUsuario(name);
+
+		    if (resultados.isEmpty()) {
+		        return ResponseEntity.noContent().build();
+		    }
+
+		    return ResponseEntity.ok(resultados);
+	}
 	
 	
 }

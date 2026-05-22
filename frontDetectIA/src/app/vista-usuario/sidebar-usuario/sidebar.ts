@@ -3,46 +3,36 @@ import { CommonModule } from '@angular/common';
 import { ArchivoService } from '../../services/archivo.service'; // 🟢 Importamos el servicio
 import { ArchivoModel } from '../../models/archivo.model';
 import { ResultadoIAService } from '../../services/resultadoIA.service'; // 🟢 Importamos el modelo
-import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   templateUrl: './sidebar.html',
-  styleUrl: './sidebar.css',
+  styleUrl: './sidebar.css'
 })
-export class Sidebar implements OnInit {
-  // 🟢 Implementamos OnInit
+export class Sidebar implements OnInit { // 🟢 Implementamos OnInit
 
   @Output() herramientaSeleccionada = new EventEmitter<string>();
 
   // 🟢 1. Inyectamos tu servicio de archivos
   private archivoService: ArchivoService = inject(ArchivoService);
-  private resultadoService: ResultadoIAService = inject(ResultadoIAService);
-  public nombreArchivo = '';
+  private resultadoService:ResultadoIAService = inject(ResultadoIAService);
 
   // 🟢 2. Arreglo para guardar el historial que viene de la BD
   public historialArchivos: ArchivoModel[] = [];
-  private authService = inject(AuthService);
-  private router = inject(Router);
 
   showProfileMenu: boolean = false;
   user = {
     name: 'Jose Manuel',
     email: 'jose.manuel@elbosque.edu.co',
     time: '14h 20m',
-    files: 28,
+    files: 28
   };
 
   // 🟢 3. Se ejecuta apenas carga el Sidebar
   ngOnInit(): void {
     this.cargarHistorial();
-    this.archivoService.analisisCompletado$.subscribe(() => {
-      this.cargarHistorial();
-    });
   }
 
   // 🟢 4. Método que va al backend por los archivos del usuario
@@ -56,11 +46,11 @@ export class Sidebar implements OnInit {
       },
       error: (err) => {
         console.error('Error al traer el historial:', err);
-      },
+      }
     });
   }
 
-  // 🟢 5. Método que se dispara al hacer click en un archivo del HTML
+// 🟢 5. Método que se dispara al hacer click en un archivo del HTML
   verDetalleHistorial(archivo: ArchivoModel) {
     console.log('Click en el archivo del historial:', archivo.nombre);
 
@@ -94,40 +84,12 @@ export class Sidebar implements OnInit {
   mobileOpen = false;
   herramientaActual = 'texto';
 
-  toggleSidebar() {
-    this.isCollapsed = !this.isCollapsed;
-  }
-  toggleMobileMenu() {
-    this.mobileOpen = !this.mobileOpen;
-  }
+  toggleSidebar() { this.isCollapsed = !this.isCollapsed; }
+  toggleMobileMenu() { this.mobileOpen = !this.mobileOpen; }
 
   seleccionarHerramienta(herramienta: string) {
     this.herramientaActual = herramienta;
     this.herramientaSeleccionada.emit(herramienta);
     if (this.mobileOpen) this.toggleMobileMenu();
-  }
-
-  cerrarSesion() {
-    this.authService.cerrarSesion();
-    this.router.navigate(['/login']);
-  }
-
-  buscarPorNombre() {
-    if (!this.nombreArchivo.trim()) {
-      this.cargarHistorial(); // si está vacío, carga todo el historial
-      return;
-    }
-
-    this.archivoService.getBuscarArchivosPorNombre(this.nombreArchivo).subscribe({
-      next: (httpResponse) => {
-        if (httpResponse.body) {
-          this.historialArchivos = httpResponse.body;
-        }
-      },
-      error: (err) => {
-        console.error('Error al buscar:', err);
-        this.historialArchivos = [];
-      }
-    });
   }
 }

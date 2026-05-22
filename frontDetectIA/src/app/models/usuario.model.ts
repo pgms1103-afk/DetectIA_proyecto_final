@@ -6,7 +6,6 @@ export interface UsuarioModel{
   correo: string;
   contrasena?: string;
   role: Role;
-  totalArchivos: number;
 
 
 }

@@ -1,6 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sidebar-admin',
@@ -15,18 +14,11 @@ export class SidebarAdmin {
   isCollapsed = false;
   mobileOpen = false;
 
-  constructor(private authService: AuthService) {}
-
   toggleSidebar() { this.isCollapsed = !this.isCollapsed; }
   toggleMobileMenu() { this.mobileOpen = !this.mobileOpen; }
 
   seleccionar(vista: 'dashboard' | 'usuarios') {
     this.vistaSeleccionada.emit(vista);
     if (this.mobileOpen) this.toggleMobileMenu();
-  }
-
-  cerrarSesion() {
-    this.authService.cerrarSesion();
-    window.location.href = '/login';
   }
 }

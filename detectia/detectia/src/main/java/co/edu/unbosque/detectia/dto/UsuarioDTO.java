@@ -14,20 +14,18 @@ public class UsuarioDTO {
 	private String nombreUsuario;
 	private String correo;
 	private String contrasena;
-	private long totalArchivos;
 	private Role role;
 	
 	public UsuarioDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UsuarioDTO(String nombreUsuario, String correo, String contrasena, Role role, long totalArchivos) {
+	public UsuarioDTO(String nombreUsuario, String correo, String contrasena, Role role) {
 		super();
 		this.nombreUsuario = nombreUsuario;
 		this.correo = correo;
 		this.contrasena = contrasena;
 		this.role = role;
-		this.totalArchivos = totalArchivos;
 	}
 	
 	public UsuarioDTO(String nombreUsuario, String correo, Role role) {
@@ -36,22 +34,12 @@ public class UsuarioDTO {
 		this.correo = correo;
 		this.role = role;
 	}
-	
 
-	public long getTotalArchivos() {
-		return totalArchivos;
-	}
-
-	public void setTotalArchivos(long totalArchivos) {
-		this.totalArchivos = totalArchivos;
-	}
-
-
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -90,12 +78,12 @@ public class UsuarioDTO {
 	@Override
 	public String toString() {
 		return "UsuarioDTO [id=" + id + ", nombreUsuario=" + nombreUsuario + ", correo=" + correo + ", contrasena="
-				+ contrasena + ", totalArchivos=" + totalArchivos + ", role=" + role + "]";
+				+ contrasena + ", role=" + role + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(contrasena, correo, id, nombreUsuario, role, totalArchivos);
+		return Objects.hash(contrasena, correo, id, nombreUsuario, role);
 	}
 
 	@Override
@@ -107,12 +95,9 @@ public class UsuarioDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		UsuarioDTO other = (UsuarioDTO) obj;
-		return Objects.equals(contrasena, other.contrasena) && Objects.equals(correo, other.correo)
-				&& Objects.equals(id, other.id) && Objects.equals(nombreUsuario, other.nombreUsuario)
-				&& role == other.role && totalArchivos == other.totalArchivos;
+		return Objects.equals(contrasena, other.contrasena) && Objects.equals(correo, other.correo) && id == other.id
+				&& Objects.equals(nombreUsuario, other.nombreUsuario) && role == other.role;
 	}
-
-	
 
 	
 

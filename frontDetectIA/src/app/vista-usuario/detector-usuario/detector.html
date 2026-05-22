@@ -5,15 +5,6 @@
       <span class="contador-caracteres" *ngIf="tipoHerramienta === 'texto'">0 / 12.000 chars</span>
     </div>
 
-    <div class="contenedor-nombre-archivo">
-      <input
-        type="text"
-        [(ngModel)]="nombre"
-        placeholder="Nombre para guardar este análisis (Ej. Proyecto Final)..."
-        class="input-nombre-archivo"
-      />
-    </div>
-
     <div class="grupo-pestanas">
       <button class="btn-pestana" [class.activo]="activeTab === 'text'" (click)="switchTab('text')">
         <i class="fa-solid" [ngClass]="tipoHerramienta === 'texto' ? 'fa-regular fa-keyboard' : 'fa-solid fa-link'"></i>
