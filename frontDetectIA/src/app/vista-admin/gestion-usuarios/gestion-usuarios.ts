@@ -27,6 +27,7 @@ export class GestionUsuarios implements OnInit {
     correo: '',
     contrasena: '',
     role: Role.USER,
+    totalArchivos: 0,
   };
 
   ngOnInit(): void {
@@ -60,7 +61,7 @@ export class GestionUsuarios implements OnInit {
     this.modoModal = 'crear';
     this.mensajeError = '';
     this.mensajeExito = '';
-    this.usuarioNuevo = { nombreUsuario: '', correo: '', contrasena: '', role: Role.USER };
+    this.usuarioNuevo = { nombreUsuario: '', correo: '', contrasena: '', role: Role.USER, totalArchivos: 0 };
     this.mostrarModal = true;
   }
 
@@ -75,7 +76,8 @@ export class GestionUsuarios implements OnInit {
       nombreUsuario: user.nombreUsuario,
       correo: user.correo,
       contrasena: '',
-      role: user.role
+      role: user.role,
+      totalArchivos: user.totalArchivos
     };
   }
 

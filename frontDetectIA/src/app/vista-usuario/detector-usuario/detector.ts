@@ -216,6 +216,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
 
     this.archivoService.postAnalizarArchivo(this.nombre, this.archivo).subscribe({
       next: (resp: any) => {
+        this.archivoService.analisisCompletado$.next(); // ← agrega esta línea
         this.toastr.warning('Respuesta del servidor:', resp);
 
         // 1. Actualizar la gráfica central (el doughnut chart)
@@ -245,6 +246,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
     }
     this.archivoService.postAnalizarUrl(this.nombre, this.url).subscribe({
       next: (resp : any) => {
+        this.archivoService.analisisCompletado$.next(); // ← agrega esta línea
         console.log(resp);
         this.actualizarPorcentaje(resp.promedio);
 

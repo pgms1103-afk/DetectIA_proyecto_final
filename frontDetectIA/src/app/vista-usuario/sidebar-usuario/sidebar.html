@@ -35,6 +35,22 @@
       <span class="texto-nav">Audio</span>
     </a>
 
+
+    <span class="etiqueta-seccion" *ngIf="!isCollapsed" style="margin-top: 0.5rem;">Búsqueda</span>
+
+    <div class="contenedor-buscador-historial" *ngIf="!isCollapsed" style="margin-top: 0.25rem;">
+      <div class="grupo-buscador">
+        <i class="fa-solid fa-magnifying-glass icono-buscador"></i>
+        <input
+          [(ngModel)]="nombreArchivo"
+          (input)="buscarPorNombre()"
+          type="text"
+          placeholder="Buscar archivo..."
+          class="input-buscador"
+        />
+      </div>
+    </div>
+
     <span class="etiqueta-seccion">Historial</span>
 
     <a class="item-nav"

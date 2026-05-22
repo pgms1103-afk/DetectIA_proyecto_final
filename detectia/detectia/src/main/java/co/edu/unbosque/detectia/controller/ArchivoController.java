@@ -116,8 +116,18 @@ public class ArchivoController {
 		if (archivos.isEmpty()) {
 			return new ResponseEntity<>(archivos, HttpStatus.NOT_FOUND);
 		} else {
-			return new ResponseEntity<>(archivos, HttpStatus.ACCEPTED);
+			return new ResponseEntity<>(archivos, HttpStatus.OK);
 		}
+	}
+	
+	@GetMapping("/buscarpornombre")
+	public ResponseEntity<List<ArchivoDTO>> buscarPorNombre(@RequestParam String nombreArchivo, Authentication authentication) {
+	    String user = authentication.getName();
+	    List<ArchivoDTO> archivos = archivoSer.findArchivoByNombre(nombreArchivo, user);
+	    if (archivos == null) {
+	        return ResponseEntity.noContent().build();
+	    }
+	    return ResponseEntity.ok(archivos);
 	}
 
 	@DeleteMapping("/eliminar")
@@ -129,5 +139,7 @@ public class ArchivoController {
 			return new ResponseEntity<>("Archivo no existe", HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	
 
 }

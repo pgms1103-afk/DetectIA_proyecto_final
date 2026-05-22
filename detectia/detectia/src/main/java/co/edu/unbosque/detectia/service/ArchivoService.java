@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import co.edu.unbosque.detectia.dto.ArchivoDTO;
 import co.edu.unbosque.detectia.entity.Archivo;
@@ -157,6 +158,20 @@ public class ArchivoService implements CRUDoperation<ArchivoDTO> {
 			return mapper.map(encontrado.get(), ArchivoDTO.class);
 		}
 		return null;
+	}
+	
+	public List<ArchivoDTO> findArchivoByNombre(String nombreArchivo, String nombreUsuario) {
+	    Optional<Usuario> entity = usuarioRepo.findByNombreUsuario(nombreUsuario);
+	    if (entity.isEmpty()) {
+	        throw new UsernameNotFoundException("Usuario no encontrado");
+	    }
+	    List<Archivo> archivos = archivoRepo.findByNombreAndUsuarioId(nombreArchivo, entity.get().getId());
+	    if (archivos.isEmpty()) {
+	        return null;
+	    }
+	    return archivos.stream()
+	            .map(a -> mapper.map(a, ArchivoDTO.class))
+	            .toList();
 	}
 
 }
