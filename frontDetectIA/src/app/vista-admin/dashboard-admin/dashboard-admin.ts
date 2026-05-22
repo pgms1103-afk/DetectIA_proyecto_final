@@ -15,9 +15,9 @@ export class DashboardAdmin implements AfterViewInit {
   metricas = [
     { titulo: 'Usuarios Totales', valor: '1,284', icono: 'fa-users', color: 'naranja' },
     { titulo: 'Análisis Realizados', valor: '45,602', icono: 'fa-magnifying-glass-chart', color: 'purpura' },
-    { titulo: 'Uptime Sistema', valor: '99.9%', icono: 'fa-server', color: 'verde' },
-    { titulo: 'Modelos Activos', valor: '8', icono: 'fa-microchip', color: 'azul' },
-    { titulo: 'Capacidad API', valor: '95%', icono: 'fa-bolt', color: 'amarillo' },
+    { titulo: 'Usuarios', valor: '99.9', icono: 'fa-server', color: 'verde' },
+    { titulo: 'Administradores', valor: '8', icono: 'fa-microchip', color: 'azul' },
+    { titulo: 'Modelos Activos', valor: '95%', icono: 'fa-bolt', color: 'amarillo' },
     { titulo: 'Suscripciones Pro', valor: '312', icono: 'fa-gem', color: 'rojo' }
   ];
 

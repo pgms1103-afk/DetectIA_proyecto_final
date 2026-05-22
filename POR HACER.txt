@@ -1,13 +1,32 @@
 FRONT:
-El logo de carga.
-Mensajes de validación al crear, actualizar y eliminar.
-Campo para escribir el nombre del archivo, el cual, si selecciona un archivo del historial, se llene automaticamente.
+Un logo chimba de carga al analizar un archivo.
+
+Mensajes de validación al crear, actualizar y eliminar (Pa Davi).
+
+Poner botones al lado del nombre del archivo del historial para eliminar archivo y editarlo. (urgente)
+
+
+Campo para escribir el nombre del archivo, el cual, si selecciona un archivo del historial, se llene automáticamente (urgente).
+
+En la herramienta de video, donde esta TwelveLabs y Hive Moderation agrege a gemini tambien. (urgente).
+
+Que al subir un archivo, ese archivo se vea en la pantalla, y al cargar algo del historial, ese archivo también se vea en la pantalla. (urgente).
+
+A veces no se muestra el porcentaje en la grafica de "probabilidad IA", ni se llena la grafica, ni idea pq. (urgente).
+
 Quitar el apartado que dice "principal, detector" no es nada.
-No se muestra el porcentaje en la grafica, ni se llena la grafica.
-Poner para eliminar archivo y editarlo.
-Creeria que es bueno hacer mas amplio el apartado donde se ven las respuestas, acortar un poco el lugar donde se sube el archivo, y hacer mas notorio las respuestas 
+
+Creeria que es bueno hacer mas amplio el apartado donde se ven las respuestas individuales y el promedio de las IAs, acortar un poco el lugar donde se sube el archivo, y hacer mas notorio las respuestas.
+
 Quitar los botones de "limpiar" y "exportar" en la parte superior derecha.
 
+En la parte de abajo, donde dice lo de "recientes" si dejamos eso? es que seria llenar esa parte con puros archivos, y es un poco lo mismo de historial.
+
+Boton de cerrar sesión.
+
+
+
 BACK:
+Ver lo de las IAs en archivos de texto con imágenes.
 Auditorias.
 Supongo q mas excepciones.
