@@ -1,6 +1,7 @@
 package co.edu.unbosque.detectia.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -167,7 +168,7 @@ public class ArchivoService implements CRUDoperation<ArchivoDTO> {
 	    }
 	    List<Archivo> archivos = archivoRepo.findByNombreAndUsuarioId(nombreArchivo, entity.get().getId());
 	    if (archivos.isEmpty()) {
-	        return null;
+	    	return Collections.emptyList();
 	    }
 	    return archivos.stream()
 	            .map(a -> mapper.map(a, ArchivoDTO.class))
