@@ -12,7 +12,8 @@ import { AnalisisModel } from '../models/analisis.model';
 export class ArchivoService {
 
   private cliente: HttpClient = inject(HttpClient);
-  private readonly urlbase: String = 'http://localhost:8080/private/archivo'
+  private readonly urlbase: String = 'http://localhost:8080/private/archivo';
+  public analisisCompletado$ = new Subject<void>();
 
   private refrescarTabla = new Subject<void>();
 
@@ -44,7 +45,6 @@ export class ArchivoService {
   getMisArchivos() {
     return this.cliente.get<ArchivoModel[]>(this.urlbase + '/mis-archivos',
       {observe: 'response'});
-
   }
 
   deleteArchivos(id:number){
@@ -52,6 +52,13 @@ export class ArchivoService {
       '/eliminar?id='+id,
     {responseType: 'text'}
     );
+  }
+
+  getBuscarArchivosPorNombre(nombreArchivo:string){
+    return this.cliente.get<ArchivoModel[]>(this.urlbase + '/buscarpornombre',{
+      observe: 'response',
+      params: {nombreArchivo:nombreArchivo}
+    });
   }
 
 

@@ -44,4 +44,8 @@ export class UsuarioService {
       responseType: 'text'
     });
   }
+
+  getDatosUsuarioRegistrado(): Observable<UsuarioModel>{
+    return this.cliente.get<UsuarioModel>('http://localhost:8080/private/user/misdatos',)
+  }
 }

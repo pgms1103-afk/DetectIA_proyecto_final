@@ -1,5 +1,6 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { CommonModule} from '@angular/common';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-topbar-admin',
@@ -8,23 +9,41 @@ import { CommonModule} from '@angular/common';
   templateUrl: './topbar-admin.html',
   styleUrl: './topbar-admin.css',
 })
-export class TopbarAdmin {
+export class TopbarAdmin implements OnInit {
+  usuarioService: UsuarioService = inject(UsuarioService);
+
+  ngOnInit(): void {
+    this.mostrarMisDatos();
+  }
+
   @Output() menuToggle = new EventEmitter<void>();
 
   showProfileMenu: boolean = false;
 
   user = {
-    name: 'Jose Manuel',
-    email: 'jose.manuel@elbosque.edu.co',
-    time: '14h 20m',
-    files: 28,
+    name: 'cargando...',
+    email: 'cargando...',
+    files: 0,
   };
-
   abrirMenu() {
     this.menuToggle.emit();
   }
 
   toggleProfileMenu() {
     this.showProfileMenu = !this.showProfileMenu;
+  }
+
+  mostrarMisDatos() {
+    this.usuarioService.getDatosUsuarioRegistrado().subscribe({
+      next: (resultado) => {
+        console.log('Datos traidos');
+        this.user.name = resultado.nombreUsuario;
+        this.user.email = resultado.correo;
+        this.user.files = resultado.totalArchivos;
+      },
+      error: (error) => {
+        console.error('No se trajeron los datos');
+      },
+    });
   }
 }

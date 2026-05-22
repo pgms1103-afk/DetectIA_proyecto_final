@@ -52,38 +52,6 @@ public class ResultadoIAService{
 	    }
 	}
 	
-
-	public List<ResultadoIADTO> getAll() {
-		List<ResultadoIA> entityList = resultadoIARepo.findAll();
-		List<ResultadoIADTO> dtoList = new ArrayList<>();
-		entityList.forEach((entity) -> {
-			ResultadoIADTO dto = new ResultadoIADTO();
-			dto.setId(entity.getId());
-			dto.setNombreArchivo(entity.getArchivo() != null ? entity.getArchivo().getNombre() : null);
-			dto.setNombreIA(entity.getNombreIA());
-			dto.setPorcentajeIA(entity.getPorcentajeIA());
-			dto.setFechaAnalisis(entity.getFechaAnalisis());
-			dtoList.add(dto);
-		});
-		return dtoList;
-	}
-
-	public List<ResultadoIADTO> getResultadosByUsuario(String username) {
-	    Optional<Usuario> usuario = usuarioRepo.findByNombreUsuario(username);
-	    if (usuario.isEmpty()) return new ArrayList<>();
-
-	    List<Archivo> archivos = archivoRepo.findByUsuario(usuario.get());
-
-	    List<ResultadoIADTO> dtoList = new ArrayList<>();
-	    archivos.forEach(archivo -> {
-	        List<ResultadoIA> resultados = resultadoIARepo.findByArchivo(archivo);
-	        resultados.forEach(entity -> {
-	            ResultadoIADTO dto = mapper.map(entity, ResultadoIADTO.class);
-	            dtoList.add(dto);
-	        });
-	    });
-	    return dtoList;
-	}
 	
 	public List<ResultadoIADTO> getResultadosByArchivoId(long id) {
 	    List<ResultadoIADTO> dtoList = new ArrayList<>();
