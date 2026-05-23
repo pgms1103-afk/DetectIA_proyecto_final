@@ -14,7 +14,7 @@ import { AnalisisModel } from '../../models/analisis.model';
 import { ResultadoIAModel } from '../../models/resultadoIA.model';
 import { ResultadoIAService } from '../../services/resultadoIA.service';
 import { ArchivoModel } from '../../models/archivo.model';
-import { ToastrService } from 'ngx-toastr';
+
 
 declare var Chart: any;
 
@@ -35,15 +35,24 @@ interface ModeloIA {
 export class Detector implements OnInit, AfterViewInit, OnChanges {
   private archivoService: ArchivoService = inject(ArchivoService);
   private resultadoService: ResultadoIAService = inject(ResultadoIAService);
-  private toastr: ToastrService = inject(ToastrService);
   public nombre: string = '';
   public archivo: File | null = null;
   public url: string = '';
   public promedioActual: number = 0;
   public veredictoActual: string = '';
 
+  public cargando: boolean = false;
+  public sugerenciaActual: string = '';
+  private intervalSugerencias: any;
+  public sugerencias: string[] = [
+    "Analizando patrones de lenguaje y estructura...",
+    "Extrayendo metadatos y firmas ocultas...",
+    "Consultando la red neuronal de detección...",
+    "Evaluando anomalías en el contenido...",
+    "Comparando contra millones de muestras..."
+  ];
 
-  // Getter para definir las extensiones permitidas según la herramienta actual
+
 
   get extensionesPermitidas(): string {
     switch (this.tipoHerramienta?.toLowerCase()) {
@@ -57,7 +66,26 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
       case 'musica':
         return '.mp3,.wav,.ogg';
       default:
-        return '*/*'; // Si no coincide nada, permite todo
+        return '*/*';
+    }
+  }
+
+  iniciarCarga() {
+    this.cargando = true;
+    let i = 0;
+    this.sugerenciaActual = this.sugerencias[0];
+
+    // Cambia el texto cada 2.5 segundos
+    this.intervalSugerencias = setInterval(() => {
+      i = (i + 1) % this.sugerencias.length;
+      this.sugerenciaActual = this.sugerencias[i];
+    }, 2500);
+  }
+
+  detenerCarga() {
+    this.cargando = false;
+    if (this.intervalSugerencias) {
+      clearInterval(this.intervalSugerencias);
     }
   }
 
@@ -99,48 +127,38 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   ngOnInit(): void {
     this.actualizarModelos();
 
-    // 🟢 El Detector se queda escuchando si alguien hace click en el Sidebar
     this.archivoService.archivoSeleccionado$.subscribe((archivo: ArchivoModel) => {
-      this.toastr.success('2. Detector: Escuché el archivo:', archivo.nombre);
 
-      // 🟢 NUEVO: Detectar la extensión y cambiar la pestaña visual automáticamente
       const categoriaDetectada = this.determinarCategoriaPorArchivo(archivo.rutaAlmacenamiento);
       this.tipoHerramienta = categoriaDetectada;
 
-      // 1. Petición para traer los resultados individuales de las IAs
       this.resultadoService.getMostrarResultadosPorId(archivo.id).subscribe({
         next: (resultados: ResultadoIAModel[]) => {
 
-          // ¡Magia! Le pasamos el arreglo a tu método y la lista de IAs se actualiza visualmente
           this.actualizarValoresModelos(resultados);
-          this.toastr.success("3. Detector: Datos de IAs traídos con éxito", 'Exito')
         },
         error: (err) => {
-          this.toastr.error(err.error || "Error al traer los detalles de las IAs", 'Error');
+
         }
       });
 
-      // 2. NUEVA Petición para traer el análisis general
       this.resultadoService.getMostrarAnalisisPorId(archivo.id).subscribe({
-        // 🟢 Le decimos que va a recibir el arreglo completo
         next: (analisisResp: AnalisisModel[]) => {
 
-          // 🟢 Validamos que el arreglo traiga al menos un elemento
           if (analisisResp && analisisResp.length > 0) {
-            const analisis = analisisResp[0]; // Extraemos el objeto real
-            // Actualizamos la gráfica de dona y los textos del medidor
+            const analisis = analisisResp[0];
             this.actualizarPorcentaje(analisis.porcentajeFinal);
             this.promedioActual = analisis.porcentajeFinal;
             this.veredictoActual = analisis.veredicto;
           }
-          this.toastr.success("4. Detector: Análisis general traído con éxito", 'Exito')
+          this.toastr.success("Detector: Análisis general traído con éxito", 'Exito')
         },
         error: (err: any) => {
           // Escudo protector visual
           this.actualizarPorcentaje(0);
           this.promedioActual = 0;
           this.veredictoActual = 'Sin datos';
-          this.toastr.error(err.error || "Error al traer el análisis general", 'Error');
+
         }
       });
     });
@@ -211,55 +229,82 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
 
   subirArchivoLocal() {
     if (!this.archivo) {
-      this.toastr.warning('Selecciona un archivo primero','Advertencia');
+      alert('Advertencia: Selecciona un archivo primero'); // ✅ CAMBIO AQUÍ
       return;
     }
 
+    this.iniciarCarga();
+
     this.archivoService.postAnalizarArchivo(this.nombre, this.archivo).subscribe({
       next: (resp: any) => {
-        this.archivoService.analisisCompletado$.next(); // ← agrega esta línea
-        this.toastr.warning('Respuesta del servidor:', resp);
+        setTimeout(() => {
+          this.detenerCarga();
+          this.archivoService.analisisCompletado$.next();
 
-        // 1. Actualizar la gráfica central (el doughnut chart)
-        this.actualizarPorcentaje(resp.porcentajeFinal);
+          this.actualizarPorcentaje(resp.porcentajeFinal);
+          this.promedioActual = resp.porcentajeFinal;
+          this.veredictoActual = resp.veredicto;
+          this.actualizarValoresModelos(resp.resultados);
 
-        // 2. Actualizar el centro del medidor en el HTML (opcional, si tienes una variable para esto)
-         this.promedioActual = resp.porcentajeFinal;
-
-         this.veredictoActual = resp.veredicto;
-
-        // 3. Actualizar la lista de modelos con sus valores individuales
-        this.actualizarValoresModelos(resp.resultados);
-
-        this.toastr.success('Análisis completado con éxito.', 'Éxito');
-
+        }, 3000);
       },
       error: (err) => {
-         this.toastr.error(err.error || 'Error al analizar el archivo.', 'Error');
+        setTimeout(() => {
+          this.detenerCarga();
+          alert('Error: ' + (err.error || 'Error al analizar el archivo.'));
+        }, 1500);
       },
     });
   }
 
   subirArchivoUrl() {
     if (!this.url) {
-      this.toastr.warning('Ingresa una URL primero', 'Advertencia');
+      alert('Advertencia: Ingresa una URL primero');
       return;
     }
+
+    this.iniciarCarga();
+
     this.archivoService.postAnalizarUrl(this.nombre, this.url).subscribe({
       next: (resp : any) => {
-        this.archivoService.analisisCompletado$.next(); // ← agrega esta línea
-        console.log(resp);
-        this.actualizarPorcentaje(resp.promedio);
+        setTimeout(() => {
+          this.detenerCarga();
+          this.archivoService.analisisCompletado$.next();
 
-        // 2. Actualizar el centro del medidor en el HTML (opcional, si tienes una variable para esto)
-        this.promedioActual = resp.promedio;
+          this.actualizarPorcentaje(resp.promedio);
+          this.promedioActual = resp.promedio;
+          this.veredictoActual = resp.veredicto;
 
-        this.veredictoActual = resp.veredicto;
-
-        this.toastr.success("Analisis completado con éxito.", 'Exito')
+        }, 3000);
       },
       error: (err) => {
-        this.toastr.error(err.error || "Error al analizar la URL.", "Error");
+        setTimeout(() => {
+          this.detenerCarga();
+          alert('Error: ' + (err.error || 'Error al analizar la URL.'));
+        }, 1500);
+      },
+    });
+
+
+
+
+    this.iniciarCarga();
+
+    this.archivoService.postAnalizarUrl(this.nombre, this.url).subscribe({
+      next: (resp : any) => {
+        this.detenerCarga();
+
+        this.archivoService.analisisCompletado$.next();
+        console.log(resp);
+        this.actualizarPorcentaje(resp.promedio);
+        this.promedioActual = resp.promedio;
+        this.veredictoActual = resp.veredicto;
+
+
+      },
+      error: (err) => {
+        this.detenerCarga();
+
       },
     });
   }
@@ -268,44 +313,50 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
     this.archivo = event.target.files[0];
   }
 
+  quitarArchivo(event: Event) {
+    event.stopPropagation();
+    this.archivo = null;
+  }
+
   ejecutarAnalisis() {
     console.log(`Iniciando análisis. Pestaña activa: ${this.activeTab}`);
 
     if (this.activeTab === 'file') {
       this.subirArchivoLocal();
+
     } else if (this.activeTab === 'text' && this.tipoHerramienta !== 'texto') {
       this.subirArchivoUrl();
+
     } else {
-      this.toastr.warning('Para texto directo necesitas crear un método/endpoint específico.', 'Advertencia');
+      this.iniciarCarga();
+
+      setTimeout(() => {
+        this.detenerCarga();
+        alert('Advertencia: El análisis de texto directo requiere conectar un endpoint, pero la pantalla de carga ya funciona.');
+      }, 3000);
     }
   }
 
   actualizarValoresModelos(datosBackend: any) {
-    // 1. Normalizar los datos: Convertimos lo que llegue a un formato estándar { nombre, valor }
     let datosNormalizados: { nombre: string, valor: number }[] = [];
 
     if (Array.isArray(datosBackend)) {
-      // CASO A: Viene del Historial (Es un arreglo de ResultadoIADTO)
       datosNormalizados = datosBackend.map(item => ({
         nombre: item.nombreIA,
         valor: item.porcentajeIA
       }));
     } else {
-      // CASO B: Viene de un Análisis Nuevo (Es un Objeto/Map)
       datosNormalizados = Object.keys(datosBackend).map(key => ({
         nombre: key,
         valor: datosBackend[key]
       }));
     }
 
-    // 2. Traer la base de diseño (iconos y colores) buscando en TODAS las categorías
-    // Juntamos todos los modelos de texto, imagen, video, etc., en una sola lista gigante
     const todosLosModelosBase = Object.values(this.mapaModelos).flat();
 
-    // 3. Reconstruir la lista que se pinta en el HTML
+
     this.modelosActuales = datosNormalizados.map(dato => {
 
-      // Buscamos si el nombre de la IA existe en nuestra lista gigante para heredar su icono
       const modeloOriginal = todosLosModelosBase.find(
         m => m.nombre.toLowerCase() === dato.nombre.toLowerCase()
       );
@@ -317,7 +368,6 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
         };
       }
 
-      // Escudo: Si el back manda una IA que no tienes registrada, no se rompe, le pone un icono genérico
       return {
         nombre: dato.nombre,
         icono: 'fa-microchip',
@@ -327,9 +377,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
     });
   }
   determinarCategoriaPorArchivo(ruta: string): string {
-    if (!ruta) return 'texto'; // Por defecto
-
-    // Extraemos la extensión (ej. de "archivo.jpg" sacamos "jpg")
+    if (!ruta) return 'texto';
     const extension = ruta.split('.').pop()?.toLowerCase() || '';
 
     if (['txt', 'pdf', 'docx', 'doc'].includes(extension)) {
@@ -342,6 +390,6 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
       return 'audio';
     }
 
-    return 'texto'; // Escudo protector por si suben algo raro
+    return 'texto';
   }
 }
