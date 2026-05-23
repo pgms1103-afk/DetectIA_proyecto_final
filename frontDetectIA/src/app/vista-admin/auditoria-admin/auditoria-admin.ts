@@ -45,6 +45,15 @@ export class AuditoriaAdmin implements OnInit {
       this.cargarAuditorias();
     }
   }
+  obtenerIniciales(nombre: string): string {
+    if (!nombre) return '?';
+    return nombre
+      .split(' ')
+      .map(palabra => palabra.charAt(0).toUpperCase())
+      .slice(0, 2)
+      .join('');
+  }
+
 
   limpiarFiltros() {
     this.filtroCorreo = '';
