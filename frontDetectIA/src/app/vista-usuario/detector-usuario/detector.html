@@ -16,10 +16,14 @@
     </div>
 
     <div class="grupo-pestanas">
-      <button class="btn-pestana" [class.activo]="activeTab === 'text'" (click)="switchTab('text')">
+      <button class="btn-pestana"
+              *ngIf="tipoHerramienta === 'texto' || tipoHerramienta === 'imagen'"
+              [class.activo]="activeTab === 'text'"
+              (click)="switchTab('text')">
         <i class="fa-solid" [ngClass]="tipoHerramienta === 'texto' ? 'fa-regular fa-keyboard' : 'fa-solid fa-link'"></i>
         {{ tipoHerramienta === 'texto' ? 'Pegar texto' : 'Pegar enlace' }}
       </button>
+
       <button class="btn-pestana" [class.activo]="activeTab === 'file'" (click)="switchTab('file')">
         <i class="fa-solid fa-file-arrow-up"></i> Subir archivo
       </button>
