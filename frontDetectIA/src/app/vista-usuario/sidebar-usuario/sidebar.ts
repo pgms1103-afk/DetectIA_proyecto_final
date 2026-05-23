@@ -6,6 +6,7 @@ import { ResultadoIAService } from '../../services/resultadoIA.service'; // 🟢
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sidebar',
@@ -28,6 +29,7 @@ export class Sidebar implements OnInit {
   public historialArchivos: ArchivoModel[] = [];
   private authService = inject(AuthService);
   private router = inject(Router);
+  private toastr: ToastrService = inject(ToastrService);
 
   showProfileMenu: boolean = false;
   user = {
@@ -51,18 +53,18 @@ export class Sidebar implements OnInit {
       next: (httpResponse) => {
         if (httpResponse.body) {
           this.historialArchivos = httpResponse.body;
-          console.log('Historial cargado en el Sidebar:', this.historialArchivos);
+          this.toastr.success('Historial cargado en el Sidebar:', 'Exito');
         }
       },
       error: (err) => {
-        console.error('Error al traer el historial:', err);
+        this.toastr.error(err.error || 'Error al traer el historial:', 'Error');
       },
     });
   }
 
   // 🟢 5. Método que se dispara al hacer click en un archivo del HTML
   verDetalleHistorial(archivo: ArchivoModel) {
-    console.log('Click en el archivo del historial:', archivo.nombre);
+    this.toastr.success('Click en el archivo del historial:', archivo.nombre);
 
     // 1. Disparamos el evento al Detector a través del "puente"
     this.archivoService.archivoSeleccionado$.next(archivo);
@@ -125,7 +127,7 @@ export class Sidebar implements OnInit {
         }
       },
       error: (err) => {
-        console.error('Error al buscar:', err);
+        this.toastr.error(err.error || 'Error al buscar:', 'Error');
         this.historialArchivos = [];
       }
     });
