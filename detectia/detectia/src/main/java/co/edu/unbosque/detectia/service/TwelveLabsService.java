@@ -32,17 +32,11 @@ public class TwelveLabsService {
 			.connectTimeout(Duration.ofSeconds(30)).build();
 
 	public TwelveLabsDTO detectarIA(byte[] videoBytes, String contentType) throws Exception {
-		
-		if (!contentType.equals("image/gif") && !contentType.equals("image/jpeg") && 
-	    	!contentType.equals("image/png") && !contentType.equals("image/webp") && 
-	    	!contentType.equals("image/bmp") && !contentType.equals("video/mp4") && 
-			!contentType.equals("video/mov") && !contentType.equals("video/avi") && 
-			!contentType.equals("video/mkv") && !contentType.equals("video/webm") && 
-			!contentType.equals("video/quicktime") && !contentType.equals("video/x-msvideo")) {
-			
-				throw new ExtensionInvalidaException("Gemini no permite este tipo de formato " + contentType
-						+ " Formatos acepetados:JPEG,PNG,GIF,WEPB,BMP,MP4,MOV,AVI,MKV,WEBM");
-			}
+
+		if (!esFormatoSoportado(contentType)) {
+			throw new ExtensionInvalidaException("TwelveLabs no permite este tipo de formato " + contentType
+					+ " Formatos aceptados: JPEG, PNG, GIF, WEBP, BMP, MP4, MOV, AVI, MKV, WEBM");
+		}
 		
 		if(videoBytes.length > 200L*1024*1024) {
 			double mb = videoBytes.length/ (1024*1024);
@@ -60,6 +54,15 @@ public class TwelveLabsService {
 		}
 		
 		return analizarVideo(assetId);
+	}
+
+	private boolean esFormatoSoportado(String contentType) {
+		return contentType.equals("image/gif") || contentType.equals("image/jpeg") ||
+			   contentType.equals("image/png") || contentType.equals("image/webp") ||
+			   contentType.equals("image/bmp") || contentType.equals("video/mp4") ||
+			   contentType.equals("video/mov") || contentType.equals("video/avi") ||
+			   contentType.equals("video/mkv") || contentType.equals("video/webm") ||
+			   contentType.equals("video/quicktime") || contentType.equals("video/x-msvideo");
 	}
 
 	private String crearAsset(byte[] videoBytes, String contentType) throws Exception {
