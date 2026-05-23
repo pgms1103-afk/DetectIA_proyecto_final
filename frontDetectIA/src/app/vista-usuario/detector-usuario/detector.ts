@@ -101,7 +101,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
 
     // 🟢 El Detector se queda escuchando si alguien hace click en el Sidebar
     this.archivoService.archivoSeleccionado$.subscribe((archivo: ArchivoModel) => {
-      console.log('2. Detector: Escuché el archivo:', archivo.nombre);
+      this.toastr.success('2. Detector: Escuché el archivo:', archivo.nombre);
 
       // 🟢 NUEVO: Detectar la extensión y cambiar la pestaña visual automáticamente
       const categoriaDetectada = this.determinarCategoriaPorArchivo(archivo.rutaAlmacenamiento);
@@ -110,9 +110,10 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
       // 1. Petición para traer los resultados individuales de las IAs
       this.resultadoService.getMostrarResultadosPorId(archivo.id).subscribe({
         next: (resultados: ResultadoIAModel[]) => {
-          console.log("3. Detector: Datos de IAs traídos con éxito", resultados);
+
           // ¡Magia! Le pasamos el arreglo a tu método y la lista de IAs se actualiza visualmente
           this.actualizarValoresModelos(resultados);
+          this.toastr.success("3. Detector: Datos de IAs traídos con éxito", 'Exito')
         },
         error: (err) => {
           this.toastr.error(err.error || "Error al traer los detalles de las IAs", 'Error');
@@ -123,7 +124,6 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
       this.resultadoService.getMostrarAnalisisPorId(archivo.id).subscribe({
         // 🟢 Le decimos que va a recibir el arreglo completo
         next: (analisisResp: AnalisisModel[]) => {
-          console.log("4. Detector: Análisis general traído con éxito", analisisResp);
 
           // 🟢 Validamos que el arreglo traiga al menos un elemento
           if (analisisResp && analisisResp.length > 0) {
@@ -133,6 +133,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
             this.promedioActual = analisis.porcentajeFinal;
             this.veredictoActual = analisis.veredicto;
           }
+          this.toastr.success("4. Detector: Análisis general traído con éxito", 'Exito')
         },
         error: (err: any) => {
           // Escudo protector visual

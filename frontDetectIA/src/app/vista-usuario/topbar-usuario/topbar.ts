@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../services/usuario.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-topbar',
@@ -16,6 +17,8 @@ export class Topbar implements OnInit {
   }
   @Output() menuToggle = new EventEmitter<void>();
   usuarioService: UsuarioService = inject(UsuarioService);
+  private toastr: ToastrService = inject(ToastrService);
+
 
   showProfileMenu = false;
 
@@ -40,8 +43,8 @@ export class Topbar implements OnInit {
         this.user.email = resultado.correo;
         this.user.files = resultado.totalArchivos;
       },
-      error: (_) => {
-        console.error('No se trajeron los datos');
+      error: (e) => {
+        this.toastr.error(e.error ||'No se trajeron los datos', 'Error');
       },
     });
   }
