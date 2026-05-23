@@ -7,8 +7,9 @@
     <app-topbar-admin (menuToggle)="menuAdmin.toggleMobileMenu()"></app-topbar-admin>
 
     <main class="zona-scroll">
-      <app-dashboard-admin *ngIf="vistaActual === 'dashboard'"></app-dashboard-admin>
-      <app-gestion-usuarios *ngIf="vistaActual === 'usuarios'"></app-gestion-usuarios>
+        <app-dashboard-admin *ngIf="vistaActual === 'dashboard'"></app-dashboard-admin>
+        <app-gestion-usuarios *ngIf="vistaActual === 'usuarios'"></app-gestion-usuarios>
+      <app-auditoria-admin *ngIf="vistaActual === 'auditoria'"></app-auditoria-admin>
     </main>
 
   </div>

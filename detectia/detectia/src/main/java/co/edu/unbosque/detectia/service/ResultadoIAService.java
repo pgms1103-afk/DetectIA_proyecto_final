@@ -53,6 +53,21 @@ public class ResultadoIAService{
 	}
 	
 	
+	public List<ResultadoIADTO> getAll() {
+		List<ResultadoIA> entityList = (List<ResultadoIA>) resultadoIARepo.findAll();
+		List<ResultadoIADTO> dtoList = new ArrayList<>();
+		entityList.forEach(entity -> {
+			ResultadoIADTO dto = new ResultadoIADTO();
+			dto.setId(entity.getId());
+			dto.setNombreIA(entity.getNombreIA());
+			dto.setPorcentajeIA(entity.getPorcentajeIA());
+			dto.setFechaAnalisis(entity.getFechaAnalisis());
+			dto.setNombreArchivo(entity.getArchivo() != null ? entity.getArchivo().getNombre() : null);
+			dtoList.add(dto);
+		});
+		return dtoList;
+	}
+
 	public List<ResultadoIADTO> getResultadosByArchivoId(long id) {
 	    List<ResultadoIADTO> dtoList = new ArrayList<>();
 	    

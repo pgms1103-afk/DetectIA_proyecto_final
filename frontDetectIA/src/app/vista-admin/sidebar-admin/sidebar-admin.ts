@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './sidebar-admin.css'
 })
 export class SidebarAdmin {
-  @Output() vistaSeleccionada = new EventEmitter<'dashboard' | 'usuarios'>();
+  @Output() vistaSeleccionada = new EventEmitter<'dashboard' | 'usuarios' | 'auditoria'>();
 
   isCollapsed = false;
   mobileOpen = false;
@@ -20,7 +20,7 @@ export class SidebarAdmin {
   toggleSidebar() { this.isCollapsed = !this.isCollapsed; }
   toggleMobileMenu() { this.mobileOpen = !this.mobileOpen; }
 
-  seleccionar(vista: 'dashboard' | 'usuarios') {
+  seleccionar(vista: 'dashboard' | 'usuarios' | 'auditoria') {
     this.vistaSeleccionada.emit(vista);
     if (this.mobileOpen) this.toggleMobileMenu();
   }

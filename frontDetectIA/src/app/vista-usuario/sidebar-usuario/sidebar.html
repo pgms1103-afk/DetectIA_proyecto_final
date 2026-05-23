@@ -35,10 +35,9 @@
       <span class="texto-nav">Audio</span>
     </a>
 
+    <span class="etiqueta-seccion" *ngIf="!isCollapsed">Búsqueda</span>
 
-    <span class="etiqueta-seccion" *ngIf="!isCollapsed" style="margin-top: 0.5rem;">Búsqueda</span>
-
-    <div class="contenedor-buscador-historial" *ngIf="!isCollapsed" style="margin-top: 0.25rem;">
+    <div class="contenedor-buscador-historial" *ngIf="!isCollapsed">
       <div class="grupo-buscador">
         <i class="fa-solid fa-magnifying-glass icono-buscador"></i>
         <input
@@ -53,16 +52,26 @@
 
     <span class="etiqueta-seccion">Historial</span>
 
-    <a class="item-nav"
-       *ngFor="let archivo of historialArchivos"
-       (click)="verDetalleHistorial(archivo)"
-       style="cursor: pointer;">
-      <span class="texto-nav">{{ archivo.nombre }}</span>
-    </a>
+    <div class="item-historial"
+         *ngFor="let archivo of historialArchivos">
 
-    <a class="item-nav" *ngIf="historialArchivos.length === 0">
-      <span class="texto-nav" style="opacity: 0.5; font-size: 0.85em;">No hay análisis recientes</span>
-    </a>
+      <span class="texto-nav texto-historial" (click)="verDetalleHistorial(archivo)">
+        {{ archivo.nombre }}
+      </span>
+
+      <div class="acciones-historial">
+        <button (click)="abrirModalEditar(archivo); $event.stopPropagation()" title="Editar nombre">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+        <button (click)="eliminarArchivo(archivo); $event.stopPropagation()" title="Eliminar">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="item-nav" *ngIf="historialArchivos.length === 0">
+      <span class="texto-nav texto-vacio">No hay análisis recientes</span>
+    </div>
   </nav>
 
   <div class="pie-lateral">
@@ -72,3 +81,15 @@
     </a>
   </div>
 </aside>
+
+<!-- Modal editar nombre -->
+<div class="modal-overlay" *ngIf="mostrarModalEditar" (click)="cerrarModalEditar()">
+  <div class="modal-contenido" (click)="$event.stopPropagation()">
+    <h3 class="modal-titulo">Editar nombre</h3>
+    <input type="text" [(ngModel)]="nombreEditando" class="input-modal" placeholder="Nuevo nombre">
+    <div class="modal-botones">
+      <button class="btn-guardar" (click)="guardarNombre()">Guardar</button>
+      <button class="btn-cancelar" (click)="cerrarModalEditar()">Cancelar</button>
+    </div>
+  </div>
+</div>
