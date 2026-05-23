@@ -71,7 +71,7 @@ public class EleccionService {
 	private Map<String, Double> analizarTexto(MultipartFile archivo) throws Exception {
 		String texto = extractor.extraerTexto(archivo);
 		Map<String, Double> resultadosIA = new HashMap<>();
-		
+
 		/* SIRVE *///
 		try {
 			resultadosIA.put("Groq", grok.detectarIA(texto).getPorcentajeIA());
@@ -80,26 +80,28 @@ public class EleccionService {
 		} catch (Exception e) {
 			System.err.println("Groq fallo:" + e.getMessage());
 		}
-		
+
 		/* SIRVE *///
 		try {
-			resultadosIA.put("Gemini",gemini.detectarIA(archivo.getBytes(), archivo.getContentType()).getPorcentajeIA());
+			resultadosIA.put("Gemini",
+					gemini.detectarIA(archivo.getBytes(), archivo.getContentType()).getPorcentajeIA());
 		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
 			System.err.println("Gemini omitido: " + e.getMessage());
 		} catch (Exception e) {
 			System.err.println("Gemini fallo:" + e.getMessage());
 		}
 
-		/* SIRVE */// 
+		/* SIRVE *///
 		try {
-			resultadosIA.put("Mistral",mistral.detectarIA(texto, archivo.getBytes(), archivo.getContentType()).getFakePercentage());
+			resultadosIA.put("Mistral",
+					mistral.detectarIA(texto, archivo.getBytes(), archivo.getContentType()).getFakePercentage());
 		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
 			System.err.println("Mistral omitido: " + e.getMessage());
 		} catch (Exception e) {
 			System.err.println("Mistral fallo:" + e.getMessage());
 		}
-				
-		/* SIRVE */// 
+
+		/* SIRVE *///
 		try {
 			resultadosIA.put("Winston", winston.detectarIA(texto).getScore());
 		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
@@ -107,8 +109,33 @@ public class EleccionService {
 		} catch (Exception e) {
 			System.err.println("Winston fallo:" + e.getMessage());
 		}
-		
-		
+
+		return resultadosIA;
+	}
+
+	public Map<String, Double> analizarTextoPlano(String texto) {
+
+		Map<String, Double> resultadosIA = new HashMap<>();
+
+		/* SIRVE *///
+		try {
+			resultadosIA.put("Gemini",gemini.detectarIATexto(texto).getPorcentajeIA());
+		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
+			System.err.println("Gemini omitido: " + e.getMessage());
+		} catch (Exception e) {
+			System.err.println("Gemini fallo:" + e.getMessage());
+		}
+
+
+		/* SIRVE */
+		try {
+			resultadosIA.put("Winston", winston.detectarIA(texto).getScore());
+		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
+			System.err.println("Winston omitido: " + e.getMessage());
+		} catch (Exception e) {
+			System.err.println("Winston fallo: " + e.getMessage());
+		}
+
 		return resultadosIA;
 	}
 
@@ -118,27 +145,27 @@ public class EleccionService {
 		String mimeType = archivo.getContentType();
 
 		Map<String, Double> resultadosIA = new HashMap<>();
-		
-		/* no se si si sirva */// 
+
+		/* no se si si sirva *///
 		try {
-			resultadosIA.put("Gemini", gemini.detectarIA(bytes,mimeType).getPorcentajeIA());
+			resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
 		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
 			System.err.println("Gemini omitido: " + e.getMessage());
 		} catch (Exception e) {
 			System.err.println("Gemini fallo:" + e.getMessage());
 		}
-		
-		/* no se si si sirva */// 
+
+		/* no se si si sirva *///
 		try {
-			resultadosIA.put("Mistral", mistral.detectarIA(texto, bytes,mimeType).getFakePercentage());
+			resultadosIA.put("Mistral", mistral.detectarIA(texto, bytes, mimeType).getFakePercentage());
 		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
 			System.err.println("Mistral omitido: " + e.getMessage());
 		} catch (Exception e) {
 			System.err.println("Mistral fallo:" + e.getMessage());
 		}
-		
+
 		if (texto != null && !texto.isBlank()) {
-			/* no se si si sirva */// 
+			/* no se si si sirva *///
 			try {
 				resultadosIA.put("Grok", grok.detectarIA(texto).getPorcentajeIA());
 			} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
@@ -146,8 +173,8 @@ public class EleccionService {
 			} catch (Exception e) {
 				System.err.println("Groq fallo:" + e.getMessage());
 			}
-			
-			/* no se si si sirva */// 
+
+			/* no se si si sirva *///
 			try {
 				resultadosIA.put("Winston", winston.detectarIA(texto).getScore());
 			} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
@@ -155,7 +182,7 @@ public class EleccionService {
 			} catch (Exception e) {
 				System.err.println("Winston fallo:" + e.getMessage());
 			}
-			
+
 		}
 
 		return resultadosIA;
@@ -165,7 +192,7 @@ public class EleccionService {
 		Map<String, Double> resultadosIA = new HashMap<>();
 		byte[] bytes = archivo.getBytes();
 		String mimeType = archivo.getContentType();
-		
+
 		/* SIRVE */
 		try {
 			resultadosIA.put("Sightengine", sightengine.detectarIA(bytes, mimeType).getAi_generated());
@@ -174,7 +201,7 @@ public class EleccionService {
 		} catch (Exception e) {
 			System.err.println("Sightengine fallo:" + e.getMessage());
 		}
-		
+
 		/* SIRVE */
 		try {
 			resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
@@ -183,7 +210,7 @@ public class EleccionService {
 		} catch (Exception e) {
 			System.err.println("Gemini fallo:" + e.getMessage());
 		}
-		
+
 		/* SIRVE */
 		try {
 			resultadosIA.put("Hive Moderation", hiveModeration.detectarIA(bytes, mimeType).getAi_generated());
@@ -192,50 +219,49 @@ public class EleccionService {
 		} catch (Exception e) {
 			System.err.println("Hive Moderation fallo:" + e.getMessage());
 		}
-		
+
 		/* SIRVE MEH PASANDO A BIEN */
 		try {
-			resultadosIA.put("Groq",grok.detectarIAImagen(bytes, mimeType).getPorcentajeIA());
+			resultadosIA.put("Groq", grok.detectarIAImagen(bytes, mimeType).getPorcentajeIA());
 		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
 			System.err.println("Groq omitido: " + e.getMessage());
 		} catch (Exception e) {
 			System.err.println("Groq fallo:" + e.getMessage());
 		}
-		
+
 		return resultadosIA;
 	}
 
 	private Map<String, Double> analizarImagenURL(String url) throws Exception {
 		Map<String, Double> resultadosIA = new HashMap<>();
-		
-		/* SIRVE */// 
+
+		/* SIRVE *///
 		try {
 			resultadosIA.put("Winston", winston.detectarIAImagen(url).getScore());
 		} catch (Exception e) {
 			System.err.println("Winston fallo:" + e.getMessage());
 		}
-		
-		/* SIRVE */// 
+
+		/* SIRVE *///
 		try {
-			resultadosIA.put("Sightengine",sightengine.detectarIAUrl(url).getAi_generated());
+			resultadosIA.put("Sightengine", sightengine.detectarIAUrl(url).getAi_generated());
 		} catch (Exception e) {
 			System.err.println("Sightengine fallo:" + e.getMessage());
 		}
-		
-		/* SIRVE */// 
+
+		/* SIRVE *///
 		try {
 			resultadosIA.put("Gemini", gemini.detectarIAPorUrl(url).getPorcentajeIA());
 		} catch (Exception e) {
 			System.err.println("Gemini fallo:" + e.getMessage());
 		}
-		
-		/* SIRVE MEH PASANDO A BIEN */// 
+
+		/* SIRVE MEH PASANDO A BIEN *///
 		try {
 			resultadosIA.put("Groq", grok.detectarIAImagenUrl(url).getPorcentajeIA());
 		} catch (Exception e) {
 			System.err.println("Groq fallo:" + e.getMessage());
 		}
-		
 
 		return resultadosIA;
 	}
@@ -244,7 +270,7 @@ public class EleccionService {
 		Map<String, Double> resultadosIA = new HashMap<>();
 		byte[] bytes = archivo.getBytes();
 		String mimeType = archivo.getContentType();
-		
+
 		/* SIRVE A MEDIAS */
 		try {
 			resultadosIA.put("TwelveLabs", twelveLabs.detectarIA(bytes, mimeType).getPorcentajeIA());
@@ -253,7 +279,7 @@ public class EleccionService {
 		} catch (Exception e) {
 			System.err.println("TwelveLabs fallo:" + e.getMessage());
 		}
-		
+
 		/* SIRVE */
 		try {
 			resultadosIA.put("Hive Moderation", hiveModeration.detectarIA(bytes, mimeType).getAi_generated());
@@ -262,9 +288,8 @@ public class EleccionService {
 		} catch (Exception e) {
 			System.err.println("Hive Moderation fallo:" + e.getMessage());
 		}
-	
-		
-		/* no se si sirva*/
+
+		/* no se si sirva */
 		try {
 			resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
 		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
@@ -272,8 +297,7 @@ public class EleccionService {
 		} catch (Exception e) {
 			System.err.println("Gemini fallo:" + e.getMessage());
 		}
-	
-		
+
 		return resultadosIA;
 	}
 
@@ -281,7 +305,7 @@ public class EleccionService {
 		Map<String, Double> resultadosIA = new HashMap<>();
 		byte[] bytes = archivo.getBytes();
 		String mimeType = archivo.getContentType();
-		/* SIRVE */// 
+		/* SIRVE *///
 		try {
 			resultadosIA.put("ACRCloud", acrCloude.detectarIAArchivo(archivo).getAi_probability());
 		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
@@ -289,15 +313,13 @@ public class EleccionService {
 		} catch (Exception e) {
 			System.err.println("ACRCloud fallo:" + e.getMessage());
 		}
-		
-		
-		
+
 		try {
-	        resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
-	    } catch (Exception e) {
-	        System.err.println("Gemini fallo en música: " + e.getMessage());
-	    }
-		
+			resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
+		} catch (Exception e) {
+			System.err.println("Gemini fallo en música: " + e.getMessage());
+		}
+
 		return resultadosIA;
 	}
 
