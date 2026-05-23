@@ -1,0 +1,88 @@
+<div class="area-gestion animate__animated animate__fadeIn animate__faster">
+  <header class="cabecera-gestion">
+    <div class="info-izq">
+      <h2 class="titulo-pagina animate__animated animate__fadeInDown">Historial Global</h2>
+      <p class="subtitulo-pagina animate__animated animate__fadeInDown" style="animation-delay: 0.1s;">Registro de todas las acciones realizadas en DetectIA</p>
+    </div>
+    <div class="acciones-cabecera animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;">
+      <button class="btn-secundario-admin" title="Actualizar lista" (click)="cargarAuditorias()">
+        <i class="fa-solid fa-arrows-rotate"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Barra de filtros -->
+  <div class="barra-filtros animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+    <div class="grupo-filtro">
+      <i class="fa-solid fa-envelope icono-filtro"></i>
+      <input type="text" [(ngModel)]="filtroCorreo" placeholder="Buscar por correo..." class="input-filtro">
+    </div>
+    <div class="grupo-filtro">
+      <i class="fa-solid fa-bolt icono-filtro"></i>
+      <input type="text" [(ngModel)]="filtroAccion" placeholder="Buscar por acción..." class="input-filtro">
+    </div>
+    <div class="grupo-filtro">
+      <i class="fa-solid fa-cube icono-filtro"></i>
+      <input type="text" [(ngModel)]="filtroModulo" placeholder="Buscar por módulo..." class="input-filtro">
+    </div>
+    <div class="grupo-filtro">
+      <i class="fa-solid fa-circle-check icono-filtro"></i>
+      <select [(ngModel)]="filtroExitoso" class="input-filtro">
+        <option value="">Todos</option>
+        <option value="true">Exitoso</option>
+        <option value="false">Fallido</option>
+      </select>
+    </div>
+    <button class="btn-primario-admin" (click)="buscar()">
+      <i class="fa-solid fa-magnifying-glass"></i> Buscar
+    </button>
+    <button class="btn-secundario-admin" (click)="limpiarFiltros()">
+      <i class="fa-solid fa-xmark"></i> Limpiar
+    </button>
+  </div>
+
+  <div class="contenedor-tabla animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+    <table class="tabla-premium">
+      <thead>
+      <tr>
+        <th>Usuario</th>
+        <th>Correo</th>
+        <th>Acción</th>
+        <th>Módulo</th>
+        <th>Descripción</th>
+        <th>IP</th>
+        <th>Exitoso</th>
+        <th>Fecha</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let log of auditorias; let i = index"
+          class="animate__animated animate__fadeIn"
+          [style.animation-delay]="(0.4 + (i * 0.05)) + 's'">
+        <td>
+          <div class="celda-usuario">
+            <div class="avatar-tabla">{{ log.nombreUsuario}}</div>
+            <span>{{ log.nombreUsuario }}</span>
+          </div>
+        </td>
+        <td>{{ log.correo }}</td>
+        <td><span class="badge-rol">{{ log.accion }}</span></td>
+        <td>{{ log.modulo }}</td>
+        <td>{{ log.descripcion }}</td>
+        <td>{{ log.ip }}</td>
+        <td>
+            <span class="badge-estado" [class.activo]="log.exitoso">
+              {{ log.exitoso ? 'Sí' : 'No' }}
+            </span>
+        </td>
+        <td>{{ log.fecha | date:'dd/MM/yyyy HH:mm' }}</td>
+      </tr>
+      <tr *ngIf="auditorias.length === 0">
+        <td colspan="8" style="text-align: center; opacity: 0.5; padding: 2rem;">
+          No hay registros de auditoría
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

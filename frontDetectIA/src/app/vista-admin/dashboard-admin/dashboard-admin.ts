@@ -29,7 +29,6 @@ export class DashboardAdmin implements AfterViewInit {
     { titulo: 'Usuarios Totales',    valor: '...', icono: 'fa-users',                  color: 'naranja'  },
     { titulo: 'Usuarios',            valor: '...', icono: 'fa-server',                  color: 'verde'    },
     { titulo: 'Administradores',     valor: '...', icono: 'fa-microchip',               color: 'azul'     },
-    { titulo: 'Modelos Activos',     valor: '95%', icono: 'fa-bolt',                    color: 'amarillo' },
   ];
 
   private traficoData:    number[] = [0, 0, 0, 0, 0, 0, 0];
@@ -54,7 +53,6 @@ export class DashboardAdmin implements AfterViewInit {
         this.metricas[0].valor = usuarios.length.toLocaleString();
         this.metricas[1].valor = auditorias.filter(a => a.modulo === 'ANALISIS').length.toLocaleString();
         this.metricas[2].valor = usuarios.filter(u => u.role === 'USER').length.toLocaleString();
-        this.metricas[3].valor = usuarios.filter(u => u.role === 'ADMIN').length.toLocaleString();
 
         // --- Datos para gráficas de tiempo ---
         this.traficoData  = this.calcularTraficoPorDia(auditorias);
