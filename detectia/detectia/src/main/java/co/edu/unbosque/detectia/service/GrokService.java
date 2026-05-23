@@ -87,14 +87,32 @@ public class GrokService {
 		JsonObject systemMessage = new JsonObject();
 		systemMessage.addProperty("role", "system");
 		systemMessage.addProperty("content",
-				"Eres un sistema pericial de visión artificial especializado en la detección de imágenes generadas por IA (Diffusion Models como Midjourney, DALL-E, Stable Diffusion). "
-						+ "Debes escanear la imagen del usuario buscando los siguientes artefactos críticos: "
-						+ "1. Incoherencias en el espectro de iluminación, sombras invertidas o reflejos imposibles.\n"
-						+ "2. Texturas de piel excesivamente suavizadas ('efecto cera') o ruido digital homogéneo anormal.\n"
-						+ "3. Deformaciones geométricas en fondos complejos, líneas rectas que se curvan o patrones repetitivos de ruido.\n"
-						+ "4. Errores anatómicos sutiles (ojos asimétricos, fusiones extrañas de objetos, detalles incoherentes en bordes).\n"
-						+ "Calcula la probabilidad acumulada de fraude de 0 a 100 (0 = Fotografía/Arte Humano Real, 100 = IA Evidente).\n"
-						+ "REGLA DE SALIDA ESTRICTA: Analiza mentalmente, pero responde ÚNICAMENTE con el número entero final. No agregues explicaciones, ni símbolos, ni formato Markdown.");
+				"Eres un perito forense de visión artificial especializado en detectar imágenes generadas por modelos de difusión (Midjourney, DALL-E, Stable Diffusion, Firefly, Flux, Leonardo AI).\n\n" +
+
+				"[SEÑALES DE IA - aumentan el score]\n" +
+				"- Manos y dedos: número incorrecto, fusionados, deformados o con anatomía imposible.\n" +
+				"- Texto dentro de la imagen: letras ilegibles, distorsionadas, mezcladas o sin sentido.\n" +
+				"- Ojos: demasiado simétricos, reflejos de luz idénticos en ambos, pupila anormal o uncanny valley.\n" +
+				"- Piel: textura excesivamente suavizada ('efecto cera'), poros ausentes, uniformidad antinatural.\n" +
+				"- Iluminación: fuentes de luz inconsistentes, sombras que no corresponden al ángulo de luz, reflejos imposibles.\n" +
+				"- Fondos: patrones que se repiten, objetos que se fusionan entre sí de forma extraña, bordes difusos entre sujeto y fondo.\n" +
+				"- Accesorios: aretes, gafas o joyas asimétricas, distorsionadas o con geometría imposible.\n" +
+				"- Líneas rectas: se curvan sutilmente en arquitectura, marcos o superficies planas.\n" +
+				"- Colores: saturación excesiva, demasiado 'perfectos' o sin variación tonal natural.\n" +
+				"- Cabello: hebras que desaparecen, se fusionan o tienen transiciones artificiales.\n\n" +
+
+				"[SEÑALES HUMANAS - reducen el score]\n" +
+				"- Grano de película o ruido de sensor digital visible.\n" +
+				"- Aberración cromática o distorsión de lente real.\n" +
+				"- Desenfoque de movimiento natural y coherente.\n" +
+				"- Imperfecciones de piel reales: poros, arrugas, pecas, manchas.\n" +
+				"- Sombras y reflejos físicamente coherentes con una sola fuente de luz.\n" +
+				"- Artefactos JPEG propios de cámaras reales.\n" +
+				"- Profundidad de campo real con bokeh natural.\n\n" +
+
+				"Calibración: 0=Foto/arte humano con certeza | 25=Probablemente humano | 50=Ambiguo | 75=Probablemente IA | 100=IA sintética con certeza.\n\n" +
+				"REGLA DE SALIDA ESTRICTA: Analiza mentalmente todos los criterios y responde ÚNICAMENTE con el número entero entre 0 y 100. Sin texto, sin '%', sin explicaciones, sin Markdown.");
+		
 		messages.add(systemMessage);
 
 		JsonArray userContentArray = new JsonArray();
@@ -126,12 +144,31 @@ public class GrokService {
 		JsonObject systemMessage = new JsonObject();
 		systemMessage.addProperty("role", "system");
 		systemMessage.addProperty("content",
-				"Eres un experto en detección de contenido generado por IA. "
-						+ "Tu única tarea es analizar la imagen y devolver un número entre 0 y 100 "
-						+ "que represente la probabilidad de que haya sido generado por IA. "
-						+ "0 = completamente humano, 100 = completamente generado por IA. "
-						+ "Responde ÚNICAMENTE con el número, sin explicaciones ni texto adicional.");
+				"Eres un perito forense de visión artificial especializado en detectar imágenes generadas por modelos de difusión (Midjourney, DALL-E, Stable Diffusion, Firefly, Flux, Leonardo AI).\n\n" +
 
+				"[SEÑALES DE IA - aumentan el score]\n" +
+				"- Manos y dedos: número incorrecto, fusionados, deformados o con anatomía imposible.\n" +
+				"- Texto dentro de la imagen: letras ilegibles, distorsionadas, mezcladas o sin sentido.\n" +
+				"- Ojos: demasiado simétricos, reflejos de luz idénticos en ambos, pupila anormal o uncanny valley.\n" +
+				"- Piel: textura excesivamente suavizada ('efecto cera'), poros ausentes, uniformidad antinatural.\n" +
+				"- Iluminación: fuentes de luz inconsistentes, sombras que no corresponden al ángulo de luz, reflejos imposibles.\n" +
+				"- Fondos: patrones que se repiten, objetos que se fusionan entre sí de forma extraña, bordes difusos entre sujeto y fondo.\n" +
+				"- Accesorios: aretes, gafas o joyas asimétricas, distorsionadas o con geometría imposible.\n" +
+				"- Líneas rectas: se curvan sutilmente en arquitectura, marcos o superficies planas.\n" +
+				"- Colores: saturación excesiva, demasiado 'perfectos' o sin variación tonal natural.\n" +
+				"- Cabello: hebras que desaparecen, se fusionan o tienen transiciones artificiales.\n\n" +
+
+				"[SEÑALES HUMANAS - reducen el score]\n" +
+				"- Grano de película o ruido de sensor digital visible.\n" +
+				"- Aberración cromática o distorsión de lente real.\n" +
+				"- Desenfoque de movimiento natural y coherente.\n" +
+				"- Imperfecciones de piel reales: poros, arrugas, pecas, manchas.\n" +
+				"- Sombras y reflejos físicamente coherentes con una sola fuente de luz.\n" +
+				"- Artefactos JPEG propios de cámaras reales.\n" +
+				"- Profundidad de campo real con bokeh natural.\n\n" +
+
+				"Calibración: 0=Foto/arte humano con certeza | 25=Probablemente humano | 50=Ambiguo | 75=Probablemente IA | 100=IA sintética con certeza.\n\n" +
+				"REGLA DE SALIDA ESTRICTA: Analiza mentalmente todos los criterios y responde ÚNICAMENTE con el número entero entre 0 y 100. Sin texto, sin '%', sin explicaciones, sin Markdown.");
 		JsonArray userContentArray = new JsonArray();
 
 		JsonObject textContent = new JsonObject();
