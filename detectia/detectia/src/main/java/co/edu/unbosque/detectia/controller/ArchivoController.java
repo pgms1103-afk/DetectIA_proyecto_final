@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -264,6 +265,22 @@ public class ArchivoController {
 			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.ok(archivos);
+	}
+	
+	@PutMapping("/editarnombre")
+	public ResponseEntity<String> editarNombre(
+	        @RequestParam Long id,
+	        @RequestParam String nombre,
+	        Authentication authentication) {
+
+	    String nombreUsuario = authentication.getName();
+	    int resultado = archivoSer.updateNombreById(id, nombre, nombreUsuario);
+
+	    if (resultado == 1) {
+	        return ResponseEntity.ok("Nombre actualizado correctamente");
+	    } else {
+	        return ResponseEntity.badRequest().body("No se encontró el archivo");
+	    }
 	}
 
 	@Operation(summary = "Eliminar archivo", description = """

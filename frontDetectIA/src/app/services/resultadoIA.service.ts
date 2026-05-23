@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ResultadoIAModel } from '../models/resultadoIA.model';
 import { AnalisisModel } from '../models/analisis.model';
 
@@ -38,5 +38,9 @@ export class ResultadoIAService {
     return this.cliente.get<AnalisisModel[]>(`${this.urlbase}/mostraranalisisporarchivo`,{
       params: parametros,
     });
+  }
+
+  getAllResultados(): Observable<ResultadoIAModel[]> {
+    return this.cliente.get<ResultadoIAModel[]>('http://localhost:8080/admin/resultados');
   }
 }

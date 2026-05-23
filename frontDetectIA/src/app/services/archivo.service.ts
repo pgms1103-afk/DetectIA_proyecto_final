@@ -61,6 +61,19 @@ export class ArchivoService {
     });
   }
 
+  getAllArchivos(): Observable<ArchivoModel[]> {
+    return this.cliente.get<ArchivoModel[]>('http://localhost:8080/admin/archivos');
+  }
+
+  putEditarNombre(id: number, nombre: string) {
+
+    return this.cliente.put(
+      `${this.urlbase}/editarnombre?id=${id}&nombre=${nombre}`,
+      null,
+      { responseType: 'text' }
+    );
+  }
+
 
 
 
