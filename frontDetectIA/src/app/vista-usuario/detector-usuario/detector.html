@@ -1,4 +1,5 @@
 <div class="area-trabajo">
+
   <div class="panel-entrada">
     <div class="cabecera-panel">
       <span class="titulo-panel" style="text-transform: capitalize;">Entrada de {{ tipoHerramienta }}</span>
@@ -79,7 +80,9 @@
     </button>
   </div>
 
+
   <div class="panel-resultados animate__animated animate__fadeIn animate__faster">
+
     <div class="tarjeta-medidor">
       <span class="etiqueta-medidor">Probabilidad de IA</span>
       <div class="contenedor-medidor">
@@ -96,7 +99,6 @@
     </div>
 
     <div class="tarjeta-metricas">
-
       <div class="cabecera-modelos">
         <span class="titulo-modelos">Modelos de detección</span>
         <span class="badge-herramienta">
@@ -111,12 +113,9 @@
       </div>
 
       <div class="lista-modelos animate__animated animate__fadeIn">
-        <div class="fila-me trica"
+        <div class="fila-metrica animate__animated animate__fadeInRight"
              *ngFor="let modelo of modelosActuales; let i = index"
-             [style.animation-delay]="(i * 0.06) + 's'"
-             [style.animation-name]="'fadeInRight'"
-             class="fila-metrica animate__animated animate__fadeInRight">
-
+             [style.animation-delay]="(i * 0.06) + 's'">
 
           <span class="nombre-metrica">
             <span class="icono-modelo" [style.color]="modelo.color">
@@ -125,17 +124,31 @@
             {{ modelo.nombre }}
           </span>
 
-
           <span class="valor-metrica">{{ modelo.valor != null ? modelo.valor + '%' : '—' }}</span>
         </div>
       </div>
+    </div>
 
+  </div> <div class="overlay-carga animate__animated animate__fadeIn" *ngIf="cargando">
+  <div class="caja-carga">
+
+    <div class="icono-carga-pulsante">
+      <i class="fa-solid fa-brain"></i>
+    </div>
+
+    <h3 class="titulo-carga">DetectIA está analizando...</h3>
+
+    <div class="barra-progreso-contenedor">
+      <div class="barra-progreso-rayo"></div>
+    </div>
+
+    <div class="contenedor-sugerencia">
+      <p class="texto-sugerencia">{{ sugerenciaActual }}</p>
     </div>
 
   </div>
 </div>
-
-<div class="franja-historial">
+</div> <div class="franja-historial">
   <span class="etiqueta-historial">Recientes</span>
   <div class="elementos-historial">
     <div class="chip-historial">
