@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import co.edu.unbosque.detectia.dto.UsuarioDTO;
 import co.edu.unbosque.detectia.entity.Usuario;
+import co.edu.unbosque.detectia.repository.ArchivoRepository;
 import co.edu.unbosque.detectia.repository.UsuarioRepository;
 import co.edu.unbosque.detectia.exception.IdExistException;
 import co.edu.unbosque.detectia.exception.CorreoInvalidoException;
@@ -29,6 +30,9 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private ArchivoRepository archivoRepo;
 
 	public UsuarioService() {
 		// TODO Auto-generated constructor stub
@@ -37,36 +41,9 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 	@Override
 	public int create(UsuarioDTO data) {
 
-		if (data.getNombreUsuario() == null || data.getNombreUsuario().isBlank()) {
-			throw new NombreInvalidoException("El nombre no puede estar vacío");
-		}
-		if (data.getNombreUsuario().contains("  ")) {
-			throw new NombreInvalidoException("El nombre no puede contener espacios dobles");
-		}
-		if (!data.getNombreUsuario().matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")) {
-			throw new NombreInvalidoException("El nombre solo debe contener letras y espacios");
-		}
-		String[] palabras = data.getNombreUsuario().trim().split("\\s+");
-		if (palabras.length < 2) {
-			throw new NombreInvalidoException("El nombre debe tener Nombre y Apellido");
-		}
-		if (data.getContrasena() == null || data.getContrasena().isBlank()) {
-			throw new PasswordNotValidException("La contrasena no puede estar vacia");
-		}
-		if (data.getContrasena().length() < 8) {
-			throw new PasswordNotValidException("La contrasena debe tener minimo 8 caracteres");
-		}
-		if (!data.getContrasena().matches(".*[A-Z].*")) {
-			throw new PasswordNotValidException("La contrasena debe tener al menos una letra mayuscula");
-		}
-		if (!data.getContrasena().matches(".*[0-9].*")) {
-			throw new PasswordNotValidException("La contrasena debe tener al menos un numero");
-		}
-
-		if (!data.getCorreo().matches("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$")) {
-			throw new CorreoInvalidoException(
-					"Correo invalido. Debe tener formato ejemplo@correo.com y solo letras minusculas");
-		}
+		validarNombre(data.getNombreUsuario());
+		validarContrasena(data.getContrasena());
+		validarFormatoCorreo(data.getCorreo());
 
 		if (usuarioRepo.existsByCorreo(data.getCorreo())) {
 			throw new CorreoInvalidoException("Correo ya existente");
@@ -100,12 +77,26 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 		List<Usuario> entityList = (List<Usuario>) usuarioRepo.findAll();
 		List<UsuarioDTO> dtoList = new ArrayList<>();
 		entityList.forEach((entity) -> {
+			long totalArchivos = archivoRepo.countByUsuarioId(entity.getId());
 			UsuarioDTO dto = mapper.map(entity, UsuarioDTO.class);
+			dto.setTotalArchivos(totalArchivos);
 			dtoList.add(dto);
 		});
 		return dtoList;
 	}
 
+	public UsuarioDTO getLoginUser(String nombre) {
+	    Optional<Usuario> entity = usuarioRepo.findByNombreUsuario(nombre);
+	    if (entity.isEmpty()) {
+	        throw new UsernameNotFoundException("Usuario no encontrado");
+	    }
+	    Usuario usuario = entity.get(); // ← el que encontraste, no uno vacío
+	    UsuarioDTO dto = mapper.map(usuario, UsuarioDTO.class);
+	    long totalArchivos = archivoRepo.countByUsuarioId(usuario.getId());
+	    dto.setTotalArchivos(totalArchivos);
+	    return dto;
+	}
+	
 	@Override
 	public int delateById(Long id) {
 		if (!usuarioRepo.existsById(id)) {
@@ -124,44 +115,16 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 			throw new IdExistException("El id no existe");
 		}
 
-		if (data.getNombreUsuario() == null || data.getNombreUsuario().isBlank()) {
-			throw new NombreInvalidoException("El nombre no puede estar vacío");
-		}
-		if (data.getNombreUsuario().contains("  ")) {
-			throw new NombreInvalidoException("El nombre no puede contener espacios dobles");
-		}
-		if (!data.getNombreUsuario().matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")) {
-			throw new NombreInvalidoException("El nombre solo debe contener letras y espacios");
-		}
-		String[] palabras = data.getNombreUsuario().trim().split("\\s+");
-		if (palabras.length < 2) {
-			throw new NombreInvalidoException("El nombre debe tener Nombre y Apellido");
-		}
-		if (data.getContrasena() == null || data.getContrasena().isBlank()) {
-			throw new PasswordNotValidException("La contrasena no puede estar vacia");
-		}
-		if (data.getContrasena().length() < 8) {
-			throw new PasswordNotValidException("La contrasena debe tener minimo 8 caracteres");
-		}
-		if (!data.getContrasena().matches(".*[A-Z].*")) {
-			throw new PasswordNotValidException("La contrasena debe tener al menos una letra mayuscula");
-		}
-		if (!data.getContrasena().matches(".*[0-9].*")) {
-			throw new PasswordNotValidException("La contrasena debe tener al menos un numero");
-		}
-
-		if (!data.getCorreo().matches("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$")) {
-			throw new CorreoInvalidoException(
-					"Correo invalido. Debe tener formato ejemplo@correo.com y solo letras minusculas");
-		}
+		validarNombre(data.getNombreUsuario());
+		validarContrasena(data.getContrasena());
+		validarFormatoCorreo(data.getCorreo());
 
 		if (usuarioRepo.existsByCorreo(data.getCorreo())) {
 			throw new CorreoInvalidoException("Correo ya existente");
 		}
 
-		Optional<Usuario> encontrado = usuarioRepo.findById(id);
-
-		Usuario temp = encontrado.get();
+		Usuario temp = usuarioRepo.findById(id)
+				.orElseThrow(() -> new IdExistException("El id no existe"));
 		temp.setNombreUsuario(data.getNombreUsuario());
 		temp.setCorreo(data.getCorreo());
 		temp.setContrasena(passwordEncoder.encode(data.getContrasena()));
@@ -172,13 +135,7 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 		return 0;
 	}
 
-	public UsuarioDTO getLoginUser(String nombre) {
-		Optional<Usuario> entity = usuarioRepo.findByNombreUsuario(nombre);
-		if (entity.isEmpty()) {
-			throw new UsernameNotFoundException("Usuario no encontrado");
-		}
-		return mapper.map(entity.get(), UsuarioDTO.class);
-	}
+	
 
 	public int updateLoginPassword(String correo, String nuevaContrasena) {
 
@@ -226,6 +183,44 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return usuarioRepo.findByNombreUsuario(username)
 				.orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
+	}
+
+	private void validarNombre(String nombre) {
+		if (nombre == null || nombre.isBlank()) {
+			throw new NombreInvalidoException("El nombre no puede estar vacío");
+		}
+		if (nombre.contains("  ")) {
+			throw new NombreInvalidoException("El nombre no puede contener espacios dobles");
+		}
+		if (!nombre.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")) {
+			throw new NombreInvalidoException("El nombre solo debe contener letras y espacios");
+		}
+		String[] palabras = nombre.trim().split("\\s+");
+		if (palabras.length < 2) {
+			throw new NombreInvalidoException("El nombre debe tener Nombre y Apellido");
+		}
+	}
+
+	private void validarContrasena(String contrasena) {
+		if (contrasena == null || contrasena.isBlank()) {
+			throw new PasswordNotValidException("La contrasena no puede estar vacia");
+		}
+		if (contrasena.length() < 8) {
+			throw new PasswordNotValidException("La contrasena debe tener minimo 8 caracteres");
+		}
+		if (!contrasena.matches(".*[A-Z].*")) {
+			throw new PasswordNotValidException("La contrasena debe tener al menos una letra mayuscula");
+		}
+		if (!contrasena.matches(".*[0-9].*")) {
+			throw new PasswordNotValidException("La contrasena debe tener al menos un numero");
+		}
+	}
+
+	private void validarFormatoCorreo(String correo) {
+		if (!correo.matches("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$")) {
+			throw new CorreoInvalidoException(
+					"Correo invalido. Debe tener formato ejemplo@correo.com y solo letras minusculas");
+		}
 	}
 
 }

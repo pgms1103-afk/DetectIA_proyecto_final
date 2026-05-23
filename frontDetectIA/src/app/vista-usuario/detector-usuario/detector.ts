@@ -7,13 +7,14 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import { ArchivoService } from '../../services/archivo.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 import { AnalisisModel } from '../../models/analisis.model';
 import { ResultadoIAModel } from '../../models/resultadoIA.model';
 import { ResultadoIAService } from '../../services/resultadoIA.service';
 import { ArchivoModel } from '../../models/archivo.model';
+import { ToastrService } from 'ngx-toastr';
 
 declare var Chart: any;
 
@@ -34,6 +35,7 @@ interface ModeloIA {
 export class Detector implements OnInit, AfterViewInit, OnChanges {
   private archivoService: ArchivoService = inject(ArchivoService);
   private resultadoService: ResultadoIAService = inject(ResultadoIAService);
+  private toastr: ToastrService = inject(ToastrService);
   public nombre: string = '';
   public archivo: File | null = null;
   public url: string = '';
@@ -41,8 +43,8 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   public veredictoActual: string = '';
 
 
-
   // Getter para definir las extensiones permitidas según la herramienta actual
+
   get extensionesPermitidas(): string {
     switch (this.tipoHerramienta?.toLowerCase()) {
       case 'texto':
@@ -81,6 +83,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
     video: [
       { nombre: 'TwelveLabs',      icono: 'fa-film',          color: '#f59e0b' },
       { nombre: 'Hive Moderation', icono: 'fa-shield-halved', color: '#10b981' },
+      { nombre: 'Gemini',          icono: 'fa-google',        color: '#3b82f6' },
     ],
     audio: [
       { nombre: 'ACRCloud', icono: 'fa-music', color: '#f59e0b' },
@@ -112,7 +115,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
           this.actualizarValoresModelos(resultados);
         },
         error: (err) => {
-          console.error("Error al traer los detalles de las IAs", err);
+          this.toastr.error(err.error || "Error al traer los detalles de las IAs", 'Error');
         }
       });
 
@@ -125,7 +128,6 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
           // 🟢 Validamos que el arreglo traiga al menos un elemento
           if (analisisResp && analisisResp.length > 0) {
             const analisis = analisisResp[0]; // Extraemos el objeto real
-
             // Actualizamos la gráfica de dona y los textos del medidor
             this.actualizarPorcentaje(analisis.porcentajeFinal);
             this.promedioActual = analisis.porcentajeFinal;
@@ -133,11 +135,11 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
           }
         },
         error: (err: any) => {
-          console.error("Error al traer el análisis general", err);
           // Escudo protector visual
           this.actualizarPorcentaje(0);
           this.promedioActual = 0;
           this.veredictoActual = 'Sin datos';
+          this.toastr.error(err.error || "Error al traer el análisis general", 'Error');
         }
       });
     });
@@ -208,13 +210,14 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
 
   subirArchivoLocal() {
     if (!this.archivo) {
-      console.warn('Selecciona un archivo primero');
+      this.toastr.warning('Selecciona un archivo primero','Advertencia');
       return;
     }
 
     this.archivoService.postAnalizarArchivo(this.nombre, this.archivo).subscribe({
       next: (resp: any) => {
-        console.log('Respuesta del servidor:', resp);
+        this.archivoService.analisisCompletado$.next(); // ← agrega esta línea
+        this.toastr.warning('Respuesta del servidor:', resp);
 
         // 1. Actualizar la gráfica central (el doughnut chart)
         this.actualizarPorcentaje(resp.porcentajeFinal);
@@ -227,21 +230,23 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
         // 3. Actualizar la lista de modelos con sus valores individuales
         this.actualizarValoresModelos(resp.resultados);
 
+        this.toastr.success('Análisis completado con éxito.', 'Éxito');
 
       },
       error: (err) => {
-        console.error('Error al subir el archivo:', err);
+         this.toastr.error(err.error || 'Error al analizar el archivo.', 'Error');
       },
     });
   }
 
   subirArchivoUrl() {
     if (!this.url) {
-      console.warn('Ingresa una URL primero');
+      this.toastr.warning('Ingresa una URL primero', 'Advertencia');
       return;
     }
     this.archivoService.postAnalizarUrl(this.nombre, this.url).subscribe({
       next: (resp : any) => {
+        this.archivoService.analisisCompletado$.next(); // ← agrega esta línea
         console.log(resp);
         this.actualizarPorcentaje(resp.promedio);
 
@@ -249,9 +254,11 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
         this.promedioActual = resp.promedio;
 
         this.veredictoActual = resp.veredicto;
+
+        this.toastr.success("Analisis completado con éxito.", 'Exito')
       },
       error: (err) => {
-        console.error(err);
+        this.toastr.error(err.error || "Error al analizar la URL.", "Error");
       },
     });
   }
@@ -268,7 +275,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
     } else if (this.activeTab === 'text' && this.tipoHerramienta !== 'texto') {
       this.subirArchivoUrl();
     } else {
-      console.warn('Para texto directo necesitas crear un método/endpoint específico.');
+      this.toastr.warning('Para texto directo necesitas crear un método/endpoint específico.', 'Advertencia');
     }
   }
 
