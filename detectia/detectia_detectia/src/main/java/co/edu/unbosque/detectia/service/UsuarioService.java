@@ -121,6 +121,7 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 	    UsuarioDTO dto = mapper.map(usuario, UsuarioDTO.class);
 	    long totalArchivos = archivoRepo.countByUsuarioId(usuario.getId());
 	    dto.setTotalArchivos(totalArchivos);
+	    try { dto.setCorreo(AESUtil.decrypt(dto.getCorreo())); } catch (Exception ignored) {}
 	    return dto;
 	}
 	
