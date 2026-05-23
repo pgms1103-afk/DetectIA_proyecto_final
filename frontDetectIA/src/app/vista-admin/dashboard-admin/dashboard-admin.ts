@@ -49,10 +49,9 @@ export class DashboardAdmin implements AfterViewInit {
     }).subscribe({
       next: ({ usuarios, auditorias, archivos, resultados }) => {
 
-        // --- Métricas ---
         this.metricas[0].valor = usuarios.length.toLocaleString();
-        this.metricas[1].valor = auditorias.filter(a => a.modulo === 'ANALISIS').length.toLocaleString();
-        this.metricas[2].valor = usuarios.filter(u => u.role === 'USER').length.toLocaleString();
+        this.metricas[1].valor = usuarios.filter(u => u.role === 'USER').length.toLocaleString();
+        this.metricas[2].valor = usuarios.filter(u => u.role === 'ADMIN').length.toLocaleString();
 
         // --- Datos para gráficas de tiempo ---
         this.traficoData  = this.calcularTraficoPorDia(auditorias);
