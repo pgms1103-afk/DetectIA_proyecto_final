@@ -21,7 +21,7 @@ declare var Chart: any;
 
 interface ModeloIA {
   nombre: string;
-  icono: string;  
+  icono: string;
   color: string;
   valor?: number | null;
 }
@@ -55,7 +55,6 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   ];
 
 
-  // Getter para definir las extensiones permitidas según la herramienta actual
 
   get extensionesPermitidas(): string {
     switch (this.tipoHerramienta?.toLowerCase()) {
@@ -69,7 +68,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
       case 'musica':
         return '.mp3,.wav,.ogg';
       default:
-        return '*/*'; // Si no coincide nada, permite todo
+        return '*/*';
     }
   }
 
@@ -130,41 +129,31 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   ngOnInit(): void {
     this.actualizarModelos();
 
-    // 🟢 El Detector se queda escuchando si alguien hace click en el Sidebar
     this.archivoService.archivoSeleccionado$.subscribe((archivo: ArchivoModel) => {
-      this.toastr.success('2. Detector: Escuché el archivo:', archivo.nombre);
 
-      // 🟢 NUEVO: Detectar la extensión y cambiar la pestaña visual automáticamente
       const categoriaDetectada = this.determinarCategoriaPorArchivo(archivo.rutaAlmacenamiento);
       this.tipoHerramienta = categoriaDetectada;
 
-      // 1. Petición para traer los resultados individuales de las IAs
       this.resultadoService.getMostrarResultadosPorId(archivo.id).subscribe({
         next: (resultados: ResultadoIAModel[]) => {
 
-          // ¡Magia! Le pasamos el arreglo a tu método y la lista de IAs se actualiza visualmente
           this.actualizarValoresModelos(resultados);
-          this.toastr.success("3. Detector: Datos de IAs traídos con éxito", 'Exito')
         },
         error: (err) => {
 
         }
       });
 
-      // 2. NUEVA Petición para traer el análisis general
       this.resultadoService.getMostrarAnalisisPorId(archivo.id).subscribe({
-        // 🟢 Le decimos que va a recibir el arreglo completo
         next: (analisisResp: AnalisisModel[]) => {
 
-          // 🟢 Validamos que el arreglo traiga al menos un elemento
           if (analisisResp && analisisResp.length > 0) {
-            const analisis = analisisResp[0]; // Extraemos el objeto real
-            // Actualizamos la gráfica de dona y los textos del medidor
+            const analisis = analisisResp[0];
             this.actualizarPorcentaje(analisis.porcentajeFinal);
             this.promedioActual = analisis.porcentajeFinal;
             this.veredictoActual = analisis.veredicto;
           }
-          this.toastr.success("4. Detector: Análisis general traído con éxito", 'Exito')
+          this.toastr.success("Detector: Análisis general traído con éxito", 'Exito')
         },
         error: (err: any) => {
           // Escudo protector visual
@@ -259,13 +248,12 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
           this.veredictoActual = resp.veredicto;
           this.actualizarValoresModelos(resp.resultados);
 
-          // alert('Éxito: Análisis completado.'); // (Opcional) Puedes ponerlo o dejar que la UI hable por sí sola
         }, 3000);
       },
       error: (err) => {
         setTimeout(() => {
           this.detenerCarga();
-          alert('Error: ' + (err.error || 'Error al analizar el archivo.')); // ✅ CAMBIO AQUÍ
+          alert('Error: ' + (err.error || 'Error al analizar el archivo.'));
         }, 1500);
       },
     });
@@ -289,7 +277,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
           this.promedioActual = resp.promedio;
           this.veredictoActual = resp.veredicto;
 
-        }, 3000); // 3 segundos de carga
+        }, 3000);
       },
       error: (err) => {
         setTimeout(() => {
@@ -337,42 +325,35 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
       this.subirArchivoUrl();
 
     } else {
-      // ✅ AÑADIDA LA SIMULACIÓN DE CARGA PARA LA PESTAÑA DE TEXTO
-      this.iniciarCarga(); // Muestra la pantalla de carga
+      this.iniciarCarga();
 
       setTimeout(() => {
-        this.detenerCarga(); // La oculta después de 3 segundos
+        this.detenerCarga();
         alert('Advertencia: El análisis de texto directo requiere conectar un endpoint, pero la pantalla de carga ya funciona.');
       }, 3000);
     }
   }
 
   actualizarValoresModelos(datosBackend: any) {
-    // 1. Normalizar los datos: Convertimos lo que llegue a un formato estándar { nombre, valor }
     let datosNormalizados: { nombre: string, valor: number }[] = [];
 
     if (Array.isArray(datosBackend)) {
-      // CASO A: Viene del Historial (Es un arreglo de ResultadoIADTO)
       datosNormalizados = datosBackend.map(item => ({
         nombre: item.nombreIA,
         valor: item.porcentajeIA
       }));
     } else {
-      // CASO B: Viene de un Análisis Nuevo (Es un Objeto/Map)
       datosNormalizados = Object.keys(datosBackend).map(key => ({
         nombre: key,
         valor: datosBackend[key]
       }));
     }
 
-    // 2. Traer la base de diseño (iconos y colores) buscando en TODAS las categorías
-    // Juntamos todos los modelos de texto, imagen, video, etc., en una sola lista gigante
     const todosLosModelosBase = Object.values(this.mapaModelos).flat();
 
-    // 3. Reconstruir la lista que se pinta en el HTML
+
     this.modelosActuales = datosNormalizados.map(dato => {
 
-      // Buscamos si el nombre de la IA existe en nuestra lista gigante para heredar su icono
       const modeloOriginal = todosLosModelosBase.find(
         m => m.nombre.toLowerCase() === dato.nombre.toLowerCase()
       );
@@ -384,7 +365,6 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
         };
       }
 
-      // Escudo: Si el back manda una IA que no tienes registrada, no se rompe, le pone un icono genérico
       return {
         nombre: dato.nombre,
         icono: 'fa-microchip',
@@ -394,9 +374,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
     });
   }
   determinarCategoriaPorArchivo(ruta: string): string {
-    if (!ruta) return 'texto'; // Por defecto
-
-    // Extraemos la extensión (ej. de "archivo.jpg" sacamos "jpg")
+    if (!ruta) return 'texto';
     const extension = ruta.split('.').pop()?.toLowerCase() || '';
 
     if (['txt', 'pdf', 'docx', 'doc'].includes(extension)) {
@@ -409,6 +387,6 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
       return 'audio';
     }
 
-    return 'texto'; // Escudo protector por si suben algo raro
+    return 'texto';
   }
 }

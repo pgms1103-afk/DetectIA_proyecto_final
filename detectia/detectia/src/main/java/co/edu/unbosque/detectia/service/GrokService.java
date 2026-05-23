@@ -173,6 +173,7 @@ public class GrokService {
 		HttpResponse<String> respuesta = HTTP_CLIENT.send(solicitud, HttpResponse.BodyHandlers.ofString());
 
 		System.out.println("Groq status: " + respuesta.statusCode());
+		System.out.println(respuesta.body());
 
 		if (respuesta.statusCode() != 200) {
 			System.err.println("Error Groq API: " + respuesta.body());

@@ -56,7 +56,6 @@ export class Sidebar implements OnInit {
       next: (httpResponse) => {
         if (httpResponse.body) {
           this.historialArchivos = httpResponse.body;
-          this.toastr.success('Historial cargado en el Sidebar:', 'Exito');
         }
       },
       error: (err) => {
@@ -67,7 +66,6 @@ export class Sidebar implements OnInit {
 
   // 🟢 5. Método que se dispara al hacer click en un archivo del HTML
   verDetalleHistorial(archivo: ArchivoModel) {
-    this.toastr.success('Click en el archivo del historial:', archivo.nombre);
 
     // 1. Disparamos el evento al Detector a través del "puente"
     this.archivoService.archivoSeleccionado$.next(archivo);
@@ -153,12 +151,12 @@ export class Sidebar implements OnInit {
 
     this.archivoService.putEditarNombre(this.archivoEditando.id, this.nombreEditando).subscribe({
       next: () => {
-        console.log('Nombre actualizado correctamente');
+        this.toastr.success('Nombre actualizado correctamente', 'Exito');
         this.cerrarModalEditar();
         this.cargarHistorial();
       },
       error: (err) => {
-        console.error('Error al editar:', err);
+        this.toastr.error(err.error || 'Error al editar:', 'Error');
       }
     });
   }
@@ -166,11 +164,11 @@ export class Sidebar implements OnInit {
   eliminarArchivo(archivo: ArchivoModel) {
     this.archivoService.deleteArchivos(archivo.id).subscribe({
       next: () => {
-        console.log('Archivo eliminado:', archivo.id);
+        this.toastr.success('Archivo eliminado correctamente', 'Exito');
         this.cargarHistorial();
       },
       error: (err) => {
-        console.error('Error al eliminar:', err);
+        this.toastr.error(err.error || 'Error al eliminar:', 'Error');
       }
     });
   }
