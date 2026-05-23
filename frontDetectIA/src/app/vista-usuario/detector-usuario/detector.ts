@@ -14,7 +14,6 @@ import { AnalisisModel } from '../../models/analisis.model';
 import { ResultadoIAModel } from '../../models/resultadoIA.model';
 import { ResultadoIAService } from '../../services/resultadoIA.service';
 import { ArchivoModel } from '../../models/archivo.model';
-import { ToastrService } from 'ngx-toastr';
 
 
 declare var Chart: any;
@@ -36,7 +35,6 @@ interface ModeloIA {
 export class Detector implements OnInit, AfterViewInit, OnChanges {
   private archivoService: ArchivoService = inject(ArchivoService);
   private resultadoService: ResultadoIAService = inject(ResultadoIAService);
-  private toastr: ToastrService = inject(ToastrService);
   public nombre: string = '';
   public archivo: File | null = null;
   public url: string = '';
@@ -313,6 +311,11 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
 
   onFileChange(event: any) {
     this.archivo = event.target.files[0];
+  }
+
+  quitarArchivo(event: Event) {
+    event.stopPropagation();
+    this.archivo = null;
   }
 
   ejecutarAnalisis() {
