@@ -1,7 +1,17 @@
 package co.edu.unbosque.detectia.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.unbosque.detectia.dto.UsuarioDTO;
@@ -12,24 +22,19 @@ import co.edu.unbosque.detectia.exception.PasswordNotValidException;
 import co.edu.unbosque.detectia.security.JwtUtil;
 import co.edu.unbosque.detectia.service.AuditoriaLogService;
 import co.edu.unbosque.detectia.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/public") // Todas las rutas que maneje este controlador van a tener el prefijo "public"
 @CrossOrigin(origins = { "http://localhost:8080", "*" })
+@Tag(name = "Autenticacion", description = "Endpoints publicos de registro e inicio de sesion")
 public class AuthController {
 
 	@Autowired
@@ -44,10 +49,18 @@ public class AuthController {
 	@Autowired
 	private AuditoriaLogService auditoriaLogSer;
 
-	@GetMapping("home") // No requiere autenticación
-	public String home() {
-		return "Metodo publico";
-	}
+	@Operation(summary = "Registro de usuario", description = """
+			Registra un nuevo usuario en el sistema con rol USUARIO por defecto.
+
+			**Posibles resultados:**
+			* Usuario registrado exitosamente
+			* El nombre de usuario ya existe
+			* Datos invalidos (nombre, correo o contrasena incorrectos)
+			""")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Usuario registrado con exito", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "Usuario registrado con exito"))),
+			@ApiResponse(responseCode = "409", description = "El nombre de usuario ya existe", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "El nombre de usuario ya existe"))),
+			@ApiResponse(responseCode = "400", description = "Datos invalidos", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "El nombre de usuario debe tener minimo 4 caracteres"))) })
 
 	@PostMapping("/registrarusuario")
 	public ResponseEntity<String> registrarUsuario(@RequestBody UsuarioDTO dto, HttpServletRequest request) {
@@ -81,6 +94,31 @@ public class AuthController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
+
+	@Operation(summary = "Iniciar sesión de usuario", description = """
+			    Este endpoint permite a los usuarios iniciar sesión en el sistema proporcionando sus credenciales.
+
+			    **¿Qué hace?** Verifica las credenciales del usuario y, si son correctas, genera un token JWT
+			    que se utilizará para autenticar solicitudes posteriores.
+
+			    **Paso a paso:**
+
+			    1. Envía tu nombre de usuario y contraseña en formato JSON
+			    2. Si las credenciales son correctas, recibirás un token JWT
+			    3. Guarda este token para usarlo en futuras peticiones
+			    4. Para usar el token, inclúyelo en el encabezado de autorización: `Authorization: Bearer tu_token_jwt`
+
+			    **Nota:** El token tiene un tiempo de expiración limitado. Si expira, necesitarás iniciar sesión nuevamente.
+			""")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Inicio de sesión exitoso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AuthResponse.class), examples = @ExampleObject(value = """
+					    {
+					      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+					      "role": "ADMIN"
+					    }
+					"""))),
+			@ApiResponse(responseCode = "401", description = "Credenciales inválidas", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "Nombre de usuario o contraseña inválidos o usuario no"
+					+ " encontrado"))) })
 
 	@PostMapping("/login")
 	public ResponseEntity<Object> login(@RequestBody UsuarioDTO dto, HttpServletRequest request) {
