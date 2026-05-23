@@ -36,20 +36,16 @@
     </a>
 
     <span class="etiqueta-seccion">Historial</span>
-    <a class="item-nav">
-      <span class="texto-nav">Documento Contrato</span>
+
+    <a class="item-nav"
+       *ngFor="let archivo of historialArchivos"
+       (click)="verDetalleHistorial(archivo)"
+       style="cursor: pointer;">
+      <span class="texto-nav">{{ archivo.nombre }}</span>
     </a>
-    <a class="item-nav">
-      <span class="texto-nav">Entrega Estudiantes</span>
-    </a>
-    <a class="item-nav">
-      <span class="texto-nav">Revision Cancion</span>
-    </a>
-    <a class="item-nav">
-      <span class="texto-nav">Video Tiburon</span>
-    </a>
-    <a class="item-nav">
-      <span class="texto-nav">Imagen banana</span>
+
+    <a class="item-nav" *ngIf="historialArchivos.length === 0">
+      <span class="texto-nav" style="opacity: 0.5; font-size: 0.85em;">No hay análisis recientes</span>
     </a>
   </nav>
 

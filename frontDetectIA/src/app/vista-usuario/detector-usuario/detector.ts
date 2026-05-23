@@ -10,6 +10,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { ArchivoService } from '../../services/archivo.service';
 import { FormsModule } from '@angular/forms';
+import { AnalisisModel } from '../../models/analisis.model';
+import { ResultadoIAModel } from '../../models/resultadoIA.model';
+import { ResultadoIAService } from '../../services/resultadoIA.service';
+import { ArchivoModel } from '../../models/archivo.model';
 
 declare var Chart: any;
 
@@ -29,11 +33,13 @@ interface ModeloIA {
 })
 export class Detector implements OnInit, AfterViewInit, OnChanges {
   private archivoService: ArchivoService = inject(ArchivoService);
+  private resultadoService: ResultadoIAService = inject(ResultadoIAService);
   public nombre: string = '';
   public archivo: File | null = null;
   public url: string = '';
-  public promedioActual: string='';
+  public promedioActual: number = 0;
   public veredictoActual: string = '';
+
 
 
   // Getter para definir las extensiones permitidas según la herramienta actual
@@ -89,6 +95,52 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
 
   ngOnInit(): void {
     this.actualizarModelos();
+
+    // 🟢 El Detector se queda escuchando si alguien hace click en el Sidebar
+    this.archivoService.archivoSeleccionado$.subscribe((archivo: ArchivoModel) => {
+      console.log('2. Detector: Escuché el archivo:', archivo.nombre);
+
+      // 🟢 NUEVO: Detectar la extensión y cambiar la pestaña visual automáticamente
+      const categoriaDetectada = this.determinarCategoriaPorArchivo(archivo.rutaAlmacenamiento);
+      this.tipoHerramienta = categoriaDetectada;
+
+      // 1. Petición para traer los resultados individuales de las IAs
+      this.resultadoService.getMostrarResultadosPorId(archivo.id).subscribe({
+        next: (resultados: ResultadoIAModel[]) => {
+          console.log("3. Detector: Datos de IAs traídos con éxito", resultados);
+          // ¡Magia! Le pasamos el arreglo a tu método y la lista de IAs se actualiza visualmente
+          this.actualizarValoresModelos(resultados);
+        },
+        error: (err) => {
+          console.error("Error al traer los detalles de las IAs", err);
+        }
+      });
+
+      // 2. NUEVA Petición para traer el análisis general
+      this.resultadoService.getMostrarAnalisisPorId(archivo.id).subscribe({
+        // 🟢 Le decimos que va a recibir el arreglo completo
+        next: (analisisResp: AnalisisModel[]) => {
+          console.log("4. Detector: Análisis general traído con éxito", analisisResp);
+
+          // 🟢 Validamos que el arreglo traiga al menos un elemento
+          if (analisisResp && analisisResp.length > 0) {
+            const analisis = analisisResp[0]; // Extraemos el objeto real
+
+            // Actualizamos la gráfica de dona y los textos del medidor
+            this.actualizarPorcentaje(analisis.porcentajeFinal);
+            this.promedioActual = analisis.porcentajeFinal;
+            this.veredictoActual = analisis.veredicto;
+          }
+        },
+        error: (err: any) => {
+          console.error("Error al traer el análisis general", err);
+          // Escudo protector visual
+          this.actualizarPorcentaje(0);
+          this.promedioActual = 0;
+          this.veredictoActual = 'Sin datos';
+        }
+      });
+    });
   }
 
   ngAfterViewInit(): void {
@@ -165,10 +217,10 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
         console.log('Respuesta del servidor:', resp);
 
         // 1. Actualizar la gráfica central (el doughnut chart)
-        this.actualizarPorcentaje(resp.promedio);
+        this.actualizarPorcentaje(resp.porcentajeFinal);
 
         // 2. Actualizar el centro del medidor en el HTML (opcional, si tienes una variable para esto)
-         this.promedioActual = resp.promedio;
+         this.promedioActual = resp.porcentajeFinal;
 
          this.veredictoActual = resp.veredicto;
 
@@ -189,8 +241,14 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
       return;
     }
     this.archivoService.postAnalizarUrl(this.nombre, this.url).subscribe({
-      next: (resp) => {
+      next: (resp : any) => {
         console.log(resp);
+        this.actualizarPorcentaje(resp.promedio);
+
+        // 2. Actualizar el centro del medidor en el HTML (opcional, si tienes una variable para esto)
+        this.promedioActual = resp.promedio;
+
+        this.veredictoActual = resp.veredicto;
       },
       error: (err) => {
         console.error(err);
@@ -214,17 +272,68 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  actualizarValoresModelos(resultadosBackend: any) {
-    // Recorremos los modelos que se están mostrando en pantalla
-    this.modelosActuales = this.modelosActuales.map(modelo => {
-      // Buscamos si el backend devolvió un valor para este modelo específico
-      const valor = resultadosBackend[modelo.nombre];
+  actualizarValoresModelos(datosBackend: any) {
+    // 1. Normalizar los datos: Convertimos lo que llegue a un formato estándar { nombre, valor }
+    let datosNormalizados: { nombre: string, valor: number }[] = [];
 
+    if (Array.isArray(datosBackend)) {
+      // CASO A: Viene del Historial (Es un arreglo de ResultadoIADTO)
+      datosNormalizados = datosBackend.map(item => ({
+        nombre: item.nombreIA,
+        valor: item.porcentajeIA
+      }));
+    } else {
+      // CASO B: Viene de un Análisis Nuevo (Es un Objeto/Map)
+      datosNormalizados = Object.keys(datosBackend).map(key => ({
+        nombre: key,
+        valor: datosBackend[key]
+      }));
+    }
+
+    // 2. Traer la base de diseño (iconos y colores) buscando en TODAS las categorías
+    // Juntamos todos los modelos de texto, imagen, video, etc., en una sola lista gigante
+    const todosLosModelosBase = Object.values(this.mapaModelos).flat();
+
+    // 3. Reconstruir la lista que se pinta en el HTML
+    this.modelosActuales = datosNormalizados.map(dato => {
+
+      // Buscamos si el nombre de la IA existe en nuestra lista gigante para heredar su icono
+      const modeloOriginal = todosLosModelosBase.find(
+        m => m.nombre.toLowerCase() === dato.nombre.toLowerCase()
+      );
+
+      if (modeloOriginal) {
+        return {
+          ...modeloOriginal,
+          valor: dato.valor
+        };
+      }
+
+      // Escudo: Si el back manda una IA que no tienes registrada, no se rompe, le pone un icono genérico
       return {
-        ...modelo,
-        // Si hay valor lo guardamos, si no, lo dejamos en 0 o nulo
-        valor: valor !== undefined ? valor : null
+        nombre: dato.nombre,
+        icono: 'fa-microchip',
+        color: '#888888',
+        valor: dato.valor
       };
     });
+  }
+  determinarCategoriaPorArchivo(ruta: string): string {
+    if (!ruta) return 'texto'; // Por defecto
+
+    // Extraemos la extensión (ej. de "archivo.jpg" sacamos "jpg")
+    const extension = ruta.split('.').pop()?.toLowerCase() || '';
+
+    if (['txt', 'pdf', 'docx', 'doc'].includes(extension)) {
+      return 'texto';
+    } else if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(extension)) {
+      return 'imagen';
+    } else if (['mp4', 'avi', 'mov', 'mkv'].includes(extension)) {
+      return 'video';
+    } else if (['mp3', 'wav', 'ogg'].includes(extension)) {
+      return 'audio';
+    }
+
+    return 'texto'; // Escudo protector por si suben algo raro
   }
 }

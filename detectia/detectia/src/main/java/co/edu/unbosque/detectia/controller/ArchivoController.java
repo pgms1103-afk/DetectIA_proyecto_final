@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import co.edu.unbosque.detectia.dto.ArchivoDTO;
 import co.edu.unbosque.detectia.dto.UsuarioDTO;
 import co.edu.unbosque.detectia.entity.Archivo;
+import co.edu.unbosque.detectia.service.AnalisisService;
 import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 import co.edu.unbosque.detectia.service.ArchivoService;
@@ -43,6 +44,10 @@ public class ArchivoController {
 
 	@Autowired
 	private ResultadoIAService resultadoIAser;
+	
+	@Autowired
+	private AnalisisService analisisSer;
+	
 
 //	@PostMapping(value = "/analizar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 //	public ResponseEntity<?> analizar(@RequestParam String nombre, @RequestParam MultipartFile archivo) throws Exception {
@@ -73,8 +78,8 @@ public class ArchivoController {
 			nuevo.setNombre(nombre);
 			nuevo.setUsuarioId(usuario.getId());
 			Archivo archivoGuardado = archivoSer.createAndReturn(nuevo);
-			resultadoIAser.guardarResultados(votosIAs, archivoGuardado.getNombre());
-			return new ResponseEntity<>(archivoSer.calcularResumen(votosIAs), HttpStatus.CREATED);
+			resultadoIAser.guardarResultados(votosIAs, archivoGuardado);
+			return new ResponseEntity<>(analisisSer.calcularResumen(votosIAs, archivoGuardado), HttpStatus.CREATED);
 		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
@@ -95,8 +100,8 @@ public class ArchivoController {
 			nuevo.setNombre(nombre);
 			nuevo.setUsuarioId(usuario.getId());
 			Archivo archivoGuardado = archivoSer.createAndReturn(nuevo);
-			resultadoIAser.guardarResultados(votosIAs, archivoGuardado.getNombre());
-			return new ResponseEntity<>(archivoSer.calcularResumen(votosIAs), HttpStatus.CREATED);
+			resultadoIAser.guardarResultados(votosIAs, archivoGuardado);
+			return new ResponseEntity<>(analisisSer.calcularResumen(votosIAs, archivoGuardado), HttpStatus.CREATED);
 		} catch (ExtensionInvalidaException | TamanoInvalidoException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
