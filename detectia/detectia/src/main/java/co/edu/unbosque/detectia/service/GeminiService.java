@@ -170,6 +170,68 @@ public class GeminiService {
 		return procesarRespuestaGemini(respuesta.body());
 	}
 	
+	public GeminiDTO detectarIATexto(String texto) throws Exception {
+
+	    JsonObject jsonBody = new JsonObject();
+
+	    // System instruction
+	    JsonObject systemInstruction = new JsonObject();
+	    JsonArray siParts = new JsonArray();
+	    JsonObject siTextPart = new JsonObject();
+	    siTextPart.addProperty("text",
+	    		"Eres un sistema forense digital especializado en detectar contenido generado por Inteligencia Artificial. "
+						+ "Tu única tarea es analizar el archivo proporcionado y devolver un número entre 0 y 100 que represente "
+						+ "la probabilidad de que haya sido generado por IA, donde: "
+						+ "0 = completamente creado por un humano, 100 = completamente generado por IA. " +
+
+						"Para TEXTO y DOCUMENTOS analiza: "
+						+ "coherencia gramatical perfecta, frases repetitivas o genéricas, ausencia de errores naturales, "
+						+ "estructura demasiado ordenada, uso excesivo de conectores formales, falta de opiniones personales, "
+						+ "lenguaje neutral sin personalidad, párrafos de longitud uniforme. "
+	    );
+	    siParts.add(siTextPart);
+	    systemInstruction.add("parts", siParts);
+	    jsonBody.add("system_instruction", systemInstruction);
+
+	    // Contents — solo texto, sin inline_data
+	    JsonArray contents = new JsonArray();
+	    JsonObject contentObject = new JsonObject();
+	    JsonArray parts = new JsonArray();
+
+	    JsonObject promptPart = new JsonObject();
+	    promptPart.addProperty("text",
+	    		"Analiza este texto y responde SOLO con un número entre 0 y 100 "
+	    				+ "indicando la probabilidad de que sea generado por IA. " + "Solo el número, " + "nada más." + texto
+	    );
+	    parts.add(promptPart);
+
+	    contentObject.add("parts", parts);
+	    contents.add(contentObject);
+	    jsonBody.add("contents", contents);
+
+	    JsonObject generationConfig = new JsonObject();
+	    generationConfig.addProperty("temperature", 0.2);
+	    jsonBody.add("generationConfig", generationConfig);
+
+	    HttpRequest solicitud = HttpRequest.newBuilder()
+	            .uri(URI.create(apiUrl))
+	            .header("Content-Type", "application/json")
+	            .header("x-goog-api-key", apiKey)
+	            .POST(HttpRequest.BodyPublishers.ofString(jsonBody.toString()))
+	            .build();
+
+	    HttpResponse<String> respuesta = HTTP_CLIENT.send(solicitud, HttpResponse.BodyHandlers.ofString());
+	    System.out.println("Gemini texto status: " + respuesta.statusCode());
+
+	    if (respuesta.statusCode() != 200) {
+	        throw new RuntimeException(
+	            "Gemini API respondió con error " + respuesta.statusCode() + ": " + respuesta.body()
+	        );
+	    }
+
+	    return procesarRespuestaGemini(respuesta.body());
+	}
+	
 	private boolean esFormatoSoportado(String mimeType) {
 	    return mimeType.matches("image/(gif|jpeg|png|webp|heic|heif)") ||
 	           mimeType.startsWith("video/") ||
@@ -177,6 +239,7 @@ public class GeminiService {
 	           mimeType.equals("text/plain") ||
 	           mimeType.matches("audio/(mpeg|wav|ogg|mp3|aac|x-wav|x-m4a)");
 	}
+	
 
 	/**
 	 * Descarga un archivo desde una URL pública y lo analiza con la API de Gemini
