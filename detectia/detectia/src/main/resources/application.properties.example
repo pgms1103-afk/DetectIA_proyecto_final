@@ -1,0 +1,61 @@
+spring.application.name=detectia
+
+# Base de datos
+spring.datasource.url=jdbc:mysql://HOST:PUERTO/NOMBRE_BASE_DATOS
+spring.datasource.username=USUARIO_DB
+spring.datasource.password=CONTRASEÑA_DB
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.cache.use_second_level_cache=false
+
+# Tamaño máximo de archivos
+spring.servlet.multipart.max-file-size=500MB
+spring.servlet.multipart.max-request-size=500MB
+
+# JWT
+jwt.secret=CAMBIAR_POR_SECRETO_LARGO_Y_SEGURO
+
+# Contraseña por defecto de usuarios creados por admin
+app.default-password=CONTRASEÑA_POR_DEFECTO
+
+# ── APIS ──────────────────────────────────────────────
+
+# Gemini (Google)
+gemini.api.key=GEMINI_API_KEY
+gemini.api.url=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent
+
+# Hive Moderation
+hive.api.key=HIVE_API_KEY
+hive.api.url=https://api.thehive.ai/api/v3/hive/ai-generated-and-deepfake-content-detection
+hive.api.url.audio=https://api.thehive.ai/api/v3/hive/ai-generated-audio-detection
+
+# Winston AI
+winston.api.key=WINSTON_API_KEY
+winston.api.urltexto=https://api.gowinston.ai/v2/ai-content-detection
+winston.api.urlimagen=https://api.gowinston.ai/v2/image-detection
+
+# Groq (Grok)
+groq.api.key=GROQ_API_KEY
+groq.api.url=https://api.groq.com/openai/v1/chat/completions
+groq.model=llama-3.3-70b-versatile
+groq.model.vision=meta-llama/llama-4-scout-17b-16e-instruct
+
+# Mistral
+mistral.agent.id=MISTRAL_AGENT_ID
+mistral.api.key=MISTRAL_API_KEY
+mistral.api.url=https://api.mistral.ai/v1/agents/completions
+
+# Sightengine
+sightengine.api.key=SIGHTENGINE_API_KEY
+sightengine.api.user=SIGHTENGINE_API_USER
+sightengine.models=genai,nudity-2.1
+
+# TwelveLabs
+twelvelabs.api.key=TWELVELABS_API_KEY
+twelvelabs.api.url=https://api.twelvelabs.io/v1.3
+twelvelabs.index.id=TWELVELABS_INDEX_ID
+
+# ACRCloud
+acrcloud.api.token=ACRCLOUD_API_TOKEN
+acrcloud.container.id=ACRCLOUD_CONTAINER_ID
+acrcloud.api.url=https://api-us-west-2.acrcloud.com/api/fs-containers/
