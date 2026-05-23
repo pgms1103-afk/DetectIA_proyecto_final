@@ -668,3 +668,77 @@
   font-style: italic;
   animation: fadeIn 1s ease-in-out;
 }
+
+.tarjeta-archivo-seleccionado {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-normal, #3a3a3f);
+  background: var(--bg-surface, #111113);
+  border-radius: 12px;
+  padding: 40px 20px;
+  gap: 20px;
+  min-height: 200px;
+}
+
+.info-archivo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--bg-elevated, #18181b);
+  border: 1px solid var(--border-subtle, #2a2a2e);
+  padding: 16px 20px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.icono-archivo-tipo {
+  font-size: 32px;
+  color: var(--accent-orange, #ef9d48);
+}
+
+.detalles-archivo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.nombre-del-archivo {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary, #f0f0f2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tamano-del-archivo {
+  font-size: 11px;
+  color: var(--text-secondary, #a0a0a8);
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.btn-eliminar-archivo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  color: #f87171;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-eliminar-archivo:hover {
+  background: rgba(220, 38, 38, 0.18);
+  border-color: var(--accent-red, #dc2626);
+  color: #ef4444;
+}
