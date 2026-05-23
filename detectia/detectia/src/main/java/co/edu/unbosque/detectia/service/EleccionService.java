@@ -279,7 +279,8 @@ public class EleccionService {
 
 	private Map<String, Double> analizarMusica(MultipartFile archivo) throws Exception {
 		Map<String, Double> resultadosIA = new HashMap<>();
-		
+		byte[] bytes = archivo.getBytes();
+		String mimeType = archivo.getContentType();
 		/* SIRVE */// 
 		try {
 			resultadosIA.put("ACRCloud", acrCloude.detectarIAArchivo(archivo).getAi_probability());
@@ -288,6 +289,14 @@ public class EleccionService {
 		} catch (Exception e) {
 			System.err.println("ACRCloud fallo:" + e.getMessage());
 		}
+		
+		
+		
+		try {
+	        resultadosIA.put("Gemini", gemini.detectarIA(bytes, mimeType).getPorcentajeIA());
+	    } catch (Exception e) {
+	        System.err.println("Gemini fallo en música: " + e.getMessage());
+	    }
 		
 		return resultadosIA;
 	}

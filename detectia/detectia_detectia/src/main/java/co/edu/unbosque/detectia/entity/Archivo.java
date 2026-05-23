@@ -52,7 +52,7 @@ public class Archivo {
 	}
 
 	public void setResultados(List<ResultadoIA> resultados) {
-		this.resultados = new ArrayList<>(resultados);
+		this.resultados = resultados;
 	}
 
 	public List<Analisis> getAnalisis() {
@@ -60,7 +60,7 @@ public class Archivo {
 	}
 
 	public void setAnalisis(List<Analisis> analisis) {
-		this.analisis = new ArrayList<>(analisis);
+		this.analisis = analisis;
 	}
 
 	public Long getId() {

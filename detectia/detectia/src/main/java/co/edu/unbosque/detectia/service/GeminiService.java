@@ -39,15 +39,9 @@ public class GeminiService {
 	 */
 	public GeminiDTO detectarIA(byte[] archivoBytes, String mimeType) throws Exception {
 
-		if (!mimeType.equals("image/gif") && !mimeType.equals("image/jpeg") && !mimeType.equals("image/png")
-				&& !mimeType.equals("image/webp") && !mimeType.equals("image/heic") && !mimeType.equals("image/heif")
-				&& !mimeType.equals("aplication/pdf") && !mimeType.equals("text/plain") && !mimeType.equals("video/mp4")
-				&& !mimeType.equals("video/mov") && !mimeType.equals("video/avi") && !mimeType.equals("video/mkv")
-				&& !mimeType.equals("video/webm") && !mimeType.equals("video/3gpp")
-				&& !mimeType.equals("video/quicktime")) {
-			throw new ExtensionInvalidaException("Gemini no permite este tipo de formato " + mimeType
-					+ " Formatos acepetados:JPEG,PNG,GIF,WEPB,HEIF,HEIC,PDF,texto,MP4,MOV,AVI,MKV,WEBM");
-		}
+		if (!esFormatoSoportado(mimeType)) {
+	        throw new ExtensionInvalidaException("Gemini no permite este formato: " + mimeType);
+	    }
 
 		if (archivoBytes.length > 2048L * 1024 * 1024) {
 			double mb = archivoBytes.length / (1024 * 1024);
@@ -88,9 +82,19 @@ public class GeminiService {
 						+ "transiciones de luz poco naturales, bordes difusos alrededor de personas, "
 						+ "orejas, cabello o ropa con detalles irreales. " +
 
-						"Para AUDIO analiza: "
-						+ "entonación monótona o demasiado perfecta, ausencia de respiración natural, "
-						+ "pausas artificiales, pronunciación perfecta sin variaciones naturales. " +
+						"Para MÚSICA analiza: "
+						+ "patrones rítmicos demasiado perfectos sin variaciones humanas naturales, "
+						+ "instrumentos con timbres sintéticos o artificialmente limpios, "
+						+ "ausencia de ruido de fondo, respiración o sonidos ambientales típicos de grabaciones reales, "
+						+ "transiciones armónicas matemáticamente perfectas sin errores de interpretación, "
+						+ "compresión dinámica excesiva que elimina las variaciones naturales de volumen, "
+						+ "frecuencias espectrales uniformes sin las imperfecciones de instrumentos reales, "
+						+ "repetición estructural exacta entre secciones (coros, versos idénticos al sample), "
+						+ "ausencia de microtonalidades o variaciones de afinación naturales del músico humano, "
+						+ "producción excesivamente pulida sin las imperfecciones características de grabaciones en estudio, "
+						+ "patrones de batería o percusión con timing robótico sin swing o groove humano, "
+						+ "melodías generadas con intervalos estadísticamente comunes pero sin personalidad compositiva. "
+						+
 
 						"Para VIDEOS analiza: "
 						+ "movimientos faciales poco naturales, parpadeo irregular o inexistente, "
@@ -100,7 +104,18 @@ public class GeminiService {
 						+ "expresiones faciales rígidas o demasiado suaves, "
 						+ "transiciones artificiales, físicas imposibles o animaciones poco naturales, "
 						+ "artefactos visuales temporales, deformaciones repentinas y pérdida de consistencia entre cuadros. "
-						+
+				
+						+ "Para AUDIOS y VOCES analiza: "
+						+ "cadencia y entonación monótona o robótica que no sigue el flujo natural del habla humana, "
+						+ "artefactos de 'glitch' o distorsiones metálicas en las frecuencias altas (típico de códecs de voz IA), "
+						+ "ausencia de micro-pausas naturales entre oraciones o al inhalar aire, "
+						+ "fases de silencio perfectamente planas (ausencia completa de ruido de fondo o 'noise floor'), "
+						+ "énfasis gramaticales forzados en palabras que no requieren importancia, "
+						+ "repetición de patrones espectrales idénticos en fonemas similares, "
+						+ "transiciones bruscas de tono que violan la física de las cuerdas vocales, "
+						+ "omisión de las variaciones naturales de volumen y tono que ocurren al hablar con emoción, "
+						+ "sincronización de ritmo demasiado precisa que no presenta la variabilidad humana (jitter), "
+						+ "presencia de artefactos de compresión que suenan artificialmente brillantes o filtrados. "+
 
 						"IMPORTANTE: Responde ÚNICAMENTE con un número entre 0 y 100. "
 						+ "Sin explicaciones, sin texto adicional, solo el número.");
@@ -153,6 +168,14 @@ public class GeminiService {
 		}
 
 		return procesarRespuestaGemini(respuesta.body());
+	}
+	
+	private boolean esFormatoSoportado(String mimeType) {
+	    return mimeType.matches("image/(gif|jpeg|png|webp|heic|heif)") ||
+	           mimeType.startsWith("video/") ||
+	           mimeType.equals("application/pdf") ||
+	           mimeType.equals("text/plain") ||
+	           mimeType.matches("audio/(mpeg|wav|ogg|mp3|aac|x-wav|x-m4a)");
 	}
 
 	/**
