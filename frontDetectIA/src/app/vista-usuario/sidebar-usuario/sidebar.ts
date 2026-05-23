@@ -57,14 +57,7 @@ export class Sidebar implements OnInit {
         if (httpResponse.body) {
           this.historialArchivos = httpResponse.body;
         }
-      },
-      error: (err) => {
-        if (err.status === 404) {
-          this.historialArchivos = []; // Sin archivos aún, no es un error real
-        } else {
-          this.toastr.error(err.error || 'Error al traer el historial', 'Error');
-        }
-      },
+      }
     });
   }
 
