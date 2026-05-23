@@ -16,19 +16,23 @@
     </div>
 
     <div class="grupo-pestanas">
-      <button class="btn-pestana" [class.activo]="activeTab === 'text'" (click)="switchTab('text')">
+      <button class="btn-pestana"
+              *ngIf="tipoHerramienta === 'texto' || tipoHerramienta === 'imagen'"
+              [class.activo]="activeTab === 'text'"
+              (click)="switchTab('text')">
         <i class="fa-solid" [ngClass]="tipoHerramienta === 'texto' ? 'fa-regular fa-keyboard' : 'fa-solid fa-link'"></i>
         {{ tipoHerramienta === 'texto' ? 'Pegar texto' : 'Pegar enlace' }}
       </button>
+
       <button class="btn-pestana" [class.activo]="activeTab === 'file'" (click)="switchTab('file')">
         <i class="fa-solid fa-file-arrow-up"></i> Subir archivo
       </button>
     </div>
 
     <div class="zona-texto" *ngIf="activeTab === 'text' && tipoHerramienta === 'texto'">
-      <textarea class="area-texto" placeholder="Pega aquí el texto que deseas analizar..."></textarea>
+      <textarea class="area-texto" [(ngModel)]="textoPlano" placeholder="Pega aquí el texto que deseas analizar..."></textarea>
       <div class="pie-zona-texto">
-        <span class="contador-palabras">0 palabras</span>
+        <span class="contador-palabras">{{ textoPlano ? textoPlano.trim().split(/\s+/).length : 0 }} palabras</span>
         <div class="acciones-texto">
           <button class="btn-accion-texto"><i class="fa-regular fa-clipboard"></i> Pegar</button>
           <button class="btn-accion-texto"><i class="fa-solid fa-flask"></i> Muestra</button>
@@ -47,7 +51,7 @@
       </p>
     </div>
 
-    <div class="zona-subida" [class.visible]="activeTab === 'file' && !archivo" (click)="fileInput.click()" style="cursor: pointer;" *ngIf="activeTab === 'file' && !archivo">
+    <div class="zona-subida" [class.visible]="activeTab === 'file' && !archivo && !archivoHistorico" (click)="fileInput.click()" style="cursor: pointer;" *ngIf="activeTab === 'file' && !archivo && !archivoHistorico">
 
       <input type="file" #fileInput [accept]="extensionesPermitidas" hidden (change)="onFileChange($event)">
       <i class="fa-solid fa-file-arrow-up icono-subida"></i>
@@ -76,6 +80,7 @@
       </div>
     </div>
 
+    <!-- Tarjeta: archivo recién subido localmente -->
     <div class="tarjeta-archivo-seleccionado animate__animated animate__fadeIn animate__faster" *ngIf="activeTab === 'file' && archivo">
       <div class="info-archivo">
         <i class="fa-solid fa-file-word icono-archivo-tipo" *ngIf="tipoHerramienta === 'texto'"></i>
@@ -94,6 +99,25 @@
       </button>
     </div>
 
+    <!-- Tarjeta: archivo traído del historial -->
+    <div class="tarjeta-archivo-seleccionado animate__animated animate__fadeIn animate__faster" *ngIf="activeTab === 'file' && !archivo && archivoHistorico">
+      <div class="info-archivo">
+        <i class="fa-solid fa-file-word icono-archivo-tipo" *ngIf="tipoHerramienta === 'texto'"></i>
+        <i class="fa-solid fa-file-image icono-archivo-tipo" *ngIf="tipoHerramienta === 'imagen'"></i>
+        <i class="fa-solid fa-file-video icono-archivo-tipo" *ngIf="tipoHerramienta === 'video'"></i>
+        <i class="fa-solid fa-file-audio icono-archivo-tipo" *ngIf="tipoHerramienta === 'audio' || tipoHerramienta === 'musica'"></i>
+
+        <div class="detalles-archivo">
+          <span class="nombre-del-archivo" [title]="archivoHistorico.rutaAlmacenamiento">{{ archivoHistorico.rutaAlmacenamiento }}</span>
+          <span class="tamano-del-archivo"><i class="fa-solid fa-clock-rotate-left"></i> Del historial</span>
+        </div>
+      </div>
+
+      <button class="btn-eliminar-archivo" (click)="quitarArchivoHistorico($event)">
+        <i class="fa-solid fa-trash-can"></i> Quitar archivo
+      </button>
+    </div>
+
     <button class="btn-analizar" (click)="ejecutarAnalisis()">
       <i class="fa-solid fa-magnifying-glass-chart"></i> Analizar {{ tipoHerramienta }}
     </button>
@@ -102,7 +126,12 @@
 
   <div class="panel-resultados animate__animated animate__fadeIn animate__faster">
     <div class="tarjeta-medidor">
-      <span class="etiqueta-medidor">Probabilidad de IA</span>
+      <span class="etiqueta-medidor">
+        Probabilidad de IA
+        <button class="btn-refrescar-grafica" (click)="refrescarGrafica()" title="Refrescar gráfica">
+          <i class="fa-solid fa-rotate"></i>
+        </button>
+      </span>
       <div class="contenedor-medidor">
         <canvas id="iaProbabilityChart"></canvas>
         <div class="centro-medidor">

@@ -37,7 +37,9 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   private resultadoService: ResultadoIAService = inject(ResultadoIAService);
   public nombre: string = '';
   public archivo: File | null = null;
+  public archivoHistorico: ArchivoModel | null = null;
   public url: string = '';
+  public textoPlano: string = '';
   public promedioActual: number = 0;
   public veredictoActual: string = '';
 
@@ -75,7 +77,6 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
     let i = 0;
     this.sugerenciaActual = this.sugerencias[0];
 
-    // Cambia el texto cada 2.5 segundos
     this.intervalSugerencias = setInterval(() => {
       i = (i + 1) % this.sugerencias.length;
       this.sugerenciaActual = this.sugerencias[i];
@@ -127,14 +128,33 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   ngOnInit(): void {
     this.actualizarModelos();
 
-    this.archivoService.archivoSeleccionado$.subscribe((archivo: ArchivoModel) => {
+    this.archivoService.archivoSeleccionado$.subscribe((archivoSeleccionado: ArchivoModel) => {
 
-      const categoriaDetectada = this.determinarCategoriaPorArchivo(archivo.rutaAlmacenamiento);
+      const categoriaDetectada = this.determinarCategoriaPorArchivo(archivoSeleccionado.rutaAlmacenamiento);
       this.tipoHerramienta = categoriaDetectada;
+      this.nombre = archivoSeleccionado.nombre ?? '';
 
-      this.resultadoService.getMostrarResultadosPorId(archivo.id).subscribe({
+      // Limpia el estado previo
+      this.archivo = null;
+      this.archivoHistorico = null;
+      this.url = '';
+      this.textoPlano = '';
+
+      // Detecta si la "rutaAlmacenamiento" es una URL pública o un archivo local
+      const esUrl = /^https?:\/\//i.test(archivoSeleccionado.rutaAlmacenamiento ?? '');
+
+      if (esUrl) {
+        // Caso URL (imagen/video/audio remoto) → pestaña "Pegar enlace"
+        this.activeTab = 'text';
+        this.url = archivoSeleccionado.rutaAlmacenamiento;
+      } else {
+        // Caso archivo local → pestaña "Subir archivo" con tarjeta del archivo del historial
+        this.activeTab = 'file';
+        this.archivoHistorico = archivoSeleccionado;
+      }
+
+      this.resultadoService.getMostrarResultadosPorId(archivoSeleccionado.id).subscribe({
         next: (resultados: ResultadoIAModel[]) => {
-
           this.actualizarValoresModelos(resultados);
         },
         error: (err) => {
@@ -142,7 +162,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
         }
       });
 
-      this.resultadoService.getMostrarAnalisisPorId(archivo.id).subscribe({
+      this.resultadoService.getMostrarAnalisisPorId(archivoSeleccionado.id).subscribe({
         next: (analisisResp: AnalisisModel[]) => {
 
           if (analisisResp && analisisResp.length > 0) {
@@ -151,10 +171,8 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
             this.promedioActual = analisis.porcentajeFinal;
             this.veredictoActual = analisis.veredicto;
           }
-          this.toastr.success("Detector: Análisis general traído con éxito", 'Exito')
         },
         error: (err: any) => {
-          // Escudo protector visual
           this.actualizarPorcentaje(0);
           this.promedioActual = 0;
           this.veredictoActual = 'Sin datos';
@@ -164,13 +182,24 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
     });
   }
 
+  quitarArchivoHistorico(event: Event) {
+    event.stopPropagation();
+    this.archivoHistorico = null;
+  }
+
   ngAfterViewInit(): void {
-    this.inicializarGraficaVacia();
+    // pequeño retraso para asegurar que el canvas esté completamente renderizado
+    setTimeout(() => this.inicializarGraficaVacia(), 0);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['tipoHerramienta']) {
       this.actualizarModelos();
+
+      const herramienta = this.tipoHerramienta?.toLowerCase();
+      if (herramienta === 'video' || herramienta === 'audio' || herramienta === 'musica') {
+        this.activeTab = 'file';
+      }
     }
   }
 
@@ -221,15 +250,39 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   }
 
   actualizarPorcentaje(nuevoPorcentaje: number) {
-    if(this.chartMedidor) {
-      this.chartMedidor.data.datasets[0].data = [nuevoPorcentaje, 100 - nuevoPorcentaje];
-      this.chartMedidor.update();
+    // Si la gráfica no existe todavía, la creamos primero y reintentamos
+    if (!this.chartMedidor) {
+      this.inicializarGraficaVacia();
+      setTimeout(() => {
+        if (this.chartMedidor) {
+          this.chartMedidor.data.datasets[0].data = [nuevoPorcentaje, 100 - nuevoPorcentaje];
+          this.chartMedidor.update();
+        }
+      }, 50);
+      return;
     }
+
+    this.chartMedidor.data.datasets[0].data = [nuevoPorcentaje, 100 - nuevoPorcentaje];
+    this.chartMedidor.update();
+  }
+
+  /** Destruye y recrea la gráfica del medidor manteniendo el valor actual. */
+  refrescarGrafica() {
+    if (this.chartMedidor) {
+      this.chartMedidor.destroy();
+      this.chartMedidor = null;
+    }
+    setTimeout(() => {
+      this.inicializarGraficaVacia();
+      if (this.promedioActual > 0) {
+        this.actualizarPorcentaje(this.promedioActual);
+      }
+    }, 50);
   }
 
   subirArchivoLocal() {
     if (!this.archivo) {
-      alert('Advertencia: Selecciona un archivo primero'); // ✅ CAMBIO AQUÍ
+      alert('Advertencia: Selecciona un archivo primero');
       return;
     }
 
@@ -241,8 +294,9 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
           this.detenerCarga();
           this.archivoService.analisisCompletado$.next();
 
-          this.actualizarPorcentaje(resp.porcentajeFinal);
-          this.promedioActual = resp.porcentajeFinal;
+          const valor = resp.promedio ?? resp.porcentajeFinal ?? 0;
+          this.actualizarPorcentaje(valor);
+          this.promedioActual = valor;
           this.veredictoActual = resp.veredicto;
           this.actualizarValoresModelos(resp.resultados);
 
@@ -266,15 +320,20 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
     this.iniciarCarga();
 
     this.archivoService.postAnalizarUrl(this.nombre, this.url).subscribe({
-      next: (resp : any) => {
+      next: (resp: any) => {
         setTimeout(() => {
           this.detenerCarga();
           this.archivoService.analisisCompletado$.next();
 
-          this.actualizarPorcentaje(resp.promedio);
-          this.promedioActual = resp.promedio;
+          // El backend devuelve "promedio" en el Map de calcularResumen
+          const valor = resp.promedio ?? resp.porcentajeFinal ?? 0;
+          this.actualizarPorcentaje(valor);
+          this.promedioActual = valor;
           this.veredictoActual = resp.veredicto;
 
+          if (resp.resultados) {
+            this.actualizarValoresModelos(resp.resultados);
+          }
         }, 3000);
       },
       error: (err) => {
@@ -282,29 +341,6 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
           this.detenerCarga();
           alert('Error: ' + (err.error || 'Error al analizar la URL.'));
         }, 1500);
-      },
-    });
-
-
-
-
-    this.iniciarCarga();
-
-    this.archivoService.postAnalizarUrl(this.nombre, this.url).subscribe({
-      next: (resp : any) => {
-        this.detenerCarga();
-
-        this.archivoService.analisisCompletado$.next();
-        console.log(resp);
-        this.actualizarPorcentaje(resp.promedio);
-        this.promedioActual = resp.promedio;
-        this.veredictoActual = resp.veredicto;
-
-
-      },
-      error: (err) => {
-        this.detenerCarga();
-
       },
     });
   }
@@ -319,7 +355,6 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   }
 
   ejecutarAnalisis() {
-    console.log(`Iniciando análisis. Pestaña activa: ${this.activeTab}`);
 
     if (this.activeTab === 'file') {
       this.subirArchivoLocal();
@@ -328,13 +363,43 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
       this.subirArchivoUrl();
 
     } else {
-      this.iniciarCarga();
-
-      setTimeout(() => {
-        this.detenerCarga();
-        alert('Advertencia: El análisis de texto directo requiere conectar un endpoint, pero la pantalla de carga ya funciona.');
-      }, 3000);
+      // Pestaña "Pegar texto" + tipoHerramienta === 'texto'
+      this.subirTextoPlano();
     }
+  }
+
+  subirTextoPlano() {
+    if (!this.textoPlano || this.textoPlano.trim().length === 0) {
+      alert('Advertencia: Pega un texto primero');
+      return;
+    }
+
+    this.iniciarCarga();
+
+    this.archivoService.postAnalizarTexto(this.nombre, this.textoPlano).subscribe({
+      next: (resp: any) => {
+        setTimeout(() => {
+          this.detenerCarga();
+          this.archivoService.analisisCompletado$.next();
+
+          // El backend devuelve "promedio" en el Map de calcularResumen
+          const valor = resp.promedio ?? resp.porcentajeFinal ?? 0;
+          this.actualizarPorcentaje(valor);
+          this.promedioActual = valor;
+          this.veredictoActual = resp.veredicto;
+
+          if (resp.resultados) {
+            this.actualizarValoresModelos(resp.resultados);
+          }
+        }, 3000);
+      },
+      error: (err) => {
+        setTimeout(() => {
+          this.detenerCarga();
+          alert('Error: ' + (err.error || 'Error al analizar el texto.'));
+        }, 1500);
+      },
+    });
   }
 
   actualizarValoresModelos(datosBackend: any) {
