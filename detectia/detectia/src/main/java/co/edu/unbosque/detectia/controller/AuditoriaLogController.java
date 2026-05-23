@@ -15,7 +15,7 @@ import co.edu.unbosque.detectia.entity.AuditoriaLog;
 import co.edu.unbosque.detectia.service.AuditoriaLogService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
-@SecurityRequirement(name = "beareAuth")
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/admin/auditoria")
 @CrossOrigin(origins = { "http://localhost:8080", "*" })

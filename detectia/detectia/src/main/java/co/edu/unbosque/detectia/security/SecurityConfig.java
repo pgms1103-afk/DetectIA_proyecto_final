@@ -65,7 +65,7 @@ public class SecurityConfig {
 								.permitAll()
 								.requestMatchers("/private/archivo/**", "/private/resultadoporia/**", "/private/user/**") // Rutas privadas
 								.hasAnyRole("USER", "ADMIN") // Si la persona tiene el rol de user o admin.
-								.requestMatchers("/admin/**")
+								.requestMatchers("/admin/**", "/admin/auditoria/**" )
 								.hasRole("ADMIN")
 								.anyRequest().authenticated()
 				)

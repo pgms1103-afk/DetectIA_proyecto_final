@@ -39,9 +39,6 @@ public class EleccionService {
 
 	@Autowired
 	private HiveModerationService hiveModeration;
-	
-	@Autowired
-	private HuggingFaceService huggingFace;
 
 	public Map<String, Double> analizar(MultipartFile archivo) throws Exception {
 		String tipo = extractor.detectarTipo(archivo);
