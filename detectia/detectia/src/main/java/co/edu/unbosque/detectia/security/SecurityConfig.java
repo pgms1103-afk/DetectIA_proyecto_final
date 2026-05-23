@@ -85,7 +85,7 @@ public class SecurityConfig {
 		CorsConfiguration configuration = new CorsConfiguration();
 		
 		// Permitir el origen donde corre Angular
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+		configuration.setAllowedOriginPatterns(Arrays.asList("*"));
 		
 		// Permitir los métodos HTTP que vas a usar
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
