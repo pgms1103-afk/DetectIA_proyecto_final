@@ -58,34 +58,6 @@ public class UserController {
 		return ResponseEntity.ok(dto);
 	}
 
-	@Operation(summary = "Actualizar mi contrasena", description = """
-			Permite al usuario autenticado actualizar su propia contrasena.
-
-			**Posibles resultados:**
-			* Contrasena actualizada correctamente
-			* Contrasena invalida (no cumple los requisitos)
-			* Usuario no encontrado
-
-			**Nota:** Requiere token JWT valido.
-			""")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "202", description = "Contrasena actualizada correctamente", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "Contraseña actualizada correctamente"))),
-			@ApiResponse(responseCode = "400", description = "Contrasena invalida", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "La contrasena debe tener minimo 8 caracteres"))),
-			@ApiResponse(responseCode = "204", description = "Usuario no encontrado", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "El usuario no existe"))) })
-
-	@PutMapping("/actualizarcontraseña")
-	public ResponseEntity<String> actualizarContrasenia(Authentication authentication,
-			@RequestParam String contrasena) {
-		try {
-			String correoLogueado = authentication.getName();
-			usuarioSer.updateLoginPassword(correoLogueado, contrasena);
-			return new ResponseEntity<>("Contraseña actulizada correctamente", HttpStatus.ACCEPTED);
-		} catch (PasswordNotValidException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-
-		} catch (IdExistException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
-		}
-	}
+	
 
 }

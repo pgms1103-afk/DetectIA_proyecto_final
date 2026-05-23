@@ -426,6 +426,15 @@
   background: rgba(245, 158, 11, 0.05) !important;
 }
 
+.btn-panel-admin {
+  color: #a78bfa !important;
+}
+
+.btn-panel-admin:hover {
+  color: #c084fc !important;
+  background: rgba(168, 85, 247, 0.08) !important;
+}
+
 @media (max-width: 768px) {
   .barra-lateral {
     position: fixed;

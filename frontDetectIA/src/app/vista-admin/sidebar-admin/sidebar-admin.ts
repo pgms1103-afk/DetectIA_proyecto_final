@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar-admin',
@@ -15,7 +16,7 @@ export class SidebarAdmin {
   isCollapsed = false;
   mobileOpen = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   toggleSidebar() { this.isCollapsed = !this.isCollapsed; }
   toggleMobileMenu() { this.mobileOpen = !this.mobileOpen; }
@@ -23,6 +24,10 @@ export class SidebarAdmin {
   seleccionar(vista: 'dashboard' | 'usuarios' | 'auditoria') {
     this.vistaSeleccionada.emit(vista);
     if (this.mobileOpen) this.toggleMobileMenu();
+  }
+
+  irAVistaUsuario() {
+    this.router.navigate(['/usuario']);
   }
 
   cerrarSesion() {
