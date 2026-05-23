@@ -26,6 +26,9 @@ public class HiveModerationService {
     
     @Value("${hive.api.url}")
     private String apiUrl;
+    
+    @Value("${hive.api.url.audio}")
+    private String apiUrlAudio;
 
     private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
@@ -93,6 +96,122 @@ public class HiveModerationService {
 
         return procesarRespuesta(respuesta.body());
     }
+    
+//    public HiveModerationDTO detectarIAAudio(byte[] archivo, String contentType) throws Exception {
+//
+//        System.out.println("---------- HIVE AUDIO DEBUG ----------");
+//        System.out.println("Content-Type recibido: " + contentType);
+//        System.out.println("Tamaño del archivo en bytes: " + archivo.length);
+//
+//        if (!contentType.equals("audio/mpeg") && !contentType.equals("audio/mp3") &&
+//            !contentType.equals("audio/wav") && !contentType.equals("audio/ogg") &&
+//            !contentType.equals("audio/flac") && !contentType.equals("audio/m4a") &&
+//            !contentType.equals("audio/x-m4a")) {
+//            throw new ExtensionInvalidaException("Hive Audio no permite este formato: " + contentType
+//                    + ". Formatos aceptados: MP3, WAV, OGG, FLAC, M4A");
+//        }
+//
+//        // 🟢 1. Convertimos los bytes del audio a un String en Base64
+//        String base64Audio = java.util.Base64.getEncoder().encodeToString(archivo);
+//        
+//        // 🟢 2. Creamos el formato "Data URI" que exige Hive (ej. "data:audio/mpeg;base64,SUQz...")
+//        String dataUri = "data:" + contentType + ";base64," + base64Audio;
+//
+//        // 🟢 3. Armamos exactamente el mismo JSON que usas para la URL, 
+//        // pero pasándole el audio codificado en la propiedad "media"
+//        JsonObject input = new JsonObject();
+//        input.addProperty("media", dataUri);
+//
+//        JsonObject body = new JsonObject();
+//        body.add("input", new JsonArray());
+//        body.getAsJsonArray("input").add(input);
+//
+//        System.out.println("Enviando JSON (Base64) a URL: " + apiUrlAudio);
+//
+//        HttpRequest solicitud = HttpRequest.newBuilder()
+//                .uri(URI.create(apiUrlAudio))
+//                .header("Authorization", "Bearer " + apiKey) 
+//                .header("Content-Type", "application/json")
+//                .header("Accept", "application/json") // Aseguramos que Hive sepa que hablamos JSON
+//                .POST(HttpRequest.BodyPublishers.ofString(body.toString()))
+//                .build();
+//
+//        HttpResponse<String> respuesta = HTTP_CLIENT.send(solicitud, HttpResponse.BodyHandlers.ofString());
+//        
+//        System.out.println("Hive Audio status: " + respuesta.statusCode());
+//        System.out.println("Hive Audio body: " + respuesta.body());
+//        System.out.println("--------------------------------------");
+//
+//        if (respuesta.statusCode() != 200) {
+//            System.err.println("Error Hive Audio API: " + respuesta.body());
+//            return new HiveModerationDTO(0.0);
+//        }
+//
+//        return procesarRespuestaAudio(respuesta.body());
+//    }
+//    private HiveModerationDTO procesarRespuestaAudio(String responseBody) {
+//        try {
+//            Gson gson = new Gson();
+//            JsonObject root = gson.fromJson(responseBody, JsonObject.class);
+//
+//            JsonArray output = root.getAsJsonArray("status")
+//                    .get(0).getAsJsonObject()
+//                    .getAsJsonObject("response")
+//                    .getAsJsonArray("output");
+//
+//            double totalScore = 0.0;
+//            int count = 0;
+//
+//            for (int i = 0; i < output.size(); i++) {
+//                JsonArray classes = output.get(i).getAsJsonObject().getAsJsonArray("classes");
+//                for (int j = 0; j < classes.size(); j++) {
+//                    JsonObject clase = classes.get(j).getAsJsonObject();
+//                    if (clase.get("class").getAsString().equals("ai_generated")) {
+//                        totalScore += clase.get("score").getAsDouble(); // ← score, no value
+//                        count++;
+//                    }
+//                }
+//            }
+//
+//            double promedio = count > 0 ? (totalScore / count) * 100 : 0.0;
+//            return new HiveModerationDTO(promedio);
+//
+//        } catch (Exception e) {
+//            System.err.println("Error al parsear Hive Audio: " + e.getMessage());
+//            return new HiveModerationDTO(0.0);
+//        }
+//    }
+//    
+//    // Por URL - audio
+//    public HiveModerationDTO detectarIAAudioUrl(String mediaUrl) throws IOException, InterruptedException {
+//
+//        JsonObject input = new JsonObject();
+//        input.addProperty("media_url", mediaUrl);
+//
+//        JsonObject body = new JsonObject();
+//        body.add("input", new com.google.gson.JsonArray());
+//        body.getAsJsonArray("input").add(input);
+//
+//        HttpRequest solicitud = HttpRequest.newBuilder()
+//                .uri(URI.create(apiUrlAudio))
+//                .header("Authorization", "Bearer " + apiKey)
+//                .header("Content-Type", "application/json")
+//                .POST(HttpRequest.BodyPublishers.ofString(body.toString()))
+//                .build();
+//
+//        HttpResponse<String> respuesta = HTTP_CLIENT.send(solicitud, HttpResponse.BodyHandlers.ofString());
+//        System.out.println("Hive Audio URL status: " + respuesta.statusCode());
+//        System.out.println("Hive Audio URL body: " + respuesta.body());
+//
+//        if (respuesta.statusCode() != 200) {
+//            System.err.println("Error Hive Audio API: " + respuesta.body());
+//            return new HiveModerationDTO(0.0);
+//        }
+//
+//        return procesarRespuestaAudio(respuesta.body());
+//    }
+//    
+    
 
     private HiveModerationDTO procesarRespuesta(String responseBody) {
         try {

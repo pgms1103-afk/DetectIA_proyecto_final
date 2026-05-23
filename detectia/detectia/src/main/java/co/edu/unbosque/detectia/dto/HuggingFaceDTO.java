@@ -2,15 +2,13 @@ package co.edu.unbosque.detectia.dto;
 
 public class HuggingFaceDTO {
     private double porcentajeIA;
-    private String veredicto;
 
     public HuggingFaceDTO() {
     	
     }
 
-    public HuggingFaceDTO(double porcentajeIA, String veredicto) {
+    public HuggingFaceDTO(double porcentajeIA) {
         this.porcentajeIA = porcentajeIA;
-        this.veredicto = veredicto;
     }
 
 	public double getPorcentajeIA() {
@@ -21,13 +19,6 @@ public class HuggingFaceDTO {
 		this.porcentajeIA = porcentajeIA;
 	}
 
-	public String getVeredicto() {
-		return veredicto;
-	}
-
-	public void setVeredicto(String veredicto) {
-		this.veredicto = veredicto;
-	}
     
     
     
