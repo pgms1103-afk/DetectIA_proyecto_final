@@ -18,6 +18,7 @@ import co.edu.unbosque.detectia.exception.IdExistException;
 import co.edu.unbosque.detectia.exception.CorreoInvalidoException;
 import co.edu.unbosque.detectia.exception.NombreInvalidoException;
 import co.edu.unbosque.detectia.exception.PasswordNotValidException;
+import co.edu.unbosque.detectia.util.AESUtil;
 
 @Service
 public class UsuarioService implements CRUDoperation<UsuarioDTO> {
@@ -45,7 +46,7 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 		validarContrasena(data.getContrasena());
 		validarFormatoCorreo(data.getCorreo());
 
-		if (usuarioRepo.existsByCorreo(data.getCorreo())) {
+		if (usuarioRepo.existsByCorreo(AESUtil.encrypt(data.getCorreo()))) {
 			throw new CorreoInvalidoException("Correo ya existente");
 		}
 
@@ -54,7 +55,7 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 
 		// 2. Pasamos los datos del DTO a la entidad (excepto el ID)
 		entity.setNombreUsuario(data.getNombreUsuario());
-		entity.setCorreo(data.getCorreo());
+		entity.setCorreo(AESUtil.encrypt(data.getCorreo()));
 
 		// 4. Validación y Guardado
 		if (findUsernameAlreadyTaken(entity.getNombreUsuario())) {
@@ -79,6 +80,7 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 		entityList.forEach((entity) -> {
 			long totalArchivos = archivoRepo.countByUsuarioId(entity.getId());
 			UsuarioDTO dto = mapper.map(entity, UsuarioDTO.class);
+			dto.setCorreo(AESUtil.decrypt(dto.getCorreo()));
 			dto.setTotalArchivos(totalArchivos);
 			dtoList.add(dto);
 		});
@@ -94,6 +96,7 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 	    UsuarioDTO dto = mapper.map(usuario, UsuarioDTO.class);
 	    long totalArchivos = archivoRepo.countByUsuarioId(usuario.getId());
 	    dto.setTotalArchivos(totalArchivos);
+	    try { dto.setCorreo(AESUtil.decrypt(dto.getCorreo())); } catch (Exception ignored) {}
 	    return dto;
 	}
 	
@@ -119,14 +122,14 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 		validarContrasena(data.getContrasena());
 		validarFormatoCorreo(data.getCorreo());
 
-		if (usuarioRepo.existsByCorreo(data.getCorreo())) {
+		if (usuarioRepo.existsByCorreo(AESUtil.encrypt(data.getCorreo()))) {
 			throw new CorreoInvalidoException("Correo ya existente");
 		}
 
 		Usuario temp = usuarioRepo.findById(id)
 				.orElseThrow(() -> new IdExistException("El id no existe"));
 		temp.setNombreUsuario(data.getNombreUsuario());
-		temp.setCorreo(data.getCorreo());
+		temp.setCorreo(AESUtil.encrypt(data.getCorreo()));
 		temp.setContrasena(passwordEncoder.encode(data.getContrasena()));
 		if (data.getRole() != null) {
 			temp.setRole(data.getRole());
@@ -152,7 +155,7 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 			throw new PasswordNotValidException("La contrasena debe tener al menos un numero");
 		}
 		
-		Optional<Usuario> encontrado = usuarioRepo.findByCorreo(correo);
+		Optional<Usuario> encontrado = usuarioRepo.findByCorreo(AESUtil.encrypt(correo));
 
 		if (encontrado.isEmpty()) {
 			throw new IdExistException("No existe ningún usuario con el correo: " + correo);

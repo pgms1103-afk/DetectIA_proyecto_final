@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import co.edu.unbosque.detectia.entity.Usuario;
 import co.edu.unbosque.detectia.repository.UsuarioRepository;
+import co.edu.unbosque.detectia.util.AESUtil;
 
 @Configuration
 public class LoadDatabase {
@@ -38,7 +39,7 @@ public class LoadDatabase {
       if (found.isPresent()) {
         log.info("El administrador ya existe, omitiendo la creación del administrador...");
       } else {
-    	  Usuario adminUser = new Usuario("admin", "admin@gmail", passwordEncoder.encode(defaultPassword), Usuario.Role.ADMIN, 0);
+    	  Usuario adminUser = new Usuario("admin", AESUtil.encrypt("admin@gmail"), passwordEncoder.encode(defaultPassword), Usuario.Role.ADMIN, 0);
         userRepo.save(adminUser);
         log.info("Precargando usuario administrador");
       }
@@ -47,7 +48,7 @@ public class LoadDatabase {
         log.info("El usuario normal ya existe, omitiendo la creación del usuario normal...");
       } else {
     	  Usuario normalUser =
-            new Usuario("normaluser", "user@gmail", passwordEncoder.encode(defaultPassword), Usuario.Role.USER, 0);
+            new Usuario("normaluser", AESUtil.encrypt("user@gmail"), passwordEncoder.encode(defaultPassword), Usuario.Role.USER, 0);
         userRepo.save(normalUser);
         log.info("Precargando usuario normal");
       }
