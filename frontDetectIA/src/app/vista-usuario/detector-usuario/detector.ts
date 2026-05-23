@@ -14,6 +14,7 @@ import { AnalisisModel } from '../../models/analisis.model';
 import { ResultadoIAModel } from '../../models/resultadoIA.model';
 import { ResultadoIAService } from '../../services/resultadoIA.service';
 import { ArchivoModel } from '../../models/archivo.model';
+import { ToastrService } from 'ngx-toastr';
 
 
 declare var Chart: any;
@@ -35,6 +36,7 @@ interface ModeloIA {
 export class Detector implements OnInit, AfterViewInit, OnChanges {
   private archivoService: ArchivoService = inject(ArchivoService);
   private resultadoService: ResultadoIAService = inject(ResultadoIAService);
+  private toastr: ToastrService = inject(ToastrService);
   public nombre: string = '';
   public archivo: File | null = null;
   public archivoHistorico: ArchivoModel | null = null;
@@ -115,10 +117,12 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
       { nombre: 'Gemini',          icono: 'fa-google',        color: '#3b82f6' },
     ],
     audio: [
-      { nombre: 'ACRCloud', icono: 'fa-music', color: '#f59e0b' },
+      { nombre: 'ACRCloud', icono: 'fa-music',  color: '#f59e0b' },
+      { nombre: 'Gemini',   icono: 'fa-google', color: '#3b82f6' },
     ],
     musica: [
-      { nombre: 'ACRCloud', icono: 'fa-music', color: '#f59e0b' },
+      { nombre: 'ACRCloud', icono: 'fa-music',  color: '#f59e0b' },
+      { nombre: 'Gemini',   icono: 'fa-google', color: '#3b82f6' },
     ],
   };
 
@@ -352,6 +356,16 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   quitarArchivo(event: Event) {
     event.stopPropagation();
     this.archivo = null;
+  }
+
+  async copiarUrl(): Promise<void> {
+    if (!this.url) return;
+    try {
+      await navigator.clipboard.writeText(this.url);
+      this.toastr.success('URL copiada al portapapeles.', 'Copiado');
+    } catch {
+      this.toastr.warning('No se pudo copiar al portapapeles.', 'Error');
+    }
   }
 
   ejecutarAnalisis() {
