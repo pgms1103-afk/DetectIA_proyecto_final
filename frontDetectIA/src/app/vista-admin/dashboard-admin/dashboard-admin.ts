@@ -1,5 +1,13 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { forkJoin } from 'rxjs';
+import { UsuarioService } from '../../services/usuario.service';
+import { AuditoriaService } from '../../services/auditoria.service';
+import { ArchivoService } from '../../services/archivo.service';
+import { ResultadoIAService } from '../../services/resultadoIA.service';
+import { AuditoriaLogModel } from '../../models/auditoria.model';
+import { ArchivoModel } from '../../models/archivo.model';
+import { ResultadoIAModel } from '../../models/resultadoIA.model';
 
 declare var Chart: any;
 
@@ -12,20 +20,122 @@ declare var Chart: any;
 })
 export class DashboardAdmin implements AfterViewInit {
 
+  private usuarioService   = inject(UsuarioService);
+  private auditoriaService = inject(AuditoriaService);
+  private archivoService   = inject(ArchivoService);
+  private resultadoService = inject(ResultadoIAService);
+
   metricas = [
-    { titulo: 'Usuarios Totales', valor: '1,284', icono: 'fa-users', color: 'naranja' },
-    { titulo: 'Análisis Realizados', valor: '45,602', icono: 'fa-magnifying-glass-chart', color: 'purpura' },
-    { titulo: 'Usuarios', valor: '99.9', icono: 'fa-server', color: 'verde' },
-    { titulo: 'Administradores', valor: '8', icono: 'fa-microchip', color: 'azul' },
-    { titulo: 'Modelos Activos', valor: '95%', icono: 'fa-bolt', color: 'amarillo' },
-    { titulo: 'Suscripciones Pro', valor: '312', icono: 'fa-gem', color: 'rojo' }
+    { titulo: 'Usuarios Totales',    valor: '...', icono: 'fa-users',                  color: 'naranja'  },
+    { titulo: 'Usuarios',            valor: '...', icono: 'fa-server',                  color: 'verde'    },
+    { titulo: 'Administradores',     valor: '...', icono: 'fa-microchip',               color: 'azul'     },
+    { titulo: 'Modelos Activos',     valor: '95%', icono: 'fa-bolt',                    color: 'amarillo' },
   ];
 
+  private traficoData:    number[] = [0, 0, 0, 0, 0, 0, 0];
+  private apiUsageData:   number[] = Array(24).fill(0);
+  private tiposArchivo:   { labels: string[]; data: number[] } = { labels: [], data: [] };
+  private veredictos:     { labels: string[]; data: number[] } = { labels: [], data: [] };
+
   ngAfterViewInit() {
-    this.inicializarGraficasFreedom();
+    this.cargarDatos();
   }
 
-  inicializarGraficasFreedom() {
+  cargarDatos() {
+    forkJoin({
+      usuarios:   this.usuarioService.getMostrarUsuarios(),
+      auditorias: this.auditoriaService.getTodos(),
+      archivos:   this.archivoService.getAllArchivos(),
+      resultados: this.resultadoService.getAllResultados()
+    }).subscribe({
+      next: ({ usuarios, auditorias, archivos, resultados }) => {
+
+        // --- Métricas ---
+        this.metricas[0].valor = usuarios.length.toLocaleString();
+        this.metricas[1].valor = auditorias.filter(a => a.modulo === 'ANALISIS').length.toLocaleString();
+        this.metricas[2].valor = usuarios.filter(u => u.role === 'USER').length.toLocaleString();
+        this.metricas[3].valor = usuarios.filter(u => u.role === 'ADMIN').length.toLocaleString();
+
+        // --- Datos para gráficas de tiempo ---
+        this.traficoData  = this.calcularTraficoPorDia(auditorias);
+        this.apiUsageData = this.calcularUsoPorHora(auditorias);
+
+        // --- Datos para gráficas nuevas ---
+        this.tiposArchivo = this.calcularTiposArchivo(archivos);
+        this.veredictos   = this.calcularVeredictos(resultados);
+
+        this.inicializarGraficas();
+      },
+      error: (err) => {
+        console.error('Error cargando datos del dashboard:', err);
+        this.inicializarGraficas();
+      }
+    });
+  }
+
+  /** Agrupa los logs por día de la semana (Lun=0 … Dom=6) */
+  private calcularTraficoPorDia(auditorias: AuditoriaLogModel[]): number[] {
+    const conteo = [0, 0, 0, 0, 0, 0, 0];
+    auditorias.forEach(a => {
+      const dia = new Date(a.fecha).getDay();
+      conteo[dia === 0 ? 6 : dia - 1]++;
+    });
+    return conteo;
+  }
+
+  /** Agrupa los logs del día de hoy por hora (0-23) */
+  private calcularUsoPorHora(auditorias: AuditoriaLogModel[]): number[] {
+    const hoy   = new Date().toDateString();
+    const conteo = Array(24).fill(0);
+    auditorias.forEach(a => {
+      const fecha = new Date(a.fecha);
+      if (fecha.toDateString() === hoy) conteo[fecha.getHours()]++;
+    });
+    return conteo;
+  }
+
+  /** Agrupa archivos por categoría según la extensión del nombre */
+  private calcularTiposArchivo(archivos: ArchivoModel[]): { labels: string[]; data: number[] } {
+    const categorias: Record<string, number> = {
+      'Imagen':    0,
+      'Video':     0,
+      'Audio':     0,
+      'Documento': 0,
+      'Otro':      0
+    };
+
+    archivos.forEach(a => {
+      const nombre = (a.rutaAlmacenamiento || a.nombre || '').toLowerCase();
+      const ext    = nombre.split('.').pop() ?? '';
+
+      if (['jpg','jpeg','png','gif','webp','heic','heif','bmp'].includes(ext))        categorias['Imagen']++;
+      else if (['mp4','mov','avi','mkv','webm','quicktime'].includes(ext))             categorias['Video']++;
+      else if (['mp3','wav','ogg','aac','m4a','mpeg'].includes(ext))                  categorias['Audio']++;
+      else if (['pdf','txt','doc','docx'].includes(ext))                              categorias['Documento']++;
+      else                                                                             categorias['Otro']++;
+    });
+
+    const entries = Object.entries(categorias).filter(([, v]) => v > 0);
+    return {
+      labels: entries.map(([k]) => k),
+      data:   entries.map(([, v]) => v)
+    };
+  }
+
+  /** Clasifica resultados como PROBABLE IA o PROBABLE HUMANO */
+  private calcularVeredictos(resultados: ResultadoIAModel[]): { labels: string[]; data: number[] } {
+    let ia      = 0;
+    let humano  = 0;
+    resultados.forEach(r => r.porcentajeIA >= 50 ? ia++ : humano++);
+    return {
+      labels: ['Probable IA', 'Probable Humano'],
+      data:   [ia, humano]
+    };
+  }
+
+  inicializarGraficas() {
+
+    // --- Tráfico Global de Análisis ---
     const ctxTrafico = document.getElementById('traficoChart');
     if (ctxTrafico) {
       new Chart(ctxTrafico, {
@@ -34,8 +144,8 @@ export class DashboardAdmin implements AfterViewInit {
           labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
           datasets: [{
             label: 'Peticiones API',
-            data: [120, 190, 300, 250, 420, 150, 310],
-            borderColor: '#6366f1', // Púrpura Admin
+            data: this.traficoData,
+            borderColor: '#6366f1',
             backgroundColor: 'rgba(99, 102, 241, 0.1)',
             fill: true,
             tension: 0.4
@@ -53,72 +163,64 @@ export class DashboardAdmin implements AfterViewInit {
       });
     }
 
+    // --- Archivos por Tipo (reemplaza Almacenamiento) ---
     const ctxStorage = document.getElementById('storageChart');
     if (ctxStorage) {
       new Chart(ctxStorage, {
         type: 'doughnut',
         data: {
-          labels: ['Usado', 'Libre'],
+          labels: this.tiposArchivo.labels,
           datasets: [{
-            data: [75, 25],
-            backgroundColor: [
-              '#10b981',
-              '#27272a'
-            ],
+            data: this.tiposArchivo.data,
+            backgroundColor: ['#6366f1', '#10b981', '#fbbf24', '#f43f5e', '#64748b'],
             borderWidth: 0
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          cutout: '80%',
-          plugins: { legend: { display: false } }
-        }
-      });
-    }
-
-    const ctxRadar = document.getElementById('performanceRadarChart');
-    if (ctxRadar) {
-      new Chart(ctxRadar, {
-        type: 'radar',
-        data: {
-          labels: ['Velocidad', 'Precisión', 'Capacidad', 'Escalabilidad', 'Eficiencia'],
-          datasets: [{
-            label: 'Modelo GPT-4 v2',
-            data: [85, 95, 80, 90, 88],
-            borderColor: '#6366f1',
-            backgroundColor: 'rgba(99, 102, 241, 0.2)',
-          }, {
-            label: 'Claude 3 Opus',
-            data: [90, 92, 85, 88, 92],
-            borderColor: '#10b981',
-            backgroundColor: 'rgba(16, 185, 129, 0.2)',
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            r: {
-              angleLines: { color: 'rgba(255,255,255,0.1)' },
-              grid: { color: 'rgba(255,255,255,0.1)' },
-              pointLabels: { color: '#a1a1aa', font: { size: 10 } },
-              ticks: { display: false }
-            }
+          cutout: '70%',
+          plugins: {
+            legend: { display: true, position: 'bottom', labels: { color: '#a1a1aa', font: { size: 11 } } }
           }
         }
       });
     }
 
+    // --- Veredictos de Análisis (reemplaza Radar de Modelos) ---
+    const ctxRadar = document.getElementById('performanceRadarChart');
+    if (ctxRadar) {
+      new Chart(ctxRadar, {
+        type: 'doughnut',
+        data: {
+          labels: this.veredictos.labels,
+          datasets: [{
+            data: this.veredictos.data,
+            backgroundColor: ['#f43f5e', '#10b981'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: {
+            legend: { display: true, position: 'bottom', labels: { color: '#a1a1aa', font: { size: 11 } } }
+          }
+        }
+      });
+    }
+
+    // --- Uso de API (Últimas 24 Horas) ---
     const ctxApiUsage = document.getElementById('apiUsageChart');
     if (ctxApiUsage) {
       new Chart(ctxApiUsage, {
         type: 'line',
         data: {
-          labels: Array.from({length: 24}, (_, i) => `${i}h`),
+          labels: Array.from({ length: 24 }, (_, i) => `${i}h`),
           datasets: [{
-            data: Array.from({length: 24}, () => Math.floor(Math.random() * 100)),
-            borderColor: '#fbbf24', // Amarillo
+            data: this.apiUsageData,
+            borderColor: '#fbbf24',
             backgroundColor: 'rgba(251, 191, 36, 0.1)',
             fill: true,
             tension: 0.1
