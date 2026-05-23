@@ -1,10 +1,14 @@
-
 FRONT:
 Hacer barra de carga con mensaje de IA recomendada <----- que se note pa q Jose lo lea
 
+Mensajes de validación al crear, actualizar y eliminar (Pa Davi).
+
 Poner botones al lado del nombre del archivo del historial para eliminar archivo y editarlo. (urgente)
 
-Hacer mas clara la letra en la tabla donde se muestran los usuarios.	
+
+Campo para escribir el nombre del archivo, el cual, si selecciona un archivo del historial, se llene automáticamente (urgente).
+
+En la herramienta de video, donde esta TwelveLabs y Hive Moderation agrege a gemini tambien. (urgente).
 
 Que al subir un archivo, ese archivo se vea en la pantalla, y al cargar algo del historial, ese archivo también se vea en la pantalla. (urgente).
 
@@ -37,4 +41,4 @@ Quitar la campanita en la parte superior derecha o darle una función.
 BACK:
 Ver lo de las IAs en archivos de texto con imágenes.
 Auditorias.
-Supongo q mas excepciones.
+Supongo q mas excepciones.(Hechas)
