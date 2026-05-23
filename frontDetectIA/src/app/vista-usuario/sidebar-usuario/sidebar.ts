@@ -59,7 +59,7 @@ export class Sidebar implements OnInit {
         }
       },
       error: (err) => {
-        this.toastr.error(err.error || 'Error al traer el historial:', 'Error');
+
       },
     });
   }

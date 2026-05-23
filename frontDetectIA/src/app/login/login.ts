@@ -66,7 +66,7 @@ export class Login {
       icon: 'fa-clock-rotate-left',
       tag: 'HISTORIAL',
       title: 'Guarda tu historial',
-      desc: 'Accede a todos tus análisis anteriores, compara resultados y exporta reportes en un clic.',
+      desc: 'Accede a todos tus análisis anteriores, compara resultados y eliminalos cuando no los necesites.',
       highlight: 'Ilimitado',
       highlightIcon: 'fa-infinity',
       color: '#a78bfa',
