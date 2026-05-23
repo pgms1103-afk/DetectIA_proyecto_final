@@ -61,7 +61,7 @@
           [style.animation-delay]="(0.4 + (i * 0.05)) + 's'">
         <td>
           <div class="celda-usuario">
-            <div class="avatar-tabla">{{ log.nombreUsuario}}</div>
+            <div class="avatar-tabla">{{ obtenerIniciales(log.nombreUsuario) }}</div>
             <span>{{ log.nombreUsuario }}</span>
           </div>
         </td>

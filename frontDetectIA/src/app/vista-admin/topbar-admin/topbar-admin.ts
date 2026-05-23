@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { CommonModule} from '@angular/common';
 import { UsuarioService } from '../../services/usuario.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-topbar-admin',
@@ -11,7 +12,7 @@ import { UsuarioService } from '../../services/usuario.service';
 })
 export class TopbarAdmin implements OnInit {
   usuarioService: UsuarioService = inject(UsuarioService);
-
+  private toastr: ToastrService = inject(ToastrService);
   ngOnInit(): void {
     this.mostrarMisDatos();
   }
@@ -40,8 +41,8 @@ export class TopbarAdmin implements OnInit {
         this.user.email = resultado.correo;
         this.user.files = resultado.totalArchivos;
       },
-      error: (_) => {
-        console.error('No se trajeron los datos');
+      error: (e) => {
+        this.toastr.error(e.error || 'No se trajeron los datos', 'Error');
       },
     });
   }
