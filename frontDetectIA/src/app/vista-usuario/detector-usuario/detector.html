@@ -174,7 +174,7 @@
             {{ modelo.nombre }}
           </span>
 
-          <span class="valor-metrica">{{ modelo.valor != null ? modelo.valor + '%' : '—' }}</span>
+          <span class="valor-metrica">{{ modelo.valor != null ? ((modelo.valor | number:'1.0-2') + '%') : '—' }}</span>
         </div>
       </div>
     </div>

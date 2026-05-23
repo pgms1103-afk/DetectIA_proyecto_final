@@ -59,7 +59,11 @@ export class Sidebar implements OnInit {
         }
       },
       error: (err) => {
-        this.toastr.error(err.error || 'Error al traer el historial:', 'Error');
+        if (err.status === 404) {
+          this.historialArchivos = []; // Sin archivos aún, no es un error real
+        } else {
+          this.toastr.error(err.error || 'Error al traer el historial', 'Error');
+        }
       },
     });
   }
