@@ -1,10 +1,18 @@
 .area-trabajo {
   flex: 1;
   display: flex;
+  flex-direction: column;
   overflow: hidden;
   padding: 24px;
-  gap: 20px;
+  gap: 14px;
   position: relative;
+}
+
+.fila-paneles {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  min-height: 0;
 }
 
 .contenedor-nombre-archivo {
@@ -190,6 +198,29 @@
   color: var(--text-primary);
   outline: none;
   font-size: 13px;
+}
+
+.btn-pegar-url {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid var(--border-normal);
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.btn-pegar-url:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent-orange);
+  color: var(--accent-orange);
 }
 
 .nota-enlace {
@@ -571,10 +602,13 @@
 
 @media (max-width: 768px) {
   .area-trabajo {
-    flex-direction: column;
     padding: 16px;
-    overflow-y: visible;
-    gap: 30px;
+    overflow-y: auto;
+    gap: 20px;
+  }
+
+  .fila-paneles {
+    flex-direction: column;
   }
 
   .panel-entrada,
@@ -595,6 +629,10 @@
 
   .franja-historial {
     display: none;
+  }
+
+  .grid-recomendaciones {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -761,4 +799,202 @@
   background: rgba(220, 38, 38, 0.18);
   border-color: var(--accent-red, #dc2626);
   color: #ef4444;
+}
+
+
+/* === RECOMENDACIONES DE IA === */
+.seccion-recomendaciones {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.titulo-recomendaciones {
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.grid-recomendaciones {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.tarjeta-recomendacion {
+  background: var(--bg-surface);
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--border-subtle);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.tarjeta-recomendacion::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  border-radius: 10px 0 0 10px;
+}
+
+.tarjeta-recomendacion.texto::before  { background: #f59e0b; }
+.tarjeta-recomendacion.video::before  { background: #3b82f6; }
+.tarjeta-recomendacion.imagen::before { background: #a855f7; }
+.tarjeta-recomendacion.audio::before  { background: #22c55e; }
+
+.tarjeta-recomendacion.texto:hover  { box-shadow: 0 4px 14px rgba(245, 158, 11, 0.18); border-color: rgba(245, 158, 11, 0.35); transform: translateY(-1px); }
+.tarjeta-recomendacion.video:hover  { box-shadow: 0 4px 14px rgba(59, 130, 246, 0.18); border-color: rgba(59, 130, 246, 0.35); transform: translateY(-1px); }
+.tarjeta-recomendacion.imagen:hover { box-shadow: 0 4px 14px rgba(168, 85, 247, 0.18); border-color: rgba(168, 85, 247, 0.35); transform: translateY(-1px); }
+.tarjeta-recomendacion.audio:hover  { box-shadow: 0 4px 14px rgba(34, 197, 94, 0.18); border-color: rgba(34, 197, 94, 0.35); transform: translateY(-1px); }
+
+.cabecera-recomendacion {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.icono-tipo-rec {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.tarjeta-recomendacion.texto  .icono-tipo-rec { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+.tarjeta-recomendacion.video  .icono-tipo-rec { background: rgba(59, 130, 246, 0.12); color: #60a5fa; }
+.tarjeta-recomendacion.imagen .icono-tipo-rec { background: rgba(168, 85, 247, 0.12); color: #c084fc; }
+.tarjeta-recomendacion.audio  .icono-tipo-rec { background: rgba(34, 197, 94, 0.12);  color: #4ade80; }
+
+.tipo-rec {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.tarjeta-recomendacion.texto  .tipo-rec { color: #f59e0b; }
+.tarjeta-recomendacion.video  .tipo-rec { color: #60a5fa; }
+.tarjeta-recomendacion.imagen .tipo-rec { color: #c084fc; }
+.tarjeta-recomendacion.audio  .tipo-rec { color: #4ade80; }
+
+.nombre-ia-rec {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.desc-rec {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.mejor-en {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 2px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.mejor-en-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+}
+
+.chips-mejor-en {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip-rec {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-normal);
+  color: var(--text-secondary);
+}
+
+.tarjeta-recomendacion.texto  .chip-rec { border-color: rgba(245,158,11,0.3); color: #fbbf24; background: rgba(245,158,11,0.07); }
+.tarjeta-recomendacion.video  .chip-rec { border-color: rgba(59,130,246,0.3);  color: #60a5fa; background: rgba(59,130,246,0.07);  }
+.tarjeta-recomendacion.imagen .chip-rec { border-color: rgba(168,85,247,0.3);  color: #c084fc; background: rgba(168,85,247,0.07);  }
+.tarjeta-recomendacion.audio  .chip-rec { border-color: rgba(34,197,94,0.3);   color: #4ade80; background: rgba(34,197,94,0.07);   }
+
+/* === TIP AUDIO === */
+.tip-audio {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.tip-fila {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.tip-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.tip-badge.gemini {
+  background: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.tip-badge.acr {
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.tip-texto {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.tip-texto strong {
+  color: var(--text-secondary);
+  font-weight: 600;
 }
