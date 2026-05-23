@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { ArchivoModel } from '../models/archivo.model';
 import { AnalisisModel } from '../models/analisis.model';
@@ -34,11 +34,29 @@ export class ArchivoService {
     );
   }
 
-  // 🟢 CORREGIDO TAMBIÉN AQUÍ: Para que tu medidor por URL tampoco tire error
+  // 🟢 Codifica correctamente los parámetros con HttpParams para evitar 403 por
+  //    StrictHttpFirewall de Spring Security cuando la URL contiene ":" y "/".
   postAnalizarUrl(nombre: string, url: string): Observable<AnalisisModel> {
+    const params = new HttpParams()
+      .set('nombre', nombre)
+      .set('url', url);
     return this.cliente.post<AnalisisModel>(
-      this.urlbase + "/analizarurl?nombre=" + nombre + "&url=" + url,
-      null
+      this.urlbase + '/analizarimagenurl',
+      null,
+      { params }
+    );
+  }
+
+  // 🟢 Para texto plano: usa form-urlencoded en el body para soportar textos largos
+  //    sin chocar contra el límite de longitud de URL.
+  postAnalizarTexto(nombre: string, texto: string): Observable<AnalisisModel> {
+    const body = new URLSearchParams();
+    body.set('nombre', nombre);
+    body.set('texto', texto);
+    return this.cliente.post<AnalisisModel>(
+      this.urlbase + '/analizartexto',
+      body.toString(),
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
     );
   }
 
