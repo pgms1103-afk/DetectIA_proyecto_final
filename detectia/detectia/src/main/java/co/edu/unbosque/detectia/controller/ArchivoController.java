@@ -21,6 +21,7 @@ import co.edu.unbosque.detectia.dto.ArchivoDTO;
 import co.edu.unbosque.detectia.dto.UsuarioDTO;
 import co.edu.unbosque.detectia.entity.Archivo;
 import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
+import co.edu.unbosque.detectia.exception.IdExistException;
 import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 import co.edu.unbosque.detectia.service.AnalisisService;
 import co.edu.unbosque.detectia.service.ArchivoService;
@@ -107,6 +108,56 @@ public class ArchivoController {
 		}
 	}
 
+	@Operation(summary = "Analizar texto plano", description = """
+			Analiza un texto plano con multiples modelos de IA para detectar si fue generado artificialmente.
+			Devuelve un resumen con los votos de cada modelo.
+
+			**Posibles resultados:**
+			* Analisis completado con resumen de resultados
+			* Texto vacio
+			* Usuario no encontrado
+
+			**Nota:** Requiere token JWT valido.
+			""")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Analisis completado exitosamente", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = """
+					    {
+					      "esIA": true,
+					      "porcentajeIA": 91.3,
+					      "votos": {
+					        "Gemini": 0.95,
+					        "Mistral": 0.88,
+					        "Winston": 0.91
+					      }
+					    }
+					"""))),
+			@ApiResponse(responseCode = "400", description = "El texto no puede estar vacio", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "El texto no puede estar vacio"))),
+			@ApiResponse(responseCode = "204", description = "Usuario no encontrado", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "El usuario no existe"))) })
+
+	@PostMapping(value = "/analizartexto")
+	public ResponseEntity<?> analizarTextoPlano(@RequestParam String nombre, @RequestParam String texto,
+			Authentication authentication) {
+		try {
+			if (texto == null || texto.isBlank()) {
+				return new ResponseEntity<>("El texto no puede estar vacio", HttpStatus.BAD_REQUEST);
+			}
+			String username = authentication.getName();
+			UsuarioDTO usuario = usuarioSer.getLoginUser(username);
+
+			Map<String, Double> votosIAs = eleccionSer.analizarTextoPlano(texto);
+
+			ArchivoDTO nuevo = new ArchivoDTO();
+			nuevo.setRutaAlmacenamiento("[TEXTO PLANO]");
+			nuevo.setNombre(nombre);
+			nuevo.setUsuarioId(usuario.getId());
+			Archivo archivoGuardado = archivoSer.createAndReturn(nuevo);
+			resultadoIAser.guardarResultados(votosIAs, archivoGuardado);
+			return new ResponseEntity<>(analisisSer.calcularResumen(votosIAs, archivoGuardado), HttpStatus.CREATED);
+		} catch (IdExistException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
+
 	@Operation(summary = "Analizar archivo por URL", description = """
 			Analiza un archivo a partir de una URL publica con multiples modelos de IA.
 			Devuelve un resumen con los votos de cada modelo.
@@ -132,8 +183,8 @@ public class ArchivoController {
 					"""))),
 			@ApiResponse(responseCode = "400", description = "Extension o tamano invalido", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "Extension de archivo no permitida"))) })
 
-	@PostMapping("/analizarurl")
-	public ResponseEntity<?> analizarURL(@RequestParam String nombre, @RequestParam String url,
+	@PostMapping("/analizarimagenurl")
+	public ResponseEntity<?> analizarImagenURL(@RequestParam String nombre, @RequestParam String url,
 			Authentication authentication) throws Exception {
 
 		try {
