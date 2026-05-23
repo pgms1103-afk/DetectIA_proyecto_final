@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.unbosque.detectia.dto.UsuarioDTO;
+import co.edu.unbosque.detectia.entity.Usuario;
 import co.edu.unbosque.detectia.exception.CorreoInvalidoException;
 import co.edu.unbosque.detectia.exception.IdExistException;
 import co.edu.unbosque.detectia.exception.NombreInvalidoException;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
-@RequestMapping("/admin") // Tiene todas las rutas privadas
+@RequestMapping("/admin")
 @CrossOrigin(origins = { "http://localhost:8080", "*" })
 public class AdminController {
 
@@ -41,7 +42,7 @@ public class AdminController {
 			nuevo.setNombreUsuario(dto.getNombreUsuario());
 			nuevo.setCorreo(dto.getCorreo());
 			nuevo.setContrasena(dto.getContrasena());
-			nuevo.setRole(dto.getRole());
+			nuevo.setRole(dto.getRole() != null ? dto.getRole() : Usuario.Role.ADMIN); // ← línea agregada
 			usuarioSer.create(nuevo);
 
 			return new ResponseEntity<>("Usuario creado con éxito", HttpStatus.CREATED);
@@ -78,7 +79,6 @@ public class AdminController {
 			return new ResponseEntity<>("Usuario eliminado correctamente", HttpStatus.ACCEPTED);
 		} catch (IdExistException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
-
 		}
 	}
 
