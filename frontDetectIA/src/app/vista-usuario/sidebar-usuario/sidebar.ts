@@ -23,6 +23,9 @@ export class Sidebar implements OnInit {
   private archivoService: ArchivoService = inject(ArchivoService);
   private resultadoService: ResultadoIAService = inject(ResultadoIAService);
   public nombreArchivo = '';
+  public mostrarModalEditar = false;
+  public nombreEditando = '';
+  private archivoEditando: ArchivoModel | null = null;
 
   // 🟢 2. Arreglo para guardar el historial que viene de la BD
   public historialArchivos: ArchivoModel[] = [];
@@ -127,6 +130,45 @@ export class Sidebar implements OnInit {
       error: (err) => {
         console.error('Error al buscar:', err);
         this.historialArchivos = [];
+      }
+    });
+  }
+
+  abrirModalEditar(archivo: ArchivoModel) {
+    this.archivoEditando = archivo;
+    this.nombreEditando = archivo.nombre;
+    this.mostrarModalEditar = true;
+  }
+
+  cerrarModalEditar() {
+    this.mostrarModalEditar = false;
+    this.archivoEditando = null;
+    this.nombreEditando = '';
+  }
+
+  guardarNombre() {
+    if (!this.archivoEditando || !this.nombreEditando.trim()) return;
+
+    this.archivoService.putEditarNombre(this.archivoEditando.id, this.nombreEditando).subscribe({
+      next: () => {
+        console.log('Nombre actualizado correctamente');
+        this.cerrarModalEditar();
+        this.cargarHistorial();
+      },
+      error: (err) => {
+        console.error('Error al editar:', err);
+      }
+    });
+  }
+
+  eliminarArchivo(archivo: ArchivoModel) {
+    this.archivoService.deleteArchivos(archivo.id).subscribe({
+      next: () => {
+        console.log('Archivo eliminado:', archivo.id);
+        this.cargarHistorial();
+      },
+      error: (err) => {
+        console.error('Error al eliminar:', err);
       }
     });
   }

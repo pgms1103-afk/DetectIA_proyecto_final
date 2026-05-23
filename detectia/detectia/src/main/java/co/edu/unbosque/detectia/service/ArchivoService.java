@@ -112,9 +112,9 @@ public class ArchivoService implements CRUDoperation<ArchivoDTO> {
 		Optional<Archivo> encontrado = (Optional<Archivo>) archivoRepo.findById(id);
 		if (encontrado.isPresent()) {
 			Archivo temp = encontrado.get();
-			
+
 			String nombreAnterior = temp.getNombre();
-			
+
 			temp.setNombre(data.getNombre());
 			temp.setFechaSubida(data.getFechaSubida());
 			temp.setRutaAlmacenamiento(data.getRutaAlmacenamiento());
@@ -160,19 +160,34 @@ public class ArchivoService implements CRUDoperation<ArchivoDTO> {
 		}
 		return null;
 	}
-	
+
 	public List<ArchivoDTO> findArchivoByNombre(String nombreArchivo, String nombreUsuario) {
+		Optional<Usuario> entity = usuarioRepo.findByNombreUsuario(nombreUsuario);
+		if (entity.isEmpty()) {
+			throw new UsernameNotFoundException("Usuario no encontrado");
+		}
+		List<Archivo> archivos = archivoRepo.findByNombreAndUsuarioId(nombreArchivo, entity.get().getId());
+		if (archivos.isEmpty()) {
+			return Collections.emptyList();
+		}
+		return archivos.stream().map(a -> mapper.map(a, ArchivoDTO.class)).toList();
+	}
+
+	public int updateNombreById(Long id, String nombre, String nombreUsuario) {
 	    Optional<Usuario> entity = usuarioRepo.findByNombreUsuario(nombreUsuario);
 	    if (entity.isEmpty()) {
 	        throw new UsernameNotFoundException("Usuario no encontrado");
 	    }
-	    List<Archivo> archivos = archivoRepo.findByNombreAndUsuarioId(nombreArchivo, entity.get().getId());
-	    if (archivos.isEmpty()) {
-	    	return Collections.emptyList();
+
+	    Optional<Archivo> encontrado = archivoRepo.findById(id);
+	    if (encontrado.isEmpty()) {
+	        return 0;
 	    }
-	    return archivos.stream()
-	            .map(a -> mapper.map(a, ArchivoDTO.class))
-	            .toList();
+
+	    Archivo archivo = encontrado.get();
+	    archivo.setNombre(nombre);
+	    archivoRepo.save(archivo);
+	    return 1;
 	}
 
 }
