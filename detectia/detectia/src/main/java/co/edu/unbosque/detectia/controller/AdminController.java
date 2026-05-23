@@ -13,11 +13,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.unbosque.detectia.dto.ArchivoDTO;
+import co.edu.unbosque.detectia.dto.ResultadoIADTO;
 import co.edu.unbosque.detectia.dto.UsuarioDTO;
 import co.edu.unbosque.detectia.exception.CorreoInvalidoException;
 import co.edu.unbosque.detectia.exception.IdExistException;
 import co.edu.unbosque.detectia.exception.NombreInvalidoException;
 import co.edu.unbosque.detectia.exception.PasswordNotValidException;
+import co.edu.unbosque.detectia.service.ArchivoService;
+import co.edu.unbosque.detectia.service.ResultadoIAService;
 import co.edu.unbosque.detectia.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +36,12 @@ public class AdminController {
 
 	@Autowired
 	private UsuarioService usuarioSer;
+
+	@Autowired
+	private ArchivoService archivoSer;
+
+	@Autowired
+	private ResultadoIAService resultadoIASer;
 
 	@PostMapping("/crearusuario")
 	public ResponseEntity<String> crearUsuario(@RequestBody UsuarioDTO dto) {
@@ -78,8 +88,25 @@ public class AdminController {
 			return new ResponseEntity<>("Usuario eliminado correctamente", HttpStatus.ACCEPTED);
 		} catch (IdExistException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
-
 		}
+	}
+
+	@GetMapping("/archivos")
+	public ResponseEntity<List<ArchivoDTO>> mostrarArchivos() {
+		List<ArchivoDTO> archivos = archivoSer.getAll();
+		if (archivos.isEmpty()) {
+			return new ResponseEntity<>(archivos, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(archivos, HttpStatus.OK);
+	}
+
+	@GetMapping("/resultados")
+	public ResponseEntity<List<ResultadoIADTO>> mostrarResultados() {
+		List<ResultadoIADTO> resultados = resultadoIASer.getAll();
+		if (resultados.isEmpty()) {
+			return new ResponseEntity<>(resultados, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(resultados, HttpStatus.OK);
 	}
 
 }
