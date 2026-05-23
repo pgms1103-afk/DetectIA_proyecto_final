@@ -21,6 +21,7 @@
       <tr>
         <th>Usuario</th>
         <th>Correo Electrónico</th>
+        <th>Archivos Analizados</th>
         <th>Rol</th>
         <th>Acciones</th>
       </tr>
@@ -36,6 +37,14 @@
           </div>
         </td>
         <td>{{ user.correo }}</td>
+
+        <td>
+          <div class="flex items-center gap-2 text-gray-300">
+            <i class="fa-solid fa-file-lines text-orange-500"></i>
+            <span>{{ user.totalArchivos || 0 }}</span>
+          </div>
+        </td>
+
         <td><span class="badge-rol">{{ user.role }}</span></td>
         <td>
           <div class="acciones-fila">
