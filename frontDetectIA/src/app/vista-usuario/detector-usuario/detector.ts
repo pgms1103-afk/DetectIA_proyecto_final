@@ -181,6 +181,11 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['tipoHerramienta']) {
       this.actualizarModelos();
+
+      const herramienta = this.tipoHerramienta?.toLowerCase();
+      if (herramienta === 'video' || herramienta === 'audio' || herramienta === 'musica') {
+        this.activeTab = 'file';
+      }
     }
   }
 

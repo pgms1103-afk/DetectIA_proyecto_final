@@ -34,3 +34,4 @@ replay_pid*
 .settings/
 bin/
 detectia/detectia/src/main/resources/application.properties
+*.properties
