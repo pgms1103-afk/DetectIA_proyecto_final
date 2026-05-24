@@ -19,6 +19,24 @@ import co.edu.unbosque.detectia.dto.ACRCloudeDTO;
 import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 
 
+/**
+ * Servicio de detección de audio generado por IA mediante la API de ACRCloud.
+ * <p>
+ * Envía archivos de audio (MP3, WAV, AAC, OGG, FLAC, M4A, AMR) al endpoint de
+ * análisis de ACRCloud y realiza un ciclo de polling hasta que el resultado esté
+ * disponible, retornando la probabilidad de generación artificial como
+ * {@link co.edu.unbosque.detectia.dto.ACRCloudeDTO}.
+ * </p>
+ * <p>
+ * Solo acepta formatos de audio; cualquier otro tipo MIME lanza
+ * {@link co.edu.unbosque.detectia.exception.ExtensionInvalidaException}.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.dto.ACRCloudeDTO
+ */
 @Service
 public class ACRCloudService {
 

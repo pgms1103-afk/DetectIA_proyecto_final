@@ -16,7 +16,7 @@ package co.edu.unbosque.detectia.exception;
  * La validación utiliza la expresión regular: {@code ^[A-Za-záéíóúñÑÁÉÍÓÚ\s]+$}
  * </p>
  *
- * @author Equipo Revista
+ * @author David Alejandro Velasquez Salamanca
  * @version 1.0
  * @since 1.0
  */

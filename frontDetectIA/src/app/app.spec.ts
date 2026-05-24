@@ -1,23 +1,30 @@
 import { TestBed } from '@angular/core/testing';
-import { App } from './app';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AppComponent } from './app';
 
-describe('App', () => {
+/**
+ * Suite de pruebas unitarias para {@link AppComponent}.
+ *
+ * Verifica que el componente raíz de la aplicación se inicializa correctamente
+ * y contiene el elemento de salida del enrutador.
+ */
+describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App],
+      imports: [AppComponent, RouterTestingModule],
     }).compileComponents();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
+  it('debería crearse correctamente', () => {
+    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  it('should render title', async () => {
-    const fixture = TestBed.createComponent(App);
-    await fixture.whenStable();
+  it('debería contener un elemento router-outlet en el template', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, frontDetectIA');
+    expect(compiled.querySelector('router-outlet')).not.toBeNull();
   });
 });

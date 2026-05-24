@@ -18,6 +18,28 @@ import co.edu.unbosque.detectia.dto.MistralDTO;
 import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 
+/**
+ * Servicio de detección de contenido generado por IA mediante el agente Pixtral
+ * de Mistral AI.
+ * <p>
+ * Admite texto plano, imágenes en Base64 (JPEG, PNG, WEBP, GIF) y PDFs con un
+ * límite de 512 MB. Construye un mensaje multimodal combinando el texto extraído
+ * por Tika y los bytes del archivo para que el agente evalúe ambas modalidades.
+ * El agente devuelve un JSON con {@code fakePercentage} e {@code isAiGenerated}
+ * que se mapea a {@link co.edu.unbosque.detectia.dto.MistralDTO}.
+ * </p>
+ * <p>
+ * Lanza {@link co.edu.unbosque.detectia.exception.ExtensionInvalidaException} si
+ * se envía una imagen en formato no soportado, y
+ * {@link co.edu.unbosque.detectia.exception.TamanoInvalidoException} si el
+ * archivo supera el límite de 512 MB.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.dto.MistralDTO
+ */
 @Service
 public class MistralService {
 

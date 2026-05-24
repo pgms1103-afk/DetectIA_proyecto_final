@@ -18,6 +18,25 @@ import com.google.gson.JsonObject;
 import co.edu.unbosque.detectia.dto.HiveModerationDTO;
 import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 
+/**
+ * Servicio de detección de contenido sintético mediante la API de Hive Moderation.
+ * <p>
+ * Analiza imágenes y videos (JPEG, PNG, GIF, WEBP, BMP, MP4, MOV, AVI, MKV,
+ * WEBM) enviados como bytes o por URL pública, extrayendo la probabilidad de
+ * generación artificial de la clase {@code "ai_generated"} de la respuesta de
+ * la API y expresándola en escala 0-100.
+ * </p>
+ * <p>
+ * Lanza {@link co.edu.unbosque.detectia.exception.ExtensionInvalidaException} si
+ * el tipo MIME no está entre los formatos admitidos por el endpoint de
+ * imagen/video.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.dto.HiveModerationDTO
+ */
 @Service
 public class HiveModerationService {
 

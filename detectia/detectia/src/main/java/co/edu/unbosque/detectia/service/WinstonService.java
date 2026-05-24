@@ -14,6 +14,23 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import co.edu.unbosque.detectia.dto.WinstonDTO;
 
+/**
+ * Servicio de detección de contenido generado por IA mediante la API de Winston AI.
+ * <p>
+ * Provee análisis de texto plano e imágenes por URL pública, invirtiendo el
+ * "Human Score" que retorna Winston AI para expresar el resultado como
+ * porcentaje de detección de IA (0 = humano, 100 = IA).
+ * </p>
+ * <p>
+ * Validaciones propias: el texto debe tener al menos 500 caracteres para
+ * garantizar un análisis estadísticamente significativo.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.dto.WinstonDTO
+ */
 @Service
 public class WinstonService {
 
@@ -31,6 +48,21 @@ public class WinstonService {
 	            .connectTimeout(Duration.ofSeconds(20))
 	            .build();
 	
+	/**
+	 * Analiza un texto plano y retorna el porcentaje de probabilidad de que haya
+	 * sido generado por IA.
+	 * <p>
+	 * El "Human Score" devuelto por Winston AI (0-100) se invierte para expresar
+	 * el porcentaje de IA: {@code 100 - humanScore}.
+	 * </p>
+	 *
+	 * @param texto texto a analizar; debe tener al menos 500 caracteres
+	 * @return {@link WinstonDTO} con el porcentaje de IA calculado
+	 * @throws IllegalArgumentException si el texto es {@code null}, está en blanco
+	 *         o tiene menos de 500 caracteres
+	 * @throws IOException              si ocurre un error de red al contactar la API
+	 * @throws InterruptedException     si el hilo es interrumpido durante la llamada
+	 */
 	public WinstonDTO detectarIA (String texto) throws IOException, InterruptedException {
 		
 		if(texto == null || texto.isBlank()) {
@@ -70,6 +102,15 @@ public class WinstonService {
 		
 	}
 	
+	/**
+	 * Analiza una imagen accesible mediante URL pública y retorna el porcentaje de
+	 * probabilidad de generación por IA.
+	 *
+	 * @param url URL pública de la imagen a analizar
+	 * @return {@link WinstonDTO} con el porcentaje de IA calculado
+	 * @throws IOException          si ocurre un error de red al contactar la API
+	 * @throws InterruptedException si el hilo es interrumpido durante la llamada
+	 */
 	public WinstonDTO detectarIAImagen (String url) throws IOException, InterruptedException {
 		
 		JsonObject body = new JsonObject();

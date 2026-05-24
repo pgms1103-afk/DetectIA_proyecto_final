@@ -20,6 +20,21 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+/**
+ * Entidad JPA que representa a un usuario registrado en la plataforma DetectIA.
+ * <p>
+ * Implementa {@link UserDetails} para integrarse con Spring Security,
+ * exponiendo el nombre de usuario, la contraseña cifrada con BCrypt y las
+ * autoridades derivadas del rol asignado ({@code ROLE_USER} o {@code ROLE_ADMIN}).
+ * El correo electrónico se almacena cifrado con AES/GCM.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.service.UsuarioService
+ * @see co.edu.unbosque.detectia.repository.UsuarioRepository
+ */
 @Entity
 @Table(name = "usuario")
 public class Usuario implements UserDetails{

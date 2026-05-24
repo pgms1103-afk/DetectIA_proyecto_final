@@ -15,6 +15,22 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+/**
+ * Entidad JPA que representa un archivo multimedia subido a la plataforma
+ * DetectIA para su análisis.
+ * <p>
+ * Mantiene la relación Many-to-One con {@link Usuario} (propietario) y relaciones
+ * One-to-Many con {@link ResultadoIA} (votos individuales de cada servicio de IA)
+ * y con {@link Analisis} (resumen calculado). La fecha de subida se establece
+ * automáticamente al crear la entidad.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.service.ArchivoService
+ * @see co.edu.unbosque.detectia.repository.ArchivoRepository
+ */
 @Entity
 @Table(name = "archivo")
 public class Archivo {
