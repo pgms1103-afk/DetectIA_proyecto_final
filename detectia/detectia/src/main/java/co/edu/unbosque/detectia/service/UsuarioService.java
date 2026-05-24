@@ -20,6 +20,23 @@ import co.edu.unbosque.detectia.exception.NombreInvalidoException;
 import co.edu.unbosque.detectia.exception.PasswordNotValidException;
 import co.edu.unbosque.detectia.util.AESUtil;
 
+/**
+ * Servicio de negocio para la gestión de usuarios de la plataforma DetectIA.
+ * <p>
+ * Implementa las operaciones CRUD definidas en
+ * {@link CRUDoperation}&lt;{@link UsuarioDTO}&gt; con cifrado AES sobre el
+ * campo correo electrónico, validaciones de nombre, contraseña y formato de
+ * correo, y codificación BCrypt para las contraseñas en base de datos.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see CRUDoperation
+ * @see co.edu.unbosque.detectia.entity.Usuario
+ * @see co.edu.unbosque.detectia.repository.UsuarioRepository
+ * @see co.edu.unbosque.detectia.util.AESUtil
+ */
 @Service
 public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 
@@ -87,6 +104,16 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 		return dtoList;
 	}
 
+	/**
+	 * Recupera el perfil del usuario actualmente autenticado, descifrando su correo
+	 * electrónico y calculando el total de archivos subidos.
+	 *
+	 * @param nombre nombre de usuario del usuario autenticado
+	 * @return {@link UsuarioDTO} con los datos del usuario, incluyendo correo
+	 *         descifrado y total de archivos
+	 * @throws org.springframework.security.core.userdetails.UsernameNotFoundException
+	 *         si no existe ningún usuario con ese nombre
+	 */
 	public UsuarioDTO getLoginUser(String nombre) {
 	    Optional<Usuario> entity = usuarioRepo.findByNombreUsuario(nombre);
 	    if (entity.isEmpty()) {
@@ -140,6 +167,20 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 
 	
 
+	/**
+	 * Actualiza la contraseña del usuario identificado por su correo electrónico
+	 * (en texto plano). La contraseña nueva es validada y codificada con BCrypt
+	 * antes de persistirla.
+	 *
+	 * @param correo         correo electrónico en texto plano del usuario
+	 * @param nuevaContrasena nueva contraseña (mínimo 8 caracteres, al menos una
+	 *                        mayúscula y un número)
+	 * @return {@code 0} si la actualización fue exitosa
+	 * @throws co.edu.unbosque.detectia.exception.PasswordNotValidException si la
+	 *         contraseña no cumple los requisitos mínimos
+	 * @throws co.edu.unbosque.detectia.exception.IdExistException si no existe
+	 *         ningún usuario con el correo dado
+	 */
 	public int updateLoginPassword(String correo, String nuevaContrasena) {
 
 		if (nuevaContrasena == null ||nuevaContrasena.isBlank()) {

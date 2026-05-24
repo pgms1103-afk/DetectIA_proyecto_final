@@ -9,6 +9,22 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * Entidad JPA que registra cada evento significativo de la plataforma DetectIA
+ * con fines de trazabilidad y auditoría de seguridad.
+ * <p>
+ * Almacena información completa sobre el actor (correo cifrado AES, nombre de
+ * usuario), la acción realizada, el módulo afectado, la diferencia de datos
+ * anterior/nuevo y metadatos de la sesión (IP, navegador). La fecha se asigna
+ * automáticamente al momento de creación.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.service.AuditoriaLogService
+ * @see co.edu.unbosque.detectia.repository.AuditoriaLogRepository
+ */
 @Entity
 @Table(name = "auditoria_log")
 public class AuditoriaLog {

@@ -18,6 +18,25 @@ import co.edu.unbosque.detectia.dto.SightengineDTO;
 import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 
+/**
+ * Servicio de detección de imágenes generadas por IA mediante la API de Sightengine.
+ * <p>
+ * Analiza imágenes en bytes (GIF, JPEG, PNG, WEBP, BMP) o por URL pública,
+ * devolviendo el porcentaje de generación artificial expresado en una escala
+ * de 0-100. El tamaño máximo admitido es 50 MB.
+ * </p>
+ * <p>
+ * Lanza {@link co.edu.unbosque.detectia.exception.ExtensionInvalidaException} si
+ * el tipo MIME no está soportado, y
+ * {@link co.edu.unbosque.detectia.exception.TamanoInvalidoException} si el archivo
+ * supera el límite de tamaño.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.dto.SightengineDTO
+ */
 @Service
 public class SightengineService {
 

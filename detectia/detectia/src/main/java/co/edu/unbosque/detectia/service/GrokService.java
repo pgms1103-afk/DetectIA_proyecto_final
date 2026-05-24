@@ -18,6 +18,27 @@ import co.edu.unbosque.detectia.dto.GrokDTO;
 import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 
+/**
+ * Servicio de detección de contenido generado por IA mediante la API de Groq
+ * (LLM y visión).
+ * <p>
+ * Proporciona tres modalidades de análisis: texto plano mediante el modelo de
+ * lenguaje configurado, imagen como bytes en Base64 y imagen por URL pública
+ * mediante el modelo de visión configurado. El resultado es un porcentaje de
+ * 0-100 extraído de la respuesta en texto plano del modelo.
+ * </p>
+ * <p>
+ * Para imágenes, acepta JPEG, PNG, GIF y WEBP con un límite de 20 MB. Lanza
+ * {@link co.edu.unbosque.detectia.exception.ExtensionInvalidaException} o
+ * {@link co.edu.unbosque.detectia.exception.TamanoInvalidoException} en caso de
+ * incumplimiento.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.dto.GrokDTO
+ */
 @Service
 public class GrokService {
 

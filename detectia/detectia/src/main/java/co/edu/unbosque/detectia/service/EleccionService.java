@@ -10,6 +10,41 @@ import org.springframework.web.multipart.MultipartFile;
 import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 
+/**
+ * Servicio orquestador de análisis de contenido generado por IA.
+ * <p>
+ * Determina el tipo MIME del archivo o URL recibido y delega el análisis al
+ * conjunto de servicios externos más adecuado para cada modalidad:
+ * </p>
+ * <ul>
+ *   <li><strong>PDF</strong>: Gemini, Mistral, Grok, Winston</li>
+ *   <li><strong>Texto / Word</strong>: Grok, Gemini, Mistral, Winston</li>
+ *   <li><strong>Imagen</strong>: Sightengine, Gemini, Hive Moderation, Grok Visión</li>
+ *   <li><strong>Video</strong>: TwelveLabs, Hive Moderation, Gemini</li>
+ *   <li><strong>Audio</strong>: ACRCloud, Gemini</li>
+ *   <li><strong>URL de imagen</strong>: Winston, Sightengine, Gemini, Grok Visión</li>
+ * </ul>
+ * <p>
+ * Cada servicio es invocado de forma independiente; un fallo en uno de ellos
+ * no impide que los demás continúen. Los errores de validación
+ * ({@link co.edu.unbosque.detectia.exception.ExtensionInvalidaException},
+ * {@link co.edu.unbosque.detectia.exception.TamanoInvalidoException}) son
+ * registrados en {@code System.err} y el servicio es omitido del resultado.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see TextoExtractorService
+ * @see GrokService
+ * @see GeminiService
+ * @see MistralService
+ * @see SightengineService
+ * @see TwelveLabsService
+ * @see WinstonService
+ * @see ACRCloudService
+ * @see HiveModerationService
+ */
 @Service
 public class EleccionService {
 
@@ -40,6 +75,17 @@ public class EleccionService {
 	@Autowired
 	private HiveModerationService hiveModeration;
 
+	/**
+	 * Analiza un archivo multipart detectando su tipo MIME y enrutando el análisis
+	 * al conjunto de servicios de IA correspondiente.
+	 *
+	 * @param archivo archivo multipart a analizar (PDF, texto, imagen, video o audio)
+	 * @return mapa con los resultados de cada servicio de IA exitoso; las claves son
+	 *         los nombres de los servicios y los valores los porcentajes de detección
+	 *         (0-100). Retorna un mapa vacío si el tipo no es reconocido.
+	 * @throws Exception si ocurre un error irrecuperable al leer el archivo o
+	 *                   detectar su tipo
+	 */
 	public Map<String, Double> analizar(MultipartFile archivo) throws Exception {
 		String tipo = extractor.detectarTipo(archivo);
 
@@ -57,6 +103,15 @@ public class EleccionService {
 		return new HashMap<>();
 	}
 
+	/**
+	 * Analiza una URL pública de imagen (JPG, JPEG, PNG, WEBP) enrutando el
+	 * análisis a los servicios de IA compatibles con URL de imagen.
+	 *
+	 * @param url URL pública del archivo de imagen a analizar
+	 * @return mapa con los resultados de cada servicio de IA exitoso; retorna un
+	 *         mapa vacío si la URL no tiene extensión de imagen reconocida
+	 * @throws Exception si ocurre un error irrecuperable durante el análisis
+	 */
 	public Map<String, Double> analizar(String url) throws Exception {
 		String urlMinuscula = url.toLowerCase();
 		if (urlMinuscula.endsWith(".jpg") || urlMinuscula.endsWith(".jpeg") || urlMinuscula.endsWith(".png")
@@ -113,6 +168,14 @@ public class EleccionService {
 		return resultadosIA;
 	}
 
+	/**
+	 * Analiza un fragmento de texto plano proporcionado directamente (sin archivo),
+	 * invocando los servicios de IA compatibles con texto.
+	 *
+	 * @param texto cadena de texto a analizar
+	 * @return mapa con los resultados de cada servicio de IA exitoso (Gemini,
+	 *         Winston); retorna un mapa vacío si ambos fallan
+	 */
 	public Map<String, Double> analizarTextoPlano(String texto) {
 
 		Map<String, Double> resultadosIA = new HashMap<>();

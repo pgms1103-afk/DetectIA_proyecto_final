@@ -18,6 +18,28 @@ import co.edu.unbosque.detectia.dto.GeminiDTO;
 import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 
+/**
+ * Servicio de detección multimodal de contenido generado por IA mediante la
+ * API de Google Gemini.
+ * <p>
+ * Analiza texto plano, imágenes (GIF, JPEG, PNG, WEBP, HEIC, HEIF), videos,
+ * PDFs y audios (MPEG, WAV, OGG, MP3, AAC) enviados como bytes en Base64 o
+ * descargados desde una URL pública. Devuelve un porcentaje 0-100 indicando la
+ * probabilidad de generación por IA.
+ * </p>
+ * <p>
+ * El tamaño máximo es 100 MB para archivos no-video y 2 GB para video. Lanza
+ * {@link co.edu.unbosque.detectia.exception.ExtensionInvalidaException} si el
+ * formato no está soportado y
+ * {@link co.edu.unbosque.detectia.exception.TamanoInvalidoException} si se
+ * excede el límite.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.dto.GeminiDTO
+ */
 @Service
 public class GeminiService {
 

@@ -38,6 +38,21 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+/**
+ * Controlador REST que gestiona el ciclo de vida de los archivos del usuario
+ * autenticado: subida, análisis de IA, consulta y eliminación.
+ * <p>
+ * Todas las rutas tienen el prefijo {@code /private/archivo} y requieren un
+ * token JWT válido. Soporta análisis de archivos multipart, texto plano e
+ * imágenes por URL pública, delegando la lógica a {@link EleccionService}.
+ * </p>
+ *
+ * @author Martín García
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.service.EleccionService
+ * @see co.edu.unbosque.detectia.service.ArchivoService
+ */
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/private/archivo")

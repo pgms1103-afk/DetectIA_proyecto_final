@@ -24,6 +24,22 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+/**
+ * Controlador REST para la consulta de resultados individuales y análisis
+ * consolidados de IA por archivo.
+ * <p>
+ * Todas las rutas tienen el prefijo {@code /private/resultadoporia} y
+ * requieren un token JWT válido. Expone endpoints para obtener los votos
+ * individuales de cada servicio de IA y el resumen consolidado del análisis
+ * para un archivo específico.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.service.ResultadoIAService
+ * @see co.edu.unbosque.detectia.service.AnalisisService
+ */
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/private/resultadoporia")

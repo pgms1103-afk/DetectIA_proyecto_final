@@ -34,6 +34,22 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+/**
+ * Controlador REST de administración para la gestión de usuarios y recursos del sistema.
+ * <p>
+ * Todas las rutas tienen el prefijo {@code /admin} y solo son accesibles para
+ * usuarios con rol {@code ADMIN}. Expone operaciones CRUD completas sobre
+ * usuarios, listado de archivos y resultados de IA para la vista del panel de
+ * administración.
+ * </p>
+ *
+ * @author Martín García
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.service.UsuarioService
+ * @see co.edu.unbosque.detectia.service.ArchivoService
+ * @see co.edu.unbosque.detectia.service.ResultadoIAService
+ */
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/admin") // Tiene todas las rutas privadas

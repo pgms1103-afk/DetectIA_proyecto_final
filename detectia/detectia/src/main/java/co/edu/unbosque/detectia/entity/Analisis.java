@@ -11,6 +11,22 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+/**
+ * Entidad JPA que almacena el resumen consolidado del análisis de IA para un
+ * archivo concreto.
+ * <p>
+ * Contiene el porcentaje final promedio obtenido de los votos de todos los
+ * servicios de IA y el veredicto resultante ({@code "PROBABLE IA"} o
+ * {@code "PROBABLE HUMANO"}). Se relaciona Many-to-One con
+ * {@link Archivo} y con {@link Usuario}.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.service.AnalisisService
+ * @see co.edu.unbosque.detectia.repository.AnalisisRepository
+ */
 @Entity
 @Table(name = "analisis")
 public class Analisis {

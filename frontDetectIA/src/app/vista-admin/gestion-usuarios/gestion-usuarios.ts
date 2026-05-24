@@ -5,7 +5,11 @@ import { UsuarioService } from '../../services/usuario.service';
 import { Role } from '../../models/role.enum';
 import { FormsModule } from '@angular/forms';
 
-
+/**
+ * @component GestionUsuarios
+ * @description Componente administrativo para el CRUD de usuarios.
+ * Permite listar, crear, editar y eliminar usuarios del sistema.
+ */
 @Component({
   selector: 'app-gestion-usuarios',
   standalone: true,
@@ -21,6 +25,7 @@ export class GestionUsuarios implements OnInit {
   mensajeError = '';
   mensajeExito = '';
 
+  /** Objeto temporal para el formulario de creación/edición */
   usuarioNuevo: UsuarioModel = {
     nombreUsuario: '',
     correo: '',
@@ -29,10 +34,17 @@ export class GestionUsuarios implements OnInit {
     totalArchivos: 0,
   };
 
+  mostrarModal = false;
+  modoModal: 'crear' | 'editar' = 'crear';
+
   ngOnInit(): void {
     this.cargarUsuarios();
   }
 
+  /**
+   * @method extraerError
+   * @description Método estático para normalizar mensajes de error provenientes del servidor.
+   */
   private static extraerError(err: unknown): string {
     const errorObj = err as { error?: string | { message?: string } };
     if (errorObj?.error) {
@@ -42,20 +54,15 @@ export class GestionUsuarios implements OnInit {
     return 'Ocurrió un error en el servidor.';
   }
 
+  /** Obtiene el listado actualizado de usuarios desde el servicio */
   cargarUsuarios() {
     this.usuarioService.getMostrarUsuarios().subscribe({
-      next: (datos) => {
-        this.usuarios = datos;
-      },
-      error: (e) => {
-
-      },
+      next: (datos) => { this.usuarios = datos; },
+      error: () => { /* Manejo de error silencioso según lógica original */ },
     });
   }
 
-  mostrarModal = false;
-  modoModal: 'crear' | 'editar' = 'crear';
-
+  /** Prepara el formulario en modo 'crear' y abre el modal */
   abrirModalCrear() {
     this.modoModal = 'crear';
     this.mensajeError = '';
@@ -64,6 +71,7 @@ export class GestionUsuarios implements OnInit {
     this.mostrarModal = true;
   }
 
+  /** Carga los datos de un usuario en el formulario y abre el modal en modo 'editar' */
   abrirModalEditar(user: UsuarioModel) {
     this.modoModal = 'editar';
     this.mensajeError = '';
@@ -80,10 +88,12 @@ export class GestionUsuarios implements OnInit {
     };
   }
 
+  /** Cierra el modal de gestión */
   cerrarModal() {
     this.mostrarModal = false;
   }
 
+  /** Ejecuta la lógica de creación o actualización según el estado del modal */
   crearOactualizar(){
     this.mensajeError = '';
     this.mensajeExito = '';
@@ -95,42 +105,26 @@ export class GestionUsuarios implements OnInit {
 
     if(this.modoModal === 'crear'){
       this.usuarioService.postCrearUsuario(this.usuarioNuevo).subscribe({
-        next: (datos) => {
-
-          this.cargarUsuarios();//Es para refresar la tabla cuando se realiza la accion, no la borren
-          this.cerrarModal();
-        },
-        error: (e) => {
-
-        },
+        next: () => { this.cargarUsuarios(); this.cerrarModal(); },
+        error: () => {},
       });
-    }else{
+    } else {
       if (this.id === undefined) {
         this.mensajeError = 'No se ha seleccionado ningún usuario para editar.';
         return;
       }
       this.usuarioService.putActualizarUsuario(this.id, this.usuarioNuevo).subscribe({
-        next: (datos) => {
-
-          this.cargarUsuarios();//Es para refresar la tabla cuando se realiza la accion, no la borren
-          this.cerrarModal();
-        }, error: (e) => {
-
-        }
+        next: () => { this.cargarUsuarios(); this.cerrarModal(); },
+        error: () => {}
       });
     }
   }
 
+  /** Elimina un usuario por su ID y recarga el listado */
   eliminarUsuario(user: any) {
-
     this.usuarioService.deleteUsuarios(user.id).subscribe({
-      next: (datos) => {
-
-        this.cargarUsuarios();
-      },
-      error: (e) => {
-
-      }
+      next: () => { this.cargarUsuarios(); },
+      error: () => {}
     });
   }
 }

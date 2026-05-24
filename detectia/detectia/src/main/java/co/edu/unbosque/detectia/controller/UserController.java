@@ -24,6 +24,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+/**
+ * Controlador REST que expone endpoints protegidos para que el usuario
+ * autenticado consulte y actualice sus propios datos.
+ * <p>
+ * Todas las rutas tienen el prefijo {@code /private/user} y requieren un token
+ * JWT válido en el encabezado {@code Authorization: Bearer <token>}.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.service.UsuarioService
+ */
 @RestController
 @RequestMapping("/private/user")
 @CrossOrigin(origins = { "http://localhost:8080", "*" })

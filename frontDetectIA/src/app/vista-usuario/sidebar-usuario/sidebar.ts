@@ -1,13 +1,27 @@
-import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core'; // 🟢 Añadimos OnInit e inject
+import {
+  Component,
+  Output,
+  EventEmitter,
+  OnInit,
+  inject
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
-import { ArchivoService } from '../../services/archivo.service'; // 🟢 Importamos el servicio
+import { ArchivoService } from '../../services/archivo.service';
 import { ArchivoModel } from '../../models/archivo.model';
-import { ResultadoIAService } from '../../services/resultadoIA.service'; // 🟢 Importamos el modelo
+import { ResultadoIAService } from '../../services/resultadoIA.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
+/**
+ * Componente Sidebar encargado de:
+ * - Mostrar el historial de archivos.
+ * - Cambiar entre herramientas.
+ * - Gestionar búsqueda, edición y eliminación.
+ * - Manejar navegación y autenticación.
+ */
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -16,25 +30,71 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './sidebar.css',
 })
 export class Sidebar implements OnInit {
-  // 🟢 Implementamos OnInit
 
-  @Output() herramientaSeleccionada = new EventEmitter<string>();
+  /**
+   * Evento emitido al seleccionar una herramienta.
+   */
+  @Output()
+  herramientaSeleccionada = new EventEmitter<string>();
 
-  // 🟢 1. Inyectamos tu servicio de archivos
+  /**
+   * Servicio encargado del manejo de archivos.
+   */
   private archivoService: ArchivoService = inject(ArchivoService);
-  private resultadoService: ResultadoIAService = inject(ResultadoIAService);
-  public nombreArchivo = '';
-  public mostrarModalEditar = false;
-  public nombreEditando = '';
-  private archivoEditando: ArchivoModel | null = null;
 
-  // 🟢 2. Arreglo para guardar el historial que viene de la BD
-  public historialArchivos: ArchivoModel[] = [];
+  /**
+   * Servicio encargado de resultados IA.
+   */
+  private resultadoService: ResultadoIAService = inject(ResultadoIAService);
+
+  /**
+   * Servicio de autenticación.
+   */
   private authService = inject(AuthService);
+
+  /**
+   * Servicio de navegación.
+   */
   private router = inject(Router);
+
+  /**
+   * Servicio de notificaciones.
+   */
   private toastr: ToastrService = inject(ToastrService);
 
+  /**
+   * Nombre usado en el buscador.
+   */
+  public nombreArchivo = '';
+
+  /**
+   * Controla la visibilidad del modal de edición.
+   */
+  public mostrarModalEditar = false;
+
+  /**
+   * Nombre temporal usado al editar.
+   */
+  public nombreEditando = '';
+
+  /**
+   * Archivo actualmente en edición.
+   */
+  private archivoEditando: ArchivoModel | null = null;
+
+  /**
+   * Historial de archivos obtenido del backend.
+   */
+  public historialArchivos: ArchivoModel[] = [];
+
+  /**
+   * Controla la visibilidad del menú de perfil.
+   */
   showProfileMenu: boolean = false;
+
+  /**
+   * Información básica del usuario.
+   */
   user = {
     name: 'Jose Manuel',
     email: 'jose.manuel@elbosque.edu.co',
@@ -42,18 +102,47 @@ export class Sidebar implements OnInit {
     files: 28,
   };
 
-  // 🟢 3. Se ejecuta apenas carga el Sidebar
+  /**
+   * Estado de colapso del sidebar.
+   */
+  isCollapsed = false;
+
+  /**
+   * Estado del menú móvil.
+   */
+  mobileOpen = false;
+
+  /**
+   * Herramienta actualmente seleccionada.
+   */
+  herramientaActual = 'texto';
+
+  /**
+   * Indica si el usuario es administrador.
+   */
+  esAdmin = ['ADMIN', 'ROLE_ADMIN']
+    .includes(localStorage.getItem('rol_diario') ?? '');
+
+  /**
+   * Inicializa el componente.
+   */
   ngOnInit(): void {
+
     this.cargarHistorial();
+
     this.archivoService.analisisCompletado$.subscribe(() => {
       this.cargarHistorial();
     });
   }
 
-  // 🟢 4. Método que va al backend por los archivos del usuario
+  /**
+   * Carga el historial de archivos desde el backend.
+   */
   cargarHistorial() {
+
     this.archivoService.getMisArchivos().subscribe({
       next: (httpResponse) => {
+
         if (httpResponse.body) {
           this.historialArchivos = httpResponse.body;
         }
@@ -61,117 +150,232 @@ export class Sidebar implements OnInit {
     });
   }
 
-  // 🟢 5. Método que se dispara al hacer click en un archivo del HTML
+  /**
+   * Muestra el detalle de un archivo del historial.
+   */
   verDetalleHistorial(archivo: ArchivoModel) {
 
-    // 1. Disparamos el evento al Detector a través del "puente"
+    /**
+     * Envía el archivo seleccionado al Detector.
+     */
     this.archivoService.archivoSeleccionado$.next(archivo);
 
-    // 2. Detectamos qué tipo de archivo es según su ruta
+    /**
+     * Obtiene la extensión del archivo.
+     */
     const ruta = archivo.rutaAlmacenamiento || '';
-    const extension = ruta.split('.').pop()?.toLowerCase() || '';
 
-    let categoriaDetectada = 'texto'; // Por defecto
+    const extension =
+      ruta.split('.').pop()?.toLowerCase() || '';
+
+    let categoriaDetectada = 'texto';
 
     if (['txt', 'pdf', 'docx', 'doc'].includes(extension)) {
+
       categoriaDetectada = 'texto';
-    } else if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(extension)) {
+
+    } else if (
+      ['jpg', 'jpeg', 'png', 'gif', 'webp']
+        .includes(extension)
+    ) {
+
       categoriaDetectada = 'imagen';
-    } else if (['mp4', 'avi', 'mov', 'mkv'].includes(extension)) {
+
+    } else if (
+      ['mp4', 'avi', 'mov', 'mkv']
+        .includes(extension)
+    ) {
+
       categoriaDetectada = 'video';
-    } else if (['mp3', 'wav', 'ogg'].includes(extension)) {
+
+    } else if (
+      ['mp3', 'wav', 'ogg']
+        .includes(extension)
+    ) {
+
       categoriaDetectada = 'audio';
     }
 
-    // 3. Movemos el indicador visual en el Sidebar usando tu propio método
+    /**
+     * Actualiza visualmente la herramienta seleccionada.
+     */
     this.seleccionarHerramienta(categoriaDetectada);
   }
+
+  /**
+   * Muestra u oculta el menú de perfil.
+   */
   toggleProfileMenu() {
     this.showProfileMenu = !this.showProfileMenu;
   }
 
-  isCollapsed = false;
-  mobileOpen = false;
-  herramientaActual = 'texto';
-  esAdmin = ['ADMIN', 'ROLE_ADMIN'].includes(localStorage.getItem('rol_diario') ?? '');
-
+  /**
+   * Alterna el estado colapsado del sidebar.
+   */
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
   }
+
+  /**
+   * Abre o cierra el menú móvil.
+   */
   toggleMobileMenu() {
     this.mobileOpen = !this.mobileOpen;
   }
 
+  /**
+   * Cambia la herramienta seleccionada.
+   */
   seleccionarHerramienta(herramienta: string) {
+
     this.herramientaActual = herramienta;
+
     this.herramientaSeleccionada.emit(herramienta);
-    if (this.mobileOpen) this.toggleMobileMenu();
+
+    if (this.mobileOpen) {
+      this.toggleMobileMenu();
+    }
   }
 
+  /**
+   * Navega hacia el panel de administración.
+   */
   irAlAdmin() {
     this.router.navigate(['/admin']);
   }
 
+  /**
+   * Cierra la sesión actual.
+   */
   cerrarSesion() {
+
     this.authService.cerrarSesion();
+
     this.router.navigate(['/login']);
   }
 
+  /**
+   * Busca archivos por nombre.
+   */
   buscarPorNombre() {
+
     if (!this.nombreArchivo.trim()) {
       this.cargarHistorial();
       return;
     }
 
-    this.archivoService.getBuscarArchivosPorNombre(this.nombreArchivo).subscribe({
-      next: (httpResponse) => {
-        if (httpResponse.body) {
-          this.historialArchivos = httpResponse.body;
+    this.archivoService
+      .getBuscarArchivosPorNombre(this.nombreArchivo)
+      .subscribe({
+
+        next: (httpResponse) => {
+
+          if (httpResponse.body) {
+            this.historialArchivos = httpResponse.body;
+          }
+        },
+
+        error: (err) => {
+
+          this.toastr.error(
+            err.error || 'Error al buscar:',
+            'Error'
+          );
+
+          this.historialArchivos = [];
         }
-      },
-      error: (err) => {
-        this.toastr.error(err.error || 'Error al buscar:', 'Error');
-        this.historialArchivos = [];
-      }
-    });
+      });
   }
 
+  /**
+   * Abre el modal para editar un archivo.
+   */
   abrirModalEditar(archivo: ArchivoModel) {
+
     this.archivoEditando = archivo;
+
     this.nombreEditando = archivo.nombre;
+
     this.mostrarModalEditar = true;
   }
 
+  /**
+   * Cierra el modal de edición.
+   */
   cerrarModalEditar() {
+
     this.mostrarModalEditar = false;
+
     this.archivoEditando = null;
+
     this.nombreEditando = '';
   }
 
+  /**
+   * Guarda el nuevo nombre del archivo.
+   */
   guardarNombre() {
-    if (!this.archivoEditando || !this.nombreEditando.trim()) return;
 
-    this.archivoService.putEditarNombre(this.archivoEditando.id, this.nombreEditando).subscribe({
-      next: () => {
-        this.toastr.success('Nombre actualizado correctamente', 'Exito');
-        this.cerrarModalEditar();
-        this.cargarHistorial();
-      },
-      error: (err) => {
-        this.toastr.error(err.error || 'Error al editar:', 'Error');
-      }
-    });
+    if (
+      !this.archivoEditando ||
+      !this.nombreEditando.trim()
+    ) return;
+
+    this.archivoService
+      .putEditarNombre(
+        this.archivoEditando.id,
+        this.nombreEditando
+      )
+      .subscribe({
+
+        next: () => {
+
+          this.toastr.success(
+            'Nombre actualizado correctamente',
+            'Exito'
+          );
+
+          this.cerrarModalEditar();
+
+          this.cargarHistorial();
+        },
+
+        error: (err) => {
+
+          this.toastr.error(
+            err.error || 'Error al editar:',
+            'Error'
+          );
+        }
+      });
   }
 
+  /**
+   * Elimina un archivo del historial.
+   */
   eliminarArchivo(archivo: ArchivoModel) {
-    this.archivoService.deleteArchivos(archivo.id).subscribe({
-      next: () => {
-        this.toastr.success('Archivo eliminado correctamente', 'Exito');
-        this.cargarHistorial();
-      },
-      error: (err) => {
-        this.toastr.error(err.error || 'Error al eliminar:', 'Error');
-      }
-    });
+
+    this.archivoService
+      .deleteArchivos(archivo.id)
+      .subscribe({
+
+        next: () => {
+
+          this.toastr.success(
+            'Archivo eliminado correctamente',
+            'Exito'
+          );
+
+          this.cargarHistorial();
+        },
+
+        error: (err) => {
+
+          this.toastr.error(
+            err.error || 'Error al eliminar:',
+            'Error'
+          );
+        }
+      });
   }
 }

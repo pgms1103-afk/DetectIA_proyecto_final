@@ -22,6 +22,22 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
+/**
+ * Configuración central de Spring Security para la plataforma DetectIA.
+ * <p>
+ * Define la cadena de filtros de seguridad HTTP con política de sesión sin
+ * estado (JWT stateless), las reglas de autorización por rol y ruta, y la
+ * configuración CORS para permitir peticiones desde el frontend Angular.
+ * Registra los beans de {@link PasswordEncoder} (BCrypt),
+ * {@link AuthenticationProvider} (DAO) y {@link AuthenticationManager}.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see JwtAuthenticationFilter
+ * @see JwtUtil
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
