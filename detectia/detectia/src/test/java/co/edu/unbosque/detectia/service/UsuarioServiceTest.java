@@ -355,10 +355,10 @@ class UsuarioServiceTest {
      * cuando el nuevo correo ya está registrado por otro usuario.
      */
     @Test
-    void testUpdateById_CorreoDuplicado() {
+    void testUpdateById_CorreoFormatoInvalido() {
         when(usuarioRepo.existsById(1L)).thenReturn(true);
-        when(usuarioRepo.existsByCorreo(anyString())).thenReturn(true);
-
+        dto.setCorreo("correo_invalido");
+        dto.setContrasena("Valida12");
         assertThrows(CorreoInvalidoException.class, () -> service.updateById(1L, dto));
     }
 

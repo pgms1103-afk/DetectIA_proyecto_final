@@ -1,0 +1,1401 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>front-detect-ia documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">front-detect-ia documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  GestionUsuarios</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Permite listar, crear, editar y eliminar usuarios del sistema.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-gestion-usuarios</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                                <code><a href="https://angular.io/api/forms/FormsModule" target="_blank" >FormsModule</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./gestion-usuarios.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./gestion-usuarios.css</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#id" >id</a>
+                            </li>
+                            <li>
+                                <a href="#mensajeError" >mensajeError</a>
+                            </li>
+                            <li>
+                                <a href="#mensajeExito" >mensajeExito</a>
+                            </li>
+                            <li>
+                                <a href="#modoModal" >modoModal</a>
+                            </li>
+                            <li>
+                                <a href="#mostrarModal" >mostrarModal</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#toastr" >toastr</a>
+                            </li>
+                            <li>
+                                <a href="#usuarioNuevo" >usuarioNuevo</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#usuarios" >usuarios</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#usuarioService" >usuarioService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#abrirModalCrear" >abrirModalCrear</a>
+                            </li>
+                            <li>
+                                <a href="#abrirModalEditar" >abrirModalEditar</a>
+                            </li>
+                            <li>
+                                <a href="#cargarUsuarios" >cargarUsuarios</a>
+                            </li>
+                            <li>
+                                <a href="#cerrarModal" >cerrarModal</a>
+                            </li>
+                            <li>
+                                <a href="#crearOactualizar" >crearOactualizar</a>
+                            </li>
+                            <li>
+                                <a href="#eliminarUsuario" >eliminarUsuario</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#extraerError" >extraerError</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="abrirModalCrear"></a>
+                    <span class="name">
+                        <span ><b>abrirModalCrear</b></span>
+                        <a href="#abrirModalCrear"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>abrirModalCrear()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="69"
+                                    class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Prepara el formulario en modo &#39;crear&#39; y abre el modal</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="abrirModalEditar"></a>
+                    <span class="name">
+                        <span ><b>abrirModalEditar</b></span>
+                        <a href="#abrirModalEditar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>abrirModalEditar(user: <a href="../interfaces/UsuarioModel.html" target="_self">UsuarioModel</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="76"
+                                    class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Carga los datos de un usuario en el formulario y abre el modal en modo &#39;editar&#39;</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>user</td>
+                                            <td>
+                                                            <code><a href="../interfaces/UsuarioModel.html" target="_self" >UsuarioModel</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cargarUsuarios"></a>
+                    <span class="name">
+                        <span ><b>cargarUsuarios</b></span>
+                        <a href="#cargarUsuarios"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cargarUsuarios()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="60"
+                                    class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Obtiene el listado actualizado de usuarios desde el servicio</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cerrarModal"></a>
+                    <span class="name">
+                        <span ><b>cerrarModal</b></span>
+                        <a href="#cerrarModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cerrarModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="91"
+                                    class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:91</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cierra el modal de gestión</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="crearOactualizar"></a>
+                    <span class="name">
+                        <span ><b>crearOactualizar</b></span>
+                        <a href="#crearOactualizar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>crearOactualizar()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="96"
+                                    class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:96</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Ejecuta la lógica de creación o actualización según el estado del modal</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="eliminarUsuario"></a>
+                    <span class="name">
+                        <span ><b>eliminarUsuario</b></span>
+                        <a href="#eliminarUsuario"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>eliminarUsuario(user: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="128"
+                                    class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:128</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Elimina un usuario por su ID y recarga el listado</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>user</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="extraerError"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Static</span>
+                        <span ><b>extraerError</b></span>
+                        <a href="#extraerError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>extraerError(err: unknown)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="50"
+                                    class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>err</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="42"
+                                    class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="id"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>id</b></span>
+                        <a href="#id"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | undefined</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>undefined</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mensajeError"></a>
+                    <span class="name">
+                        <span ><b>mensajeError</b></span>
+                        <a href="#mensajeError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mensajeExito"></a>
+                    <span class="name">
+                        <span ><b>mensajeExito</b></span>
+                        <a href="#mensajeExito"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="modoModal"></a>
+                    <span class="name">
+                        <span ><b>modoModal</b></span>
+                        <a href="#modoModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;crear&quot; | &quot;editar&quot;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;crear&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mostrarModal"></a>
+                    <span class="name">
+                        <span ><b>mostrarModal</b></span>
+                        <a href="#mostrarModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toastr"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>toastr</b></span>
+                        <a href="#toastr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ToastrService</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ToastrService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usuarioNuevo"></a>
+                    <span class="name">
+                        <span ><b>usuarioNuevo</b></span>
+                        <a href="#usuarioNuevo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/UsuarioModel.html" target="_self" >UsuarioModel</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    nombreUsuario: &#x27;&#x27;,
+    correo: &#x27;&#x27;,
+    contrasena: &#x27;&#x27;,
+    role: Role.USER,
+    totalArchivos: 0,
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:31</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Objeto temporal para el formulario de creación/edición</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usuarios"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>usuarios</b></span>
+                        <a href="#usuarios"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/UsuarioModel.html" target="_self" >UsuarioModel[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usuarioService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>usuarioService</b></span>
+                        <a href="#usuarioService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/UsuarioService.html" target="_self" >UsuarioService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UsuarioService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/vista-admin/gestion-usuarios/gestion-usuarios.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject, OnInit } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { UsuarioModel } from &#x27;../../models/usuario.model&#x27;;
+import { UsuarioService } from &#x27;../../services/usuario.service&#x27;;
+import { Role } from &#x27;../../models/role.enum&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { ToastrService } from &#x27;ngx-toastr&#x27;;
+
+/**
+ * @component GestionUsuarios
+ * @description Componente administrativo para el CRUD de usuarios.
+ * Permite listar, crear, editar y eliminar usuarios del sistema.
+ */
+@Component({
+  selector: &#x27;app-gestion-usuarios&#x27;,
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: &#x27;./gestion-usuarios.html&#x27;,
+  styleUrl: &#x27;./gestion-usuarios.css&#x27;,
+})
+export class GestionUsuarios implements OnInit {
+  public usuarios: UsuarioModel[] &#x3D; [];
+  private usuarioService: UsuarioService &#x3D; inject(UsuarioService);
+  public id: number | undefined &#x3D; undefined;
+  private toastr: ToastrService &#x3D; inject(ToastrService);
+
+  mensajeError &#x3D; &#x27;&#x27;;
+  mensajeExito &#x3D; &#x27;&#x27;;
+
+  /** Objeto temporal para el formulario de creación/edición */
+  usuarioNuevo: UsuarioModel &#x3D; {
+    nombreUsuario: &#x27;&#x27;,
+    correo: &#x27;&#x27;,
+    contrasena: &#x27;&#x27;,
+    role: Role.USER,
+    totalArchivos: 0,
+  };
+
+  mostrarModal &#x3D; false;
+  modoModal: &#x27;crear&#x27; | &#x27;editar&#x27; &#x3D; &#x27;crear&#x27;;
+
+  ngOnInit(): void {
+    this.cargarUsuarios();
+  }
+
+  /**
+   * @method extraerError
+   * @description Método estático para normalizar mensajes de error provenientes del servidor.
+   */
+  private static extraerError(err: unknown): string {
+    const errorObj &#x3D; err as { error?: string | { message?: string } };
+    if (errorObj?.error) {
+      if (typeof errorObj.error &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) return errorObj.error;
+      if (errorObj.error.message) return errorObj.error.message;
+    }
+    return &#x27;Ocurrió un error en el servidor.&#x27;;
+  }
+
+  /** Obtiene el listado actualizado de usuarios desde el servicio */
+  cargarUsuarios() {
+    this.usuarioService.getMostrarUsuarios().subscribe({
+      next: (datos) &#x3D;&gt; { this.usuarios &#x3D; datos; },
+      error: (err) &#x3D;&gt; {
+        this.toastr.error(err.error|| &quot;No se pudo cargar el usuario&quot;, &#x27;Error&#x27;) },
+    });
+  }
+
+  /** Prepara el formulario en modo &#x27;crear&#x27; y abre el modal */
+  abrirModalCrear() {
+    this.modoModal &#x3D; &#x27;crear&#x27;;
+    this.usuarioNuevo &#x3D; { nombreUsuario: &#x27;&#x27;, correo: &#x27;&#x27;, contrasena: &#x27;&#x27;, role: Role.USER, totalArchivos: 0 };
+    this.mostrarModal &#x3D; true;
+  }
+
+  /** Carga los datos de un usuario en el formulario y abre el modal en modo &#x27;editar&#x27; */
+  abrirModalEditar(user: UsuarioModel) {
+    this.modoModal &#x3D; &#x27;editar&#x27;;
+    this.mostrarModal &#x3D; true;
+    this.id &#x3D; user.id;
+    this.usuarioNuevo &#x3D; {
+      id: user.id,
+      nombreUsuario: user.nombreUsuario,
+      correo: user.correo,
+      contrasena: &#x27;&#x27;,
+      role: user.role,
+      totalArchivos: user.totalArchivos
+    };
+  }
+
+  /** Cierra el modal de gestión */
+  cerrarModal() {
+    this.mostrarModal &#x3D; false;
+  }
+
+  /** Ejecuta la lógica de creación o actualización según el estado del modal */
+  crearOactualizar(){
+
+    if(!this.usuarioNuevo.nombreUsuario || !this.usuarioNuevo.correo || (!this.usuarioNuevo.contrasena &amp;&amp; this.modoModal &#x3D;&#x3D;&#x3D; &#x27;crear&#x27;)){
+      this.toastr.warning(&#x27;Debe completar todos los campos obligatorios.&#x27;, &#x27;Advertencia&#x27;) ;
+      return;
+    }
+
+    if(this.modoModal &#x3D;&#x3D;&#x3D; &#x27;crear&#x27;){
+      this.usuarioService.postCrearUsuario(this.usuarioNuevo).subscribe({
+        next: () &#x3D;&gt; { this.toastr.success(&quot;Usuario creado correctamente&quot;, &#x27;Éxito&#x27;)
+          this.cargarUsuarios(); this.cerrarModal(); },
+        error: (err) &#x3D;&gt; {
+          this.toastr.error(err.error|| &quot;No se pudo crear el usuario&quot;, &#x27;Error&#x27;)
+        },
+      });
+    } else {
+      if (this.id &#x3D;&#x3D;&#x3D; undefined) {
+        this.mensajeError &#x3D; &#x27;No se ha seleccionado ningún usuario para editar.&#x27;;
+        return;
+      }
+      this.usuarioService.putActualizarUsuario(this.id, this.usuarioNuevo).subscribe({
+        next: () &#x3D;&gt; {
+          this.toastr.success(&quot;Usuario actualizado correctamente&quot;, &#x27;Éxito&#x27;)
+          this.cargarUsuarios(); this.cerrarModal(); },
+        error: (err) &#x3D;&gt; {
+          this.toastr.error(err.error|| &quot;No se pudo actualizar el usuario&quot;, &#x27;Error&#x27;)
+        }
+      });
+    }
+  }
+
+  /** Elimina un usuario por su ID y recarga el listado */
+  eliminarUsuario(user: any) {
+    this.usuarioService.deleteUsuarios(user.id).subscribe({
+      next: () &#x3D;&gt; { this.cargarUsuarios(); }
+    });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;area-gestion animate__animated animate__fadeIn animate__faster&quot;&gt;
+  &lt;header class&#x3D;&quot;cabecera-gestion&quot;&gt;
+    &lt;div class&#x3D;&quot;info-izq&quot;&gt;
+      &lt;h2 class&#x3D;&quot;titulo-pagina animate__animated animate__fadeInDown&quot;&gt;Gestión de Usuarios&lt;/h2&gt;
+      &lt;p class&#x3D;&quot;subtitulo-pagina animate__animated animate__fadeInDown&quot; style&#x3D;&quot;animation-delay: 0.1s;&quot;&gt;Visualiza y gestiona las cuentas registradas en DetectIA&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;acciones-cabecera animate__animated animate__fadeInLeft&quot; style&#x3D;&quot;animation-delay: 0.2s;&quot;&gt;
+      &lt;button class&#x3D;&quot;btn-secundario-admin&quot; title&#x3D;&quot;Actualizar lista desde la BD&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-arrows-rotate&quot;&gt;&lt;/i&gt;
+      &lt;/button&gt;
+      &lt;button class&#x3D;&quot;btn-primario-admin&quot; (click)&#x3D;&quot;abrirModalCrear()&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-user-plus&quot;&gt;&lt;/i&gt; Nuevo Usuario
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;div class&#x3D;&quot;contenedor-tabla animate__animated animate__fadeInUp&quot; style&#x3D;&quot;animation-delay: 0.3s;&quot;&gt;
+    &lt;table class&#x3D;&quot;tabla-premium&quot;&gt;
+      &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Usuario&lt;/th&gt;
+        &lt;th&gt;Correo Electrónico&lt;/th&gt;
+        &lt;th&gt;Archivos Analizados&lt;/th&gt;
+        &lt;th&gt;Rol&lt;/th&gt;
+        &lt;th&gt;Acciones&lt;/th&gt;
+      &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+      &lt;tr *ngFor&#x3D;&quot;let user of usuarios; let i &#x3D; index&quot;
+          class&#x3D;&quot;animate__animated animate__fadeIn&quot;
+          [style.animation-delay]&#x3D;&quot;(0.4 + (i * 0.05)) + &#x27;s&#x27;&quot;&gt;
+        &lt;td&gt;
+          &lt;div class&#x3D;&quot;celda-usuario&quot;&gt;
+            &lt;div class&#x3D;&quot;avatar-tabla&quot;&gt;{{ user.nombreUsuario.substring(0,2).toUpperCase() }}&lt;/div&gt;
+            &lt;span&gt;{{ user.nombreUsuario }}&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/td&gt;
+        &lt;td&gt;{{ user.correo }}&lt;/td&gt;
+
+        &lt;td&gt;
+          &lt;div class&#x3D;&quot;flex items-center gap-2 text-gray-300&quot;&gt;
+            &lt;i class&#x3D;&quot;fa-solid fa-file-lines text-orange-500&quot;&gt;&lt;/i&gt;
+            &lt;span&gt;{{ user.totalArchivos || 0 }}&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/td&gt;
+
+        &lt;td&gt;&lt;span class&#x3D;&quot;badge-rol&quot;&gt;{{ user.role }}&lt;/span&gt;&lt;/td&gt;
+        &lt;td&gt;
+          &lt;div class&#x3D;&quot;acciones-fila&quot;&gt;
+            &lt;button class&#x3D;&quot;btn-icono&quot; title&#x3D;&quot;Editar&quot; (click)&#x3D;&quot;abrirModalEditar(user)&quot;&gt;
+              &lt;i class&#x3D;&quot;fa-solid fa-pen-to-square&quot;&gt;&lt;/i&gt;
+            &lt;/button&gt;
+            &lt;button class&#x3D;&quot;btn-icono eliminar&quot; title&#x3D;&quot;Eliminar&quot; (click)&#x3D;&quot;eliminarUsuario(user)&quot;&gt;
+              &lt;i class&#x3D;&quot;fa-solid fa-trash-can&quot;&gt;&lt;/i&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class&#x3D;&quot;superposicion-modal&quot; *ngIf&#x3D;&quot;mostrarModal&quot;&gt;
+  &lt;div class&#x3D;&quot;caja-modal animacion-aparecer&quot;&gt;
+
+    &lt;div class&#x3D;&quot;cabecera-modal&quot;&gt;
+      &lt;h3&gt;{{ modoModal &#x3D;&#x3D;&#x3D; &#x27;crear&#x27; ? &#x27;Crear Nuevo Usuario&#x27; : &#x27;Actualizar Usuario&#x27; }}&lt;/h3&gt;
+      &lt;button class&#x3D;&quot;btn-cerrar-modal&quot; (click)&#x3D;&quot;cerrarModal()&quot;&gt;&lt;i class&#x3D;&quot;fa-solid fa-xmark&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div style&#x3D;&quot;padding: 0 24px; margin-top: 16px;&quot;&gt;
+      &lt;div class&#x3D;&quot;alerta-mensaje error animate__animated animate__shakeX&quot; *ngIf&#x3D;&quot;mensajeError&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-triangle-exclamation&quot;&gt;&lt;/i&gt;
+        &lt;span&gt;{{ mensajeError }}&lt;/span&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;alerta-mensaje exito animate__animated animate__fadeIn&quot; *ngIf&#x3D;&quot;mensajeExito&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-circle-check&quot;&gt;&lt;/i&gt;
+        &lt;span&gt;{{ mensajeExito }}&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;cuerpo-modal&quot;&gt;
+      &lt;div class&#x3D;&quot;grupo-input&quot;&gt;
+        &lt;label&gt;Nombre Completo&lt;/label&gt;
+        &lt;input type&#x3D;&quot;text&quot; [(ngModel)]&#x3D;&quot;usuarioNuevo.nombreUsuario&quot; name&#x3D;&quot;nombreUsuario&quot; placeholder&#x3D;&quot;Ej: Juan Pérez&quot;&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;grupo-input&quot;&gt;
+        &lt;label&gt;Correo Electrónico&lt;/label&gt;
+        &lt;input type&#x3D;&quot;email&quot; [(ngModel)]&#x3D;&quot;usuarioNuevo.correo&quot; name&#x3D;&quot;correo&quot; placeholder&#x3D;&quot;ejemplo@correo.com&quot;&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;fila-inputs&quot;&gt;
+        &lt;div class&#x3D;&quot;grupo-input&quot;&gt;
+          &lt;label&gt;Rol del Sistema&lt;/label&gt;
+          &lt;select [(ngModel)]&#x3D;&quot;usuarioNuevo.role&quot; name&#x3D;&quot;role&quot;&gt;
+            &lt;option value&#x3D;&quot;USER&quot;&gt;Usuario Regular&lt;/option&gt;
+            &lt;option value&#x3D;&quot;ADMIN&quot;&gt;Administrador&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;grupo-input&quot;&gt;
+          &lt;label&gt;Contraseña&lt;/label&gt;
+          &lt;input type&#x3D;&quot;password&quot; [(ngModel)]&#x3D;&quot;usuarioNuevo.contrasena&quot; name&#x3D;&quot;contrasena&quot; placeholder&#x3D;&quot;Tu contraseña&quot;&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;pie-modal&quot;&gt;
+      &lt;button class&#x3D;&quot;btn-cancelar&quot; (click)&#x3D;&quot;cerrarModal()&quot;&gt;Cancelar&lt;/button&gt;
+      &lt;button class&#x3D;&quot;btn-guardar&quot; (click)&#x3D;&quot;crearOactualizar()&quot;&gt;{{ modoModal &#x3D;&#x3D;&#x3D; &#x27;crear&#x27; ? &#x27;Crear Usuario&#x27; : &#x27;Guardar Cambios&#x27; }}&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="area-gestion animate__animated animate__fadeIn animate__faster">  <header class="cabecera-gestion">    <div class="info-izq">      <h2 class="titulo-pagina animate__animated animate__fadeInDown">Gestión de Usuarios</h2>      <p class="subtitulo-pagina animate__animated animate__fadeInDown" style="animation-delay: 0.1s;">Visualiza y gestiona las cuentas registradas en DetectIA</p>    </div>    <div class="acciones-cabecera animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;">      <button class="btn-secundario-admin" title="Actualizar lista desde la BD">        <i class="fa-solid fa-arrows-rotate"></i>      </button>      <button class="btn-primario-admin" (click)="abrirModalCrear()">        <i class="fa-solid fa-user-plus"></i> Nuevo Usuario      </button>    </div>  </header>  <div class="contenedor-tabla animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">    <table class="tabla-premium">      <thead>      <tr>        <th>Usuario</th>        <th>Correo Electrónico</th>        <th>Archivos Analizados</th>        <th>Rol</th>        <th>Acciones</th>      </tr>      </thead>      <tbody>      <tr *ngFor="let user of usuarios; let i = index"          class="animate__animated animate__fadeIn"          [style.animation-delay]="(0.4 + (i * 0.05)) + \'s\'">        <td>          <div class="celda-usuario">            <div class="avatar-tabla">{{ user.nombreUsuario.substring(0,2).toUpperCase() }}</div>            <span>{{ user.nombreUsuario }}</span>          </div>        </td>        <td>{{ user.correo }}</td>        <td>          <div class="flex items-center gap-2 text-gray-300">            <i class="fa-solid fa-file-lines text-orange-500"></i>            <span>{{ user.totalArchivos || 0 }}</span>          </div>        </td>        <td><span class="badge-rol">{{ user.role }}</span></td>        <td>          <div class="acciones-fila">            <button class="btn-icono" title="Editar" (click)="abrirModalEditar(user)">              <i class="fa-solid fa-pen-to-square"></i>            </button>            <button class="btn-icono eliminar" title="Eliminar" (click)="eliminarUsuario(user)">              <i class="fa-solid fa-trash-can"></i>            </button>          </div>        </td>      </tr>      </tbody>    </table>  </div></div><div class="superposicion-modal" *ngIf="mostrarModal">  <div class="caja-modal animacion-aparecer">    <div class="cabecera-modal">      <h3>{{ modoModal === \'crear\' ? \'Crear Nuevo Usuario\' : \'Actualizar Usuario\' }}</h3>      <button class="btn-cerrar-modal" (click)="cerrarModal()"><i class="fa-solid fa-xmark"></i></button>    </div>    <div style="padding: 0 24px; margin-top: 16px;">      <div class="alerta-mensaje error animate__animated animate__shakeX" *ngIf="mensajeError">        <i class="fa-solid fa-triangle-exclamation"></i>        <span>{{ mensajeError }}</span>      </div>      <div class="alerta-mensaje exito animate__animated animate__fadeIn" *ngIf="mensajeExito">        <i class="fa-solid fa-circle-check"></i>        <span>{{ mensajeExito }}</span>      </div>    </div>    <div class="cuerpo-modal">      <div class="grupo-input">        <label>Nombre Completo</label>        <input type="text" [(ngModel)]="usuarioNuevo.nombreUsuario" name="nombreUsuario" placeholder="Ej: Juan Pérez">      </div>      <div class="grupo-input">        <label>Correo Electrónico</label>        <input type="email" [(ngModel)]="usuarioNuevo.correo" name="correo" placeholder="ejemplo@correo.com">      </div>      <div class="fila-inputs">        <div class="grupo-input">          <label>Rol del Sistema</label>          <select [(ngModel)]="usuarioNuevo.role" name="role">            <option value="USER">Usuario Regular</option>            <option value="ADMIN">Administrador</option>          </select>        </div>        <div class="grupo-input">          <label>Contraseña</label>          <input type="password" [(ngModel)]="usuarioNuevo.contrasena" name="contrasena" placeholder="Tu contraseña">        </div>      </div>    </div>    <div class="pie-modal">      <button class="btn-cancelar" (click)="cerrarModal()">Cancelar</button>      <button class="btn-guardar" (click)="crearOactualizar()">{{ modoModal === \'crear\' ? \'Crear Usuario\' : \'Guardar Cambios\' }}</button>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuditoriaAdmin', 'selector': 'app-auditoria-admin'},{'name': 'DashboardAdmin', 'selector': 'app-dashboard-admin'},{'name': 'Detector', 'selector': 'app-detector'},{'name': 'GestionUsuarios', 'selector': 'app-gestion-usuarios'},{'name': 'Login', 'selector': 'app-login'},{'name': 'Sidebar', 'selector': 'app-sidebar'},{'name': 'SidebarAdmin', 'selector': 'app-sidebar-admin'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TopbarAdmin', 'selector': 'app-topbar-admin'},{'name': 'VistaAdmin', 'selector': 'app-vista-admin'},{'name': 'VistaUsuario', 'selector': 'app-vista-usuario'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'GestionUsuarios'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'GestionUsuarios.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

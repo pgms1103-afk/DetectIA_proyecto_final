@@ -1,0 +1,2303 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>front-detect-ia documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">front-detect-ia documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  Sidebar</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/vista-usuario/sidebar-usuario/sidebar.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente Sidebar encargado de:</p>
+<ul>
+<li>Mostrar el historial de archivos.</li>
+<li>Cambiar entre herramientas.</li>
+<li>Gestionar búsqueda, edición y eliminación.</li>
+<li>Manejar navegación y autenticación.</li>
+</ul>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-sidebar</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                                <code><a href="https://angular.io/api/forms/FormsModule" target="_blank" >FormsModule</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./sidebar.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./sidebar.css</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#archivoEditando" >archivoEditando</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#archivoService" >archivoService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                <a href="#esAdmin" >esAdmin</a>
+                            </li>
+                            <li>
+                                <a href="#herramientaActual" >herramientaActual</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#historialArchivos" >historialArchivos</a>
+                            </li>
+                            <li>
+                                <a href="#isCollapsed" >isCollapsed</a>
+                            </li>
+                            <li>
+                                <a href="#mobileOpen" >mobileOpen</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#mostrarModalEditar" >mostrarModalEditar</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#nombreArchivo" >nombreArchivo</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#nombreEditando" >nombreEditando</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#resultadoService" >resultadoService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                <a href="#showProfileMenu" >showProfileMenu</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#toastr" >toastr</a>
+                            </li>
+                            <li>
+                                <a href="#user" >user</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#abrirModalEditar" >abrirModalEditar</a>
+                            </li>
+                            <li>
+                                <a href="#buscarPorNombre" >buscarPorNombre</a>
+                            </li>
+                            <li>
+                                <a href="#cargarHistorial" >cargarHistorial</a>
+                            </li>
+                            <li>
+                                <a href="#cerrarModalEditar" >cerrarModalEditar</a>
+                            </li>
+                            <li>
+                                <a href="#cerrarSesion" >cerrarSesion</a>
+                            </li>
+                            <li>
+                                <a href="#eliminarArchivo" >eliminarArchivo</a>
+                            </li>
+                            <li>
+                                <a href="#guardarNombre" >guardarNombre</a>
+                            </li>
+                            <li>
+                                <a href="#irAlAdmin" >irAlAdmin</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#seleccionarHerramienta" >seleccionarHerramienta</a>
+                            </li>
+                            <li>
+                                <a href="#toggleMobileMenu" >toggleMobileMenu</a>
+                            </li>
+                            <li>
+                                <a href="#toggleProfileMenu" >toggleProfileMenu</a>
+                            </li>
+                            <li>
+                                <a href="#toggleSidebar" >toggleSidebar</a>
+                            </li>
+                            <li>
+                                <a href="#verDetalleHistorial" >verDetalleHistorial</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#herramientaSeleccionada" >herramientaSeleccionada</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="herramientaSeleccionada"></a>
+                        <b>herramientaSeleccionada</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:37</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Evento emitido al seleccionar una herramienta.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="abrirModalEditar"></a>
+                    <span class="name">
+                        <span ><b>abrirModalEditar</b></span>
+                        <a href="#abrirModalEditar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>abrirModalEditar(archivo: <a href="../interfaces/ArchivoModel.html" target="_self">ArchivoModel</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="292"
+                                    class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:292</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Abre el modal para editar un archivo.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>archivo</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ArchivoModel.html" target="_self" >ArchivoModel</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buscarPorNombre"></a>
+                    <span class="name">
+                        <span ><b>buscarPorNombre</b></span>
+                        <a href="#buscarPorNombre"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>buscarPorNombre()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="259"
+                                    class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:259</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Busca archivos por nombre.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cargarHistorial"></a>
+                    <span class="name">
+                        <span ><b>cargarHistorial</b></span>
+                        <a href="#cargarHistorial"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cargarHistorial()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="140"
+                                    class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:140</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Carga el historial de archivos desde el backend.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cerrarModalEditar"></a>
+                    <span class="name">
+                        <span ><b>cerrarModalEditar</b></span>
+                        <a href="#cerrarModalEditar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cerrarModalEditar()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="304"
+                                    class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:304</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cierra el modal de edición.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cerrarSesion"></a>
+                    <span class="name">
+                        <span ><b>cerrarSesion</b></span>
+                        <a href="#cerrarSesion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cerrarSesion()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="249"
+                                    class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:249</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cierra la sesión actual.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="eliminarArchivo"></a>
+                    <span class="name">
+                        <span ><b>eliminarArchivo</b></span>
+                        <a href="#eliminarArchivo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>eliminarArchivo(archivo: <a href="../interfaces/ArchivoModel.html" target="_self">ArchivoModel</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="355"
+                                    class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:355</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Elimina un archivo del historial.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>archivo</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ArchivoModel.html" target="_self" >ArchivoModel</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="guardarNombre"></a>
+                    <span class="name">
+                        <span ><b>guardarNombre</b></span>
+                        <a href="#guardarNombre"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>guardarNombre()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="316"
+                                    class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:316</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Guarda el nuevo nombre del archivo.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="irAlAdmin"></a>
+                    <span class="name">
+                        <span ><b>irAlAdmin</b></span>
+                        <a href="#irAlAdmin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>irAlAdmin()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="242"
+                                    class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:242</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Navega hacia el panel de administración.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="128"
+                                    class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:128</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Inicializa el componente.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="seleccionarHerramienta"></a>
+                    <span class="name">
+                        <span ><b>seleccionarHerramienta</b></span>
+                        <a href="#seleccionarHerramienta"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>seleccionarHerramienta(herramienta: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="228"
+                                    class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:228</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cambia la herramienta seleccionada.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>herramienta</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleMobileMenu"></a>
+                    <span class="name">
+                        <span ><b>toggleMobileMenu</b></span>
+                        <a href="#toggleMobileMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleMobileMenu()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="221"
+                                    class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:221</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Abre o cierra el menú móvil.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleProfileMenu"></a>
+                    <span class="name">
+                        <span ><b>toggleProfileMenu</b></span>
+                        <a href="#toggleProfileMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleProfileMenu()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="207"
+                                    class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:207</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Muestra u oculta el menú de perfil.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleSidebar"></a>
+                    <span class="name">
+                        <span ><b>toggleSidebar</b></span>
+                        <a href="#toggleSidebar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleSidebar()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="214"
+                                    class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:214</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Alterna el estado colapsado del sidebar.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="verDetalleHistorial"></a>
+                    <span class="name">
+                        <span ><b>verDetalleHistorial</b></span>
+                        <a href="#verDetalleHistorial"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>verDetalleHistorial(archivo: <a href="../interfaces/ArchivoModel.html" target="_self">ArchivoModel</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="155"
+                                    class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:155</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Muestra el detalle de un archivo del historial.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>archivo</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ArchivoModel.html" target="_self" >ArchivoModel</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="archivoEditando"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>archivoEditando</b></span>
+                        <a href="#archivoEditando"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/ArchivoModel.html" target="_self" >ArchivoModel | null</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:82</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Archivo actualmente en edición.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="archivoService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>archivoService</b></span>
+                        <a href="#archivoService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ArchivoService.html" target="_self" >ArchivoService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ArchivoService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:42</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio encargado del manejo de archivos.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:52</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de autenticación.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="esAdmin"></a>
+                    <span class="name">
+                        <span ><b>esAdmin</b></span>
+                        <a href="#esAdmin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[&#x27;ADMIN&#x27;, &#x27;ROLE_ADMIN&#x27;]
+    .includes(localStorage.getItem(&#x27;rol_diario&#x27;) ?? &#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:122</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si el usuario es administrador.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="herramientaActual"></a>
+                    <span class="name">
+                        <span ><b>herramientaActual</b></span>
+                        <a href="#herramientaActual"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;texto&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:117</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Herramienta actualmente seleccionada.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="historialArchivos"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>historialArchivos</b></span>
+                        <a href="#historialArchivos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/ArchivoModel.html" target="_self" >ArchivoModel[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:87</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Historial de archivos obtenido del backend.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isCollapsed"></a>
+                    <span class="name">
+                        <span ><b>isCollapsed</b></span>
+                        <a href="#isCollapsed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:107</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Estado de colapso del sidebar.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mobileOpen"></a>
+                    <span class="name">
+                        <span ><b>mobileOpen</b></span>
+                        <a href="#mobileOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="112" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:112</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Estado del menú móvil.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mostrarModalEditar"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>mostrarModalEditar</b></span>
+                        <a href="#mostrarModalEditar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:72</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Controla la visibilidad del modal de edición.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nombreArchivo"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>nombreArchivo</b></span>
+                        <a href="#nombreArchivo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:67</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Nombre usado en el buscador.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nombreEditando"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>nombreEditando</b></span>
+                        <a href="#nombreEditando"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:77</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Nombre temporal usado al editar.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resultadoService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>resultadoService</b></span>
+                        <a href="#resultadoService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ResultadoIAService.html" target="_self" >ResultadoIAService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ResultadoIAService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:47</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio encargado de resultados IA.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:57</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de navegación.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showProfileMenu"></a>
+                    <span class="name">
+                        <span ><b>showProfileMenu</b></span>
+                        <a href="#showProfileMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:92</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Controla la visibilidad del menú de perfil.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toastr"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>toastr</b></span>
+                        <a href="#toastr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ToastrService</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ToastrService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:62</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de notificaciones.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="user"></a>
+                    <span class="name">
+                        <span ><b>user</b></span>
+                        <a href="#user"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    name: &#x27;Jose Manuel&#x27;,
+    email: &#x27;jose.manuel@elbosque.edu.co&#x27;,
+    time: &#x27;14h 20m&#x27;,
+    files: 28,
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">src/app/vista-usuario/sidebar-usuario/sidebar.ts:97</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Información básica del usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  Output,
+  EventEmitter,
+  OnInit,
+  inject
+} from &#x27;@angular/core&#x27;;
+
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { ArchivoService } from &#x27;../../services/archivo.service&#x27;;
+import { ArchivoModel } from &#x27;../../models/archivo.model&#x27;;
+import { ResultadoIAService } from &#x27;../../services/resultadoIA.service&#x27;;
+import { AuthService } from &#x27;../../services/auth.service&#x27;;
+import { Router } from &#x27;@angular/router&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { ToastrService } from &#x27;ngx-toastr&#x27;;
+
+/**
+ * Componente Sidebar encargado de:
+ * - Mostrar el historial de archivos.
+ * - Cambiar entre herramientas.
+ * - Gestionar búsqueda, edición y eliminación.
+ * - Manejar navegación y autenticación.
+ */
+@Component({
+  selector: &#x27;app-sidebar&#x27;,
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: &#x27;./sidebar.html&#x27;,
+  styleUrl: &#x27;./sidebar.css&#x27;,
+})
+export class Sidebar implements OnInit {
+
+  /**
+   * Evento emitido al seleccionar una herramienta.
+   */
+  @Output() readonly herramientaSeleccionada &#x3D; new EventEmitter&lt;string&gt;();
+
+  /**
+   * Servicio encargado del manejo de archivos.
+   */
+  private archivoService: ArchivoService &#x3D; inject(ArchivoService);
+
+  /**
+   * Servicio encargado de resultados IA.
+   */
+  private resultadoService: ResultadoIAService &#x3D; inject(ResultadoIAService);
+
+  /**
+   * Servicio de autenticación.
+   */
+  private authService &#x3D; inject(AuthService);
+
+  /**
+   * Servicio de navegación.
+   */
+  private router &#x3D; inject(Router);
+
+  /**
+   * Servicio de notificaciones.
+   */
+  private toastr: ToastrService &#x3D; inject(ToastrService);
+
+  /**
+   * Nombre usado en el buscador.
+   */
+  public nombreArchivo &#x3D; &#x27;&#x27;;
+
+  /**
+   * Controla la visibilidad del modal de edición.
+   */
+  public mostrarModalEditar &#x3D; false;
+
+  /**
+   * Nombre temporal usado al editar.
+   */
+  public nombreEditando &#x3D; &#x27;&#x27;;
+
+  /**
+   * Archivo actualmente en edición.
+   */
+  private archivoEditando: ArchivoModel | null &#x3D; null;
+
+  /**
+   * Historial de archivos obtenido del backend.
+   */
+  public historialArchivos: ArchivoModel[] &#x3D; [];
+
+  /**
+   * Controla la visibilidad del menú de perfil.
+   */
+  showProfileMenu: boolean &#x3D; false;
+
+  /**
+   * Información básica del usuario.
+   */
+  user &#x3D; {
+    name: &#x27;Jose Manuel&#x27;,
+    email: &#x27;jose.manuel@elbosque.edu.co&#x27;,
+    time: &#x27;14h 20m&#x27;,
+    files: 28,
+  };
+
+  /**
+   * Estado de colapso del sidebar.
+   */
+  isCollapsed &#x3D; false;
+
+  /**
+   * Estado del menú móvil.
+   */
+  mobileOpen &#x3D; false;
+
+  /**
+   * Herramienta actualmente seleccionada.
+   */
+  herramientaActual &#x3D; &#x27;texto&#x27;;
+
+  /**
+   * Indica si el usuario es administrador.
+   */
+  esAdmin &#x3D; [&#x27;ADMIN&#x27;, &#x27;ROLE_ADMIN&#x27;]
+    .includes(localStorage.getItem(&#x27;rol_diario&#x27;) ?? &#x27;&#x27;);
+
+  /**
+   * Inicializa el componente.
+   */
+  ngOnInit(): void {
+
+    this.cargarHistorial();
+
+    this.archivoService.analisisCompletado$.subscribe(() &#x3D;&gt; {
+      this.cargarHistorial();
+    });
+  }
+
+  /**
+   * Carga el historial de archivos desde el backend.
+   */
+  cargarHistorial() {
+
+    this.archivoService.getMisArchivos().subscribe({
+      next: (httpResponse) &#x3D;&gt; {
+
+        if (httpResponse.body) {
+          this.historialArchivos &#x3D; httpResponse.body;
+        }
+      }
+    });
+  }
+
+  /**
+   * Muestra el detalle de un archivo del historial.
+   */
+  verDetalleHistorial(archivo: ArchivoModel) {
+
+    /**
+     * Envía el archivo seleccionado al Detector.
+     */
+    this.archivoService.archivoSeleccionado$.next(archivo);
+
+    /**
+     * Obtiene la extensión del archivo.
+     */
+    const ruta &#x3D; archivo.rutaAlmacenamiento || &#x27;&#x27;;
+
+    const extension &#x3D;
+      ruta.split(&#x27;.&#x27;).pop()?.toLowerCase() || &#x27;&#x27;;
+
+    let categoriaDetectada &#x3D; &#x27;texto&#x27;;
+
+    if ([&#x27;txt&#x27;, &#x27;pdf&#x27;, &#x27;docx&#x27;, &#x27;doc&#x27;].includes(extension)) {
+
+      categoriaDetectada &#x3D; &#x27;texto&#x27;;
+
+    } else if (
+      [&#x27;jpg&#x27;, &#x27;jpeg&#x27;, &#x27;png&#x27;, &#x27;gif&#x27;, &#x27;webp&#x27;]
+        .includes(extension)
+    ) {
+
+      categoriaDetectada &#x3D; &#x27;imagen&#x27;;
+
+    } else if (
+      [&#x27;mp4&#x27;, &#x27;avi&#x27;, &#x27;mov&#x27;, &#x27;mkv&#x27;]
+        .includes(extension)
+    ) {
+
+      categoriaDetectada &#x3D; &#x27;video&#x27;;
+
+    } else if (
+      [&#x27;mp3&#x27;, &#x27;wav&#x27;, &#x27;ogg&#x27;]
+        .includes(extension)
+    ) {
+
+      categoriaDetectada &#x3D; &#x27;audio&#x27;;
+    }
+
+    /**
+     * Actualiza visualmente la herramienta seleccionada.
+     */
+    this.seleccionarHerramienta(categoriaDetectada);
+  }
+
+  /**
+   * Muestra u oculta el menú de perfil.
+   */
+  toggleProfileMenu() {
+    this.showProfileMenu &#x3D; !this.showProfileMenu;
+  }
+
+  /**
+   * Alterna el estado colapsado del sidebar.
+   */
+  toggleSidebar() {
+    this.isCollapsed &#x3D; !this.isCollapsed;
+  }
+
+  /**
+   * Abre o cierra el menú móvil.
+   */
+  toggleMobileMenu() {
+    this.mobileOpen &#x3D; !this.mobileOpen;
+  }
+
+  /**
+   * Cambia la herramienta seleccionada.
+   */
+  seleccionarHerramienta(herramienta: string) {
+
+    this.herramientaActual &#x3D; herramienta;
+
+    this.herramientaSeleccionada.emit(herramienta);
+
+    if (this.mobileOpen) {
+      this.toggleMobileMenu();
+    }
+  }
+
+  /**
+   * Navega hacia el panel de administración.
+   */
+  irAlAdmin() {
+    this.router.navigate([&#x27;/admin&#x27;]);
+  }
+
+  /**
+   * Cierra la sesión actual.
+   */
+  cerrarSesion() {
+
+    this.authService.cerrarSesion();
+
+    this.router.navigate([&#x27;/login&#x27;]);
+  }
+
+  /**
+   * Busca archivos por nombre.
+   */
+  buscarPorNombre() {
+
+    if (!this.nombreArchivo.trim()) {
+      this.cargarHistorial();
+      return;
+    }
+
+    this.archivoService
+      .getBuscarArchivosPorNombre(this.nombreArchivo)
+      .subscribe({
+
+        next: (httpResponse) &#x3D;&gt; {
+
+          if (httpResponse.body) {
+            this.historialArchivos &#x3D; httpResponse.body;
+          }
+        },
+
+        error: (err) &#x3D;&gt; {
+
+          this.toastr.error(
+            err.error || &#x27;Error al buscar:&#x27;,
+            &#x27;Error&#x27;
+          );
+
+          this.historialArchivos &#x3D; [];
+        }
+      });
+  }
+
+  /**
+   * Abre el modal para editar un archivo.
+   */
+  abrirModalEditar(archivo: ArchivoModel) {
+
+    this.archivoEditando &#x3D; archivo;
+
+    this.nombreEditando &#x3D; archivo.nombre;
+
+    this.mostrarModalEditar &#x3D; true;
+  }
+
+  /**
+   * Cierra el modal de edición.
+   */
+  cerrarModalEditar() {
+
+    this.mostrarModalEditar &#x3D; false;
+
+    this.archivoEditando &#x3D; null;
+
+    this.nombreEditando &#x3D; &#x27;&#x27;;
+  }
+
+  /**
+   * Guarda el nuevo nombre del archivo.
+   */
+  guardarNombre() {
+
+    if (
+      !this.archivoEditando ||
+      !this.nombreEditando.trim()
+    ) return;
+
+    this.archivoService
+      .putEditarNombre(
+        this.archivoEditando.id,
+        this.nombreEditando
+      )
+      .subscribe({
+
+        next: () &#x3D;&gt; {
+
+          this.toastr.success(
+            &#x27;Nombre actualizado correctamente&#x27;,
+            &#x27;Exito&#x27;
+          );
+
+          this.cerrarModalEditar();
+
+          this.cargarHistorial();
+        },
+
+        error: (err) &#x3D;&gt; {
+
+          this.toastr.error(
+            err.error || &#x27;Error al editar:&#x27;,
+            &#x27;Error&#x27;
+          );
+        }
+      });
+  }
+
+  /**
+   * Elimina un archivo del historial.
+   */
+  eliminarArchivo(archivo: ArchivoModel) {
+
+    this.archivoService
+      .deleteArchivos(archivo.id)
+      .subscribe({
+
+        next: () &#x3D;&gt; {
+
+          this.toastr.success(
+            &#x27;Archivo eliminado correctamente&#x27;,
+            &#x27;Exito&#x27;
+          );
+
+          this.cargarHistorial();
+        },
+
+        error: (err) &#x3D;&gt; {
+
+          this.toastr.error(
+            err.error || &#x27;Error al eliminar:&#x27;,
+            &#x27;Error&#x27;
+          );
+        }
+      });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;aside class&#x3D;&quot;barra-lateral&quot; [class.colapsado]&#x3D;&quot;isCollapsed&quot; [class.abierto-movil]&#x3D;&quot;mobileOpen&quot;&gt;
+
+  &lt;div class&#x3D;&quot;cabecera-lateral&quot;&gt;
+    &lt;button class&#x3D;&quot;btn-alternar&quot; (click)&#x3D;&quot;toggleSidebar()&quot; title&#x3D;&quot;Alternar menú&quot;&gt;
+      &lt;i *ngIf&#x3D;&quot;isCollapsed&quot; class&#x3D;&quot;fa-solid fa-bars&quot;&gt;&lt;/i&gt;
+      &lt;i *ngIf&#x3D;&quot;!isCollapsed&quot; class&#x3D;&quot;fa-solid fa-chevron-left&quot;&gt;&lt;/i&gt;
+    &lt;/button&gt;
+
+    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn-cerrar-movil&quot; (click)&#x3D;&quot;toggleMobileMenu()&quot;&gt;
+      &lt;i class&#x3D;&quot;fa-solid fa-xmark&quot;&gt;&lt;/i&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;nav class&#x3D;&quot;navegacion-lateral&quot;&gt;
+    &lt;span class&#x3D;&quot;etiqueta-seccion&quot;&gt;Principal&lt;/span&gt;
+    &lt;a class&#x3D;&quot;item-nav activo&quot;&gt;
+      &lt;span class&#x3D;&quot;icono-nav&quot;&gt;&lt;i class&#x3D;&quot;fa-solid fa-magnifying-glass-chart&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+      &lt;span class&#x3D;&quot;texto-nav&quot;&gt;Detector&lt;/span&gt;
+      &lt;span class&#x3D;&quot;insignia-nav&quot;&gt;Beta&lt;/span&gt;
+    &lt;/a&gt;
+
+    &lt;span class&#x3D;&quot;etiqueta-seccion&quot;&gt;Herramientas Detección&lt;/span&gt;
+    &lt;a class&#x3D;&quot;item-nav&quot; [class.activo]&#x3D;&quot;herramientaActual &#x3D;&#x3D;&#x3D; &#x27;texto&#x27;&quot; (click)&#x3D;&quot;seleccionarHerramienta(&#x27;texto&#x27;)&quot;&gt;
+      &lt;span class&#x3D;&quot;icono-nav&quot;&gt;&lt;i class&#x3D;&quot;fa-solid fa-book&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+      &lt;span class&#x3D;&quot;texto-nav&quot;&gt;Texto&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;a class&#x3D;&quot;item-nav&quot; [class.activo]&#x3D;&quot;herramientaActual &#x3D;&#x3D;&#x3D; &#x27;video&#x27;&quot; (click)&#x3D;&quot;seleccionarHerramienta(&#x27;video&#x27;)&quot;&gt;
+      &lt;span class&#x3D;&quot;icono-nav&quot;&gt;&lt;i class&#x3D;&quot;fa-solid fa-video&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+      &lt;span class&#x3D;&quot;texto-nav&quot;&gt;Video&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;a class&#x3D;&quot;item-nav&quot; [class.activo]&#x3D;&quot;herramientaActual &#x3D;&#x3D;&#x3D; &#x27;imagen&#x27;&quot; (click)&#x3D;&quot;seleccionarHerramienta(&#x27;imagen&#x27;)&quot;&gt;
+      &lt;span class&#x3D;&quot;icono-nav&quot;&gt;&lt;i class&#x3D;&quot;fa-regular fa-image&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+      &lt;span class&#x3D;&quot;texto-nav&quot;&gt;Imágenes&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;a class&#x3D;&quot;item-nav&quot; [class.activo]&#x3D;&quot;herramientaActual &#x3D;&#x3D;&#x3D; &#x27;audio&#x27;&quot; (click)&#x3D;&quot;seleccionarHerramienta(&#x27;audio&#x27;)&quot;&gt;
+      &lt;span class&#x3D;&quot;icono-nav&quot;&gt;&lt;i class&#x3D;&quot;fa-regular fa-file-audio&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+      &lt;span class&#x3D;&quot;texto-nav&quot;&gt;Audio&lt;/span&gt;
+    &lt;/a&gt;
+
+    &lt;span class&#x3D;&quot;etiqueta-seccion&quot; *ngIf&#x3D;&quot;!isCollapsed&quot;&gt;Búsqueda&lt;/span&gt;
+
+    &lt;div class&#x3D;&quot;contenedor-buscador-historial&quot; *ngIf&#x3D;&quot;!isCollapsed&quot;&gt;
+      &lt;div class&#x3D;&quot;grupo-buscador&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-magnifying-glass icono-buscador&quot;&gt;&lt;/i&gt;
+        &lt;input
+          [(ngModel)]&#x3D;&quot;nombreArchivo&quot;
+          (input)&#x3D;&quot;buscarPorNombre()&quot;
+          type&#x3D;&quot;text&quot;
+          placeholder&#x3D;&quot;Buscar archivo...&quot;
+          class&#x3D;&quot;input-buscador&quot;
+        /&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;span class&#x3D;&quot;etiqueta-seccion&quot;&gt;Historial&lt;/span&gt;
+
+    &lt;div class&#x3D;&quot;item-historial&quot;
+         *ngFor&#x3D;&quot;let archivo of historialArchivos&quot;&gt;
+
+      &lt;span class&#x3D;&quot;texto-nav texto-historial&quot; (click)&#x3D;&quot;verDetalleHistorial(archivo)&quot;&gt;
+        {{ archivo.nombre }}
+      &lt;/span&gt;
+
+      &lt;div class&#x3D;&quot;acciones-historial&quot;&gt;
+        &lt;button (click)&#x3D;&quot;abrirModalEditar(archivo); $event.stopPropagation()&quot; title&#x3D;&quot;Editar nombre&quot;&gt;
+          &lt;i class&#x3D;&quot;fa-solid fa-pen-to-square&quot;&gt;&lt;/i&gt;
+        &lt;/button&gt;
+        &lt;button (click)&#x3D;&quot;eliminarArchivo(archivo); $event.stopPropagation()&quot; title&#x3D;&quot;Eliminar&quot;&gt;
+          &lt;i class&#x3D;&quot;fa-solid fa-trash&quot;&gt;&lt;/i&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;item-nav&quot; *ngIf&#x3D;&quot;historialArchivos.length &#x3D;&#x3D;&#x3D; 0&quot;&gt;
+      &lt;span class&#x3D;&quot;texto-nav texto-vacio&quot;&gt;No hay análisis recientes&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/nav&gt;
+
+  &lt;div class&#x3D;&quot;pie-lateral&quot;&gt;
+    &lt;a class&#x3D;&quot;item-nav btn-panel-admin&quot; *ngIf&#x3D;&quot;esAdmin&quot; (click)&#x3D;&quot;irAlAdmin()&quot; style&#x3D;&quot;cursor: pointer;&quot; title&#x3D;&quot;Volver al Panel Admin&quot;&gt;
+      &lt;span class&#x3D;&quot;icono-nav&quot;&gt;&lt;i class&#x3D;&quot;fa-solid fa-shield-halved&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+      &lt;span class&#x3D;&quot;texto-nav&quot; *ngIf&#x3D;&quot;!isCollapsed&quot;&gt;Panel Admin&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;a class&#x3D;&quot;item-nav btn-cerrar-sesion&quot; (click)&#x3D;&quot;cerrarSesion()&quot; style&#x3D;&quot;cursor: pointer;&quot;&gt;
+      &lt;span class&#x3D;&quot;icono-nav&quot;&gt;&lt;i class&#x3D;&quot;fa-solid fa-arrow-right-from-bracket&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+      &lt;span class&#x3D;&quot;texto-nav&quot; *ngIf&#x3D;&quot;!isCollapsed&quot;&gt;Cerrar Sesión&lt;/span&gt;
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/aside&gt;
+
+&lt;!-- Modal editar nombre --&gt;
+&lt;div class&#x3D;&quot;modal-overlay&quot; *ngIf&#x3D;&quot;mostrarModalEditar&quot; (click)&#x3D;&quot;cerrarModalEditar()&quot;&gt;
+  &lt;div class&#x3D;&quot;modal-contenido&quot; (click)&#x3D;&quot;$event.stopPropagation()&quot;&gt;
+    &lt;h3 class&#x3D;&quot;modal-titulo&quot;&gt;Editar nombre&lt;/h3&gt;
+    &lt;input type&#x3D;&quot;text&quot; [(ngModel)]&#x3D;&quot;nombreEditando&quot; class&#x3D;&quot;input-modal&quot; placeholder&#x3D;&quot;Nuevo nombre&quot;&gt;
+    &lt;div class&#x3D;&quot;modal-botones&quot;&gt;
+      &lt;button class&#x3D;&quot;btn-guardar&quot; (click)&#x3D;&quot;guardarNombre()&quot;&gt;Guardar&lt;/button&gt;
+      &lt;button class&#x3D;&quot;btn-cancelar&quot; (click)&#x3D;&quot;cerrarModalEditar()&quot;&gt;Cancelar&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><aside class="barra-lateral" [class.colapsado]="isCollapsed" [class.abierto-movil]="mobileOpen">  <div class="cabecera-lateral">    <button class="btn-alternar" (click)="toggleSidebar()" title="Alternar menú">      <i *ngIf="isCollapsed" class="fa-solid fa-bars"></i>      <i *ngIf="!isCollapsed" class="fa-solid fa-chevron-left"></i>    </button>    <button type="button" class="btn-cerrar-movil" (click)="toggleMobileMenu()">      <i class="fa-solid fa-xmark"></i>    </button>  </div>  <nav class="navegacion-lateral">    <span class="etiqueta-seccion">Principal</span>    <a class="item-nav activo">      <span class="icono-nav"><i class="fa-solid fa-magnifying-glass-chart"></i></span>      <span class="texto-nav">Detector</span>      <span class="insignia-nav">Beta</span>    </a>    <span class="etiqueta-seccion">Herramientas Detección</span>    <a class="item-nav" [class.activo]="herramientaActual === \'texto\'" (click)="seleccionarHerramienta(\'texto\')">      <span class="icono-nav"><i class="fa-solid fa-book"></i></span>      <span class="texto-nav">Texto</span>    </a>    <a class="item-nav" [class.activo]="herramientaActual === \'video\'" (click)="seleccionarHerramienta(\'video\')">      <span class="icono-nav"><i class="fa-solid fa-video"></i></span>      <span class="texto-nav">Video</span>    </a>    <a class="item-nav" [class.activo]="herramientaActual === \'imagen\'" (click)="seleccionarHerramienta(\'imagen\')">      <span class="icono-nav"><i class="fa-regular fa-image"></i></span>      <span class="texto-nav">Imágenes</span>    </a>    <a class="item-nav" [class.activo]="herramientaActual === \'audio\'" (click)="seleccionarHerramienta(\'audio\')">      <span class="icono-nav"><i class="fa-regular fa-file-audio"></i></span>      <span class="texto-nav">Audio</span>    </a>    <span class="etiqueta-seccion" *ngIf="!isCollapsed">Búsqueda</span>    <div class="contenedor-buscador-historial" *ngIf="!isCollapsed">      <div class="grupo-buscador">        <i class="fa-solid fa-magnifying-glass icono-buscador"></i>        <input          [(ngModel)]="nombreArchivo"          (input)="buscarPorNombre()"          type="text"          placeholder="Buscar archivo..."          class="input-buscador"        />      </div>    </div>    <span class="etiqueta-seccion">Historial</span>    <div class="item-historial"         *ngFor="let archivo of historialArchivos">      <span class="texto-nav texto-historial" (click)="verDetalleHistorial(archivo)">        {{ archivo.nombre }}      </span>      <div class="acciones-historial">        <button (click)="abrirModalEditar(archivo); $event.stopPropagation()" title="Editar nombre">          <i class="fa-solid fa-pen-to-square"></i>        </button>        <button (click)="eliminarArchivo(archivo); $event.stopPropagation()" title="Eliminar">          <i class="fa-solid fa-trash"></i>        </button>      </div>    </div>    <div class="item-nav" *ngIf="historialArchivos.length === 0">      <span class="texto-nav texto-vacio">No hay análisis recientes</span>    </div>  </nav>  <div class="pie-lateral">    <a class="item-nav btn-panel-admin" *ngIf="esAdmin" (click)="irAlAdmin()" style="cursor: pointer;" title="Volver al Panel Admin">      <span class="icono-nav"><i class="fa-solid fa-shield-halved"></i></span>      <span class="texto-nav" *ngIf="!isCollapsed">Panel Admin</span>    </a>    <a class="item-nav btn-cerrar-sesion" (click)="cerrarSesion()" style="cursor: pointer;">      <span class="icono-nav"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>      <span class="texto-nav" *ngIf="!isCollapsed">Cerrar Sesión</span>    </a>  </div></aside><!-- Modal editar nombre --><div class="modal-overlay" *ngIf="mostrarModalEditar" (click)="cerrarModalEditar()">  <div class="modal-contenido" (click)="$event.stopPropagation()">    <h3 class="modal-titulo">Editar nombre</h3>    <input type="text" [(ngModel)]="nombreEditando" class="input-modal" placeholder="Nuevo nombre">    <div class="modal-botones">      <button class="btn-guardar" (click)="guardarNombre()">Guardar</button>      <button class="btn-cancelar" (click)="cerrarModalEditar()">Cancelar</button>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuditoriaAdmin', 'selector': 'app-auditoria-admin'},{'name': 'DashboardAdmin', 'selector': 'app-dashboard-admin'},{'name': 'Detector', 'selector': 'app-detector'},{'name': 'GestionUsuarios', 'selector': 'app-gestion-usuarios'},{'name': 'Login', 'selector': 'app-login'},{'name': 'Sidebar', 'selector': 'app-sidebar'},{'name': 'SidebarAdmin', 'selector': 'app-sidebar-admin'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TopbarAdmin', 'selector': 'app-topbar-admin'},{'name': 'VistaAdmin', 'selector': 'app-vista-admin'},{'name': 'VistaUsuario', 'selector': 'app-vista-usuario'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'Sidebar'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'Sidebar.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,1 @@
+var ROUTES_INDEX = {"name":"<root>","kind":"module","children":[{"name":"Login","kind":"component","path":"login","filename":"src/app/app.routes.ts"},{"name":"VistaAdmin","kind":"component","path":"admin","filename":"src/app/app.routes.ts"},{"name":"VistaUsuario","kind":"component","path":"usuario","filename":"src/app/app.routes.ts"}]}

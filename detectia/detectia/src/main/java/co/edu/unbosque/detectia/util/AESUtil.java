@@ -107,7 +107,6 @@ public class AESUtil {
 			return new String(decrypted);
 		} catch (IllegalBlockSizeException | BadPaddingException e) {
 
-			e.printStackTrace();
 		}
 		return "";
 

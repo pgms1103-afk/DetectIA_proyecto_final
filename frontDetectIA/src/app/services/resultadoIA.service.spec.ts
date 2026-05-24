@@ -15,7 +15,7 @@ describe('ResultadoIAService', () => {
   let service: ResultadoIAService;
   let httpMock: HttpTestingController;
 
-  const urlBase = 'http://localhost:8080/private/resultadoporia';
+  const urlBase = 'https://gpcueb.org/detectiaIA/private/resultadoporia';
 
   const mockResultado: ResultadoIAModel = {
     id: 1,
@@ -107,7 +107,7 @@ describe('ResultadoIAService', () => {
       expect(resp).toEqual([mockResultado]);
     });
 
-    const req = httpMock.expectOne('http://localhost:8080/admin/resultados');
+    const req = httpMock.expectOne('https://gpcueb.org/detectiaIA/admin/resultados');
     expect(req.request.method).toBe('GET');
     req.flush([mockResultado]);
   });

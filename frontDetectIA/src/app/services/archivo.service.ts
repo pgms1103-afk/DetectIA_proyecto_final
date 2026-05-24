@@ -16,7 +16,7 @@ export class ArchivoService {
   private cliente: HttpClient = inject(HttpClient);
 
   /** URL base del endpoint privado de archivos. */
-  private readonly urlbase: String = 'http://localhost:8080/private/archivo';
+  private readonly urlbase: String = 'https://gpcueb.org/detectiaIA/private/archivo';
 
   /** Subject que emite cuando un análisis se completa, para refrescar el historial. */
   public analisisCompletado$ = new Subject<void>();
@@ -117,7 +117,7 @@ export class ArchivoService {
    * @returns Observable con la lista completa de archivos.
    */
   getAllArchivos(): Observable<ArchivoModel[]> {
-    return this.cliente.get<ArchivoModel[]>('http://localhost:8080/admin/archivos');
+    return this.cliente.get<ArchivoModel[]>('https://gpcueb.org/detectiaIA/admin/archivos');
   }
 
   /**

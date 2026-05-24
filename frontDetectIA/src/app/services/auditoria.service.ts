@@ -16,7 +16,7 @@ export class AuditoriaService {
   private cliente: HttpClient = inject(HttpClient);
 
   /** URL base del endpoint de auditoría. */
-  private readonly urlbase = 'http://localhost:8080/admin/auditoria';
+  private readonly urlbase = 'https://gpcueb.org/detectiaIA/admin/auditoria';
 
   /**
    * Obtiene todos los registros de auditoría del sistema.

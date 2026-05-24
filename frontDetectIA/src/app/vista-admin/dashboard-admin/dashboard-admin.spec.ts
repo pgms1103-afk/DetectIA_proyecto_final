@@ -12,6 +12,11 @@ interface GraficoData {
   data: number[];
 }
 
+interface DashboardAdminStatic {
+  calcularTiposArchivo(archivos: Partial<ArchivoModel>[]): GraficoData;
+  calcularVeredictos(resultados: { porcentajeIA: number }[]): GraficoData;
+}
+
 describe('DashboardAdmin', () => {
   let component: DashboardAdmin;
   let fixture: ComponentFixture<DashboardAdmin>;
@@ -20,10 +25,7 @@ describe('DashboardAdmin', () => {
   const mockAuditoriaService = jasmine.createSpyObj('AuditoriaService', ['getTodos']);
   const mockArchivoService = jasmine.createSpyObj('ArchivoService', ['getAllArchivos']);
   const mockResultadoService = jasmine.createSpyObj('ResultadoIAService', ['getAllResultados']);
-  interface DashboardAdminPrivate {
-    calcularTiposArchivo(archivos: Partial<ArchivoModel>[]): GraficoData;
-    calcularVeredictos(resultados: { porcentajeIA: number }[]): GraficoData;
-  }
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [DashboardAdmin],
@@ -59,7 +61,7 @@ describe('DashboardAdmin', () => {
       { rutaAlmacenamiento: 'test.jpg' },
       { rutaAlmacenamiento: 'video.mp4' }
     ];
-    const resultado = (component as unknown as DashboardAdminPrivate)
+    const resultado = (DashboardAdmin as unknown as DashboardAdminStatic)
       .calcularTiposArchivo(archivos);
 
     expect(resultado.labels).toContain('Imagen');
@@ -68,9 +70,9 @@ describe('DashboardAdmin', () => {
 
   it('debería clasificar veredictos según porcentaje IA', () => {
     const resultados = [{ porcentajeIA: 60 }, { porcentajeIA: 30 }];
-    const resultado = (component as unknown as DashboardAdminPrivate)
+    const resultado = (DashboardAdmin as unknown as DashboardAdminStatic)
       .calcularVeredictos(resultados);
 
     expect(resultado.data).toEqual([1, 1]);
   });
-})
+});

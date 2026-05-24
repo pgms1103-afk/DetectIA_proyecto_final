@@ -1,0 +1,3367 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>front-detect-ia documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">front-detect-ia documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  Detector</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/vista-usuario/detector-usuario/detector.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente principal encargado de:</p>
+<ul>
+<li>Analizar texto, archivos o URLs.</li>
+<li>Mostrar resultados de detección IA.</li>
+<li>Administrar gráficas y modelos.</li>
+<li>Gestionar archivos del historial.</li>
+</ul>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-detector</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                                <code><a href="https://angular.io/api/forms/FormsModule" target="_blank" >FormsModule</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./detector.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./detector.css</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#activeTab" >activeTab</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#archivo" >archivo</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#archivoHistorico" >archivoHistorico</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#archivoService" >archivoService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cargando" >cargando</a>
+                            </li>
+                            <li>
+                                <a href="#chartMedidor" >chartMedidor</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#intervalSugerencias" >intervalSugerencias</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#mapaModelos" >mapaModelos</a>
+                            </li>
+                            <li>
+                                <a href="#modelosActuales" >modelosActuales</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#nombre" >nombre</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#promedioActual" >promedioActual</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#resultadoService" >resultadoService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#sugerenciaActual" >sugerenciaActual</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#sugerencias" >sugerencias</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#textoPlano" >textoPlano</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#toastr" >toastr</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#url" >url</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#veredictoActual" >veredictoActual</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#actualizarModelos" >actualizarModelos</a>
+                            </li>
+                            <li>
+                                <a href="#actualizarPorcentaje" >actualizarPorcentaje</a>
+                            </li>
+                            <li>
+                                <a href="#actualizarValoresModelos" >actualizarValoresModelos</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#copiarUrl" >copiarUrl</a>
+                            </li>
+                            <li>
+                                <a href="#detenerCarga" >detenerCarga</a>
+                            </li>
+                            <li>
+                                <a href="#determinarCategoriaPorArchivo" >determinarCategoriaPorArchivo</a>
+                            </li>
+                            <li>
+                                <a href="#ejecutarAnalisis" >ejecutarAnalisis</a>
+                            </li>
+                            <li>
+                                <a href="#inicializarGraficaVacia" >inicializarGraficaVacia</a>
+                            </li>
+                            <li>
+                                <a href="#iniciarCarga" >iniciarCarga</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onFileChange" >onFileChange</a>
+                            </li>
+                            <li>
+                                <a href="#quitarArchivo" >quitarArchivo</a>
+                            </li>
+                            <li>
+                                <a href="#quitarArchivoHistorico" >quitarArchivoHistorico</a>
+                            </li>
+                            <li>
+                                <a href="#refrescarGrafica" >refrescarGrafica</a>
+                            </li>
+                            <li>
+                                <a href="#subirArchivoLocal" >subirArchivoLocal</a>
+                            </li>
+                            <li>
+                                <a href="#subirArchivoUrl" >subirArchivoUrl</a>
+                            </li>
+                            <li>
+                                <a href="#subirTextoPlano" >subirTextoPlano</a>
+                            </li>
+                            <li>
+                                <a href="#switchTab" >switchTab</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#tipoHerramienta" >tipoHerramienta</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#extensionesPermitidas" >extensionesPermitidas</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="tipoHerramienta"></a>
+                        <b>tipoHerramienta</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;texto&#x27;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="187" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:187</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Tipo de herramienta actual.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="actualizarModelos"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>actualizarModelos</b></span>
+                        <a href="#actualizarModelos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>actualizarModelos()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="338"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:338</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Actualiza la lista de modelos según la categoría.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="actualizarPorcentaje"></a>
+                    <span class="name">
+                        <span ><b>actualizarPorcentaje</b></span>
+                        <a href="#actualizarPorcentaje"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>actualizarPorcentaje(nuevoPorcentaje: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="391"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:391</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Actualiza el porcentaje mostrado en la gráfica.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>nuevoPorcentaje</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="actualizarValoresModelos"></a>
+                    <span class="name">
+                        <span ><b>actualizarValoresModelos</b></span>
+                        <a href="#actualizarValoresModelos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>actualizarValoresModelos(datosBackend: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="639"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:639</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Actualiza los valores de los modelos usando datos del backend.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>datosBackend</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="copiarUrl"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>copiarUrl</b></span>
+                        <a href="#copiarUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>copiarUrl()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="546"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:546</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Copia la URL actual al portapapeles.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="detenerCarga"></a>
+                    <span class="name">
+                        <span ><b>detenerCarga</b></span>
+                        <a href="#detenerCarga"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>detenerCarga()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="176"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:176</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Detiene el estado de carga.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="determinarCategoriaPorArchivo"></a>
+                    <span class="name">
+                        <span ><b>determinarCategoriaPorArchivo</b></span>
+                        <a href="#determinarCategoriaPorArchivo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>determinarCategoriaPorArchivo(ruta: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="689"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:689</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Determina la categoría según la extensión del archivo.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ruta</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ejecutarAnalisis"></a>
+                    <span class="name">
+                        <span ><b>ejecutarAnalisis</b></span>
+                        <a href="#ejecutarAnalisis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ejecutarAnalisis()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="571"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:571</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Ejecuta el análisis dependiendo del modo activo.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="inicializarGraficaVacia"></a>
+                    <span class="name">
+                        <span ><b>inicializarGraficaVacia</b></span>
+                        <a href="#inicializarGraficaVacia"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>inicializarGraficaVacia()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="354"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:354</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Inicializa la gráfica vacía.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="iniciarCarga"></a>
+                    <span class="name">
+                        <span ><b>iniciarCarga</b></span>
+                        <a href="#iniciarCarga"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>iniciarCarga()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="162"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:162</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Inicia el estado de carga y rota sugerencias automáticamente.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="311"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:311</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Inicializa la gráfica después del renderizado.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="318"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:318</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Detecta cambios en los inputs del componente.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>changes</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="238"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:238</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Inicializa modelos y suscripciones.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onFileChange"></a>
+                    <span class="name">
+                        <span ><b>onFileChange</b></span>
+                        <a href="#onFileChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onFileChange(event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="531"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:531</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Captura el archivo seleccionado.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="quitarArchivo"></a>
+                    <span class="name">
+                        <span ><b>quitarArchivo</b></span>
+                        <a href="#quitarArchivo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>quitarArchivo(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="538"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:538</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Elimina el archivo local seleccionado.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="quitarArchivoHistorico"></a>
+                    <span class="name">
+                        <span ><b>quitarArchivoHistorico</b></span>
+                        <a href="#quitarArchivoHistorico"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>quitarArchivoHistorico(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="303"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:303</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Elimina el archivo histórico seleccionado.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refrescarGrafica"></a>
+                    <span class="name">
+                        <span ><b>refrescarGrafica</b></span>
+                        <a href="#refrescarGrafica"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>refrescarGrafica()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="422"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:422</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Reinicia completamente la gráfica.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subirArchivoLocal"></a>
+                    <span class="name">
+                        <span ><b>subirArchivoLocal</b></span>
+                        <a href="#subirArchivoLocal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subirArchivoLocal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="441"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:441</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Envía un archivo local al backend.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subirArchivoUrl"></a>
+                    <span class="name">
+                        <span ><b>subirArchivoUrl</b></span>
+                        <a href="#subirArchivoUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subirArchivoUrl()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="485"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:485</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Envía una URL al backend para análisis.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subirTextoPlano"></a>
+                    <span class="name">
+                        <span ><b>subirTextoPlano</b></span>
+                        <a href="#subirTextoPlano"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subirTextoPlano()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="593"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:593</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Envía texto plano al backend.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="switchTab"></a>
+                    <span class="name">
+                        <span ><b>switchTab</b></span>
+                        <a href="#switchTab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>switchTab(tab: "text" | "file")</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="347"
+                                    class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:347</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cambia la pestaña activa.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tab</td>
+                                            <td>
+                                                        <code>&quot;text&quot; | &quot;file&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeTab"></a>
+                    <span class="name">
+                        <span ><b>activeTab</b></span>
+                        <a href="#activeTab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;text&quot; | &quot;file&quot;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;text&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="192" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:192</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Pestaña activa en la interfaz.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="archivo"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>archivo</b></span>
+                        <a href="#archivo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>File | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:87</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Archivo local seleccionado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="archivoHistorico"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>archivoHistorico</b></span>
+                        <a href="#archivoHistorico"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/ArchivoModel.html" target="_self" >ArchivoModel | null</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:92</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Archivo cargado desde el historial.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="archivoService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>archivoService</b></span>
+                        <a href="#archivoService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ArchivoService.html" target="_self" >ArchivoService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ArchivoService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:67</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio encargado del manejo de archivos y análisis.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cargando"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cargando</b></span>
+                        <a href="#cargando"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:117</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si el sistema está procesando un análisis.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chartMedidor"></a>
+                    <span class="name">
+                        <span ><b>chartMedidor</b></span>
+                        <a href="#chartMedidor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="197" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:197</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Instancia de la gráfica Chart.js.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="intervalSugerencias"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>intervalSugerencias</b></span>
+                        <a href="#intervalSugerencias"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ReturnType&lt;unknown&gt; | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:127</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Intervalo usado para rotar sugerencias.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mapaModelos"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>mapaModelos</b></span>
+                        <a href="#mapaModelos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/ModeloIA.html" target="_self" >Record&lt;string | ModeloIA[]&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    texto: [
+      { nombre: &#x27;Grok&#x27;, icono: &#x27;fa-bolt&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+      { nombre: &#x27;Mistral&#x27;, icono: &#x27;fa-wind&#x27;, color: &#x27;#a78bfa&#x27; },
+      { nombre: &#x27;Winston&#x27;, icono: &#x27;fa-shield-halved&#x27;, color: &#x27;#10b981&#x27; },
+    ],
+    imagen: [
+      { nombre: &#x27;Sightengine&#x27;, icono: &#x27;fa-eye&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+      { nombre: &#x27;Hive Moderation&#x27;, icono: &#x27;fa-shield-halved&#x27;, color: &#x27;#10b981&#x27; },
+      { nombre: &#x27;Grok&#x27;, icono: &#x27;fa-bolt&#x27;, color: &#x27;#a78bfa&#x27; },
+    ],
+    video: [
+      { nombre: &#x27;TwelveLabs&#x27;, icono: &#x27;fa-film&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Hive Moderation&#x27;, icono: &#x27;fa-shield-halved&#x27;, color: &#x27;#10b981&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+    ],
+    audio: [
+      { nombre: &#x27;ACRCloud&#x27;, icono: &#x27;fa-music&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+    ],
+    musica: [
+      { nombre: &#x27;ACRCloud&#x27;, icono: &#x27;fa-music&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+    ],
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="202" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:202</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Mapa de modelos IA según categoría.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="modelosActuales"></a>
+                    <span class="name">
+                        <span ><b>modelosActuales</b></span>
+                        <a href="#modelosActuales"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/ModeloIA.html" target="_self" >ModeloIA[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="233" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:233</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Modelos mostrados actualmente en pantalla.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nombre"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>nombre</b></span>
+                        <a href="#nombre"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:82</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Nombre del análisis actual.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="promedioActual"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>promedioActual</b></span>
+                        <a href="#promedioActual"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:107</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Promedio final de detección IA.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resultadoService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>resultadoService</b></span>
+                        <a href="#resultadoService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ResultadoIAService.html" target="_self" >ResultadoIAService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ResultadoIAService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:72</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio encargado de obtener resultados IA.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sugerenciaActual"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>sugerenciaActual</b></span>
+                        <a href="#sugerenciaActual"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:122</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sugerencia mostrada durante la carga.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sugerencias"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>sugerencias</b></span>
+                        <a href="#sugerencias"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    &quot;Analizando patrones de lenguaje y estructura...&quot;,
+    &quot;Extrayendo metadatos y firmas ocultas...&quot;,
+    &quot;Consultando la red neuronal de detección...&quot;,
+    &quot;Evaluando anomalías en el contenido...&quot;,
+    &quot;Comparando contra millones de muestras...&quot;
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="132" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:132</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Lista de mensajes mostrados durante el análisis.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="textoPlano"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>textoPlano</b></span>
+                        <a href="#textoPlano"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:102</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Texto plano ingresado para analizar.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toastr"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>toastr</b></span>
+                        <a href="#toastr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ToastrService</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ToastrService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:77</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de notificaciones.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="url"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>url</b></span>
+                        <a href="#url"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:97</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>URL ingresada por el usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="veredictoActual"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>veredictoActual</b></span>
+                        <a href="#veredictoActual"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="112" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:112</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Veredicto generado por el backend.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="extensionesPermitidas"></a>
+                        <span class="name"><b>extensionesPermitidas</b><a href="#extensionesPermitidas"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>extensionesPermitidas()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="143" class="link-to-prism">src/app/vista-usuario/detector-usuario/detector.ts:143</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Retorna las extensiones permitidas según el tipo de herramienta.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  inject,
+  Input,
+  OnInit,
+  AfterViewInit,
+  OnChanges,
+  SimpleChanges,
+} from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { ArchivoService } from &#x27;../../services/archivo.service&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { AnalisisModel } from &#x27;../../models/analisis.model&#x27;;
+import { ResultadoIAModel } from &#x27;../../models/resultadoIA.model&#x27;;
+import { ResultadoIAService } from &#x27;../../services/resultadoIA.service&#x27;;
+import { ArchivoModel } from &#x27;../../models/archivo.model&#x27;;
+import { ToastrService } from &#x27;ngx-toastr&#x27;;
+import { HttpErrorResponse } from &#x27;@angular/common/http&#x27;;
+
+declare let Chart: any;
+
+/**
+ * Representa un modelo de IA mostrado en la interfaz.
+ */
+interface ModeloIA {
+
+  /**
+   * Nombre del modelo de IA.
+   */
+  nombre: string;
+
+  /**
+   * Icono FontAwesome asociado al modelo.
+   */
+  icono: string;
+
+  /**
+   * Color principal usado en la interfaz.
+   */
+  color: string;
+
+  /**
+   * Valor de probabilidad generado por la IA.
+   */
+  valor?: number | null;
+}
+
+/**
+ * Componente principal encargado de:
+ * - Analizar texto, archivos o URLs.
+ * - Mostrar resultados de detección IA.
+ * - Administrar gráficas y modelos.
+ * - Gestionar archivos del historial.
+ */
+@Component({
+  selector: &#x27;app-detector&#x27;,
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: &#x27;./detector.html&#x27;,
+  styleUrl: &#x27;./detector.css&#x27;,
+})
+export class Detector implements OnInit, AfterViewInit, OnChanges {
+
+  /**
+   * Servicio encargado del manejo de archivos y análisis.
+   */
+  private archivoService: ArchivoService &#x3D; inject(ArchivoService);
+
+  /**
+   * Servicio encargado de obtener resultados IA.
+   */
+  private resultadoService: ResultadoIAService &#x3D; inject(ResultadoIAService);
+
+  /**
+   * Servicio de notificaciones.
+   */
+  private toastr: ToastrService &#x3D; inject(ToastrService);
+
+  /**
+   * Nombre del análisis actual.
+   */
+  public nombre: string &#x3D; &#x27;&#x27;;
+
+  /**
+   * Archivo local seleccionado.
+   */
+  public archivo: File | null &#x3D; null;
+
+  /**
+   * Archivo cargado desde el historial.
+   */
+  public archivoHistorico: ArchivoModel | null &#x3D; null;
+
+  /**
+   * URL ingresada por el usuario.
+   */
+  public url: string &#x3D; &#x27;&#x27;;
+
+  /**
+   * Texto plano ingresado para analizar.
+   */
+  public textoPlano &#x3D; &#x27;&#x27;;
+
+  /**
+   * Promedio final de detección IA.
+   */
+  public promedioActual &#x3D; 0;
+
+  /**
+   * Veredicto generado por el backend.
+   */
+  public veredictoActual: string &#x3D; &#x27;&#x27;;
+
+  /**
+   * Indica si el sistema está procesando un análisis.
+   */
+  public cargando &#x3D; false;
+
+  /**
+   * Sugerencia mostrada durante la carga.
+   */
+  public sugerenciaActual &#x3D; &#x27;&#x27;;
+
+  /**
+   * Intervalo usado para rotar sugerencias.
+   */
+  private intervalSugerencias: ReturnType&lt;typeof setInterval&gt; | null &#x3D; null;
+
+  /**
+   * Lista de mensajes mostrados durante el análisis.
+   */
+  public sugerencias: string[] &#x3D; [
+    &quot;Analizando patrones de lenguaje y estructura...&quot;,
+    &quot;Extrayendo metadatos y firmas ocultas...&quot;,
+    &quot;Consultando la red neuronal de detección...&quot;,
+    &quot;Evaluando anomalías en el contenido...&quot;,
+    &quot;Comparando contra millones de muestras...&quot;
+  ];
+
+  /**
+   * Retorna las extensiones permitidas según el tipo de herramienta.
+   */
+  get extensionesPermitidas(): string {
+    switch (this.tipoHerramienta?.toLowerCase()) {
+      case &#x27;texto&#x27;:
+        return &#x27;.txt,.pdf,.docx,.doc&#x27;;
+      case &#x27;imagen&#x27;:
+        return &#x27;.jpg,.jpeg,.png,.webp&#x27;;
+      case &#x27;video&#x27;:
+        return &#x27;.mp4,.mov,.avi&#x27;;
+      case &#x27;audio&#x27;:
+      case &#x27;musica&#x27;:
+        return &#x27;.mp3,.wav,.ogg&#x27;;
+      default:
+        return &#x27;*/*&#x27;;
+    }
+  }
+
+  /**
+   * Inicia el estado de carga y rota sugerencias automáticamente.
+   */
+  iniciarCarga() {
+    this.cargando &#x3D; true;
+    let i &#x3D; 0;
+    this.sugerenciaActual &#x3D; this.sugerencias[0];
+
+    this.intervalSugerencias &#x3D; setInterval(() &#x3D;&gt; {
+      i &#x3D; (i + 1) % this.sugerencias.length;
+      this.sugerenciaActual &#x3D; this.sugerencias[i];
+    }, 2500);
+  }
+
+  /**
+   * Detiene el estado de carga.
+   */
+  detenerCarga() {
+    this.cargando &#x3D; false;
+
+    if (this.intervalSugerencias) {
+      clearInterval(this.intervalSugerencias);
+    }
+  }
+
+  /**
+   * Tipo de herramienta actual.
+   */
+  @Input() tipoHerramienta &#x3D; &#x27;texto&#x27;;
+
+  /**
+   * Pestaña activa en la interfaz.
+   */
+  activeTab: &#x27;text&#x27; | &#x27;file&#x27; &#x3D; &#x27;text&#x27;;
+
+  /**
+   * Instancia de la gráfica Chart.js.
+   */
+  chartMedidor: any;
+
+  /**
+   * Mapa de modelos IA según categoría.
+   */
+  private mapaModelos: Record&lt;string, ModeloIA[]&gt; &#x3D; {
+    texto: [
+      { nombre: &#x27;Grok&#x27;, icono: &#x27;fa-bolt&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+      { nombre: &#x27;Mistral&#x27;, icono: &#x27;fa-wind&#x27;, color: &#x27;#a78bfa&#x27; },
+      { nombre: &#x27;Winston&#x27;, icono: &#x27;fa-shield-halved&#x27;, color: &#x27;#10b981&#x27; },
+    ],
+    imagen: [
+      { nombre: &#x27;Sightengine&#x27;, icono: &#x27;fa-eye&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+      { nombre: &#x27;Hive Moderation&#x27;, icono: &#x27;fa-shield-halved&#x27;, color: &#x27;#10b981&#x27; },
+      { nombre: &#x27;Grok&#x27;, icono: &#x27;fa-bolt&#x27;, color: &#x27;#a78bfa&#x27; },
+    ],
+    video: [
+      { nombre: &#x27;TwelveLabs&#x27;, icono: &#x27;fa-film&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Hive Moderation&#x27;, icono: &#x27;fa-shield-halved&#x27;, color: &#x27;#10b981&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+    ],
+    audio: [
+      { nombre: &#x27;ACRCloud&#x27;, icono: &#x27;fa-music&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+    ],
+    musica: [
+      { nombre: &#x27;ACRCloud&#x27;, icono: &#x27;fa-music&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+    ],
+  };
+
+  /**
+   * Modelos mostrados actualmente en pantalla.
+   */
+  modelosActuales: ModeloIA[] &#x3D; [];
+
+  /**
+   * Inicializa modelos y suscripciones.
+   */
+  ngOnInit(): void {
+    this.actualizarModelos();
+
+    this.archivoService.archivoSeleccionado$.subscribe((archivoSeleccionado: ArchivoModel) &#x3D;&gt; {
+
+      const categoriaDetectada &#x3D; this.determinarCategoriaPorArchivo(
+        archivoSeleccionado.rutaAlmacenamiento
+      );
+
+      this.tipoHerramienta &#x3D; categoriaDetectada;
+      this.nombre &#x3D; archivoSeleccionado.nombre ?? &#x27;&#x27;;
+
+      this.archivo &#x3D; null;
+      this.archivoHistorico &#x3D; null;
+      this.url &#x3D; &#x27;&#x27;;
+      this.textoPlano &#x3D; &#x27;&#x27;;
+
+      const esUrl &#x3D; /^https?:\/\//i.test(
+        archivoSeleccionado.rutaAlmacenamiento ?? &#x27;&#x27;
+      );
+
+      if (esUrl) {
+        this.activeTab &#x3D; &#x27;text&#x27;;
+        this.url &#x3D; archivoSeleccionado.rutaAlmacenamiento;
+      } else {
+        this.activeTab &#x3D; &#x27;file&#x27;;
+        this.archivoHistorico &#x3D; archivoSeleccionado;
+      }
+
+      this.resultadoService
+        .getMostrarResultadosPorId(archivoSeleccionado.id)
+        .subscribe({
+          next: (resultados: ResultadoIAModel[]) &#x3D;&gt; {
+            this.actualizarValoresModelos(resultados);
+          },
+          error: (err) &#x3D;&gt; {
+            this.toastr.error(err.error || &#x27;Error al cargar los resultados.&#x27;, &#x27;Error&#x27;);
+          }
+        });
+
+      this.resultadoService
+        .getMostrarAnalisisPorId(archivoSeleccionado.id)
+        .subscribe({
+          next: (analisisResp: AnalisisModel[]) &#x3D;&gt; {
+
+            if (analisisResp &amp;&amp; analisisResp.length &gt; 0) {
+              const analisis &#x3D; analisisResp[0];
+
+              this.actualizarPorcentaje(analisis.porcentajeFinal);
+              this.promedioActual &#x3D; analisis.porcentajeFinal;
+              this.veredictoActual &#x3D; analisis.veredicto;
+            }
+          },
+          error: (err: HttpErrorResponse) &#x3D;&gt; {
+            this.actualizarPorcentaje(0);
+            this.promedioActual &#x3D; 0;
+            this.veredictoActual &#x3D; &#x27;Sin datos&#x27;;
+          }
+        });
+    });
+  }
+
+  /**
+   * Elimina el archivo histórico seleccionado.
+   */
+  quitarArchivoHistorico(event: Event) {
+    event.stopPropagation();
+    this.archivoHistorico &#x3D; null;
+  }
+
+  /**
+   * Inicializa la gráfica después del renderizado.
+   */
+  ngAfterViewInit(): void {
+    setTimeout(() &#x3D;&gt; this.inicializarGraficaVacia(), 0);
+  }
+
+  /**
+   * Detecta cambios en los inputs del componente.
+   */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes[&#x27;tipoHerramienta&#x27;]) {
+
+      this.actualizarModelos();
+
+      const herramienta &#x3D; this.tipoHerramienta?.toLowerCase();
+
+      if (
+        herramienta &#x3D;&#x3D;&#x3D; &#x27;video&#x27; ||
+        herramienta &#x3D;&#x3D;&#x3D; &#x27;audio&#x27; ||
+        herramienta &#x3D;&#x3D;&#x3D; &#x27;musica&#x27;
+      ) {
+        this.activeTab &#x3D; &#x27;file&#x27;;
+      }
+    }
+  }
+
+  /**
+   * Actualiza la lista de modelos según la categoría.
+   */
+  private actualizarModelos(): void {
+    const clave &#x3D; this.tipoHerramienta?.toLowerCase() ?? &#x27;texto&#x27;;
+    this.modelosActuales &#x3D;
+      this.mapaModelos[clave] ?? this.mapaModelos[&#x27;texto&#x27;];
+  }
+
+  /**
+   * Cambia la pestaña activa.
+   */
+  switchTab(tab: &#x27;text&#x27; | &#x27;file&#x27;) {
+    this.activeTab &#x3D; tab;
+  }
+
+  /**
+   * Inicializa la gráfica vacía.
+   */
+  inicializarGraficaVacia() {
+    const ctx &#x3D; document.getElementById(&#x27;iaProbabilityChart&#x27;);
+
+    if (ctx) {
+      this.chartMedidor &#x3D; new Chart(ctx, {
+        type: &#x27;doughnut&#x27;,
+        data: {
+          labels: [&#x27;IA&#x27;, &#x27;Restante&#x27;],
+          datasets: [{
+            data: [0, 100],
+            backgroundColor: [&#x27;#f59e0b&#x27;, &#x27;#27272a&#x27;],
+            borderWidth: 0,
+            borderRadius: 20
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          circumference: 180,
+          rotation: 270,
+          cutout: &#x27;85%&#x27;,
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false }
+          },
+          animation: {
+            animateRotate: true,
+            animateScale: false
+          }
+        }
+      });
+    }
+  }
+
+  /**
+   * Actualiza el porcentaje mostrado en la gráfica.
+   */
+  actualizarPorcentaje(nuevoPorcentaje: number) {
+
+    if (!this.chartMedidor) {
+
+      this.inicializarGraficaVacia();
+
+      setTimeout(() &#x3D;&gt; {
+        if (this.chartMedidor) {
+          this.chartMedidor.data.datasets[0].data &#x3D; [
+            nuevoPorcentaje,
+            100 - nuevoPorcentaje
+          ];
+
+          this.chartMedidor.update();
+        }
+      }, 50);
+
+      return;
+    }
+
+    this.chartMedidor.data.datasets[0].data &#x3D; [
+      nuevoPorcentaje,
+      100 - nuevoPorcentaje
+    ];
+
+    this.chartMedidor.update();
+  }
+
+  /**
+   * Reinicia completamente la gráfica.
+   */
+  refrescarGrafica() {
+
+    if (this.chartMedidor) {
+      this.chartMedidor.destroy();
+      this.chartMedidor &#x3D; null;
+    }
+
+    setTimeout(() &#x3D;&gt; {
+      this.inicializarGraficaVacia();
+
+      if (this.promedioActual &gt; 0) {
+        this.actualizarPorcentaje(this.promedioActual);
+      }
+    }, 50);
+  }
+
+  /**
+   * Envía un archivo local al backend.
+   */
+  subirArchivoLocal() {
+
+    if (!this.archivo) {
+      alert(&#x27;Advertencia: Selecciona un archivo primero&#x27;);
+      return;
+    }
+
+    this.iniciarCarga();
+
+    this.archivoService
+      .postAnalizarArchivo(this.nombre, this.archivo)
+      .subscribe({
+        next: (resp: any) &#x3D;&gt; {
+
+          setTimeout(() &#x3D;&gt; {
+
+            this.detenerCarga();
+
+            this.archivoService.analisisCompletado$.next();
+
+            const valor &#x3D; resp.promedio ?? resp.porcentajeFinal ?? 0;
+
+            this.actualizarPorcentaje(valor);
+            this.promedioActual &#x3D; valor;
+            this.veredictoActual &#x3D; resp.veredicto;
+
+            this.actualizarValoresModelos(resp.resultados);
+
+          }, 3000);
+        },
+        error: (err) &#x3D;&gt; {
+
+          setTimeout(() &#x3D;&gt; {
+            this.detenerCarga();
+
+            this.toastr.error(err.error || &#x27;Error al analizar el archivo.&#x27;, &#x27;Error&#x27;)
+          }, 1500);
+        },
+      });
+  }
+
+  /**
+   * Envía una URL al backend para análisis.
+   */
+  subirArchivoUrl() {
+
+    if (!this.url) {
+      this.toastr.warning(&#x27;Ingresa una URL primero&#x27;, &#x27;Advertencia&#x27;)
+      return;
+    }
+
+    this.iniciarCarga();
+
+    this.archivoService
+      .postAnalizarUrl(this.nombre, this.url)
+      .subscribe({
+        next: (resp: any) &#x3D;&gt; {
+
+          setTimeout(() &#x3D;&gt; {
+
+            this.detenerCarga();
+
+            this.archivoService.analisisCompletado$.next();
+
+            const valor &#x3D; resp.promedio ?? resp.porcentajeFinal ?? 0;
+
+            this.actualizarPorcentaje(valor);
+            this.promedioActual &#x3D; valor;
+            this.veredictoActual &#x3D; resp.veredicto;
+
+            if (resp.resultados) {
+              this.actualizarValoresModelos(resp.resultados);
+            }
+
+          }, 3000);
+        },
+        error: (err) &#x3D;&gt; {
+
+          setTimeout(() &#x3D;&gt; {
+            this.detenerCarga();
+
+            this.toastr.error(err.error || &#x27;Error al analizar url.&#x27;, &#x27;Error&#x27;)
+          }, 1500);
+        },
+      });
+  }
+
+  /**
+   * Captura el archivo seleccionado.
+   */
+  onFileChange(event: any) {
+    this.archivo &#x3D; event.target.files[0];
+  }
+
+  /**
+   * Elimina el archivo local seleccionado.
+   */
+  quitarArchivo(event: Event) {
+    event.stopPropagation();
+    this.archivo &#x3D; null;
+  }
+
+  /**
+   * Copia la URL actual al portapapeles.
+   */
+  async copiarUrl(): Promise&lt;void&gt; {
+
+    if (!this.url) return;
+
+    try {
+
+      await navigator.clipboard.writeText(this.url);
+
+      this.toastr.success(
+        &#x27;URL copiada al portapapeles.&#x27;,
+        &#x27;Copiado&#x27;
+      );
+
+    } catch {
+
+      this.toastr.warning(
+        &#x27;No se pudo copiar al portapapeles.&#x27;,
+        &#x27;Error&#x27;
+      );
+    }
+  }
+
+  /**
+   * Ejecuta el análisis dependiendo del modo activo.
+   */
+  ejecutarAnalisis() {
+
+    if (this.activeTab &#x3D;&#x3D;&#x3D; &#x27;file&#x27;) {
+
+      this.subirArchivoLocal();
+
+    } else if (
+      this.activeTab &#x3D;&#x3D;&#x3D; &#x27;text&#x27; &amp;&amp;
+      this.tipoHerramienta !&#x3D;&#x3D; &#x27;texto&#x27;
+    ) {
+
+      this.subirArchivoUrl();
+
+    } else {
+
+      this.subirTextoPlano();
+    }
+  }
+
+  /**
+   * Envía texto plano al backend.
+   */
+  subirTextoPlano() {
+
+    if (!this.textoPlano || this.textoPlano.trim().length &#x3D;&#x3D;&#x3D; 0) {
+      this.toastr.warning(&#x27;Pega un texto primero&#x27;, &#x27;Advertencia&#x27;)
+      return;
+    }
+
+    this.iniciarCarga();
+
+    this.archivoService
+      .postAnalizarTexto(this.nombre, this.textoPlano)
+      .subscribe({
+        next: (resp: any) &#x3D;&gt; {
+
+          setTimeout(() &#x3D;&gt; {
+
+            this.detenerCarga();
+
+            this.archivoService.analisisCompletado$.next();
+
+            const valor &#x3D; resp.promedio ?? resp.porcentajeFinal ?? 0;
+
+            this.actualizarPorcentaje(valor);
+            this.promedioActual &#x3D; valor;
+            this.veredictoActual &#x3D; resp.veredicto;
+
+            if (resp.resultados) {
+              this.actualizarValoresModelos(resp.resultados);
+            }
+
+          }, 3000);
+        },
+        error: (err) &#x3D;&gt; {
+
+          setTimeout(() &#x3D;&gt; {
+            this.detenerCarga();
+
+            this.toastr.error(err.error || &#x27;Error al analizar el texto.&#x27;, &#x27;Error&#x27;)
+          }, 1500);
+        },
+      });
+  }
+
+  /**
+   * Actualiza los valores de los modelos usando datos del backend.
+   */
+  actualizarValoresModelos(datosBackend: any) {
+
+    let datosNormalizados: {
+      nombre: string,
+      valor: number
+    }[] &#x3D; [];
+
+    if (Array.isArray(datosBackend)) {
+
+      datosNormalizados &#x3D; datosBackend.map(item &#x3D;&gt; ({
+        nombre: item.nombreIA,
+        valor: item.porcentajeIA
+      }));
+
+    } else {
+
+      datosNormalizados &#x3D; Object.keys(datosBackend).map(key &#x3D;&gt; ({
+        nombre: key,
+        valor: datosBackend[key]
+      }));
+    }
+
+    const todosLosModelosBase &#x3D;
+      Object.values(this.mapaModelos).flat();
+
+    this.modelosActuales &#x3D; datosNormalizados.map(dato &#x3D;&gt; {
+
+      const modeloOriginal &#x3D; todosLosModelosBase.find(
+        m &#x3D;&gt; m.nombre.toLowerCase() &#x3D;&#x3D;&#x3D; dato.nombre.toLowerCase()
+      );
+
+      if (modeloOriginal) {
+        return {
+          ...modeloOriginal,
+          valor: dato.valor
+        };
+      }
+
+      return {
+        nombre: dato.nombre,
+        icono: &#x27;fa-microchip&#x27;,
+        color: &#x27;#888888&#x27;,
+        valor: dato.valor
+      };
+    });
+  }
+
+  /**
+   * Determina la categoría según la extensión del archivo.
+   */
+  determinarCategoriaPorArchivo(ruta: string): string {
+
+    if (!ruta) return &#x27;texto&#x27;;
+
+    const extension &#x3D;
+      ruta.split(&#x27;.&#x27;).pop()?.toLowerCase() || &#x27;&#x27;;
+
+    if ([&#x27;txt&#x27;, &#x27;pdf&#x27;, &#x27;docx&#x27;, &#x27;doc&#x27;].includes(extension)) {
+      return &#x27;texto&#x27;;
+    } else if (
+      [&#x27;jpg&#x27;, &#x27;jpeg&#x27;, &#x27;png&#x27;, &#x27;gif&#x27;, &#x27;webp&#x27;]
+        .includes(extension)
+    ) {
+      return &#x27;imagen&#x27;;
+    } else if (
+      [&#x27;mp4&#x27;, &#x27;avi&#x27;, &#x27;mov&#x27;, &#x27;mkv&#x27;]
+        .includes(extension)
+    ) {
+      return &#x27;video&#x27;;
+    } else if (
+      [&#x27;mp3&#x27;, &#x27;wav&#x27;, &#x27;ogg&#x27;]
+        .includes(extension)
+    ) {
+      return &#x27;audio&#x27;;
+    }
+
+    return &#x27;texto&#x27;;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;area-trabajo&quot;&gt;
+
+  &lt;div class&#x3D;&quot;fila-paneles&quot;&gt;
+  &lt;div class&#x3D;&quot;panel-entrada&quot;&gt;
+    &lt;div class&#x3D;&quot;cabecera-panel&quot;&gt;
+      &lt;span class&#x3D;&quot;titulo-panel&quot; style&#x3D;&quot;text-transform: capitalize;&quot;&gt;Entrada de {{ tipoHerramienta }}&lt;/span&gt;
+      &lt;span class&#x3D;&quot;contador-caracteres&quot; *ngIf&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;texto&#x27;&quot;&gt;0 / 12.000 chars&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;contenedor-nombre-archivo&quot;&gt;
+      &lt;input
+        type&#x3D;&quot;text&quot;
+        [(ngModel)]&#x3D;&quot;nombre&quot;
+        placeholder&#x3D;&quot;Nombre para guardar este análisis (Ej. Proyecto Final)...&quot;
+        class&#x3D;&quot;input-nombre-archivo&quot;
+      /&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;grupo-pestanas&quot;&gt;
+      &lt;button class&#x3D;&quot;btn-pestana&quot;
+              *ngIf&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;texto&#x27; || tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;imagen&#x27;&quot;
+              [class.activo]&#x3D;&quot;activeTab &#x3D;&#x3D;&#x3D; &#x27;text&#x27;&quot;
+              (click)&#x3D;&quot;switchTab(&#x27;text&#x27;)&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-solid&quot; [ngClass]&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;texto&#x27; ? &#x27;fa-regular fa-keyboard&#x27; : &#x27;fa-solid fa-link&#x27;&quot;&gt;&lt;/i&gt;
+        {{ tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;texto&#x27; ? &#x27;Pegar texto&#x27; : &#x27;Pegar enlace&#x27; }}
+      &lt;/button&gt;
+
+      &lt;button class&#x3D;&quot;btn-pestana&quot; [class.activo]&#x3D;&quot;activeTab &#x3D;&#x3D;&#x3D; &#x27;file&#x27;&quot; (click)&#x3D;&quot;switchTab(&#x27;file&#x27;)&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-file-arrow-up&quot;&gt;&lt;/i&gt; Subir archivo
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;zona-texto&quot; *ngIf&#x3D;&quot;activeTab &#x3D;&#x3D;&#x3D; &#x27;text&#x27; &amp;&amp; tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;texto&#x27;&quot;&gt;
+      &lt;textarea class&#x3D;&quot;area-texto&quot; [(ngModel)]&#x3D;&quot;textoPlano&quot; placeholder&#x3D;&quot;Pega aquí el texto que deseas analizar...&quot;&gt;&lt;/textarea&gt;
+      &lt;div class&#x3D;&quot;pie-zona-texto&quot;&gt;
+        &lt;span class&#x3D;&quot;contador-palabras&quot;&gt;{{ textoPlano ? textoPlano.trim().split(/\s+/).length : 0 }} palabras&lt;/span&gt;
+        &lt;div class&#x3D;&quot;acciones-texto&quot;&gt;
+          &lt;button class&#x3D;&quot;btn-accion-texto&quot;&gt;&lt;i class&#x3D;&quot;fa-regular fa-clipboard&quot;&gt;&lt;/i&gt; Pegar&lt;/button&gt;
+          &lt;button class&#x3D;&quot;btn-accion-texto&quot;&gt;&lt;i class&#x3D;&quot;fa-solid fa-flask&quot;&gt;&lt;/i&gt; Muestra&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;zona-enlace&quot; *ngIf&#x3D;&quot;activeTab &#x3D;&#x3D;&#x3D; &#x27;text&#x27; &amp;&amp; tipoHerramienta !&#x3D;&#x3D; &#x27;texto&#x27;&quot;&gt;
+      &lt;div class&#x3D;&quot;contenedor-input-enlace&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-link icono-enlace&quot;&gt;&lt;/i&gt;
+        &lt;input type&#x3D;&quot;url&quot; class&#x3D;&quot;input-enlace&quot; [(ngModel)]&#x3D;&quot;url&quot;
+               placeholder&#x3D;&quot;Pega la URL de tu {{ tipoHerramienta }} aquí...&quot;&gt;
+        &lt;button class&#x3D;&quot;btn-pegar-url&quot; (click)&#x3D;&quot;copiarUrl()&quot; title&#x3D;&quot;Copiar URL al portapapeles&quot; [disabled]&#x3D;&quot;!url&quot;&gt;
+          &lt;i class&#x3D;&quot;fa-regular fa-copy&quot;&gt;&lt;/i&gt; Copiar
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;p class&#x3D;&quot;nota-enlace&quot;&gt;
+        El archivo multimedia será procesado de forma segura desde este enlace.
+      &lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;zona-subida&quot; [class.visible]&#x3D;&quot;activeTab &#x3D;&#x3D;&#x3D; &#x27;file&#x27; &amp;&amp; !archivo &amp;&amp; !archivoHistorico&quot; (click)&#x3D;&quot;fileInput.click()&quot; style&#x3D;&quot;cursor: pointer;&quot; *ngIf&#x3D;&quot;activeTab &#x3D;&#x3D;&#x3D; &#x27;file&#x27; &amp;&amp; !archivo &amp;&amp; !archivoHistorico&quot;&gt;
+
+      &lt;input type&#x3D;&quot;file&quot; #fileInput [accept]&#x3D;&quot;extensionesPermitidas&quot; hidden (change)&#x3D;&quot;onFileChange($event)&quot;&gt;
+      &lt;i class&#x3D;&quot;fa-solid fa-file-arrow-up icono-subida&quot;&gt;&lt;/i&gt;
+      &lt;div class&#x3D;&quot;titulo-subida&quot;&gt;Arrastra o haz clic para subir&lt;/div&gt;
+      &lt;div class&#x3D;&quot;sub-subida&quot;&gt;El archivo será procesado de forma segura en tu sesión&lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;formatos-subida&quot; *ngIf&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;texto&#x27;&quot;&gt;
+        &lt;span class&#x3D;&quot;etiqueta-formato&quot;&gt;.TXT&lt;/span&gt;
+        &lt;span class&#x3D;&quot;etiqueta-formato&quot;&gt;.PDF&lt;/span&gt;
+        &lt;span class&#x3D;&quot;etiqueta-formato&quot;&gt;.DOCX&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;formatos-subida&quot; *ngIf&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;video&#x27;&quot;&gt;
+        &lt;span class&#x3D;&quot;etiqueta-formato&quot;&gt;.MP4&lt;/span&gt;
+        &lt;span class&#x3D;&quot;etiqueta-formato&quot;&gt;.MOV&lt;/span&gt;
+        &lt;span class&#x3D;&quot;etiqueta-formato&quot;&gt;.AVI&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;formatos-subida&quot; *ngIf&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;imagen&#x27;&quot;&gt;
+        &lt;span class&#x3D;&quot;etiqueta-formato&quot;&gt;.JPG&lt;/span&gt;
+        &lt;span class&#x3D;&quot;etiqueta-formato&quot;&gt;.PNG&lt;/span&gt;
+        &lt;span class&#x3D;&quot;etiqueta-formato&quot;&gt;.WEBP&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;formatos-subida&quot; *ngIf&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;audio&#x27;&quot;&gt;
+        &lt;span class&#x3D;&quot;etiqueta-formato&quot;&gt;.MP3&lt;/span&gt;
+        &lt;span class&#x3D;&quot;etiqueta-formato&quot;&gt;.WAV&lt;/span&gt;
+        &lt;span class&#x3D;&quot;etiqueta-formato&quot;&gt;.OGG&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Tarjeta: archivo recién subido localmente --&gt;
+    &lt;div class&#x3D;&quot;tarjeta-archivo-seleccionado animate__animated animate__fadeIn animate__faster&quot; *ngIf&#x3D;&quot;activeTab &#x3D;&#x3D;&#x3D; &#x27;file&#x27; &amp;&amp; archivo&quot;&gt;
+      &lt;div class&#x3D;&quot;info-archivo&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-file-word icono-archivo-tipo&quot; *ngIf&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;texto&#x27;&quot;&gt;&lt;/i&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-file-image icono-archivo-tipo&quot; *ngIf&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;imagen&#x27;&quot;&gt;&lt;/i&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-file-video icono-archivo-tipo&quot; *ngIf&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;video&#x27;&quot;&gt;&lt;/i&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-file-audio icono-archivo-tipo&quot; *ngIf&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;audio&#x27; || tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;musica&#x27;&quot;&gt;&lt;/i&gt;
+
+        &lt;div class&#x3D;&quot;detalles-archivo&quot;&gt;
+          &lt;span class&#x3D;&quot;nombre-del-archivo&quot; [title]&#x3D;&quot;archivo.name&quot;&gt;{{ archivo.name }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;tamano-del-archivo&quot;&gt;{{ (archivo.size / 1024).toFixed(1) }} KB&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;button class&#x3D;&quot;btn-eliminar-archivo&quot; (click)&#x3D;&quot;quitarArchivo($event)&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-trash-can&quot;&gt;&lt;/i&gt; Quitar archivo
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Tarjeta: archivo traído del historial --&gt;
+    &lt;div class&#x3D;&quot;tarjeta-archivo-seleccionado animate__animated animate__fadeIn animate__faster&quot; *ngIf&#x3D;&quot;activeTab &#x3D;&#x3D;&#x3D; &#x27;file&#x27; &amp;&amp; !archivo &amp;&amp; archivoHistorico&quot;&gt;
+      &lt;div class&#x3D;&quot;info-archivo&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-file-word icono-archivo-tipo&quot; *ngIf&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;texto&#x27;&quot;&gt;&lt;/i&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-file-image icono-archivo-tipo&quot; *ngIf&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;imagen&#x27;&quot;&gt;&lt;/i&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-file-video icono-archivo-tipo&quot; *ngIf&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;video&#x27;&quot;&gt;&lt;/i&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-file-audio icono-archivo-tipo&quot; *ngIf&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;audio&#x27; || tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;musica&#x27;&quot;&gt;&lt;/i&gt;
+
+        &lt;div class&#x3D;&quot;detalles-archivo&quot;&gt;
+          &lt;span class&#x3D;&quot;nombre-del-archivo&quot; [title]&#x3D;&quot;archivoHistorico.rutaAlmacenamiento&quot;&gt;{{ archivoHistorico.rutaAlmacenamiento }}&lt;/span&gt;
+          &lt;span class&#x3D;&quot;tamano-del-archivo&quot;&gt;&lt;i class&#x3D;&quot;fa-solid fa-clock-rotate-left&quot;&gt;&lt;/i&gt; Del historial&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;button class&#x3D;&quot;btn-eliminar-archivo&quot; (click)&#x3D;&quot;quitarArchivoHistorico($event)&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-trash-can&quot;&gt;&lt;/i&gt; Quitar archivo
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;button class&#x3D;&quot;btn-analizar&quot; (click)&#x3D;&quot;ejecutarAnalisis()&quot;&gt;
+      &lt;i class&#x3D;&quot;fa-solid fa-magnifying-glass-chart&quot;&gt;&lt;/i&gt; Analizar {{ tipoHerramienta }}
+    &lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;panel-resultados animate__animated animate__fadeIn animate__faster&quot;&gt;
+    &lt;div class&#x3D;&quot;tarjeta-medidor&quot;&gt;
+      &lt;span class&#x3D;&quot;etiqueta-medidor&quot;&gt;
+        Probabilidad de IA
+        &lt;button class&#x3D;&quot;btn-refrescar-grafica&quot; (click)&#x3D;&quot;refrescarGrafica()&quot; title&#x3D;&quot;Refrescar gráfica&quot;&gt;
+          &lt;i class&#x3D;&quot;fa-solid fa-rotate&quot;&gt;&lt;/i&gt;
+        &lt;/button&gt;
+      &lt;/span&gt;
+      &lt;div class&#x3D;&quot;contenedor-medidor&quot;&gt;
+        &lt;canvas id&#x3D;&quot;iaProbabilityChart&quot;&gt;&lt;/canvas&gt;
+        &lt;div class&#x3D;&quot;centro-medidor&quot;&gt;
+          &lt;div class&#x3D;&quot;valor-medidor&quot;&gt;{{ promedioActual !&#x3D;&#x3D; null ? promedioActual : 0 }}&lt;/div&gt;
+          &lt;div class&#x3D;&quot;unidad-medidor&quot;&gt;% IA&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;etiqueta-estado inactivo&quot;&gt;
+        &lt;span class&#x3D;&quot;punto-estado&quot;&gt;&lt;/span&gt;
+        &lt;span&gt;{{ veredictoActual !&#x3D;&#x3D; &#x27;&#x27; ? veredictoActual.toLowerCase() : &#x27;Esperando análisis&#x27; }}&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;tarjeta-metricas&quot;&gt;
+      &lt;div class&#x3D;&quot;cabecera-modelos&quot;&gt;
+        &lt;span class&#x3D;&quot;titulo-modelos&quot;&gt;Modelos de detección&lt;/span&gt;
+        &lt;span class&#x3D;&quot;badge-herramienta&quot;&gt;
+          &lt;i class&#x3D;&quot;fa-solid&quot;
+             [class.fa-font]&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;texto&#x27;&quot;
+             [class.fa-image]&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;imagen&#x27;&quot;
+             [class.fa-film]&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;video&#x27;&quot;
+             [class.fa-music]&#x3D;&quot;tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;audio&#x27; || tipoHerramienta &#x3D;&#x3D;&#x3D; &#x27;musica&#x27;&quot;&gt;
+          &lt;/i&gt;
+          {{ tipoHerramienta | titlecase }}
+        &lt;/span&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;lista-modelos animate__animated animate__fadeIn&quot;&gt;
+        &lt;div class&#x3D;&quot;fila-metrica animate__animated animate__fadeInRight&quot;
+             *ngFor&#x3D;&quot;let modelo of modelosActuales; let i &#x3D; index&quot;
+             [style.animation-delay]&#x3D;&quot;(i * 0.06) + &#x27;s&#x27;&quot;&gt;
+
+          &lt;span class&#x3D;&quot;nombre-metrica&quot;&gt;
+            &lt;span class&#x3D;&quot;icono-modelo&quot; [style.color]&#x3D;&quot;modelo.color&quot;&gt;
+              &lt;i class&#x3D;&quot;fa-solid {{ modelo.icono }}&quot;&gt;&lt;/i&gt;
+            &lt;/span&gt;
+            {{ modelo.nombre }}
+          &lt;/span&gt;
+
+          &lt;span class&#x3D;&quot;valor-metrica&quot;&gt;{{ modelo.valor !&#x3D; null ? ((modelo.valor | number:&#x27;1.0-2&#x27;) + &#x27;%&#x27;) : &#x27;—&#x27; }}&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+  &lt;/div&gt;&lt;!-- /fila-paneles --&gt;
+
+  &lt;div class&#x3D;&quot;seccion-recomendaciones&quot;&gt;
+    &lt;span class&#x3D;&quot;titulo-recomendaciones&quot;&gt;Prestá más atención a estas herramientas&lt;/span&gt;
+    &lt;div class&#x3D;&quot;grid-recomendaciones&quot;&gt;
+
+      &lt;div class&#x3D;&quot;tarjeta-recomendacion texto&quot;&gt;
+        &lt;div class&#x3D;&quot;cabecera-recomendacion&quot;&gt;
+          &lt;div class&#x3D;&quot;icono-tipo-rec&quot;&gt;&lt;i class&#x3D;&quot;fa-solid fa-font&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+          &lt;span class&#x3D;&quot;tipo-rec&quot;&gt;Texto&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;nombre-ia-rec&quot;&gt;Winston&lt;/div&gt;
+        &lt;p class&#x3D;&quot;desc-rec&quot;&gt;La herramienta más precisa del aplicativo para detectar texto generado por IA. Analiza patrones lingüísticos, coherencia y estructura para determinar si un escrito es humano o artificial.&lt;/p&gt;
+        &lt;div class&#x3D;&quot;mejor-en&quot;&gt;
+          &lt;span class&#x3D;&quot;mejor-en-label&quot;&gt;Mejor en:&lt;/span&gt;
+          &lt;div class&#x3D;&quot;chips-mejor-en&quot;&gt;
+            &lt;span class&#x3D;&quot;chip-rec&quot;&gt;Ensayos académicos&lt;/span&gt;
+            &lt;span class&#x3D;&quot;chip-rec&quot;&gt;Artículos y blogs&lt;/span&gt;
+            &lt;span class&#x3D;&quot;chip-rec&quot;&gt;Correos y reportes&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;tarjeta-recomendacion video&quot;&gt;
+        &lt;div class&#x3D;&quot;cabecera-recomendacion&quot;&gt;
+          &lt;div class&#x3D;&quot;icono-tipo-rec&quot;&gt;&lt;i class&#x3D;&quot;fa-solid fa-film&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+          &lt;span class&#x3D;&quot;tipo-rec&quot;&gt;Video&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;nombre-ia-rec&quot;&gt;TwelveLabs&lt;/div&gt;
+        &lt;p class&#x3D;&quot;desc-rec&quot;&gt;Motor de comprensión de vídeo diseñado para detectar manipulación visual y contenido sintético. Evalúa fotograma a fotograma en busca de inconsistencias generadas por IA.&lt;/p&gt;
+        &lt;div class&#x3D;&quot;mejor-en&quot;&gt;
+          &lt;span class&#x3D;&quot;mejor-en-label&quot;&gt;Mejor en:&lt;/span&gt;
+          &lt;div class&#x3D;&quot;chips-mejor-en&quot;&gt;
+            &lt;span class&#x3D;&quot;chip-rec&quot;&gt;Deepfakes&lt;/span&gt;
+            &lt;span class&#x3D;&quot;chip-rec&quot;&gt;Vídeos sintéticos&lt;/span&gt;
+            &lt;span class&#x3D;&quot;chip-rec&quot;&gt;Manipulación facial&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;tarjeta-recomendacion imagen&quot;&gt;
+        &lt;div class&#x3D;&quot;cabecera-recomendacion&quot;&gt;
+          &lt;div class&#x3D;&quot;icono-tipo-rec&quot;&gt;&lt;i class&#x3D;&quot;fa-solid fa-image&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+          &lt;span class&#x3D;&quot;tipo-rec&quot;&gt;Imagen&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;nombre-ia-rec&quot;&gt;Hive Moderation&lt;/div&gt;
+        &lt;p class&#x3D;&quot;desc-rec&quot;&gt;Mayor tasa de acierto en imágenes sintéticas del aplicativo. Identifica artefactos digitales y firmas propias de los principales generadores de imágenes por IA.&lt;/p&gt;
+        &lt;div class&#x3D;&quot;mejor-en&quot;&gt;
+          &lt;span class&#x3D;&quot;mejor-en-label&quot;&gt;Mejor en:&lt;/span&gt;
+          &lt;div class&#x3D;&quot;chips-mejor-en&quot;&gt;
+            &lt;span class&#x3D;&quot;chip-rec&quot;&gt;DALL-E &amp; Midjourney&lt;/span&gt;
+            &lt;span class&#x3D;&quot;chip-rec&quot;&gt;Stable Diffusion&lt;/span&gt;
+            &lt;span class&#x3D;&quot;chip-rec&quot;&gt;Arte generado&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;tarjeta-recomendacion audio&quot;&gt;
+        &lt;div class&#x3D;&quot;cabecera-recomendacion&quot;&gt;
+          &lt;div class&#x3D;&quot;icono-tipo-rec&quot;&gt;&lt;i class&#x3D;&quot;fa-solid fa-microphone&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+          &lt;span class&#x3D;&quot;tipo-rec&quot;&gt;Audio&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;nombre-ia-rec&quot;&gt;ACRCloud&lt;/div&gt;
+        &lt;p class&#x3D;&quot;desc-rec&quot;&gt;Referente en reconocimiento y análisis de audio para detectar contenido generado por IA. El resultado más confiable varía según el tipo de audio que subas.&lt;/p&gt;
+        &lt;div class&#x3D;&quot;tip-audio&quot;&gt;
+          &lt;div class&#x3D;&quot;tip-fila&quot;&gt;
+            &lt;span class&#x3D;&quot;tip-badge gemini&quot;&gt;&lt;i class&#x3D;&quot;fa-solid fa-waveform-lines&quot;&gt;&lt;/i&gt; Voz&lt;/span&gt;
+            &lt;span class&#x3D;&quot;tip-texto&quot;&gt;Si el audio contiene voz humana, priorizá el resultado de &lt;strong&gt;Gemini&lt;/strong&gt; — es más preciso detectando síntesis y clonación de voz.&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;tip-fila&quot;&gt;
+            &lt;span class&#x3D;&quot;tip-badge acr&quot;&gt;&lt;i class&#x3D;&quot;fa-solid fa-music&quot;&gt;&lt;/i&gt; Música&lt;/span&gt;
+            &lt;span class&#x3D;&quot;tip-texto&quot;&gt;Si es una pista musical, confiá en &lt;strong&gt;ACRCloud&lt;/strong&gt; — está especializado en análisis de audio musical generado por IA.&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;overlay-carga animate__animated animate__fadeIn&quot; *ngIf&#x3D;&quot;cargando&quot;&gt;
+    &lt;div class&#x3D;&quot;caja-carga&quot;&gt;
+
+      &lt;div class&#x3D;&quot;icono-carga-pulsante&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-solid fa-brain&quot;&gt;&lt;/i&gt;
+      &lt;/div&gt;
+
+      &lt;h3 class&#x3D;&quot;titulo-carga&quot;&gt;DetectIA está analizando...&lt;/h3&gt;
+
+      &lt;div class&#x3D;&quot;barra-progreso-contenedor&quot;&gt;
+        &lt;div class&#x3D;&quot;barra-progreso-rayo&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;contenedor-sugerencia&quot;&gt;
+        &lt;p class&#x3D;&quot;texto-sugerencia&quot;&gt;{{ sugerenciaActual }}&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="area-trabajo">  <div class="fila-paneles">  <div class="panel-entrada">    <div class="cabecera-panel">      <span class="titulo-panel" style="text-transform: capitalize;">Entrada de {{ tipoHerramienta }}</span>      <span class="contador-caracteres" *ngIf="tipoHerramienta === \'texto\'">0 / 12.000 chars</span>    </div>    <div class="contenedor-nombre-archivo">      <input        type="text"        [(ngModel)]="nombre"        placeholder="Nombre para guardar este análisis (Ej. Proyecto Final)..."        class="input-nombre-archivo"      />    </div>    <div class="grupo-pestanas">      <button class="btn-pestana"              *ngIf="tipoHerramienta === \'texto\' || tipoHerramienta === \'imagen\'"              [class.activo]="activeTab === \'text\'"              (click)="switchTab(\'text\')">        <i class="fa-solid" [ngClass]="tipoHerramienta === \'texto\' ? \'fa-regular fa-keyboard\' : \'fa-solid fa-link\'"></i>        {{ tipoHerramienta === \'texto\' ? \'Pegar texto\' : \'Pegar enlace\' }}      </button>      <button class="btn-pestana" [class.activo]="activeTab === \'file\'" (click)="switchTab(\'file\')">        <i class="fa-solid fa-file-arrow-up"></i> Subir archivo      </button>    </div>    <div class="zona-texto" *ngIf="activeTab === \'text\' && tipoHerramienta === \'texto\'">      <textarea class="area-texto" [(ngModel)]="textoPlano" placeholder="Pega aquí el texto que deseas analizar..."></textarea>      <div class="pie-zona-texto">        <span class="contador-palabras">{{ textoPlano ? textoPlano.trim().split(/\s+/).length : 0 }} palabras</span>        <div class="acciones-texto">          <button class="btn-accion-texto"><i class="fa-regular fa-clipboard"></i> Pegar</button>          <button class="btn-accion-texto"><i class="fa-solid fa-flask"></i> Muestra</button>        </div>      </div>    </div>    <div class="zona-enlace" *ngIf="activeTab === \'text\' && tipoHerramienta !== \'texto\'">      <div class="contenedor-input-enlace">        <i class="fa-solid fa-link icono-enlace"></i>        <input type="url" class="input-enlace" [(ngModel)]="url"               placeholder="Pega la URL de tu {{ tipoHerramienta }} aquí...">        <button class="btn-pegar-url" (click)="copiarUrl()" title="Copiar URL al portapapeles" [disabled]="!url">          <i class="fa-regular fa-copy"></i> Copiar        </button>      </div>      <p class="nota-enlace">        El archivo multimedia será procesado de forma segura desde este enlace.      </p>    </div>    <div class="zona-subida" [class.visible]="activeTab === \'file\' && !archivo && !archivoHistorico" (click)="fileInput.click()" style="cursor: pointer;" *ngIf="activeTab === \'file\' && !archivo && !archivoHistorico">      <input type="file" #fileInput [accept]="extensionesPermitidas" hidden (change)="onFileChange($event)">      <i class="fa-solid fa-file-arrow-up icono-subida"></i>      <div class="titulo-subida">Arrastra o haz clic para subir</div>      <div class="sub-subida">El archivo será procesado de forma segura en tu sesión</div>      <div class="formatos-subida" *ngIf="tipoHerramienta === \'texto\'">        <span class="etiqueta-formato">.TXT</span>        <span class="etiqueta-formato">.PDF</span>        <span class="etiqueta-formato">.DOCX</span>      </div>      <div class="formatos-subida" *ngIf="tipoHerramienta === \'video\'">        <span class="etiqueta-formato">.MP4</span>        <span class="etiqueta-formato">.MOV</span>        <span class="etiqueta-formato">.AVI</span>      </div>      <div class="formatos-subida" *ngIf="tipoHerramienta === \'imagen\'">        <span class="etiqueta-formato">.JPG</span>        <span class="etiqueta-formato">.PNG</span>        <span class="etiqueta-formato">.WEBP</span>      </div>      <div class="formatos-subida" *ngIf="tipoHerramienta === \'audio\'">        <span class="etiqueta-formato">.MP3</span>        <span class="etiqueta-formato">.WAV</span>        <span class="etiqueta-formato">.OGG</span>      </div>    </div>    <!-- Tarjeta: archivo recién subido localmente -->    <div class="tarjeta-archivo-seleccionado animate__animated animate__fadeIn animate__faster" *ngIf="activeTab === \'file\' && archivo">      <div class="info-archivo">        <i class="fa-solid fa-file-word icono-archivo-tipo" *ngIf="tipoHerramienta === \'texto\'"></i>        <i class="fa-solid fa-file-image icono-archivo-tipo" *ngIf="tipoHerramienta === \'imagen\'"></i>        <i class="fa-solid fa-file-video icono-archivo-tipo" *ngIf="tipoHerramienta === \'video\'"></i>        <i class="fa-solid fa-file-audio icono-archivo-tipo" *ngIf="tipoHerramienta === \'audio\' || tipoHerramienta === \'musica\'"></i>        <div class="detalles-archivo">          <span class="nombre-del-archivo" [title]="archivo.name">{{ archivo.name }}</span>          <span class="tamano-del-archivo">{{ (archivo.size / 1024).toFixed(1) }} KB</span>        </div>      </div>      <button class="btn-eliminar-archivo" (click)="quitarArchivo($event)">        <i class="fa-solid fa-trash-can"></i> Quitar archivo      </button>    </div>    <!-- Tarjeta: archivo traído del historial -->    <div class="tarjeta-archivo-seleccionado animate__animated animate__fadeIn animate__faster" *ngIf="activeTab === \'file\' && !archivo && archivoHistorico">      <div class="info-archivo">        <i class="fa-solid fa-file-word icono-archivo-tipo" *ngIf="tipoHerramienta === \'texto\'"></i>        <i class="fa-solid fa-file-image icono-archivo-tipo" *ngIf="tipoHerramienta === \'imagen\'"></i>        <i class="fa-solid fa-file-video icono-archivo-tipo" *ngIf="tipoHerramienta === \'video\'"></i>        <i class="fa-solid fa-file-audio icono-archivo-tipo" *ngIf="tipoHerramienta === \'audio\' || tipoHerramienta === \'musica\'"></i>        <div class="detalles-archivo">          <span class="nombre-del-archivo" [title]="archivoHistorico.rutaAlmacenamiento">{{ archivoHistorico.rutaAlmacenamiento }}</span>          <span class="tamano-del-archivo"><i class="fa-solid fa-clock-rotate-left"></i> Del historial</span>        </div>      </div>      <button class="btn-eliminar-archivo" (click)="quitarArchivoHistorico($event)">        <i class="fa-solid fa-trash-can"></i> Quitar archivo      </button>    </div>    <button class="btn-analizar" (click)="ejecutarAnalisis()">      <i class="fa-solid fa-magnifying-glass-chart"></i> Analizar {{ tipoHerramienta }}    </button>  </div>  <div class="panel-resultados animate__animated animate__fadeIn animate__faster">    <div class="tarjeta-medidor">      <span class="etiqueta-medidor">        Probabilidad de IA        <button class="btn-refrescar-grafica" (click)="refrescarGrafica()" title="Refrescar gráfica">          <i class="fa-solid fa-rotate"></i>        </button>      </span>      <div class="contenedor-medidor">        <canvas id="iaProbabilityChart"></canvas>        <div class="centro-medidor">          <div class="valor-medidor">{{ promedioActual !== null ? promedioActual : 0 }}</div>          <div class="unidad-medidor">% IA</div>        </div>      </div>      <div class="etiqueta-estado inactivo">        <span class="punto-estado"></span>        <span>{{ veredictoActual !== \'\' ? veredictoActual.toLowerCase() : \'Esperando análisis\' }}</span>      </div>    </div>    <div class="tarjeta-metricas">      <div class="cabecera-modelos">        <span class="titulo-modelos">Modelos de detección</span>        <span class="badge-herramienta">          <i class="fa-solid"             [class.fa-font]="tipoHerramienta === \'texto\'"             [class.fa-image]="tipoHerramienta === \'imagen\'"             [class.fa-film]="tipoHerramienta === \'video\'"             [class.fa-music]="tipoHerramienta === \'audio\' || tipoHerramienta === \'musica\'">          </i>          {{ tipoHerramienta | titlecase }}        </span>      </div>      <div class="lista-modelos animate__animated animate__fadeIn">        <div class="fila-metrica animate__animated animate__fadeInRight"             *ngFor="let modelo of modelosActuales; let i = index"             [style.animation-delay]="(i * 0.06) + \'s\'">          <span class="nombre-metrica">            <span class="icono-modelo" [style.color]="modelo.color">              <i class="fa-solid {{ modelo.icono }}"></i>            </span>            {{ modelo.nombre }}          </span>          <span class="valor-metrica">{{ modelo.valor != null ? ((modelo.valor | number:\'1.0-2\') + \'%\') : \'—\' }}</span>        </div>      </div>    </div>  </div>  </div><!-- /fila-paneles -->  <div class="seccion-recomendaciones">    <span class="titulo-recomendaciones">Prestá más atención a estas herramientas</span>    <div class="grid-recomendaciones">      <div class="tarjeta-recomendacion texto">        <div class="cabecera-recomendacion">          <div class="icono-tipo-rec"><i class="fa-solid fa-font"></i></div>          <span class="tipo-rec">Texto</span>        </div>        <div class="nombre-ia-rec">Winston</div>        <p class="desc-rec">La herramienta más precisa del aplicativo para detectar texto generado por IA. Analiza patrones lingüísticos, coherencia y estructura para determinar si un escrito es humano o artificial.</p>        <div class="mejor-en">          <span class="mejor-en-label">Mejor en:</span>          <div class="chips-mejor-en">            <span class="chip-rec">Ensayos académicos</span>            <span class="chip-rec">Artículos y blogs</span>            <span class="chip-rec">Correos y reportes</span>          </div>        </div>      </div>      <div class="tarjeta-recomendacion video">        <div class="cabecera-recomendacion">          <div class="icono-tipo-rec"><i class="fa-solid fa-film"></i></div>          <span class="tipo-rec">Video</span>        </div>        <div class="nombre-ia-rec">TwelveLabs</div>        <p class="desc-rec">Motor de comprensión de vídeo diseñado para detectar manipulación visual y contenido sintético. Evalúa fotograma a fotograma en busca de inconsistencias generadas por IA.</p>        <div class="mejor-en">          <span class="mejor-en-label">Mejor en:</span>          <div class="chips-mejor-en">            <span class="chip-rec">Deepfakes</span>            <span class="chip-rec">Vídeos sintéticos</span>            <span class="chip-rec">Manipulación facial</span>          </div>        </div>      </div>      <div class="tarjeta-recomendacion imagen">        <div class="cabecera-recomendacion">          <div class="icono-tipo-rec"><i class="fa-solid fa-image"></i></div>          <span class="tipo-rec">Imagen</span>        </div>        <div class="nombre-ia-rec">Hive Moderation</div>        <p class="desc-rec">Mayor tasa de acierto en imágenes sintéticas del aplicativo. Identifica artefactos digitales y firmas propias de los principales generadores de imágenes por IA.</p>        <div class="mejor-en">          <span class="mejor-en-label">Mejor en:</span>          <div class="chips-mejor-en">            <span class="chip-rec">DALL-E & Midjourney</span>            <span class="chip-rec">Stable Diffusion</span>            <span class="chip-rec">Arte generado</span>          </div>        </div>      </div>      <div class="tarjeta-recomendacion audio">        <div class="cabecera-recomendacion">          <div class="icono-tipo-rec"><i class="fa-solid fa-microphone"></i></div>          <span class="tipo-rec">Audio</span>        </div>        <div class="nombre-ia-rec">ACRCloud</div>        <p class="desc-rec">Referente en reconocimiento y análisis de audio para detectar contenido generado por IA. El resultado más confiable varía según el tipo de audio que subas.</p>        <div class="tip-audio">          <div class="tip-fila">            <span class="tip-badge gemini"><i class="fa-solid fa-waveform-lines"></i> Voz</span>            <span class="tip-texto">Si el audio contiene voz humana, priorizá el resultado de <strong>Gemini</strong> — es más preciso detectando síntesis y clonación de voz.</span>          </div>          <div class="tip-fila">            <span class="tip-badge acr"><i class="fa-solid fa-music"></i> Música</span>            <span class="tip-texto">Si es una pista musical, confiá en <strong>ACRCloud</strong> — está especializado en análisis de audio musical generado por IA.</span>          </div>        </div>      </div>    </div>  </div>  <div class="overlay-carga animate__animated animate__fadeIn" *ngIf="cargando">    <div class="caja-carga">      <div class="icono-carga-pulsante">        <i class="fa-solid fa-brain"></i>      </div>      <h3 class="titulo-carga">DetectIA está analizando...</h3>      <div class="barra-progreso-contenedor">        <div class="barra-progreso-rayo"></div>      </div>      <div class="contenedor-sugerencia">        <p class="texto-sugerencia">{{ sugerenciaActual }}</p>      </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuditoriaAdmin', 'selector': 'app-auditoria-admin'},{'name': 'DashboardAdmin', 'selector': 'app-dashboard-admin'},{'name': 'Detector', 'selector': 'app-detector'},{'name': 'GestionUsuarios', 'selector': 'app-gestion-usuarios'},{'name': 'Login', 'selector': 'app-login'},{'name': 'Sidebar', 'selector': 'app-sidebar'},{'name': 'SidebarAdmin', 'selector': 'app-sidebar-admin'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TopbarAdmin', 'selector': 'app-topbar-admin'},{'name': 'VistaAdmin', 'selector': 'app-vista-admin'},{'name': 'VistaUsuario', 'selector': 'app-vista-usuario'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'Detector'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'Detector.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

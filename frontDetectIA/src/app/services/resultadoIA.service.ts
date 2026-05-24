@@ -16,7 +16,7 @@ export class ResultadoIAService {
   private cliente: HttpClient = inject(HttpClient);
 
   /** URL base del endpoint privado de resultados de IA. */
-  private readonly urlbase: String = 'http://localhost:8080/private/resultadoporia';
+  private readonly urlbase: String = 'https://gpcueb.org/detectiaIA/private/resultadoporia';
 
   /** Subject que emite la lista actualizada de resultados de IA. */
   public listaResultados = new Subject<ResultadoIAModel[]>();
@@ -71,6 +71,6 @@ export class ResultadoIAService {
    * @returns Observable con la lista completa de resultados.
    */
   getAllResultados(): Observable<ResultadoIAModel[]> {
-    return this.cliente.get<ResultadoIAModel[]>('http://localhost:8080/admin/resultados');
+    return this.cliente.get<ResultadoIAModel[]>('https://gpcueb.org/detectiaIA/admin/resultados');
   }
 }

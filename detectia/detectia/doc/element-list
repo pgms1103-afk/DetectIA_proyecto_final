@@ -1,0 +1,10 @@
+co.edu.unbosque.detectia
+co.edu.unbosque.detectia.configuration
+co.edu.unbosque.detectia.controller
+co.edu.unbosque.detectia.dto
+co.edu.unbosque.detectia.entity
+co.edu.unbosque.detectia.exception
+co.edu.unbosque.detectia.repository
+co.edu.unbosque.detectia.security
+co.edu.unbosque.detectia.service
+co.edu.unbosque.detectia.util

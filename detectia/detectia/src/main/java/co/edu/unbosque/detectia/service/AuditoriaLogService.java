@@ -123,12 +123,13 @@ public class AuditoriaLogService {
 	}
 	
 	private void descifrarCorreo(AuditoriaLog log) {
-		if (log.getCorreo() != null && !log.getCorreo().isBlank()) {
-			try {
-				log.setCorreo(AESUtil.decrypt(log.getCorreo()));
-			} catch (Exception ignored) {
-			}
-		}
+	    if (log.getCorreo() != null && !log.getCorreo().isBlank()) {
+	        try {
+	            log.setCorreo(AESUtil.decrypt(log.getCorreo()));
+	        } catch (Exception ignored) {
+	        }
+	    }
+	
 	}
 
 }

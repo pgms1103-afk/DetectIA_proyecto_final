@@ -144,14 +144,16 @@ public class AuthController {
 			String jwt = jwtUtil.generateToken(userDetails);
 
 			String role = null;
+			String correoUsuario = null;
 			if (userDetails instanceof Usuario) {
-				Usuario user = (Usuario) userDetails;
-				role = user.getRole().name();
+			    Usuario user = (Usuario) userDetails;
+			    role = user.getRole().name();
+			    correoUsuario = user.getCorreo();
 			}
 
-			auditoriaLogSer.registrarAuditoria(null, dto.getNombreUsuario(), "LOGIN", "AUTENTICACION",
-					"Inicio de sesión exitoso con rol: " + role, request.getRemoteAddr(),
-					request.getHeader("User-Agent"), null, null, "Sesion", null, true);
+			auditoriaLogSer.registrarAuditoria(correoUsuario, dto.getNombreUsuario(), "LOGIN", "AUTENTICACION",
+				    "Inicio de sesión exitoso con rol: " + role, request.getRemoteAddr(),
+				    request.getHeader("User-Agent"), null, null, "Sesion", null, true);
 
 			return ResponseEntity.ok(new AuthResponse(jwt, role));
 		} catch (AuthenticationException e) {

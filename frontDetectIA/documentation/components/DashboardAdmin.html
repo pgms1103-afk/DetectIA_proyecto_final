@@ -1,0 +1,1452 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>front-detect-ia documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">front-detect-ia documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  DashboardAdmin</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/vista-admin/dashboard-admin/dashboard-admin.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Panel de control administrativo.
+Gestiona la carga de métricas globales y la renderización de gráficas estadísticas.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-dashboard-admin</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./dashboard-admin.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./dashboard-admin.css</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#apiUsageData" >apiUsageData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#archivoService" >archivoService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#auditoriaService" >auditoriaService</a>
+                            </li>
+                            <li>
+                                <a href="#metricas" >metricas</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#resultadoService" >resultadoService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#tiposArchivo" >tiposArchivo</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#traficoData" >traficoData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#usuarioService" >usuarioService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#veredictos" >veredictos</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#calcularTiposArchivo" >calcularTiposArchivo</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#calcularTraficoPorDia" >calcularTraficoPorDia</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#calcularUsoPorHora" >calcularUsoPorHora</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#calcularVeredictos" >calcularVeredictos</a>
+                            </li>
+                            <li>
+                                <a href="#cargarDatos" >cargarDatos</a>
+                            </li>
+                            <li>
+                                <a href="#inicializarGraficas" >inicializarGraficas</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calcularTiposArchivo"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Static</span>
+                        <span ><b>calcularTiposArchivo</b></span>
+                        <a href="#calcularTiposArchivo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>calcularTiposArchivo(archivos: <a href="../interfaces/ArchivoModel.html" target="_self">ArchivoModel[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="102"
+                                    class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:102</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Categoriza archivos según su extensión</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>archivos</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ArchivoModel.html" target="_self" >ArchivoModel[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>literal type</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calcularTraficoPorDia"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Static</span>
+                        <span ><b>calcularTraficoPorDia</b></span>
+                        <a href="#calcularTraficoPorDia"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>calcularTraficoPorDia(auditorias: <a href="../interfaces/AuditoriaLogModel.html" target="_self">AuditoriaLogModel[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="81"
+                                    class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Agrupa los logs por día de la semana (Lun=0 … Dom=6)</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>auditorias</td>
+                                            <td>
+                                                            <code><a href="../interfaces/AuditoriaLogModel.html" target="_self" >AuditoriaLogModel[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>number[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calcularUsoPorHora"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Static</span>
+                        <span ><b>calcularUsoPorHora</b></span>
+                        <a href="#calcularUsoPorHora"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>calcularUsoPorHora(auditorias: <a href="../interfaces/AuditoriaLogModel.html" target="_self">AuditoriaLogModel[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="91"
+                                    class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:91</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Agrupa los logs del día de hoy por hora (0-23)</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>auditorias</td>
+                                            <td>
+                                                            <code><a href="../interfaces/AuditoriaLogModel.html" target="_self" >AuditoriaLogModel[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>number[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calcularVeredictos"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Static</span>
+                        <span ><b>calcularVeredictos</b></span>
+                        <a href="#calcularVeredictos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>calcularVeredictos(resultados: <a href="../interfaces/ResultadoIAModel.html" target="_self">ResultadoIAModel[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="121"
+                                    class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:121</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Clasifica resultados entre IA y Humano</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>resultados</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ResultadoIAModel.html" target="_self" >ResultadoIAModel[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>literal type</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cargarDatos"></a>
+                    <span class="name">
+                        <span ><b>cargarDatos</b></span>
+                        <a href="#cargarDatos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cargarDatos()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="54"
+                                    class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Obtiene y procesa todos los datos necesarios para el dashboard</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="inicializarGraficas"></a>
+                    <span class="name">
+                        <span ><b>inicializarGraficas</b></span>
+                        <a href="#inicializarGraficas"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>inicializarGraficas()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="128"
+                                    class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:128</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Renderiza los elementos visuales usando Chart.js</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="49"
+                                    class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="apiUsageData"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>apiUsageData</b></span>
+                        <a href="#apiUsageData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Array(24).fill(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="archivoService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>archivoService</b></span>
+                        <a href="#archivoService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ArchivoService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="auditoriaService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>auditoriaService</b></span>
+                        <a href="#auditoriaService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuditoriaService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="metricas"></a>
+                    <span class="name">
+                        <span ><b>metricas</b></span>
+                        <a href="#metricas"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    { titulo: &#x27;Usuarios Totales&#x27;,    valor: &#x27;...&#x27;, icono: &#x27;fa-users&#x27;,                  color: &#x27;naranja&#x27;  },
+    { titulo: &#x27;Usuarios&#x27;,            valor: &#x27;...&#x27;, icono: &#x27;fa-server&#x27;,                  color: &#x27;verde&#x27;    },
+    { titulo: &#x27;Administradores&#x27;,     valor: &#x27;...&#x27;, icono: &#x27;fa-microchip&#x27;,               color: &#x27;azul&#x27;     },
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:38</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Configuración visual de las tarjetas métricas</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resultadoService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>resultadoService</b></span>
+                        <a href="#resultadoService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ResultadoIAService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tiposArchivo"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>tiposArchivo</b></span>
+                        <a href="#tiposArchivo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{ labels: [], data: [] }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="traficoData"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>traficoData</b></span>
+                        <a href="#traficoData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[0, 0, 0, 0, 0, 0, 0]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usuarioService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>usuarioService</b></span>
+                        <a href="#usuarioService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UsuarioService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="veredictos"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>veredictos</b></span>
+                        <a href="#veredictos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{ labels: [], data: [] }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/vista-admin/dashboard-admin/dashboard-admin.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, AfterViewInit, inject } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { forkJoin, of } from &#x27;rxjs&#x27;;
+import { catchError } from &#x27;rxjs/operators&#x27;;
+import { UsuarioService } from &#x27;../../services/usuario.service&#x27;;
+import { AuditoriaService } from &#x27;../../services/auditoria.service&#x27;;
+import { ArchivoService } from &#x27;../../services/archivo.service&#x27;;
+import { ResultadoIAService } from &#x27;../../services/resultadoIA.service&#x27;;
+import { AuditoriaLogModel } from &#x27;../../models/auditoria.model&#x27;;
+import { ArchivoModel } from &#x27;../../models/archivo.model&#x27;;
+import { ResultadoIAModel } from &#x27;../../models/resultadoIA.model&#x27;;
+
+declare const Chart: new (...args: unknown[]) &#x3D;&gt; {
+  update(): void;
+  destroy(): void;
+  data: { datasets: Array&lt;{ data: number[] }&gt;; };
+};
+
+/**
+ * Panel de control administrativo.
+ * Gestiona la carga de métricas globales y la renderización de gráficas estadísticas.
+ */
+@Component({
+  selector: &#x27;app-dashboard-admin&#x27;,
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: &#x27;./dashboard-admin.html&#x27;,
+  styleUrl: &#x27;./dashboard-admin.css&#x27;
+})
+export class DashboardAdmin implements AfterViewInit {
+
+  private usuarioService   &#x3D; inject(UsuarioService);
+  private auditoriaService &#x3D; inject(AuditoriaService);
+  private archivoService   &#x3D; inject(ArchivoService);
+  private resultadoService &#x3D; inject(ResultadoIAService);
+
+  /** Configuración visual de las tarjetas métricas */
+  metricas &#x3D; [
+    { titulo: &#x27;Usuarios Totales&#x27;,    valor: &#x27;...&#x27;, icono: &#x27;fa-users&#x27;,                  color: &#x27;naranja&#x27;  },
+    { titulo: &#x27;Usuarios&#x27;,            valor: &#x27;...&#x27;, icono: &#x27;fa-server&#x27;,                  color: &#x27;verde&#x27;    },
+    { titulo: &#x27;Administradores&#x27;,     valor: &#x27;...&#x27;, icono: &#x27;fa-microchip&#x27;,               color: &#x27;azul&#x27;     },
+  ];
+
+  private traficoData:    number[] &#x3D; [0, 0, 0, 0, 0, 0, 0];
+  private apiUsageData:   number[] &#x3D; Array(24).fill(0);
+  private tiposArchivo:   { labels: string[]; data: number[] } &#x3D; { labels: [], data: [] };
+  private veredictos:     { labels: string[]; data: number[] } &#x3D; { labels: [], data: [] };
+
+  ngAfterViewInit() {
+    this.cargarDatos();
+  }
+
+  /** Obtiene y procesa todos los datos necesarios para el dashboard */
+  cargarDatos() {
+    forkJoin({
+      usuarios:   this.usuarioService.getMostrarUsuarios().pipe(catchError(() &#x3D;&gt; of([]))),
+      auditorias: this.auditoriaService.getTodos().pipe(catchError(() &#x3D;&gt; of([]))),
+      archivos:   this.archivoService.getAllArchivos().pipe(catchError(() &#x3D;&gt; of([]))),
+      resultados: this.resultadoService.getAllResultados().pipe(catchError(() &#x3D;&gt; of([])))
+    }).subscribe({
+      next: ({ usuarios, auditorias, archivos, resultados }) &#x3D;&gt; {
+        this.metricas[0].valor &#x3D; usuarios.length.toLocaleString();
+        this.metricas[1].valor &#x3D; usuarios.filter(u &#x3D;&gt; u.role &#x3D;&#x3D;&#x3D; &#x27;USER&#x27;).length.toLocaleString();
+        this.metricas[2].valor &#x3D; usuarios.filter(u &#x3D;&gt; u.role &#x3D;&#x3D;&#x3D; &#x27;ADMIN&#x27;).length.toLocaleString();
+
+        this.traficoData  &#x3D; DashboardAdmin.calcularTraficoPorDia(auditorias);
+        this.apiUsageData &#x3D; DashboardAdmin.calcularUsoPorHora(auditorias);
+        this.tiposArchivo &#x3D; DashboardAdmin.calcularTiposArchivo(archivos ?? []);
+        this.veredictos   &#x3D; DashboardAdmin.calcularVeredictos(resultados ?? []);
+
+        this.inicializarGraficas();
+      },
+      error: (err) &#x3D;&gt; {
+        console.error(&#x27;Error cargando datos del dashboard:&#x27;, err);
+        this.inicializarGraficas();
+      }
+    });
+  }
+
+  /** Agrupa los logs por día de la semana (Lun&#x3D;0 … Dom&#x3D;6) */
+  private static calcularTraficoPorDia(auditorias: AuditoriaLogModel[]): number[] {
+    const conteo &#x3D; [0, 0, 0, 0, 0, 0, 0];
+    auditorias.forEach(a &#x3D;&gt; {
+      const dia &#x3D; new Date(a.fecha).getDay();
+      conteo[dia &#x3D;&#x3D;&#x3D; 0 ? 6 : dia - 1]++;
+    });
+    return conteo;
+  }
+
+  /** Agrupa los logs del día de hoy por hora (0-23) */
+  private static calcularUsoPorHora(auditorias: AuditoriaLogModel[]): number[] {
+    const hoy   &#x3D; new Date().toDateString();
+    const conteo &#x3D; Array(24).fill(0);
+    auditorias.forEach(a &#x3D;&gt; {
+      const fecha &#x3D; new Date(a.fecha);
+      if (fecha.toDateString() &#x3D;&#x3D;&#x3D; hoy) conteo[fecha.getHours()]++;
+    });
+    return conteo;
+  }
+
+  /** Categoriza archivos según su extensión */
+  private static calcularTiposArchivo(archivos: ArchivoModel[]): { labels: string[]; data: number[] } {
+    const categorias: Record&lt;string, number&gt; &#x3D; { &#x27;Imagen&#x27;: 0, &#x27;Video&#x27;: 0, &#x27;Audio&#x27;: 0, &#x27;Documento&#x27;: 0, &#x27;Otro&#x27;: 0 };
+
+    archivos.forEach(a &#x3D;&gt; {
+      const nombre &#x3D; (a.rutaAlmacenamiento || a.nombre || &#x27;&#x27;).toLowerCase();
+      const ext    &#x3D; nombre.split(&#x27;.&#x27;).pop() ?? &#x27;&#x27;;
+
+      if ([&#x27;jpg&#x27;,&#x27;jpeg&#x27;,&#x27;png&#x27;,&#x27;gif&#x27;,&#x27;webp&#x27;,&#x27;heic&#x27;,&#x27;heif&#x27;,&#x27;bmp&#x27;].includes(ext))        categorias[&#x27;Imagen&#x27;]++;
+      else if ([&#x27;mp4&#x27;,&#x27;mov&#x27;,&#x27;avi&#x27;,&#x27;mkv&#x27;,&#x27;webm&#x27;,&#x27;quicktime&#x27;].includes(ext))             categorias[&#x27;Video&#x27;]++;
+      else if ([&#x27;mp3&#x27;,&#x27;wav&#x27;,&#x27;ogg&#x27;,&#x27;aac&#x27;,&#x27;m4a&#x27;,&#x27;mpeg&#x27;].includes(ext))                  categorias[&#x27;Audio&#x27;]++;
+      else if ([&#x27;pdf&#x27;,&#x27;txt&#x27;,&#x27;doc&#x27;,&#x27;docx&#x27;].includes(ext))                              categorias[&#x27;Documento&#x27;]++;
+      else                                                                             categorias[&#x27;Otro&#x27;]++;
+    });
+
+    const entries &#x3D; Object.entries(categorias).filter(([, v]) &#x3D;&gt; v &gt; 0);
+    return { labels: entries.map(([k]) &#x3D;&gt; k), data: entries.map(([, v]) &#x3D;&gt; v) };
+  }
+
+  /** Clasifica resultados entre IA y Humano */
+  private static calcularVeredictos(resultados: ResultadoIAModel[]): { labels: string[]; data: number[] } {
+    let ia &#x3D; 0, humano &#x3D; 0;
+    resultados.forEach(r &#x3D;&gt; r.porcentajeIA &gt;&#x3D; 50 ? ia++ : humano++);
+    return { labels: [&#x27;Probable IA&#x27;, &#x27;Probable Humano&#x27;], data: [ia, humano] };
+  }
+
+  /** Renderiza los elementos visuales usando Chart.js */
+  inicializarGraficas() {
+    const ctxTrafico &#x3D; document.getElementById(&#x27;traficoChart&#x27;);
+    if (ctxTrafico) {
+      new Chart(ctxTrafico, {
+        type: &#x27;line&#x27;,
+        data: {
+          labels: [&#x27;Lun&#x27;, &#x27;Mar&#x27;, &#x27;Mié&#x27;, &#x27;Jue&#x27;, &#x27;Vie&#x27;, &#x27;Sáb&#x27;, &#x27;Dom&#x27;],
+          datasets: [
+            {
+              label: &#x27;Peticiones API&#x27;,
+              data: this.traficoData,
+              borderColor: &#x27;#6366f1&#x27;,
+              backgroundColor: &#x27;rgba(99, 102, 241, 0.1)&#x27;,
+              fill: true,
+              tension: 0.4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { grid: { color: &#x27;rgba(255,255,255,0.05)&#x27; }, ticks: { color: &#x27;#a1a1aa&#x27; } },
+            x: { grid: { display: false }, ticks: { color: &#x27;#a1a1aa&#x27; } },
+          },
+        },
+      });
+    }
+    const ctxStorage &#x3D; document.getElementById(&#x27;storageChart&#x27;);
+    if (ctxStorage) {
+      new Chart(ctxStorage, {
+        type: &#x27;doughnut&#x27;,
+        data: {
+          labels: this.tiposArchivo.labels,
+          datasets: [
+            {
+              data: this.tiposArchivo.data,
+              backgroundColor: [&#x27;#6366f1&#x27;, &#x27;#10b981&#x27;, &#x27;#fbbf24&#x27;, &#x27;#f43f5e&#x27;, &#x27;#64748b&#x27;],
+              borderWidth: 0,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: &#x27;70%&#x27;,
+          plugins: {
+            legend: {
+              display: true,
+              position: &#x27;bottom&#x27;,
+              labels: { color: &#x27;#a1a1aa&#x27;, font: { size: 11 } },
+            },
+          },
+        },
+      });
+    }
+    const ctxRadar &#x3D; document.getElementById(&#x27;performanceRadarChart&#x27;);
+    if (ctxRadar) {
+      new Chart(ctxRadar, {
+        type: &#x27;doughnut&#x27;,
+        data: {
+          labels: this.veredictos.labels,
+          datasets: [{
+            data: this.veredictos.data,
+            backgroundColor: [&#x27;#f43f5e&#x27;, &#x27;#10b981&#x27;],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: &#x27;70%&#x27;,
+          plugins: {
+            legend: { display: true, position: &#x27;bottom&#x27;, labels: { color: &#x27;#a1a1aa&#x27;, font: { size: 11 } } }
+          }
+        }
+      });
+    }
+    const ctxApiUsage &#x3D; document.getElementById(&#x27;apiUsageChart&#x27;);
+    if (ctxApiUsage) {
+      new Chart(ctxApiUsage, {
+        type: &#x27;line&#x27;,
+        data: {
+          labels: Array.from({ length: 24 }, (_, i) &#x3D;&gt; &#x60;${i}h&#x60;),
+          datasets: [{
+            data: this.apiUsageData,
+            borderColor: &#x27;#fbbf24&#x27;,
+            backgroundColor: &#x27;rgba(251, 191, 36, 0.1)&#x27;,
+            fill: true,
+            tension: 0.1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { grid: { color: &#x27;rgba(255,255,255,0.05)&#x27; }, ticks: { color: &#x27;#a1a1aa&#x27; } },
+            x: { grid: { display: false }, ticks: { color: &#x27;#a1a1aa&#x27; }, display: false }
+          }
+        }
+      });
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;contenedor-dashboard&quot;&gt;
+
+  &lt;header class&#x3D;&quot;cabecera-dashboard&quot;&gt;
+    &lt;div class&#x3D;&quot;saludo&quot;&gt;
+      &lt;h1&gt;Panel de Control &lt;span class&#x3D;&quot;badge-live&quot;&gt;Live&lt;/span&gt;&lt;/h1&gt;
+      &lt;p&gt;Bienvenido al núcleo de administración de DetectIA&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;div class&#x3D;&quot;rejilla-metricas&quot;&gt;
+    &lt;div *ngFor&#x3D;&quot;let m of metricas&quot; class&#x3D;&quot;tarjeta-metrica&quot; [class]&#x3D;&quot;m.color&quot;&gt;
+      &lt;div class&#x3D;&quot;icono-box&quot;&gt;
+        &lt;i class&#x3D;&quot;fa-solid {{ m.icono }}&quot;&gt;&lt;/i&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;datos&quot;&gt;
+        &lt;span class&#x3D;&quot;etiqueta&quot;&gt;{{ m.titulo }}&lt;/span&gt;
+        &lt;span class&#x3D;&quot;valor&quot;&gt;{{ m.valor }}&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;contenedor-graficas&quot;&gt;
+
+    &lt;div class&#x3D;&quot;tarjeta-grafica&quot;&gt;
+      &lt;h3&gt;Tráfico Global de Análisis&lt;/h3&gt;
+      &lt;div class&#x3D;&quot;canvas-container&quot;&gt;
+        &lt;canvas id&#x3D;&quot;traficoChart&quot;&gt;&lt;/canvas&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;tarjeta-grafica&quot;&gt;
+      &lt;h3&gt;Tipos de archivos&lt;/h3&gt;
+      &lt;div class&#x3D;&quot;canvas-container&quot;&gt;
+        &lt;canvas id&#x3D;&quot;storageChart&quot;&gt;&lt;/canvas&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;rejilla-inferior-graficas&quot;&gt;
+    &lt;div class&#x3D;&quot;tarjeta-grafica&quot;&gt;
+      &lt;h3&gt;Resultados de análisis&lt;/h3&gt;
+      &lt;div class&#x3D;&quot;canvas-container&quot;&gt;
+        &lt;canvas id&#x3D;&quot;performanceRadarChart&quot;&gt;&lt;/canvas&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;tarjeta-grafica&quot;&gt;
+      &lt;h3&gt;Uso de API (Últimas 24 Horas)&lt;/h3&gt;
+      &lt;div class&#x3D;&quot;canvas-container&quot;&gt;
+        &lt;canvas id&#x3D;&quot;apiUsageChart&quot;&gt;&lt;/canvas&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="contenedor-dashboard">  <header class="cabecera-dashboard">    <div class="saludo">      <h1>Panel de Control <span class="badge-live">Live</span></h1>      <p>Bienvenido al núcleo de administración de DetectIA</p>    </div>  </header>  <div class="rejilla-metricas">    <div *ngFor="let m of metricas" class="tarjeta-metrica" [class]="m.color">      <div class="icono-box">        <i class="fa-solid {{ m.icono }}"></i>      </div>      <div class="datos">        <span class="etiqueta">{{ m.titulo }}</span>        <span class="valor">{{ m.valor }}</span>      </div>    </div>  </div>  <div class="contenedor-graficas">    <div class="tarjeta-grafica">      <h3>Tráfico Global de Análisis</h3>      <div class="canvas-container">        <canvas id="traficoChart"></canvas>      </div>    </div>    <div class="tarjeta-grafica">      <h3>Tipos de archivos</h3>      <div class="canvas-container">        <canvas id="storageChart"></canvas>      </div>    </div>  </div>  <div class="rejilla-inferior-graficas">    <div class="tarjeta-grafica">      <h3>Resultados de análisis</h3>      <div class="canvas-container">        <canvas id="performanceRadarChart"></canvas>      </div>    </div>    <div class="tarjeta-grafica">      <h3>Uso de API (Últimas 24 Horas)</h3>      <div class="canvas-container">        <canvas id="apiUsageChart"></canvas>      </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuditoriaAdmin', 'selector': 'app-auditoria-admin'},{'name': 'DashboardAdmin', 'selector': 'app-dashboard-admin'},{'name': 'Detector', 'selector': 'app-detector'},{'name': 'GestionUsuarios', 'selector': 'app-gestion-usuarios'},{'name': 'Login', 'selector': 'app-login'},{'name': 'Sidebar', 'selector': 'app-sidebar'},{'name': 'SidebarAdmin', 'selector': 'app-sidebar-admin'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TopbarAdmin', 'selector': 'app-topbar-admin'},{'name': 'VistaAdmin', 'selector': 'app-vista-admin'},{'name': 'VistaUsuario', 'selector': 'app-vista-usuario'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'DashboardAdmin'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'DashboardAdmin.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -15,7 +15,7 @@ describe('UsuarioService', () => {
   let service: UsuarioService;
   let httpMock: HttpTestingController;
 
-  const urlBase = 'http://localhost:8080/admin';
+  const urlBase = 'https://gpcueb.org/detectiaIA/admin';
 
   const mockUsuario: UsuarioModel = {
     id: 1,
@@ -99,7 +99,7 @@ describe('UsuarioService', () => {
       expect(resp).toEqual(mockUsuario);
     });
 
-    const req = httpMock.expectOne('http://localhost:8080/private/user/misdatos');
+    const req = httpMock.expectOne('https://gpcueb.org/detectiaIA/private/user/misdatos');
     expect(req.request.method).toBe('GET');
     req.flush(mockUsuario);
   });

@@ -1,0 +1,1168 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>front-detect-ia documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">front-detect-ia documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  ModeloIA</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/vista-usuario/detector-usuario/detector.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Representa un modelo de IA mostrado en la interfaz.</p>
+
+            </p>
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#color" 
+>
+                                            color
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#icono" 
+>
+                                            icono
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#nombre" 
+>
+                                            nombre
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#valor" 
+>
+                                            valor
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="color"></a>
+                                        <span class="name "><b>color</b>
+                                            <a href="#color">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>color:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Color principal usado en la interfaz.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="icono"></a>
+                                        <span class="name "><b>icono</b>
+                                            <a href="#icono">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>icono:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Icono FontAwesome asociado al modelo.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="nombre"></a>
+                                        <span class="name "><b>nombre</b>
+                                            <a href="#nombre">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>nombre:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Nombre del modelo de IA.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="valor"></a>
+                                        <span class="name "><b>valor</b>
+                                            <a href="#valor">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>valor:     <code>number | null</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>number | null</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Valor de probabilidad generado por la IA.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  inject,
+  Input,
+  OnInit,
+  AfterViewInit,
+  OnChanges,
+  SimpleChanges,
+} from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { ArchivoService } from &#x27;../../services/archivo.service&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { AnalisisModel } from &#x27;../../models/analisis.model&#x27;;
+import { ResultadoIAModel } from &#x27;../../models/resultadoIA.model&#x27;;
+import { ResultadoIAService } from &#x27;../../services/resultadoIA.service&#x27;;
+import { ArchivoModel } from &#x27;../../models/archivo.model&#x27;;
+import { ToastrService } from &#x27;ngx-toastr&#x27;;
+import { HttpErrorResponse } from &#x27;@angular/common/http&#x27;;
+
+declare let Chart: any;
+
+/**
+ * Representa un modelo de IA mostrado en la interfaz.
+ */
+interface ModeloIA {
+
+  /**
+   * Nombre del modelo de IA.
+   */
+  nombre: string;
+
+  /**
+   * Icono FontAwesome asociado al modelo.
+   */
+  icono: string;
+
+  /**
+   * Color principal usado en la interfaz.
+   */
+  color: string;
+
+  /**
+   * Valor de probabilidad generado por la IA.
+   */
+  valor?: number | null;
+}
+
+/**
+ * Componente principal encargado de:
+ * - Analizar texto, archivos o URLs.
+ * - Mostrar resultados de detección IA.
+ * - Administrar gráficas y modelos.
+ * - Gestionar archivos del historial.
+ */
+@Component({
+  selector: &#x27;app-detector&#x27;,
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: &#x27;./detector.html&#x27;,
+  styleUrl: &#x27;./detector.css&#x27;,
+})
+export class Detector implements OnInit, AfterViewInit, OnChanges {
+
+  /**
+   * Servicio encargado del manejo de archivos y análisis.
+   */
+  private archivoService: ArchivoService &#x3D; inject(ArchivoService);
+
+  /**
+   * Servicio encargado de obtener resultados IA.
+   */
+  private resultadoService: ResultadoIAService &#x3D; inject(ResultadoIAService);
+
+  /**
+   * Servicio de notificaciones.
+   */
+  private toastr: ToastrService &#x3D; inject(ToastrService);
+
+  /**
+   * Nombre del análisis actual.
+   */
+  public nombre: string &#x3D; &#x27;&#x27;;
+
+  /**
+   * Archivo local seleccionado.
+   */
+  public archivo: File | null &#x3D; null;
+
+  /**
+   * Archivo cargado desde el historial.
+   */
+  public archivoHistorico: ArchivoModel | null &#x3D; null;
+
+  /**
+   * URL ingresada por el usuario.
+   */
+  public url: string &#x3D; &#x27;&#x27;;
+
+  /**
+   * Texto plano ingresado para analizar.
+   */
+  public textoPlano &#x3D; &#x27;&#x27;;
+
+  /**
+   * Promedio final de detección IA.
+   */
+  public promedioActual &#x3D; 0;
+
+  /**
+   * Veredicto generado por el backend.
+   */
+  public veredictoActual: string &#x3D; &#x27;&#x27;;
+
+  /**
+   * Indica si el sistema está procesando un análisis.
+   */
+  public cargando &#x3D; false;
+
+  /**
+   * Sugerencia mostrada durante la carga.
+   */
+  public sugerenciaActual &#x3D; &#x27;&#x27;;
+
+  /**
+   * Intervalo usado para rotar sugerencias.
+   */
+  private intervalSugerencias: ReturnType&lt;typeof setInterval&gt; | null &#x3D; null;
+
+  /**
+   * Lista de mensajes mostrados durante el análisis.
+   */
+  public sugerencias: string[] &#x3D; [
+    &quot;Analizando patrones de lenguaje y estructura...&quot;,
+    &quot;Extrayendo metadatos y firmas ocultas...&quot;,
+    &quot;Consultando la red neuronal de detección...&quot;,
+    &quot;Evaluando anomalías en el contenido...&quot;,
+    &quot;Comparando contra millones de muestras...&quot;
+  ];
+
+  /**
+   * Retorna las extensiones permitidas según el tipo de herramienta.
+   */
+  get extensionesPermitidas(): string {
+    switch (this.tipoHerramienta?.toLowerCase()) {
+      case &#x27;texto&#x27;:
+        return &#x27;.txt,.pdf,.docx,.doc&#x27;;
+      case &#x27;imagen&#x27;:
+        return &#x27;.jpg,.jpeg,.png,.webp&#x27;;
+      case &#x27;video&#x27;:
+        return &#x27;.mp4,.mov,.avi&#x27;;
+      case &#x27;audio&#x27;:
+      case &#x27;musica&#x27;:
+        return &#x27;.mp3,.wav,.ogg&#x27;;
+      default:
+        return &#x27;*/*&#x27;;
+    }
+  }
+
+  /**
+   * Inicia el estado de carga y rota sugerencias automáticamente.
+   */
+  iniciarCarga() {
+    this.cargando &#x3D; true;
+    let i &#x3D; 0;
+    this.sugerenciaActual &#x3D; this.sugerencias[0];
+
+    this.intervalSugerencias &#x3D; setInterval(() &#x3D;&gt; {
+      i &#x3D; (i + 1) % this.sugerencias.length;
+      this.sugerenciaActual &#x3D; this.sugerencias[i];
+    }, 2500);
+  }
+
+  /**
+   * Detiene el estado de carga.
+   */
+  detenerCarga() {
+    this.cargando &#x3D; false;
+
+    if (this.intervalSugerencias) {
+      clearInterval(this.intervalSugerencias);
+    }
+  }
+
+  /**
+   * Tipo de herramienta actual.
+   */
+  @Input() tipoHerramienta &#x3D; &#x27;texto&#x27;;
+
+  /**
+   * Pestaña activa en la interfaz.
+   */
+  activeTab: &#x27;text&#x27; | &#x27;file&#x27; &#x3D; &#x27;text&#x27;;
+
+  /**
+   * Instancia de la gráfica Chart.js.
+   */
+  chartMedidor: any;
+
+  /**
+   * Mapa de modelos IA según categoría.
+   */
+  private mapaModelos: Record&lt;string, ModeloIA[]&gt; &#x3D; {
+    texto: [
+      { nombre: &#x27;Grok&#x27;, icono: &#x27;fa-bolt&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+      { nombre: &#x27;Mistral&#x27;, icono: &#x27;fa-wind&#x27;, color: &#x27;#a78bfa&#x27; },
+      { nombre: &#x27;Winston&#x27;, icono: &#x27;fa-shield-halved&#x27;, color: &#x27;#10b981&#x27; },
+    ],
+    imagen: [
+      { nombre: &#x27;Sightengine&#x27;, icono: &#x27;fa-eye&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+      { nombre: &#x27;Hive Moderation&#x27;, icono: &#x27;fa-shield-halved&#x27;, color: &#x27;#10b981&#x27; },
+      { nombre: &#x27;Grok&#x27;, icono: &#x27;fa-bolt&#x27;, color: &#x27;#a78bfa&#x27; },
+    ],
+    video: [
+      { nombre: &#x27;TwelveLabs&#x27;, icono: &#x27;fa-film&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Hive Moderation&#x27;, icono: &#x27;fa-shield-halved&#x27;, color: &#x27;#10b981&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+    ],
+    audio: [
+      { nombre: &#x27;ACRCloud&#x27;, icono: &#x27;fa-music&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+    ],
+    musica: [
+      { nombre: &#x27;ACRCloud&#x27;, icono: &#x27;fa-music&#x27;, color: &#x27;#f59e0b&#x27; },
+      { nombre: &#x27;Gemini&#x27;, icono: &#x27;fa-google&#x27;, color: &#x27;#3b82f6&#x27; },
+    ],
+  };
+
+  /**
+   * Modelos mostrados actualmente en pantalla.
+   */
+  modelosActuales: ModeloIA[] &#x3D; [];
+
+  /**
+   * Inicializa modelos y suscripciones.
+   */
+  ngOnInit(): void {
+    this.actualizarModelos();
+
+    this.archivoService.archivoSeleccionado$.subscribe((archivoSeleccionado: ArchivoModel) &#x3D;&gt; {
+
+      const categoriaDetectada &#x3D; this.determinarCategoriaPorArchivo(
+        archivoSeleccionado.rutaAlmacenamiento
+      );
+
+      this.tipoHerramienta &#x3D; categoriaDetectada;
+      this.nombre &#x3D; archivoSeleccionado.nombre ?? &#x27;&#x27;;
+
+      this.archivo &#x3D; null;
+      this.archivoHistorico &#x3D; null;
+      this.url &#x3D; &#x27;&#x27;;
+      this.textoPlano &#x3D; &#x27;&#x27;;
+
+      const esUrl &#x3D; /^https?:\/\//i.test(
+        archivoSeleccionado.rutaAlmacenamiento ?? &#x27;&#x27;
+      );
+
+      if (esUrl) {
+        this.activeTab &#x3D; &#x27;text&#x27;;
+        this.url &#x3D; archivoSeleccionado.rutaAlmacenamiento;
+      } else {
+        this.activeTab &#x3D; &#x27;file&#x27;;
+        this.archivoHistorico &#x3D; archivoSeleccionado;
+      }
+
+      this.resultadoService
+        .getMostrarResultadosPorId(archivoSeleccionado.id)
+        .subscribe({
+          next: (resultados: ResultadoIAModel[]) &#x3D;&gt; {
+            this.actualizarValoresModelos(resultados);
+          },
+          error: (err) &#x3D;&gt; {
+            this.toastr.error(err.error || &#x27;Error al cargar los resultados.&#x27;, &#x27;Error&#x27;);
+          }
+        });
+
+      this.resultadoService
+        .getMostrarAnalisisPorId(archivoSeleccionado.id)
+        .subscribe({
+          next: (analisisResp: AnalisisModel[]) &#x3D;&gt; {
+
+            if (analisisResp &amp;&amp; analisisResp.length &gt; 0) {
+              const analisis &#x3D; analisisResp[0];
+
+              this.actualizarPorcentaje(analisis.porcentajeFinal);
+              this.promedioActual &#x3D; analisis.porcentajeFinal;
+              this.veredictoActual &#x3D; analisis.veredicto;
+            }
+          },
+          error: (err: HttpErrorResponse) &#x3D;&gt; {
+            this.actualizarPorcentaje(0);
+            this.promedioActual &#x3D; 0;
+            this.veredictoActual &#x3D; &#x27;Sin datos&#x27;;
+          }
+        });
+    });
+  }
+
+  /**
+   * Elimina el archivo histórico seleccionado.
+   */
+  quitarArchivoHistorico(event: Event) {
+    event.stopPropagation();
+    this.archivoHistorico &#x3D; null;
+  }
+
+  /**
+   * Inicializa la gráfica después del renderizado.
+   */
+  ngAfterViewInit(): void {
+    setTimeout(() &#x3D;&gt; this.inicializarGraficaVacia(), 0);
+  }
+
+  /**
+   * Detecta cambios en los inputs del componente.
+   */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes[&#x27;tipoHerramienta&#x27;]) {
+
+      this.actualizarModelos();
+
+      const herramienta &#x3D; this.tipoHerramienta?.toLowerCase();
+
+      if (
+        herramienta &#x3D;&#x3D;&#x3D; &#x27;video&#x27; ||
+        herramienta &#x3D;&#x3D;&#x3D; &#x27;audio&#x27; ||
+        herramienta &#x3D;&#x3D;&#x3D; &#x27;musica&#x27;
+      ) {
+        this.activeTab &#x3D; &#x27;file&#x27;;
+      }
+    }
+  }
+
+  /**
+   * Actualiza la lista de modelos según la categoría.
+   */
+  private actualizarModelos(): void {
+    const clave &#x3D; this.tipoHerramienta?.toLowerCase() ?? &#x27;texto&#x27;;
+    this.modelosActuales &#x3D;
+      this.mapaModelos[clave] ?? this.mapaModelos[&#x27;texto&#x27;];
+  }
+
+  /**
+   * Cambia la pestaña activa.
+   */
+  switchTab(tab: &#x27;text&#x27; | &#x27;file&#x27;) {
+    this.activeTab &#x3D; tab;
+  }
+
+  /**
+   * Inicializa la gráfica vacía.
+   */
+  inicializarGraficaVacia() {
+    const ctx &#x3D; document.getElementById(&#x27;iaProbabilityChart&#x27;);
+
+    if (ctx) {
+      this.chartMedidor &#x3D; new Chart(ctx, {
+        type: &#x27;doughnut&#x27;,
+        data: {
+          labels: [&#x27;IA&#x27;, &#x27;Restante&#x27;],
+          datasets: [{
+            data: [0, 100],
+            backgroundColor: [&#x27;#f59e0b&#x27;, &#x27;#27272a&#x27;],
+            borderWidth: 0,
+            borderRadius: 20
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          circumference: 180,
+          rotation: 270,
+          cutout: &#x27;85%&#x27;,
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false }
+          },
+          animation: {
+            animateRotate: true,
+            animateScale: false
+          }
+        }
+      });
+    }
+  }
+
+  /**
+   * Actualiza el porcentaje mostrado en la gráfica.
+   */
+  actualizarPorcentaje(nuevoPorcentaje: number) {
+
+    if (!this.chartMedidor) {
+
+      this.inicializarGraficaVacia();
+
+      setTimeout(() &#x3D;&gt; {
+        if (this.chartMedidor) {
+          this.chartMedidor.data.datasets[0].data &#x3D; [
+            nuevoPorcentaje,
+            100 - nuevoPorcentaje
+          ];
+
+          this.chartMedidor.update();
+        }
+      }, 50);
+
+      return;
+    }
+
+    this.chartMedidor.data.datasets[0].data &#x3D; [
+      nuevoPorcentaje,
+      100 - nuevoPorcentaje
+    ];
+
+    this.chartMedidor.update();
+  }
+
+  /**
+   * Reinicia completamente la gráfica.
+   */
+  refrescarGrafica() {
+
+    if (this.chartMedidor) {
+      this.chartMedidor.destroy();
+      this.chartMedidor &#x3D; null;
+    }
+
+    setTimeout(() &#x3D;&gt; {
+      this.inicializarGraficaVacia();
+
+      if (this.promedioActual &gt; 0) {
+        this.actualizarPorcentaje(this.promedioActual);
+      }
+    }, 50);
+  }
+
+  /**
+   * Envía un archivo local al backend.
+   */
+  subirArchivoLocal() {
+
+    if (!this.archivo) {
+      alert(&#x27;Advertencia: Selecciona un archivo primero&#x27;);
+      return;
+    }
+
+    this.iniciarCarga();
+
+    this.archivoService
+      .postAnalizarArchivo(this.nombre, this.archivo)
+      .subscribe({
+        next: (resp: any) &#x3D;&gt; {
+
+          setTimeout(() &#x3D;&gt; {
+
+            this.detenerCarga();
+
+            this.archivoService.analisisCompletado$.next();
+
+            const valor &#x3D; resp.promedio ?? resp.porcentajeFinal ?? 0;
+
+            this.actualizarPorcentaje(valor);
+            this.promedioActual &#x3D; valor;
+            this.veredictoActual &#x3D; resp.veredicto;
+
+            this.actualizarValoresModelos(resp.resultados);
+
+          }, 3000);
+        },
+        error: (err) &#x3D;&gt; {
+
+          setTimeout(() &#x3D;&gt; {
+            this.detenerCarga();
+
+            this.toastr.error(err.error || &#x27;Error al analizar el archivo.&#x27;, &#x27;Error&#x27;)
+          }, 1500);
+        },
+      });
+  }
+
+  /**
+   * Envía una URL al backend para análisis.
+   */
+  subirArchivoUrl() {
+
+    if (!this.url) {
+      this.toastr.warning(&#x27;Ingresa una URL primero&#x27;, &#x27;Advertencia&#x27;)
+      return;
+    }
+
+    this.iniciarCarga();
+
+    this.archivoService
+      .postAnalizarUrl(this.nombre, this.url)
+      .subscribe({
+        next: (resp: any) &#x3D;&gt; {
+
+          setTimeout(() &#x3D;&gt; {
+
+            this.detenerCarga();
+
+            this.archivoService.analisisCompletado$.next();
+
+            const valor &#x3D; resp.promedio ?? resp.porcentajeFinal ?? 0;
+
+            this.actualizarPorcentaje(valor);
+            this.promedioActual &#x3D; valor;
+            this.veredictoActual &#x3D; resp.veredicto;
+
+            if (resp.resultados) {
+              this.actualizarValoresModelos(resp.resultados);
+            }
+
+          }, 3000);
+        },
+        error: (err) &#x3D;&gt; {
+
+          setTimeout(() &#x3D;&gt; {
+            this.detenerCarga();
+
+            this.toastr.error(err.error || &#x27;Error al analizar url.&#x27;, &#x27;Error&#x27;)
+          }, 1500);
+        },
+      });
+  }
+
+  /**
+   * Captura el archivo seleccionado.
+   */
+  onFileChange(event: any) {
+    this.archivo &#x3D; event.target.files[0];
+  }
+
+  /**
+   * Elimina el archivo local seleccionado.
+   */
+  quitarArchivo(event: Event) {
+    event.stopPropagation();
+    this.archivo &#x3D; null;
+  }
+
+  /**
+   * Copia la URL actual al portapapeles.
+   */
+  async copiarUrl(): Promise&lt;void&gt; {
+
+    if (!this.url) return;
+
+    try {
+
+      await navigator.clipboard.writeText(this.url);
+
+      this.toastr.success(
+        &#x27;URL copiada al portapapeles.&#x27;,
+        &#x27;Copiado&#x27;
+      );
+
+    } catch {
+
+      this.toastr.warning(
+        &#x27;No se pudo copiar al portapapeles.&#x27;,
+        &#x27;Error&#x27;
+      );
+    }
+  }
+
+  /**
+   * Ejecuta el análisis dependiendo del modo activo.
+   */
+  ejecutarAnalisis() {
+
+    if (this.activeTab &#x3D;&#x3D;&#x3D; &#x27;file&#x27;) {
+
+      this.subirArchivoLocal();
+
+    } else if (
+      this.activeTab &#x3D;&#x3D;&#x3D; &#x27;text&#x27; &amp;&amp;
+      this.tipoHerramienta !&#x3D;&#x3D; &#x27;texto&#x27;
+    ) {
+
+      this.subirArchivoUrl();
+
+    } else {
+
+      this.subirTextoPlano();
+    }
+  }
+
+  /**
+   * Envía texto plano al backend.
+   */
+  subirTextoPlano() {
+
+    if (!this.textoPlano || this.textoPlano.trim().length &#x3D;&#x3D;&#x3D; 0) {
+      this.toastr.warning(&#x27;Pega un texto primero&#x27;, &#x27;Advertencia&#x27;)
+      return;
+    }
+
+    this.iniciarCarga();
+
+    this.archivoService
+      .postAnalizarTexto(this.nombre, this.textoPlano)
+      .subscribe({
+        next: (resp: any) &#x3D;&gt; {
+
+          setTimeout(() &#x3D;&gt; {
+
+            this.detenerCarga();
+
+            this.archivoService.analisisCompletado$.next();
+
+            const valor &#x3D; resp.promedio ?? resp.porcentajeFinal ?? 0;
+
+            this.actualizarPorcentaje(valor);
+            this.promedioActual &#x3D; valor;
+            this.veredictoActual &#x3D; resp.veredicto;
+
+            if (resp.resultados) {
+              this.actualizarValoresModelos(resp.resultados);
+            }
+
+          }, 3000);
+        },
+        error: (err) &#x3D;&gt; {
+
+          setTimeout(() &#x3D;&gt; {
+            this.detenerCarga();
+
+            this.toastr.error(err.error || &#x27;Error al analizar el texto.&#x27;, &#x27;Error&#x27;)
+          }, 1500);
+        },
+      });
+  }
+
+  /**
+   * Actualiza los valores de los modelos usando datos del backend.
+   */
+  actualizarValoresModelos(datosBackend: any) {
+
+    let datosNormalizados: {
+      nombre: string,
+      valor: number
+    }[] &#x3D; [];
+
+    if (Array.isArray(datosBackend)) {
+
+      datosNormalizados &#x3D; datosBackend.map(item &#x3D;&gt; ({
+        nombre: item.nombreIA,
+        valor: item.porcentajeIA
+      }));
+
+    } else {
+
+      datosNormalizados &#x3D; Object.keys(datosBackend).map(key &#x3D;&gt; ({
+        nombre: key,
+        valor: datosBackend[key]
+      }));
+    }
+
+    const todosLosModelosBase &#x3D;
+      Object.values(this.mapaModelos).flat();
+
+    this.modelosActuales &#x3D; datosNormalizados.map(dato &#x3D;&gt; {
+
+      const modeloOriginal &#x3D; todosLosModelosBase.find(
+        m &#x3D;&gt; m.nombre.toLowerCase() &#x3D;&#x3D;&#x3D; dato.nombre.toLowerCase()
+      );
+
+      if (modeloOriginal) {
+        return {
+          ...modeloOriginal,
+          valor: dato.valor
+        };
+      }
+
+      return {
+        nombre: dato.nombre,
+        icono: &#x27;fa-microchip&#x27;,
+        color: &#x27;#888888&#x27;,
+        valor: dato.valor
+      };
+    });
+  }
+
+  /**
+   * Determina la categoría según la extensión del archivo.
+   */
+  determinarCategoriaPorArchivo(ruta: string): string {
+
+    if (!ruta) return &#x27;texto&#x27;;
+
+    const extension &#x3D;
+      ruta.split(&#x27;.&#x27;).pop()?.toLowerCase() || &#x27;&#x27;;
+
+    if ([&#x27;txt&#x27;, &#x27;pdf&#x27;, &#x27;docx&#x27;, &#x27;doc&#x27;].includes(extension)) {
+      return &#x27;texto&#x27;;
+    } else if (
+      [&#x27;jpg&#x27;, &#x27;jpeg&#x27;, &#x27;png&#x27;, &#x27;gif&#x27;, &#x27;webp&#x27;]
+        .includes(extension)
+    ) {
+      return &#x27;imagen&#x27;;
+    } else if (
+      [&#x27;mp4&#x27;, &#x27;avi&#x27;, &#x27;mov&#x27;, &#x27;mkv&#x27;]
+        .includes(extension)
+    ) {
+      return &#x27;video&#x27;;
+    } else if (
+      [&#x27;mp3&#x27;, &#x27;wav&#x27;, &#x27;ogg&#x27;]
+        .includes(extension)
+    ) {
+      return &#x27;audio&#x27;;
+    }
+
+    return &#x27;texto&#x27;;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'ModeloIA.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

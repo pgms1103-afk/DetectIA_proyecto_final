@@ -15,7 +15,7 @@ export class UsuarioService {
   private cliente: HttpClient = inject(HttpClient);
 
   /** URL base del endpoint de administración de usuarios. */
-  private readonly urlbase: String = 'http://localhost:8080/admin';
+  private readonly urlbase: String = 'https://gpcueb.org/detectiaIA/admin';
 
   /** Subject interno para señalizar el refresco de la tabla de usuarios. */
   private refrescarTabla = new Subject<void>();
@@ -81,6 +81,6 @@ export class UsuarioService {
    * @returns Observable con los datos del usuario registrado.
    */
   getDatosUsuarioRegistrado(): Observable<UsuarioModel> {
-    return this.cliente.get<UsuarioModel>('http://localhost:8080/private/user/misdatos');
+    return this.cliente.get<UsuarioModel>('https://gpcueb.org/detectiaIA/private/user/misdatos');
   }
 }

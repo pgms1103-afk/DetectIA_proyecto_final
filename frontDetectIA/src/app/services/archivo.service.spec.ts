@@ -15,7 +15,7 @@ describe('ArchivoService', () => {
   let service: ArchivoService;
   let httpMock: HttpTestingController;
 
-  const urlBase = 'http://localhost:8080/private/archivo';
+  const urlBase = 'https://gpcueb.org/detectiaIA/private/archivo';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -172,7 +172,7 @@ describe('ArchivoService', () => {
       expect(resp).toEqual(mockArchivos);
     });
 
-    const req = httpMock.expectOne('http://localhost:8080/admin/archivos');
+    const req = httpMock.expectOne('https://gpcueb.org/detectiaIA/admin/archivos');
     expect(req.request.method).toBe('GET');
     req.flush(mockArchivos);
   });

@@ -25,7 +25,7 @@ export interface AuthResponse {
 export class AuthService {
 
   /** URL base del endpoint público de autenticación. */
-  private urlServidor = 'http://localhost:8080/public';
+  private urlServidor = 'https://gpcueb.org/detectiaIA/public';
 
   /**
    * @param http Cliente HTTP para realizar peticiones al backend.

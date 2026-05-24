@@ -14,7 +14,7 @@ describe('AuditoriaService', () => {
   let service: AuditoriaService;
   let httpMock: HttpTestingController;
 
-  const urlBase = 'http://localhost:8080/admin/auditoria';
+  const urlBase = 'https://gpcueb.org/detectiaIA/admin/auditoria';
 
   const mockLog: AuditoriaLogModel = {
     id: 1,

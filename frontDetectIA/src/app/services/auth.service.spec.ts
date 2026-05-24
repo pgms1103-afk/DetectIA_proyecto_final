@@ -13,7 +13,7 @@ describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
 
-  const urlBase = 'http://localhost:8080/public';
+  const urlBase = 'https://gpcueb.org/detectiaIA/public';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
