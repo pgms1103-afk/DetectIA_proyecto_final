@@ -2,8 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuditoriaAdmin } from './auditoria-admin';
 import { AuditoriaService } from '../../services/auditoria.service';
 import { of, throwError } from 'rxjs';
-import { provideToastr } from 'ngx-toastr';
-import { provideAnimations } from '@angular/platform-browser/animations';
 
 describe('AuditoriaAdmin', () => {
   let component: AuditoriaAdmin;

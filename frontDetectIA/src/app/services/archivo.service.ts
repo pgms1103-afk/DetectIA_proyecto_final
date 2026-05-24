@@ -43,7 +43,7 @@ export class ArchivoService {
     const formData = new FormData();
     formData.append('nombre', nombre);
     formData.append('archivo', archivo);
-    return this.cliente.post<AnalisisModel>(this.urlbase + '/analizar', formData);
+    return this.cliente.post<AnalisisModel>(`${this.urlbase}/analizar`, formData);
   }
 
   /**
@@ -95,8 +95,9 @@ export class ArchivoService {
    * @returns Observable con la respuesta en texto plano.
    */
   deleteArchivos(id: number) {
-    return this.cliente.delete(this.urlbase + '/eliminar?id=' + id,
-      { responseType: 'text' });
+    return this.cliente.delete(`${this.urlbase}/eliminar?id=${id}`, {
+      responseType: 'text'
+    });
   }
 
   /**
