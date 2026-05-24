@@ -4,8 +4,6 @@ import { UsuarioService } from '../../services/usuario.service';
 import { ToastrService } from 'ngx-toastr';
 import { of, throwError } from 'rxjs';
 import { Role } from '../../models/role.enum';
-import { provideToastr } from 'ngx-toastr';
-import { provideAnimations } from '@angular/platform-browser/animations';
 
 describe('TopbarAdmin', () => {
   let component: TopbarAdmin;
