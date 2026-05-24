@@ -62,8 +62,14 @@ export class AuthService {
    * @param contrasena Contraseña del nuevo usuario.
    * @returns Observable con la respuesta en texto plano del servidor.
    */
-  registrarUsuario(nombreUsuario: string, correo: string, contrasena: string): Observable<any> {
+  registrarUsuario(
+    nombreUsuario: string,
+    correo: string,
+    contrasena: string
+  ): Observable<string> {
+
     const body = { nombreUsuario, correo, contrasena };
+
     return this.http.post(`${this.urlServidor}/registrarusuario`, body, {
       responseType: 'text'
     });
