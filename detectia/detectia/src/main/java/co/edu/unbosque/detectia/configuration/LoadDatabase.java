@@ -13,6 +13,22 @@ import co.edu.unbosque.detectia.entity.Usuario;
 import co.edu.unbosque.detectia.repository.UsuarioRepository;
 import co.edu.unbosque.detectia.util.AESUtil;
 
+/**
+ * Inicializador de datos predeterminados de la plataforma DetectIA.
+ * <p>
+ * Al arrancar la aplicación, verifica si existen los usuarios de sistema
+ * ({@code admin} y {@code normaluser}) y los crea en caso de no encontrarlos,
+ * asignando sus correos cifrados con AES y sus contraseñas codificadas con
+ * BCrypt. La contraseña por defecto se lee de la propiedad
+ * {@code app.default-password}.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.entity.Usuario
+ * @see co.edu.unbosque.detectia.util.AESUtil
+ */
 @Configuration
 public class LoadDatabase {
   /** Logger para registrar mensajes durante la carga de datos. */

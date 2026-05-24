@@ -18,6 +18,23 @@ import co.edu.unbosque.detectia.repository.AnalisisRepository;
 import co.edu.unbosque.detectia.repository.ArchivoRepository;
 import co.edu.unbosque.detectia.repository.UsuarioRepository;
 
+/**
+ * Servicio de negocio para el cálculo, almacenamiento y consulta de análisis
+ * de contenido generado por IA.
+ * <p>
+ * Recibe los votos de porcentaje de IA emitidos por los diferentes servicios
+ * externos (Grok, Gemini, Mistral, Sightengine, etc.), calcula el promedio
+ * ponderado, determina el veredicto final ({@code "PROBABLE IA"} o
+ * {@code "PROBABLE HUMANO"}) y persiste la entidad {@link co.edu.unbosque.detectia.entity.Analisis}
+ * en la base de datos.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.entity.Analisis
+ * @see co.edu.unbosque.detectia.repository.AnalisisRepository
+ */
 @Service
 public class AnalisisService {
 	
@@ -33,7 +50,20 @@ public class AnalisisService {
 	@Autowired
 	private ModelMapper mapper;
 	
-	// 1. Cambiamos String nombreArchivo por Archivo archivoReciente
+	/**
+	 * Calcula el resumen del análisis a partir de los votos de porcentaje
+	 * proporcionados por los servicios de IA, persiste la entidad
+	 * {@link co.edu.unbosque.detectia.entity.Analisis} y retorna un mapa con los
+	 * resultados, el promedio y el veredicto final.
+	 *
+	 * @param votosIAs        mapa donde cada clave es el nombre del servicio de IA y
+	 *                        cada valor es su porcentaje de detección (0-100)
+	 * @param archivoReciente entidad {@link co.edu.unbosque.detectia.entity.Archivo}
+	 *                        recién guardada a la que se asocia el análisis
+	 * @return mapa con tres entradas: {@code "resultados"} (los votos originales),
+	 *         {@code "promedio"} (promedio redondeado a 2 decimales) y
+	 *         {@code "veredicto"} ({@code "PROBABLE IA"} o {@code "PROBABLE HUMANO"})
+	 */
 	public Map<String,Object> calcularResumen(Map<String,Double> votosIAs, Archivo archivoReciente) {
 	    double promedio = 0;
 	    if(!votosIAs.isEmpty()) {
@@ -51,17 +81,14 @@ public class AnalisisService {
 	        veredicto = "PROBABLE HUMANO";
 	    }
 	    
-	    // 2. 🟢 Borramos la búsqueda traicionera (List<Archivo> archivo = archivoRepo.findByNombre...)
 	    
 	    Analisis entity = new Analisis();
 	    entity.setVeredicto(veredicto);
 	    entity.setPorcentajeFinal(Math.round(promedio * 100.0) / 100.0);
 	    
-	    // 3. 🟢 Le asignamos el archivo directamente 
 	    entity.setArchivo(archivoReciente);
 	    analisisRepo.save(entity);
 	    
-	    // 4. Tu código intacto, devolviendo exactamente el mismo JSON de siempre
 	    Map<String, Object> resumen = new HashMap<>();
 	    resumen.put("resultados", votosIAs);
 	    resumen.put("promedio", Math.round(promedio * 100.0) / 100.0);
@@ -70,6 +97,13 @@ public class AnalisisService {
 	    return resumen;
 	}
 	
+	/**
+	 * Recupera todos los análisis asociados a los archivos de un usuario dado.
+	 *
+	 * @param username nombre de usuario del propietario de los archivos
+	 * @return lista de {@link AnalisisDTO} con los análisis encontrados, o lista
+	 *         vacía si el usuario no existe o no tiene archivos analizados
+	 */
 	public List<AnalisisDTO> getResultadosByUsuario(String username) {
 	    Optional<Usuario> usuario = usuarioRepo.findByNombreUsuario(username);
 	    if (usuario.isEmpty()) return new ArrayList<>();
@@ -87,6 +121,13 @@ public class AnalisisService {
 	    return dtoList;
 	}
 	
+	/**
+	 * Recupera todos los análisis asociados al archivo identificado por {@code id}.
+	 *
+	 * @param id identificador del archivo cuyos análisis se desean consultar
+	 * @return lista de {@link AnalisisDTO} con los análisis encontrados, o lista
+	 *         vacía si el archivo no existe o no tiene análisis registrados
+	 */
 	public List<AnalisisDTO> getAnalisisById(long id){
 		List<AnalisisDTO> dtoList = new ArrayList<>();
 		Optional<Archivo> archivoOpt = archivoRepo.findById(id);

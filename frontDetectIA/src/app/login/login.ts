@@ -3,9 +3,14 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {Router} from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
 
+/**
+ * Componente principal de autenticación de DetectIA.
+ *
+ * Gestiona el inicio de sesión y registro de usuarios, la navegación por roles
+ * (ADMIN → /admin, USER → /usuario) y el carrusel de presentación de características.
+ */
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -14,26 +19,50 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './login.css',
 })
 export class Login {
+
+  /** Modo activo del formulario: 'login' o 'signup'. */
   modo: string = 'login';
+
+  /** Controla la visibilidad de la contraseña en el formulario de login. */
   showLoginPass: boolean = false;
+
+  /** Controla la visibilidad de la contraseña en el formulario de registro. */
   showSignupPass: boolean = false;
+
+  /** Índice del slide actualmente visible en el carrusel. */
   currentSlide = 0;
 
+  /** Mensaje de error que se muestra en el formulario. */
   mensajeError = '';
+
+  /** Mensaje de éxito que se muestra tras una acción exitosa. */
   mensajeExito = '';
 
+  /** Nombre de usuario ingresado en el formulario de registro. */
   registroNombreUsuario: string = '';
+
+  /** Contraseña ingresada en el formulario de registro. */
   registroContrasena: string = '';
+
+  /** Correo electrónico ingresado en el formulario de registro. */
   registroCorreo: string = '';
 
+  /** Nombre de usuario ingresado en el formulario de login. */
   loginNombreUsuario: string = '';
+
+  /** Contraseña ingresada en el formulario de login. */
   loginContrasena: string = '';
 
+  /**
+   * @param authService Servicio de autenticación para login y registro.
+   * @param router Servicio de enrutamiento para navegación entre vistas.
+   */
   constructor(
     private authService: AuthService,
     private router: Router,
   ) {}
 
+  /** Lista de slides del carrusel de características de DetectIA. */
   slides = [
     {
       icon: 'fa-magnifying-glass-chart',
@@ -73,28 +102,45 @@ export class Login {
     },
   ];
 
+  /**
+   * Cambia el modo del formulario entre 'login' y 'signup'.
+   * Limpia los mensajes de error y éxito al cambiar.
+   * @param m Modo destino: 'login' o 'signup'.
+   */
   cambiarModo(m: string) {
     this.modo = m;
     this.mensajeError = '';
     this.mensajeExito = '';
   }
 
+  /** Navega directamente a la vista de administrador. */
   irAlSistema() {
     this.router.navigate(['/admin']);
   }
 
+  /** Retrocede al slide anterior del carrusel, volviendo al último si está en el primero. */
   prevSlide() {
     this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
   }
 
+  /** Avanza al siguiente slide del carrusel, volviendo al primero si está en el último. */
   nextSlide() {
     this.currentSlide = (this.currentSlide + 1) % this.slides.length;
   }
 
+  /**
+   * Navega directamente a un slide específico del carrusel.
+   * @param i Índice del slide destino.
+   */
   goToSlide(i: number) {
     this.currentSlide = i;
   }
 
+  /**
+   * Extrae el mensaje de error de una respuesta HTTP fallida.
+   * @param err El error recibido del servidor.
+   * @returns Mensaje de error legible para el usuario.
+   */
   private static extraerError(err: unknown): string {
     const errorObj = err as { error?: string | { message?: string } };
     if (errorObj?.error) {
@@ -104,6 +150,11 @@ export class Login {
     return 'Ocurrió un error en el servidor.';
   }
 
+  /**
+   * Ejecuta el proceso de inicio de sesión.
+   * Valida los campos, llama al servicio de autenticación y navega según el rol.
+   * ADMIN → /admin, USER → /usuario.
+   */
   login(){
     this.mensajeError = '';
     this.mensajeExito = '';
@@ -121,11 +172,16 @@ export class Login {
         }
       },
       error: (err: HttpErrorResponse) => {
-        this.mensajeError =  Login.extraerError(err);
+        this.mensajeError = Login.extraerError(err);
       }
     })
   }
 
+  /**
+   * Ejecuta el proceso de registro de un nuevo usuario.
+   * Valida los campos, llama al servicio de registro y muestra el resultado.
+   * En caso de éxito, redirige al modo login tras 2 segundos.
+   */
   registrar(){
     this.mensajeError = '';
     this.mensajeExito = '';
@@ -145,7 +201,7 @@ export class Login {
         setTimeout(() => {this.cambiarModo('login');}, 2000);
       },
       error: (err: HttpErrorResponse) => {
-        this.mensajeError =  Login.extraerError(err);
+        this.mensajeError = Login.extraerError(err);
       }
     })
   }

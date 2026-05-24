@@ -18,6 +18,28 @@ import co.edu.unbosque.detectia.dto.MistralDTO;
 import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 
+/**
+ * Servicio de detección de contenido generado por IA mediante el agente Pixtral
+ * de Mistral AI.
+ * <p>
+ * Admite texto plano, imágenes en Base64 (JPEG, PNG, WEBP, GIF) y PDFs con un
+ * límite de 512 MB. Construye un mensaje multimodal combinando el texto extraído
+ * por Tika y los bytes del archivo para que el agente evalúe ambas modalidades.
+ * El agente devuelve un JSON con {@code fakePercentage} e {@code isAiGenerated}
+ * que se mapea a {@link co.edu.unbosque.detectia.dto.MistralDTO}.
+ * </p>
+ * <p>
+ * Lanza {@link co.edu.unbosque.detectia.exception.ExtensionInvalidaException} si
+ * se envía una imagen en formato no soportado, y
+ * {@link co.edu.unbosque.detectia.exception.TamanoInvalidoException} si el
+ * archivo supera el límite de 512 MB.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.dto.MistralDTO
+ */
 @Service
 public class MistralService {
 
@@ -58,19 +80,16 @@ public class MistralService {
     		
     	}
         
-        // Estructura de mensaje
         JsonObject userMessage = new JsonObject();
         userMessage.addProperty("role", "user");
         
         JsonArray contentArray = new JsonArray();	
 
-        // 1. Agregamos la parte de texto (el contenido extraído por Tika o la instrucción)
         JsonObject textPart = new JsonObject();
         textPart.addProperty("type", "text");
         textPart.addProperty("text", contenido);
         contentArray.add(textPart);
 
-        // 2. Si NO es texto puro (es imagen o PDF), enviamos los bytes para que Pixtral use visión
         if (mimeType.startsWith("image/") && archivoBytes != null) {
         	JsonObject imagePart = new JsonObject();
             imagePart.addProperty("type", "image_url");
@@ -86,12 +105,10 @@ public class MistralService {
         JsonArray messages = new JsonArray();
         messages.add(userMessage);
 
-        // Construcción del cuerpo de la petición
         JsonObject jsonBody = new JsonObject();
         jsonBody.addProperty("agent_id", agentId);
         jsonBody.add("messages", messages);
         
-        // Indicamos que queremos la respuesta en JSON
         JsonObject respFormat = new JsonObject();
         respFormat.addProperty("type", "json_object");
         jsonBody.add("response_format", respFormat);
@@ -116,21 +133,16 @@ public class MistralService {
         return procesarRespuesta(respuesta.body());
     }
 
-    /**
-     * MÉTODO 2: Parsear la respuesta
-     * Extrae los campos fakePercentage e isAiGenerated del JSON anidado.
-     */
+
     private MistralDTO procesarRespuesta(String body) {
         try {
             JsonObject root = gson.fromJson(body, JsonObject.class);
 
-            // Navegamos: choices[0] -> message -> content
             String contentString = root.getAsJsonArray("choices")
                     .get(0).getAsJsonObject()
                     .getAsJsonObject("message")
                     .get("content").getAsString();
 
-            // Parseamos el JSON interno que el agente generó
             JsonObject innerJson = gson.fromJson(contentString, JsonObject.class);
 
             return new MistralDTO(

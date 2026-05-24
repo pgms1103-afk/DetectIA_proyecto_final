@@ -18,6 +18,21 @@ import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 
 
+/**
+ * Componente de utilidad para la generación, validación y extracción de claims
+ * de tokens JWT (JSON Web Token).
+ * <p>
+ * Firma los tokens con HMAC-SHA256 usando la clave secreta configurada en
+ * {@code application.properties} (propiedad {@code jwt.secret}). Los tokens
+ * tienen una validez de 24 horas e incluyen el nombre de usuario, rol y
+ * autoridades como claims.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see JwtAuthenticationFilter
+ */
 @Component
 public class JwtUtil {
 

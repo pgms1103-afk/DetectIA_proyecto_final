@@ -18,6 +18,28 @@ import co.edu.unbosque.detectia.dto.GeminiDTO;
 import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 
+/**
+ * Servicio de detección multimodal de contenido generado por IA mediante la
+ * API de Google Gemini.
+ * <p>
+ * Analiza texto plano, imágenes (GIF, JPEG, PNG, WEBP, HEIC, HEIF), videos,
+ * PDFs y audios (MPEG, WAV, OGG, MP3, AAC) enviados como bytes en Base64 o
+ * descargados desde una URL pública. Devuelve un porcentaje 0-100 indicando la
+ * probabilidad de generación por IA.
+ * </p>
+ * <p>
+ * El tamaño máximo es 100 MB para archivos no-video y 2 GB para video. Lanza
+ * {@link co.edu.unbosque.detectia.exception.ExtensionInvalidaException} si el
+ * formato no está soportado y
+ * {@link co.edu.unbosque.detectia.exception.TamanoInvalidoException} si se
+ * excede el límite.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.dto.GeminiDTO
+ */
 @Service
 public class GeminiService {
 
@@ -55,13 +77,10 @@ public class GeminiService {
 					String.format("Gemini: el archivo(%.1f MB) supera el limite permitibo de MB", mb));
 		}
 
-		// 1. Convertir archivo a Base64 para el envío inline_data
 		String base64Data = Base64.getEncoder().encodeToString(archivoBytes);
 
-		// 2. Construir el cuerpo de la solicitud JSON
 		JsonObject jsonBody = new JsonObject();
 
-		// --- SECCIÓN: SYSTEM INSTRUCTION (Define el ROL) ---
 		JsonObject systemInstruction = new JsonObject();
 		JsonArray siParts = new JsonArray();
 		JsonObject siTextPart = new JsonObject();
@@ -123,12 +142,10 @@ public class GeminiService {
 		systemInstruction.add("parts", siParts);
 		jsonBody.add("system_instruction", systemInstruction);
 
-		// --- SECCIÓN: CONTENTS (Define los DATOS) ---
 		JsonArray contents = new JsonArray();
 		JsonObject contentObject = new JsonObject();
 		JsonArray parts = new JsonArray();
 
-		// Parte 1: El archivo en base64
 		JsonObject inlineData = new JsonObject();
 		inlineData.addProperty("mime_type", mimeType);
 		inlineData.addProperty("data", base64Data);
@@ -136,7 +153,6 @@ public class GeminiService {
 		filePart.add("inline_data", inlineData);
 		parts.add(filePart);
 
-		// Parte 2: El prompt de ejecución
 		JsonObject promptPart = new JsonObject();
 		promptPart.addProperty("text", "Analiza este archivo y responde SOLO con un número entre 0 y 100 "
 				+ "indicando la probabilidad de que sea generado por IA. " + "Solo el número, " + "nada más.");
@@ -146,17 +162,14 @@ public class GeminiService {
 		contents.add(contentObject);
 		jsonBody.add("contents", contents);
 
-		// --- SECCIÓN: CONFIGURACIÓN (Opcional pero recomendada) ---
 		JsonObject generationConfig = new JsonObject();
-		generationConfig.addProperty("temperature", 0.2); // Baja temperatura para mayor precisión
+		generationConfig.addProperty("temperature", 0.2); 
 		jsonBody.add("generationConfig", generationConfig);
 
-		// 3. Crear la solicitud HTTP
 		HttpRequest solicitud = HttpRequest.newBuilder().uri(URI.create(apiUrl))
 				.header("Content-Type", "application/json").header("x-goog-api-key", apiKey)
 				.POST(HttpRequest.BodyPublishers.ofString(jsonBody.toString())).build();
 
-		// 4. Enviar y procesar respuesta
 		HttpResponse<String> respuesta = HTTP_CLIENT.send(solicitud, HttpResponse.BodyHandlers.ofString());
 
 		System.out.println("Gemini status: " + respuesta.statusCode());
@@ -174,7 +187,6 @@ public class GeminiService {
 
 	    JsonObject jsonBody = new JsonObject();
 
-	    // System instruction
 	    JsonObject systemInstruction = new JsonObject();
 	    JsonArray siParts = new JsonArray();
 	    JsonObject siTextPart = new JsonObject();
@@ -193,7 +205,6 @@ public class GeminiService {
 	    systemInstruction.add("parts", siParts);
 	    jsonBody.add("system_instruction", systemInstruction);
 
-	    // Contents — solo texto, sin inline_data
 	    JsonArray contents = new JsonArray();
 	    JsonObject contentObject = new JsonObject();
 	    JsonArray parts = new JsonArray();
@@ -258,7 +269,6 @@ public class GeminiService {
 	 */
 	public GeminiDTO detectarIAPorUrl(String urlPublica) throws Exception {
 
-		// A. Descargar los bytes del archivo usando el HTTP_CLIENT del servicio
 		HttpRequest solicitudDescarga = HttpRequest.newBuilder().uri(URI.create(urlPublica)).GET().build();
 
 		HttpResponse<byte[]> respuestaDescarga = HTTP_CLIENT.send(solicitudDescarga,
@@ -271,21 +281,17 @@ public class GeminiService {
 
 		byte[] archivoBytes = respuestaDescarga.body();
 
-		// 💡 B. CORREGIDO: Deducir el MIME type de forma nativa y automática (Soporta
-		// imágenes, audios y videos)
 		String mimeType = java.net.URLConnection.guessContentTypeFromName(urlPublica);
 
-		// Salvavidas por si la URL es extraña o no tiene extensión clara
 		if (mimeType == null) {
 			if (urlPublica.toLowerCase().contains("mp3"))
 				mimeType = "audio/mpeg";
 			else if (urlPublica.toLowerCase().contains("wav"))
 				mimeType = "audio/wav";
 			else
-				mimeType = "image/jpeg"; // Fallback por defecto
+				mimeType = "image/jpeg"; 
 		}
 
-		// C. Reutilizar tu método local pasándole los datos limpios y el tipo correcto
 		return detectarIA(archivoBytes, mimeType);
 	}
 
@@ -294,7 +300,6 @@ public class GeminiService {
 			Gson gson = new Gson();
 			JsonObject root = gson.fromJson(responseBody, JsonObject.class);
 
-			// Navegación por el JSON de Gemini
 			String textoRespuesta = root.getAsJsonArray("candidates").get(0).getAsJsonObject()
 					.getAsJsonObject("content").getAsJsonArray("parts").get(0).getAsJsonObject().get("text")
 					.getAsString().trim();

@@ -18,6 +18,21 @@ import co.edu.unbosque.detectia.repository.ArchivoRepository;
 import co.edu.unbosque.detectia.repository.ResultadoIARepository;
 import co.edu.unbosque.detectia.repository.UsuarioRepository;
 
+/**
+ * Servicio de persistencia y consulta de resultados individuales de cada
+ * servicio de IA.
+ * <p>
+ * Almacena en la base de datos el porcentaje de detección emitido por cada
+ * servicio externo (Grok, Gemini, Mistral, etc.) para un archivo concreto,
+ * y expone métodos de listado y consulta por archivo.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.entity.ResultadoIA
+ * @see co.edu.unbosque.detectia.repository.ResultadoIARepository
+ */
 @Service
 public class ResultadoIAService{
 
@@ -37,6 +52,18 @@ public class ResultadoIAService{
 	}
 
 
+	/**
+	 * Persiste un {@link ResultadoIA} por cada entrada del mapa de votos,
+	 * asociando cada resultado al archivo indicado.
+	 * <p>
+	 * Si {@code archivoReciente} es {@code null} el método retorna inmediatamente
+	 * sin guardar nada.
+	 * </p>
+	 *
+	 * @param votosIAs        mapa con los porcentajes de detección por servicio de IA
+	 * @param archivoReciente archivo al que se asocian los resultados; si es
+	 *                        {@code null} no se guarda ningún resultado
+	 */
 	public void guardarResultados(Map<String, Double> votosIAs, Archivo archivoReciente) {
 	    
 	    if (archivoReciente == null) return;
@@ -53,6 +80,12 @@ public class ResultadoIAService{
 	}
 	
 	
+	/**
+	 * Recupera todos los resultados de IA almacenados.
+	 *
+	 * @return lista de {@link ResultadoIADTO} con todos los resultados; lista vacía
+	 *         si no hay ninguno
+	 */
 	public List<ResultadoIADTO> getAll() {
 		List<ResultadoIA> entityList = (List<ResultadoIA>) resultadoIARepo.findAll();
 		List<ResultadoIADTO> dtoList = new ArrayList<>();
@@ -68,6 +101,14 @@ public class ResultadoIAService{
 		return dtoList;
 	}
 
+	/**
+	 * Recupera todos los resultados de IA asociados al archivo identificado por
+	 * {@code id}.
+	 *
+	 * @param id identificador del archivo cuyos resultados se desean consultar
+	 * @return lista de {@link ResultadoIADTO} con los resultados encontrados, o
+	 *         lista vacía si el archivo no existe o no tiene resultados
+	 */
 	public List<ResultadoIADTO> getResultadosByArchivoId(long id) {
 	    List<ResultadoIADTO> dtoList = new ArrayList<>();
 	    

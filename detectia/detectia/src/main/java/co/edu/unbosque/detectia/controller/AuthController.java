@@ -31,8 +31,22 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 
+/**
+ * Controlador REST que expone los endpoints públicos de autenticación.
+ * <p>
+ * Gestiona el registro de nuevos usuarios y el inicio de sesión mediante JWT.
+ * Todas las rutas de este controlador tienen el prefijo {@code /public} y no
+ * requieren token de autorización.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.service.UsuarioService
+ * @see co.edu.unbosque.detectia.security.JwtUtil
+ */
 @RestController
-@RequestMapping("/public") // Todas las rutas que maneje este controlador van a tener el prefijo "public"
+@RequestMapping("/public")
 @CrossOrigin(origins = { "http://localhost:8080", "*" })
 @Tag(name = "Autenticacion", description = "Endpoints publicos de registro e inicio de sesion")
 public class AuthController {
@@ -129,7 +143,6 @@ public class AuthController {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			String jwt = jwtUtil.generateToken(userDetails);
 
-			// Obtener el rol de userDetails si es nuestra clase User
 			String role = null;
 			if (userDetails instanceof Usuario) {
 				Usuario user = (Usuario) userDetails;

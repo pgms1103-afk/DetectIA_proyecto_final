@@ -13,7 +13,7 @@ package co.edu.unbosque.detectia.exception;
  * </ul>
  * </p>
  *
- * @author Equipo Revista
+ * @author David Alejandro Velasquez Salamanca
  * @version 1.0
  * @since 1.0
  */
