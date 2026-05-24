@@ -92,56 +92,36 @@ export class GestionUsuarios implements OnInit {
     this.mostrarModal = false;
   }
 
-  /** Ejecuta la creación o actualización según el modo del modal */
-  crearOactualizar() {
-    if (this.modoModal === 'crear') {
-      this.crearUsuario();
+  /** Ejecuta la lógica de creación o actualización según el estado del modal */
+  crearOactualizar(){
+
+    if(!this.usuarioNuevo.nombreUsuario || !this.usuarioNuevo.correo || (!this.usuarioNuevo.contrasena && this.modoModal === 'crear')){
+      this.toastr.warning('Debe completar todos los campos obligatorios.', 'Advertencia') ;
+      return;
+    }
+
+    if(this.modoModal === 'crear'){
+      this.usuarioService.postCrearUsuario(this.usuarioNuevo).subscribe({
+        next: () => { this.toastr.success("Usuario creado correctamente", 'Éxito')
+          this.cargarUsuarios(); this.cerrarModal(); },
+        error: (err) => {
+          this.toastr.error(err.error|| "No se pudo crear el usuario", 'Error')
+        },
+      });
     } else {
-      this.actualizarUsuario();
+      if (this.id === undefined) {
+        this.mensajeError = 'No se ha seleccionado ningún usuario para editar.';
+        return;
+      }
+      this.usuarioService.putActualizarUsuario(this.id, this.usuarioNuevo).subscribe({
+        next: () => {
+          this.toastr.success("Usuario actualizado correctamente", 'Éxito')
+          this.cargarUsuarios(); this.cerrarModal(); },
+        error: (err) => {
+          this.toastr.error(err.error|| "No se pudo actualizar el usuario", 'Error')
+        }
+      });
     }
-  }
-
-  /** Crea un nuevo usuario */
-  private crearUsuario() {
-    if (!this.usuarioNuevo.nombreUsuario || !this.usuarioNuevo.correo || !this.usuarioNuevo.contrasena) {
-      this.toastr.warning('Debe completar todos los campos obligatorios.', 'Advertencia');
-      return;
-    }
-
-    this.usuarioService.postCrearUsuario(this.usuarioNuevo).subscribe({
-      next: () => {
-        this.toastr.success('Usuario creado correctamente', 'Éxito');
-        this.cargarUsuarios();
-        this.cerrarModal();
-      },
-      error: (err) => {
-        this.toastr.error(err.error || 'No se pudo crear el usuario', 'Error');
-      },
-    });
-  }
-
-  /** Actualiza un usuario existente */
-  private actualizarUsuario() {
-    if (!this.usuarioNuevo.nombreUsuario || !this.usuarioNuevo.correo) {
-      this.toastr.warning('Debe completar todos los campos obligatorios.', 'Advertencia');
-      return;
-    }
-
-    if (this.id === undefined) {
-      this.toastr.error('No se ha seleccionado ningún usuario para editar.', 'Error');
-      return;
-    }
-
-    this.usuarioService.putActualizarUsuario(this.id, this.usuarioNuevo).subscribe({
-      next: () => {
-        this.toastr.success('Usuario actualizado correctamente', 'Éxito');
-        this.cargarUsuarios();
-        this.cerrarModal();
-      },
-      error: (err) => {
-        this.toastr.error(err.error || 'No se pudo actualizar el usuario', 'Error');
-      },
-    });
   }
 
   /** Elimina un usuario por su ID y recarga el listado */
