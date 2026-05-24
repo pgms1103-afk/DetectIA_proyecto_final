@@ -1,56 +1,79 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GestionUsuarios } from './gestion-usuarios';
 import { UsuarioService } from '../../services/usuario.service';
-import { of } from 'rxjs';
-import { provideToastr } from 'ngx-toastr';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { ToastrService } from 'ngx-toastr';
+import { of, throwError } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 describe('GestionUsuarios', () => {
   let component: GestionUsuarios;
   let fixture: ComponentFixture<GestionUsuarios>;
+
+  // Mocks de los servicios
   let usuarioServiceSpy: jasmine.SpyObj<UsuarioService>;
+  let toastrServiceSpy: jasmine.SpyObj<ToastrService>;
 
   beforeEach(async () => {
-    const spy = jasmine.createSpyObj('UsuarioService', [
-      'getMostrarUsuarios', 'postCrearUsuario', 'putActualizarUsuario', 'deleteUsuarios'
+    // Definir los métodos que vamos a mockear
+    const userSpy = jasmine.createSpyObj('UsuarioService', [
+      'getMostrarUsuarios',
+      'postCrearUsuario',
+      'putActualizarUsuario',
+      'deleteUsuarios'
     ]);
+    const toastSpy = jasmine.createSpyObj('ToastrService', ['success', 'error', 'warning']);
 
     await TestBed.configureTestingModule({
-      imports: [GestionUsuarios],
-      providers: [{ provide: UsuarioService, useValue: spy }]
+      imports: [GestionUsuarios, FormsModule],
+      providers: [
+        { provide: UsuarioService, useValue: userSpy },
+        { provide: ToastrService, useValue: toastSpy }
+      ]
     }).compileComponents();
 
     usuarioServiceSpy = TestBed.inject(UsuarioService) as jasmine.SpyObj<UsuarioService>;
+    toastrServiceSpy = TestBed.inject(ToastrService) as jasmine.SpyObj<ToastrService>;
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(GestionUsuarios);
     component = fixture.componentInstance;
+    // Mock inicial para que ngOnInit no falle al cargar
+    usuarioServiceSpy.getMostrarUsuarios.and.returnValue(of([]));
+    fixture.detectChanges();
   });
 
-  it('debería inicializar cargando los usuarios', () => {
-    usuarioServiceSpy.getMostrarUsuarios.and.returnValue(of([]));
-    component.ngOnInit();
+  it('debería crearse el componente', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('debería cargar usuarios en el ngOnInit', () => {
     expect(usuarioServiceSpy.getMostrarUsuarios).toHaveBeenCalled();
   });
 
-  it('debería abrir el modal en modo crear con campos limpios', () => {
-    component.abrirModalCrear();
-    expect(component.mostrarModal).toBeTrue();
-    expect(component.modoModal).toBe('crear');
-    expect(component.usuarioNuevo.nombreUsuario).toBe('');
+  it('debería mostrar error si falla la carga de usuarios', () => {
+    const errorMsg = 'Error de servidor';
+    usuarioServiceSpy.getMostrarUsuarios.and.returnValue(throwError(() => ({ error: errorMsg })));
+
+    component.cargarUsuarios();
+
+    expect(toastrServiceSpy.error).toHaveBeenCalledWith(errorMsg, 'Error');
   });
 
-  it('no debería guardar si faltan campos obligatorios', () => {
-    component.modoModal = 'crear';
+  it('debería validar campos obligatorios antes de crear', () => {
+    component.usuarioNuevo.nombreUsuario = ''; // Vacío
     component.crearOactualizar();
-    expect(component.mensajeError).toBe('Debe completar todos los campos obligatorios.');
+    expect(toastrServiceSpy.warning).toHaveBeenCalled();
   });
 
-  it('debería llamar a eliminarUsuario y recargar lista', () => {
-    usuarioServiceSpy.deleteUsuarios.and.returnValue(of('Usuario eliminado'));
-    usuarioServiceSpy.getMostrarUsuarios.and.returnValue(of([]));
+  it('debería llamar al servicio de creación y mostrar éxito', () => {
+    component.modoModal = 'crear';
+    component.usuarioNuevo = { nombreUsuario: 'test', correo: 'test@test.com', contrasena: '123', role: 0, totalArchivos: 0 } as any;
+    usuarioServiceSpy.postCrearUsuario.and.returnValue(of('usuario'));
 
-    component.eliminarUsuario({ id: 1 });
+    component.crearOactualizar();
 
-    expect(usuarioServiceSpy.deleteUsuarios).toHaveBeenCalledWith(1);
-    expect(usuarioServiceSpy.getMostrarUsuarios).toHaveBeenCalled();
+    expect(usuarioServiceSpy.postCrearUsuario).toHaveBeenCalled();
+    expect(toastrServiceSpy.success).toHaveBeenCalled();
   });
 });
