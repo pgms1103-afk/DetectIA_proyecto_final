@@ -46,7 +46,7 @@ import jakarta.servlet.http.HttpServletRequest;
  * @see co.edu.unbosque.detectia.security.JwtUtil
  */
 @RestController
-@RequestMapping("/public") // Todas las rutas que maneje este controlador van a tener el prefijo "public"
+@RequestMapping("/public")
 @CrossOrigin(origins = { "http://localhost:8080", "*" })
 @Tag(name = "Autenticacion", description = "Endpoints publicos de registro e inicio de sesion")
 public class AuthController {
@@ -143,7 +143,6 @@ public class AuthController {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			String jwt = jwtUtil.generateToken(userDetails);
 
-			// Obtener el rol de userDetails si es nuestra clase User
 			String role = null;
 			if (userDetails instanceof Usuario) {
 				Usuario user = (Usuario) userDetails;

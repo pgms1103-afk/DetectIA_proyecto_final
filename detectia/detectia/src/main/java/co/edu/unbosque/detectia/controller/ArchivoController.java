@@ -47,7 +47,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * imágenes por URL pública, delegando la lógica a {@link EleccionService}.
  * </p>
  *
- * @author Martín García
+ * @author Martín Peña
  * @version 1.0
  * @since 1.0
  * @see co.edu.unbosque.detectia.service.EleccionService

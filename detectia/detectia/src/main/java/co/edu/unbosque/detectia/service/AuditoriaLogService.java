@@ -127,7 +127,6 @@ public class AuditoriaLogService {
 			try {
 				log.setCorreo(AESUtil.decrypt(log.getCorreo()));
 			} catch (Exception ignored) {
-				// Ya está en texto plano, no hace nada
 			}
 		}
 	}

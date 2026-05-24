@@ -83,7 +83,7 @@ public class ArchivoService implements CRUDoperation<ArchivoDTO> {
 			entity.setNombre(data.getNombre());
 			entity.setRutaAlmacenamiento(data.getRutaAlmacenamiento());
 			entity.setFechaSubida(data.getFechaSubida());
-			entity.setUsuario(encontrado.get()); // ← relación correctamente seteada
+			entity.setUsuario(encontrado.get());
 
 			Archivo guardado = archivoRepo.save(entity);
 

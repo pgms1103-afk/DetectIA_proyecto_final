@@ -122,6 +122,108 @@ export class DashboardAdmin implements AfterViewInit {
 
   /** Renderiza los elementos visuales usando Chart.js */
   inicializarGraficas() {
-    // ... Implementación de Chart.js (mantener lógica original)
+    const ctxTrafico = document.getElementById('traficoChart');
+    if (ctxTrafico) {
+      new Chart(ctxTrafico, {
+        type: 'line',
+        data: {
+          labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+          datasets: [
+            {
+              label: 'Peticiones API',
+              data: this.traficoData,
+              borderColor: '#6366f1',
+              backgroundColor: 'rgba(99, 102, 241, 0.1)',
+              fill: true,
+              tension: 0.4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a1a1aa' } },
+            x: { grid: { display: false }, ticks: { color: '#a1a1aa' } },
+          },
+        },
+      });
+    }
+    const ctxStorage = document.getElementById('storageChart');
+    if (ctxStorage) {
+      new Chart(ctxStorage, {
+        type: 'doughnut',
+        data: {
+          labels: this.tiposArchivo.labels,
+          datasets: [
+            {
+              data: this.tiposArchivo.data,
+              backgroundColor: ['#6366f1', '#10b981', '#fbbf24', '#f43f5e', '#64748b'],
+              borderWidth: 0,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: { color: '#a1a1aa', font: { size: 11 } },
+            },
+          },
+        },
+      });
+    }
+    const ctxRadar = document.getElementById('performanceRadarChart');
+    if (ctxRadar) {
+      new Chart(ctxRadar, {
+        type: 'doughnut',
+        data: {
+          labels: this.veredictos.labels,
+          datasets: [{
+            data: this.veredictos.data,
+            backgroundColor: ['#f43f5e', '#10b981'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: {
+            legend: { display: true, position: 'bottom', labels: { color: '#a1a1aa', font: { size: 11 } } }
+          }
+        }
+      });
+    }
+    const ctxApiUsage = document.getElementById('apiUsageChart');
+    if (ctxApiUsage) {
+      new Chart(ctxApiUsage, {
+        type: 'line',
+        data: {
+          labels: Array.from({ length: 24 }, (_, i) => `${i}h`),
+          datasets: [{
+            data: this.apiUsageData,
+            borderColor: '#fbbf24',
+            backgroundColor: 'rgba(251, 191, 36, 0.1)',
+            fill: true,
+            tension: 0.1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a1a1aa' } },
+            x: { grid: { display: false }, ticks: { color: '#a1a1aa' }, display: false }
+          }
+        }
+      });
+    }
   }
 }

@@ -4,6 +4,7 @@ import { UsuarioModel } from '../../models/usuario.model';
 import { UsuarioService } from '../../services/usuario.service';
 import { Role } from '../../models/role.enum';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 /**
  * @component GestionUsuarios
@@ -21,6 +22,7 @@ export class GestionUsuarios implements OnInit {
   public usuarios: UsuarioModel[] = [];
   private usuarioService: UsuarioService = inject(UsuarioService);
   public id: number | undefined = undefined;
+  private toastr: ToastrService = inject(ToastrService);
 
   mensajeError = '';
   mensajeExito = '';
@@ -58,15 +60,14 @@ export class GestionUsuarios implements OnInit {
   cargarUsuarios() {
     this.usuarioService.getMostrarUsuarios().subscribe({
       next: (datos) => { this.usuarios = datos; },
-      error: () => { /* Manejo de error silencioso según lógica original */ },
+      error: (err) => {
+        this.toastr.error(err.error|| "No se pudo cargar el usuario", 'Error') },
     });
   }
 
   /** Prepara el formulario en modo 'crear' y abre el modal */
   abrirModalCrear() {
     this.modoModal = 'crear';
-    this.mensajeError = '';
-    this.mensajeExito = '';
     this.usuarioNuevo = { nombreUsuario: '', correo: '', contrasena: '', role: Role.USER, totalArchivos: 0 };
     this.mostrarModal = true;
   }
@@ -74,8 +75,6 @@ export class GestionUsuarios implements OnInit {
   /** Carga los datos de un usuario en el formulario y abre el modal en modo 'editar' */
   abrirModalEditar(user: UsuarioModel) {
     this.modoModal = 'editar';
-    this.mensajeError = '';
-    this.mensajeExito = '';
     this.mostrarModal = true;
     this.id = user.id;
     this.usuarioNuevo = {
@@ -93,38 +92,63 @@ export class GestionUsuarios implements OnInit {
     this.mostrarModal = false;
   }
 
-  /** Ejecuta la lógica de creación o actualización según el estado del modal */
-  crearOactualizar(){
-    this.mensajeError = '';
-    this.mensajeExito = '';
+  /** Ejecuta la creación o actualización según el modo del modal */
+  crearOactualizar() {
+    if (this.modoModal === 'crear') {
+      this.crearUsuario();
+    } else {
+      this.actualizarUsuario();
+    }
+  }
 
-    if(!this.usuarioNuevo.nombreUsuario || !this.usuarioNuevo.correo || (!this.usuarioNuevo.contrasena && this.modoModal === 'crear')){
-      this.mensajeError = 'Debe completar todos los campos obligatorios.';
+  /** Crea un nuevo usuario */
+  private crearUsuario() {
+    if (!this.usuarioNuevo.nombreUsuario || !this.usuarioNuevo.correo || !this.usuarioNuevo.contrasena) {
+      this.toastr.warning('Debe completar todos los campos obligatorios.', 'Advertencia');
       return;
     }
 
-    if(this.modoModal === 'crear'){
-      this.usuarioService.postCrearUsuario(this.usuarioNuevo).subscribe({
-        next: () => { this.cargarUsuarios(); this.cerrarModal(); },
-        error: () => {},
-      });
-    } else {
-      if (this.id === undefined) {
-        this.mensajeError = 'No se ha seleccionado ningún usuario para editar.';
-        return;
-      }
-      this.usuarioService.putActualizarUsuario(this.id, this.usuarioNuevo).subscribe({
-        next: () => { this.cargarUsuarios(); this.cerrarModal(); },
-        error: () => {}
-      });
+    this.usuarioService.postCrearUsuario(this.usuarioNuevo).subscribe({
+      next: () => {
+        this.toastr.success('Usuario creado correctamente', 'Éxito');
+        this.cargarUsuarios();
+        this.cerrarModal();
+      },
+      error: (err) => {
+        this.toastr.error(err.error || 'No se pudo crear el usuario', 'Error');
+      },
+    });
+  }
+
+  /** Actualiza un usuario existente */
+  private actualizarUsuario() {
+    if (!this.usuarioNuevo.nombreUsuario || !this.usuarioNuevo.correo) {
+      this.toastr.warning('Debe completar todos los campos obligatorios.', 'Advertencia');
+      return;
     }
+
+    if (this.id === undefined) {
+      this.toastr.error('No se ha seleccionado ningún usuario para editar.', 'Error');
+      return;
+    }
+
+    this.usuarioService.putActualizarUsuario(this.id, this.usuarioNuevo).subscribe({
+      next: () => {
+        this.toastr.success('Usuario actualizado correctamente', 'Éxito');
+        this.cargarUsuarios();
+        this.cerrarModal();
+      },
+      error: (err) => {
+        this.toastr.error(err.error || 'No se pudo actualizar el usuario', 'Error');
+      },
+    });
   }
 
   /** Elimina un usuario por su ID y recarga el listado */
   eliminarUsuario(user: any) {
     this.usuarioService.deleteUsuarios(user.id).subscribe({
       next: () => { this.cargarUsuarios(); },
-      error: () => {}
+      error: (err) => {}
     });
   }
 }

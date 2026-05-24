@@ -131,10 +131,8 @@ public class SightengineService {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		baos.write(("--" + boundary + "\r\n").getBytes());
 
-		// Configuramos el nombre y tipo real
 		baos.write(("Content-Disposition: form-data; name=\"media\"; filename=\"" + fileName + "\"\r\n").getBytes());
 
-		// Aquí es donde usamos el parámetro dinámico
 		baos.write(("Content-Type: " + contentType + "\r\n\r\n").getBytes());
 
 		baos.write(fileBytes);
