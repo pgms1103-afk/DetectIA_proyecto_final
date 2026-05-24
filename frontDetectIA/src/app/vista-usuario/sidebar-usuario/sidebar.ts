@@ -34,8 +34,7 @@ export class Sidebar implements OnInit {
   /**
    * Evento emitido al seleccionar una herramienta.
    */
-  @Output()
-  herramientaSeleccionada = new EventEmitter<string>();
+  @Output() readonly herramientaSeleccionada = new EventEmitter<string>();
 
   /**
    * Servicio encargado del manejo de archivos.

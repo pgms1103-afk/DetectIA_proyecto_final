@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 export class SidebarAdmin {
 
   /** Evento emitido al seleccionar una sección principal del dashboard */
-  @Output() vistaSeleccionada = new EventEmitter<'dashboard' | 'usuarios' | 'auditoria'>();
+  @Output() readonly vistaSeleccionada = new EventEmitter<'dashboard' | 'usuarios' | 'auditoria'>();
 
   /** Estado de colapso del menú lateral (versión escritorio) */
   isCollapsed = false;

@@ -10,16 +10,10 @@ import { AuditoriaLogModel } from '../../models/auditoria.model';
 import { ArchivoModel } from '../../models/archivo.model';
 import { ResultadoIAModel } from '../../models/resultadoIA.model';
 
-declare const Chart: {
-  new (...args: unknown[]): {
-    update(): void;
-    destroy(): void;
-    data: {
-      datasets: Array<{
-        data: number[];
-      }>;
-    };
-  };
+declare const Chart: new (...args: unknown[]) => {
+  update(): void;
+  destroy(): void;
+  data: { datasets: Array<{ data: number[] }>; };
 };
 
 /**
@@ -69,10 +63,10 @@ export class DashboardAdmin implements AfterViewInit {
         this.metricas[1].valor = usuarios.filter(u => u.role === 'USER').length.toLocaleString();
         this.metricas[2].valor = usuarios.filter(u => u.role === 'ADMIN').length.toLocaleString();
 
-        this.traficoData  = this.calcularTraficoPorDia(auditorias);
-        this.apiUsageData = this.calcularUsoPorHora(auditorias);
-        this.tiposArchivo = this.calcularTiposArchivo(archivos ?? []);
-        this.veredictos   = this.calcularVeredictos(resultados ?? []);
+        this.traficoData  = DashboardAdmin.calcularTraficoPorDia(auditorias);
+        this.apiUsageData = DashboardAdmin.calcularUsoPorHora(auditorias);
+        this.tiposArchivo = DashboardAdmin.calcularTiposArchivo(archivos ?? []);
+        this.veredictos   = DashboardAdmin.calcularVeredictos(resultados ?? []);
 
         this.inicializarGraficas();
       },
@@ -84,7 +78,7 @@ export class DashboardAdmin implements AfterViewInit {
   }
 
   /** Agrupa los logs por día de la semana (Lun=0 … Dom=6) */
-  private calcularTraficoPorDia(auditorias: AuditoriaLogModel[]): number[] {
+  private static calcularTraficoPorDia(auditorias: AuditoriaLogModel[]): number[] {
     const conteo = [0, 0, 0, 0, 0, 0, 0];
     auditorias.forEach(a => {
       const dia = new Date(a.fecha).getDay();
@@ -94,7 +88,7 @@ export class DashboardAdmin implements AfterViewInit {
   }
 
   /** Agrupa los logs del día de hoy por hora (0-23) */
-  private calcularUsoPorHora(auditorias: AuditoriaLogModel[]): number[] {
+  private static calcularUsoPorHora(auditorias: AuditoriaLogModel[]): number[] {
     const hoy   = new Date().toDateString();
     const conteo = Array(24).fill(0);
     auditorias.forEach(a => {
@@ -105,7 +99,7 @@ export class DashboardAdmin implements AfterViewInit {
   }
 
   /** Categoriza archivos según su extensión */
-  private calcularTiposArchivo(archivos: ArchivoModel[]): { labels: string[]; data: number[] } {
+  private static calcularTiposArchivo(archivos: ArchivoModel[]): { labels: string[]; data: number[] } {
     const categorias: Record<string, number> = { 'Imagen': 0, 'Video': 0, 'Audio': 0, 'Documento': 0, 'Otro': 0 };
 
     archivos.forEach(a => {
@@ -124,7 +118,7 @@ export class DashboardAdmin implements AfterViewInit {
   }
 
   /** Clasifica resultados entre IA y Humano */
-  private calcularVeredictos(resultados: ResultadoIAModel[]): { labels: string[]; data: number[] } {
+  private static calcularVeredictos(resultados: ResultadoIAModel[]): { labels: string[]; data: number[] } {
     let ia = 0, humano = 0;
     resultados.forEach(r => r.porcentajeIA >= 50 ? ia++ : humano++);
     return { labels: ['Probable IA', 'Probable Humano'], data: [ia, humano] };

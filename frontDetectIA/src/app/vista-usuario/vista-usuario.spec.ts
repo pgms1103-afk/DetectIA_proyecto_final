@@ -60,8 +60,8 @@ describe('VistaUsuario', () => {
     window.Chart = jasmine
       .createSpy('Chart')
       .and.callFake(() => ({
-        update: () => {},
-        destroy: () => {},
+        update: () => undefined,
+        destroy: () => undefined,
         data: { datasets: [{ data: [] }] }
       }));
     spyOn(document, 'getElementById').and.returnValue(null);

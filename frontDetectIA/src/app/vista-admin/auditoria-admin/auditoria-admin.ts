@@ -39,22 +39,22 @@ export class AuditoriaAdmin implements OnInit {
   buscar() {
     if (this.filtroCorreo.trim()) {
       this.auditoriaService.getPorCorreo(this.filtroCorreo).subscribe({
-        next: (datos) => this.auditorias = datos,
+        next: (datos) => { this.auditorias = datos; },
         error: (err) => console.error(err)
       });
     } else if (this.filtroAccion.trim()) {
       this.auditoriaService.getPorAccion(this.filtroAccion).subscribe({
-        next: (datos) => this.auditorias = datos,
+        next: (datos) => { this.auditorias = datos; },
         error: (err) => console.error(err)
       });
     } else if (this.filtroModulo.trim()) {
       this.auditoriaService.getPorModulo(this.filtroModulo).subscribe({
-        next: (datos) => this.auditorias = datos,
+        next: (datos) => { this.auditorias = datos; },
         error: (err) => console.error(err)
       });
     } else if (this.filtroExitoso !== '') {
       this.auditoriaService.getPorExitoso(this.filtroExitoso === 'true').subscribe({
-        next: (datos) => this.auditorias = datos,
+        next: (datos) => { this.auditorias = datos; },
         error: (err) => console.error(err)
       });
     } else {
@@ -93,7 +93,7 @@ export class AuditoriaAdmin implements OnInit {
    */
   cargarAuditorias() {
     this.auditoriaService.getTodos().subscribe({
-      next: (datos) => this.auditorias = datos,
+      next: (datos) => { this.auditorias = datos; },
       error: (err) => console.error('Error cargando auditorías:', err)
     });
   }
