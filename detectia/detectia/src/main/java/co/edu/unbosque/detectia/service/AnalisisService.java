@@ -64,7 +64,6 @@ public class AnalisisService {
 	 *         {@code "promedio"} (promedio redondeado a 2 decimales) y
 	 *         {@code "veredicto"} ({@code "PROBABLE IA"} o {@code "PROBABLE HUMANO"})
 	 */
-	// 1. Cambiamos String nombreArchivo por Archivo archivoReciente
 	public Map<String,Object> calcularResumen(Map<String,Double> votosIAs, Archivo archivoReciente) {
 	    double promedio = 0;
 	    if(!votosIAs.isEmpty()) {
@@ -82,17 +81,14 @@ public class AnalisisService {
 	        veredicto = "PROBABLE HUMANO";
 	    }
 	    
-	    // 2. 🟢 Borramos la búsqueda traicionera (List<Archivo> archivo = archivoRepo.findByNombre...)
 	    
 	    Analisis entity = new Analisis();
 	    entity.setVeredicto(veredicto);
 	    entity.setPorcentajeFinal(Math.round(promedio * 100.0) / 100.0);
 	    
-	    // 3. 🟢 Le asignamos el archivo directamente 
 	    entity.setArchivo(archivoReciente);
 	    analisisRepo.save(entity);
 	    
-	    // 4. Tu código intacto, devolviendo exactamente el mismo JSON de siempre
 	    Map<String, Object> resumen = new HashMap<>();
 	    resumen.put("resultados", votosIAs);
 	    resumen.put("promedio", Math.round(promedio * 100.0) / 100.0);

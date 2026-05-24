@@ -43,7 +43,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * administración.
  * </p>
  *
- * @author Martín García
+ * @author Martín Peña
  * @version 1.0
  * @since 1.0
  * @see co.edu.unbosque.detectia.service.UsuarioService

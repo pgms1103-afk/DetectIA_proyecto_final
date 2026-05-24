@@ -63,7 +63,6 @@ public class GrokService {
 	public GrokDTO detectarIA(String texto) throws Exception {
 		JsonArray messages = new JsonArray();
 
-		// Prompt optimizado para análisis lingüístico formal
 		JsonObject systemMessage = new JsonObject();
 		systemMessage.addProperty("role", "system");
 		systemMessage.addProperty("content", "Eres un analizador forense de texto especializado en detectar contenido generado por modelos de lenguaje (LLMs como ChatGPT, Gemini, Claude, Llama, Mistral).\n" +
@@ -152,7 +151,6 @@ public class GrokService {
 
 		JsonArray userContentArray = new JsonArray();
 
-		// Prompt del usuario con orden pericial directo
 		JsonObject textContent = new JsonObject();
 		textContent.addProperty("type", "text");
 		textContent.addProperty("text",
@@ -174,7 +172,6 @@ public class GrokService {
 		return ejecutarPeticion(messages, modelVision);
 	}
 
-	// 3. Análisis de Imagen por URL Pública
 	public GrokDTO detectarIAImagenUrl(String urlImagen) throws Exception {
 		JsonObject systemMessage = new JsonObject();
 		systemMessage.addProperty("role", "system");
@@ -214,7 +211,7 @@ public class GrokService {
 		JsonObject imageUrlContent = new JsonObject();
 		imageUrlContent.addProperty("type", "image_url");
 		JsonObject imageUrlObj = new JsonObject();
-		imageUrlObj.addProperty("url", urlImagen); // 💡 Aquí pasa la URL directa
+		imageUrlObj.addProperty("url", urlImagen); 
 		imageUrlContent.add("image_url", imageUrlObj);
 		userContentArray.add(imageUrlContent);
 
@@ -233,10 +230,8 @@ public class GrokService {
 		JsonObject jsonBody = new JsonObject();
 		jsonBody.addProperty("model", modeloUtilizado);
 		jsonBody.add("messages", messages);
-		jsonBody.addProperty("temperature", 0.2); // 💡 Reducido a 0.0 para obligar al modelo a ser determinista y
-													// seguir la regla del número entero
-		jsonBody.addProperty("max_completion_tokens", 5); // 💡 Reducido a 5 tokens para recortar cualquier intento de
-															// explicación verbal
+		jsonBody.addProperty("temperature", 0.2); 
+		jsonBody.addProperty("max_completion_tokens", 5); 
 
 		HttpRequest solicitud = HttpRequest.newBuilder().uri(URI.create(apiUrl))
 				.header("Content-Type", "application/json").header("Authorization", "Bearer " + apiKey)
@@ -262,8 +257,6 @@ public class GrokService {
 			String texto = root.getAsJsonArray("choices").get(0).getAsJsonObject().getAsJsonObject("message")
 					.get("content").getAsString().trim();
 
-			// 💡 Por seguridad eliminamos cualquier caracter residual no numérico que el
-			// modelo intente colar
 			texto = texto.replaceAll("[^0-9]", "");
 
 			double porcentaje = Double.parseDouble(texto);

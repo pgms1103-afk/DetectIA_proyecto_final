@@ -72,8 +72,7 @@ public class WinstonService {
 		if(texto.length() < 500) {
 			throw new IllegalArgumentException("Se requieren mínimo " + 500 + " caracteres para un análisis válido");
 		}
-		
-		
+				
 		JsonObject body = new JsonObject();
 		body.addProperty("text", texto);
 		
@@ -97,7 +96,6 @@ public class WinstonService {
 	        Gson gson = new Gson();
 	        JsonObject root = gson.fromJson(respuesta.body(), JsonObject.class);
 	        double humanScore = root.get("score").getAsDouble();
-	        // score es Human Score (0-100), lo invertimos para obtener porcentaje de IA
 	        return new WinstonDTO(100 - humanScore);
 		
 	}
@@ -136,7 +134,6 @@ public class WinstonService {
 	        Gson gson = new Gson();
 	        JsonObject root = gson.fromJson(respuesta.body(), JsonObject.class);
 	        double humanScore = root.get("score").getAsDouble()*100;
-	        // score es Human Score (0-100), lo invertimos para obtener porcentaje de IA
 	        return new WinstonDTO(100 - humanScore);
 		
 		
