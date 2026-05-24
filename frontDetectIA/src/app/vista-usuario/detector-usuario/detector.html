@@ -1,5 +1,6 @@
 <div class="area-trabajo">
 
+  <div class="fila-paneles">
   <div class="panel-entrada">
     <div class="cabecera-panel">
       <span class="titulo-panel" style="text-transform: capitalize;">Entrada de {{ tipoHerramienta }}</span>
@@ -45,6 +46,9 @@
         <i class="fa-solid fa-link icono-enlace"></i>
         <input type="url" class="input-enlace" [(ngModel)]="url"
                placeholder="Pega la URL de tu {{ tipoHerramienta }} aquí...">
+        <button class="btn-pegar-url" (click)="copiarUrl()" title="Copiar URL al portapapeles" [disabled]="!url">
+          <i class="fa-regular fa-copy"></i> Copiar
+        </button>
       </div>
       <p class="nota-enlace">
         El archivo multimedia será procesado de forma segura desde este enlace.
@@ -123,7 +127,6 @@
     </button>
   </div>
 
-
   <div class="panel-resultados animate__animated animate__fadeIn animate__faster">
     <div class="tarjeta-medidor">
       <span class="etiqueta-medidor">
@@ -171,12 +174,91 @@
             {{ modelo.nombre }}
           </span>
 
-          <span class="valor-metrica">{{ modelo.valor != null ? modelo.valor + '%' : '—' }}</span>
+          <span class="valor-metrica">{{ modelo.valor != null ? ((modelo.valor | number:'1.0-2') + '%') : '—' }}</span>
         </div>
       </div>
     </div>
 
   </div>
+  </div><!-- /fila-paneles -->
+
+  <div class="seccion-recomendaciones">
+    <span class="titulo-recomendaciones">Prestá más atención a estas herramientas</span>
+    <div class="grid-recomendaciones">
+
+      <div class="tarjeta-recomendacion texto">
+        <div class="cabecera-recomendacion">
+          <div class="icono-tipo-rec"><i class="fa-solid fa-font"></i></div>
+          <span class="tipo-rec">Texto</span>
+        </div>
+        <div class="nombre-ia-rec">Winston</div>
+        <p class="desc-rec">La herramienta más precisa del aplicativo para detectar texto generado por IA. Analiza patrones lingüísticos, coherencia y estructura para determinar si un escrito es humano o artificial.</p>
+        <div class="mejor-en">
+          <span class="mejor-en-label">Mejor en:</span>
+          <div class="chips-mejor-en">
+            <span class="chip-rec">Ensayos académicos</span>
+            <span class="chip-rec">Artículos y blogs</span>
+            <span class="chip-rec">Correos y reportes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tarjeta-recomendacion video">
+        <div class="cabecera-recomendacion">
+          <div class="icono-tipo-rec"><i class="fa-solid fa-film"></i></div>
+          <span class="tipo-rec">Video</span>
+        </div>
+        <div class="nombre-ia-rec">TwelveLabs</div>
+        <p class="desc-rec">Motor de comprensión de vídeo diseñado para detectar manipulación visual y contenido sintético. Evalúa fotograma a fotograma en busca de inconsistencias generadas por IA.</p>
+        <div class="mejor-en">
+          <span class="mejor-en-label">Mejor en:</span>
+          <div class="chips-mejor-en">
+            <span class="chip-rec">Deepfakes</span>
+            <span class="chip-rec">Vídeos sintéticos</span>
+            <span class="chip-rec">Manipulación facial</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tarjeta-recomendacion imagen">
+        <div class="cabecera-recomendacion">
+          <div class="icono-tipo-rec"><i class="fa-solid fa-image"></i></div>
+          <span class="tipo-rec">Imagen</span>
+        </div>
+        <div class="nombre-ia-rec">Hive Moderation</div>
+        <p class="desc-rec">Mayor tasa de acierto en imágenes sintéticas del aplicativo. Identifica artefactos digitales y firmas propias de los principales generadores de imágenes por IA.</p>
+        <div class="mejor-en">
+          <span class="mejor-en-label">Mejor en:</span>
+          <div class="chips-mejor-en">
+            <span class="chip-rec">DALL-E & Midjourney</span>
+            <span class="chip-rec">Stable Diffusion</span>
+            <span class="chip-rec">Arte generado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tarjeta-recomendacion audio">
+        <div class="cabecera-recomendacion">
+          <div class="icono-tipo-rec"><i class="fa-solid fa-microphone"></i></div>
+          <span class="tipo-rec">Audio</span>
+        </div>
+        <div class="nombre-ia-rec">ACRCloud</div>
+        <p class="desc-rec">Referente en reconocimiento y análisis de audio para detectar contenido generado por IA. El resultado más confiable varía según el tipo de audio que subas.</p>
+        <div class="tip-audio">
+          <div class="tip-fila">
+            <span class="tip-badge gemini"><i class="fa-solid fa-waveform-lines"></i> Voz</span>
+            <span class="tip-texto">Si el audio contiene voz humana, priorizá el resultado de <strong>Gemini</strong> — es más preciso detectando síntesis y clonación de voz.</span>
+          </div>
+          <div class="tip-fila">
+            <span class="tip-badge acr"><i class="fa-solid fa-music"></i> Música</span>
+            <span class="tip-texto">Si es una pista musical, confiá en <strong>ACRCloud</strong> — está especializado en análisis de audio musical generado por IA.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <div class="overlay-carga animate__animated animate__fadeIn" *ngIf="cargando">
     <div class="caja-carga">
 

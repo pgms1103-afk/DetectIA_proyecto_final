@@ -19,8 +19,8 @@ export const usuarioGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const rol = localStorage.getItem('rol_diario');
 
-
-  if (rol === 'USER' || rol === 'ROLE_USER' || rol === 'USUARIO') {
+  if (rol === 'USER' || rol === 'ROLE_USER' || rol === 'USUARIO' ||
+      rol === 'ADMIN' || rol === 'ROLE_ADMIN') {
     return true;
   }
 

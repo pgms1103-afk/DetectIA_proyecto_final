@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { UsuarioService } from '../../services/usuario.service';
 import { AuditoriaService } from '../../services/auditoria.service';
 import { ArchivoService } from '../../services/archivo.service';
@@ -42,10 +43,10 @@ export class DashboardAdmin implements AfterViewInit {
 
   cargarDatos() {
     forkJoin({
-      usuarios:   this.usuarioService.getMostrarUsuarios(),
-      auditorias: this.auditoriaService.getTodos(),
-      archivos:   this.archivoService.getAllArchivos(),
-      resultados: this.resultadoService.getAllResultados()
+      usuarios:   this.usuarioService.getMostrarUsuarios().pipe(catchError(() => of([]))),
+      auditorias: this.auditoriaService.getTodos().pipe(catchError(() => of([]))),
+      archivos:   this.archivoService.getAllArchivos().pipe(catchError(() => of([]))),
+      resultados: this.resultadoService.getAllResultados().pipe(catchError(() => of([])))
     }).subscribe({
       next: ({ usuarios, auditorias, archivos, resultados }) => {
 
@@ -58,8 +59,8 @@ export class DashboardAdmin implements AfterViewInit {
         this.apiUsageData = this.calcularUsoPorHora(auditorias);
 
         // --- Datos para gráficas nuevas ---
-        this.tiposArchivo = this.calcularTiposArchivo(archivos);
-        this.veredictos   = this.calcularVeredictos(resultados);
+        this.tiposArchivo = this.calcularTiposArchivo(archivos   ?? []);
+        this.veredictos   = this.calcularVeredictos(resultados ?? []);
 
         this.inicializarGraficas();
       },

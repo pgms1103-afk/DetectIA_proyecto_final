@@ -57,10 +57,7 @@ export class Sidebar implements OnInit {
         if (httpResponse.body) {
           this.historialArchivos = httpResponse.body;
         }
-      },
-      error: (err) => {
-        this.toastr.error(err.error || 'Error al traer el historial:', 'Error');
-      },
+      }
     });
   }
 
@@ -96,6 +93,7 @@ export class Sidebar implements OnInit {
   isCollapsed = false;
   mobileOpen = false;
   herramientaActual = 'texto';
+  esAdmin = ['ADMIN', 'ROLE_ADMIN'].includes(localStorage.getItem('rol_diario') ?? '');
 
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
@@ -110,6 +108,10 @@ export class Sidebar implements OnInit {
     if (this.mobileOpen) this.toggleMobileMenu();
   }
 
+  irAlAdmin() {
+    this.router.navigate(['/admin']);
+  }
+
   cerrarSesion() {
     this.authService.cerrarSesion();
     this.router.navigate(['/login']);
@@ -117,7 +119,7 @@ export class Sidebar implements OnInit {
 
   buscarPorNombre() {
     if (!this.nombreArchivo.trim()) {
-      this.cargarHistorial(); // si está vacío, carga todo el historial
+      this.cargarHistorial();
       return;
     }
 
