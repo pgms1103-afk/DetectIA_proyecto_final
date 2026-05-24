@@ -5,8 +5,12 @@ import { AuditoriaService } from '../../services/auditoria.service';
 import { ArchivoService } from '../../services/archivo.service';
 import { ResultadoIAService } from '../../services/resultadoIA.service';
 import { of } from 'rxjs';
-import { provideToastr } from 'ngx-toastr';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { ArchivoModel } from '../../models/archivo.model';
+
+interface GraficoData {
+  labels: string[];
+  data: number[];
+}
 
 describe('DashboardAdmin', () => {
   let component: DashboardAdmin;
@@ -48,24 +52,20 @@ describe('DashboardAdmin', () => {
   });
 
   it('debería clasificar correctamente los archivos por tipo', () => {
-    const archivos = [
+    const archivos: Partial<ArchivoModel>[] = [
       { rutaAlmacenamiento: 'test.jpg' },
       { rutaAlmacenamiento: 'video.mp4' }
-    ] as any;
-
-    const resultado = (component as any).calcularTiposArchivo(archivos);
+    ];
+    const resultado = (component as any)['calcularTiposArchivo'](archivos) as GraficoData;
 
     expect(resultado.labels).toContain('Imagen');
     expect(resultado.labels).toContain('Video');
   });
 
   it('debería clasificar veredictos según porcentaje IA', () => {
-    const resultados = [
-      { porcentajeIA: 60 }, // IA
-      { porcentajeIA: 30 }  // Humano
-    ] as any;
+    const resultados = [{ porcentajeIA: 60 }, { porcentajeIA: 30 }];
 
-    const resultado = (component as any).calcularVeredictos(resultados);
+    const resultado = (component as any)['calcularVeredictos'](resultados) as GraficoData;
 
     expect(resultado.data).toEqual([1, 1]);
   });
