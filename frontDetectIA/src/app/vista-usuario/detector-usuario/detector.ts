@@ -99,12 +99,12 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   /**
    * Texto plano ingresado para analizar.
    */
-  public textoPlano: string = '';
+  public textoPlano = '';
 
   /**
    * Promedio final de detección IA.
    */
-  public promedioActual: number = 0;
+  public promedioActual = 0;
 
   /**
    * Veredicto generado por el backend.
@@ -114,12 +114,12 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   /**
    * Indica si el sistema está procesando un análisis.
    */
-  public cargando: boolean = false;
+  public cargando = false;
 
   /**
    * Sugerencia mostrada durante la carga.
    */
-  public sugerenciaActual: string = '';
+  public sugerenciaActual = '';
 
   /**
    * Intervalo usado para rotar sugerencias.
@@ -184,7 +184,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   /**
    * Tipo de herramienta actual.
    */
-  @Input() tipoHerramienta: string = 'texto';
+  @Input() tipoHerramienta = 'texto';
 
   /**
    * Pestaña activa en la interfaz.
@@ -271,7 +271,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
             this.actualizarValoresModelos(resultados);
           },
           error: (err) => {
-            console.log( err.error || "ta mal" )
+            this.toastr.error(err.error || 'Error al cargar los resultados.', 'Error');
           }
         });
 
@@ -473,9 +473,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
           setTimeout(() => {
             this.detenerCarga();
 
-            alert(
-              `Error: ${err.error || 'Error al analizar el archivo.'}`
-            );
+            this.toastr.error(err.error || 'Error al analizar el archivo.', 'Error')
           }, 1500);
         },
       });
@@ -487,7 +485,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   subirArchivoUrl() {
 
     if (!this.url) {
-      alert('Advertencia: Ingresa una URL primero');
+      this.toastr.warning('Ingresa una URL primero', 'Advertencia')
       return;
     }
 
@@ -521,9 +519,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
           setTimeout(() => {
             this.detenerCarga();
 
-            alert(
-              `Error: ${err.error || 'Error al analizar url.'}`
-            );
+            this.toastr.error(err.error || 'Error al analizar url.', 'Error')
           }, 1500);
         },
       });
@@ -597,7 +593,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   subirTextoPlano() {
 
     if (!this.textoPlano || this.textoPlano.trim().length === 0) {
-      alert('Advertencia: Pega un texto primero');
+      this.toastr.warning('Pega un texto primero', 'Advertencia')
       return;
     }
 
@@ -631,9 +627,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
           setTimeout(() => {
             this.detenerCarga();
 
-            alert(
-              `Error: ${err.error || 'Error al analizar el texto.'}`
-            );
+            this.toastr.error(err.error || 'Error al analizar el texto.', 'Error')
           }, 1500);
         },
       });

@@ -28,8 +28,7 @@ export class Topbar implements OnInit {
   /**
    * Evento emitido al abrir el menú lateral.
    */
-  @Output()
-  menuToggle = new EventEmitter<void>();
+  @Output() readonly menuToggle = new EventEmitter<void>();
 
   /**
    * Servicio encargado de obtener información del usuario.

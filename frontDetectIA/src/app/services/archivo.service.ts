@@ -74,7 +74,7 @@ export class ArchivoService {
     body.set('nombre', nombre);
     body.set('texto', texto);
     return this.cliente.post<AnalisisModel>(
-      this.urlbase + '/analizartexto',
+      `${this.urlbase}/analizartexto`,
       body.toString(),
       { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
     );

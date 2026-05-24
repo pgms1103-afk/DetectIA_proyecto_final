@@ -21,7 +21,7 @@ export class TopbarAdmin implements OnInit {
   private toastr: ToastrService = inject(ToastrService);
 
   /** Evento para disparar la apertura/cierre del menú lateral (sidebar) */
-  @Output() menuToggle = new EventEmitter<void>();
+  @Output() readonly menuToggle = new EventEmitter<void>();
 
   /** Controla la visibilidad del menú desplegable de perfil */
 

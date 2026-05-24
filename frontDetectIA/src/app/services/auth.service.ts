@@ -41,12 +41,12 @@ export class AuthService {
    * @returns Observable con la respuesta de autenticación (token y rol).
    */
   iniciarSesion(usuario: string, contrasena: string): Observable<AuthResponse> {
-    const body = { nombreUsuario: usuario, contrasena: contrasena };
+    const body = { nombreUsuario: usuario, contrasena };
     return this.http.post<AuthResponse>(`${this.urlServidor}/login`, body).pipe(
       tap(respuesta => {
-        if (respuesta && respuesta.token) {
+        if (respuesta?.token) {
           this.guardarToken(respuesta.token);
-          if (respuesta.role) {
+          if (respuesta?.role) {
             localStorage.setItem('rol_diario', respuesta.role);
           }
           localStorage.setItem('usuario_diario', usuario);
