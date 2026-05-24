@@ -17,7 +17,14 @@ export class TopbarAdmin implements OnInit {
     this.mostrarMisDatos();
   }
 
+
+
   @Output() menuToggle = new EventEmitter<void>();
+
+  abrirMenuMovil() {
+    this.menuToggle.emit();
+  }
+
 
   showProfileMenu = false;
 

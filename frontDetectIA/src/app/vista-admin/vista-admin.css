@@ -3,7 +3,7 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background: var(--bg-void); /* El color oscuro de fondo */
+  background: var(--bg-void);
 }
 
 .contenido-principal {
@@ -17,11 +17,11 @@
 
 .zona-scroll {
   flex: 1;
-  overflow-y: auto; /* Esto permite que el dashboard se mueva hacia arriba y abajo */
+  overflow-y: auto;
   overflow-x: hidden;
 }
 
-/* Ajuste para móviles */
+
 @media (max-width: 768px) {
   .contenedor-app {
     flex-direction: column;
