@@ -16,6 +16,27 @@ import co.edu.unbosque.detectia.dto.TwelveLabsDTO;
 import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 import co.edu.unbosque.detectia.exception.TamanoInvalidoException;
 
+/**
+ * Servicio de detección de deepfakes y contenido sintético en video mediante
+ * la API de TwelveLabs (modelo Pegasus 1.5).
+ * <p>
+ * El flujo de análisis consta de tres etapas: (1) subida del video como asset
+ * a la plataforma, (2) polling asíncrono hasta que el asset esté listo, y (3)
+ * invocación del endpoint de análisis para obtener un score de 0-100 que indica
+ * la probabilidad de que el video sea generado o manipulado por IA.
+ * </p>
+ * <p>
+ * Solo acepta formatos de video e imagen; el tamaño máximo es 200 MB. Lanza
+ * {@link co.edu.unbosque.detectia.exception.ExtensionInvalidaException} o
+ * {@link co.edu.unbosque.detectia.exception.TamanoInvalidoException} en caso de
+ * incumplimiento.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.dto.TwelveLabsDTO
+ */
 @Service
 public class TwelveLabsService {
 

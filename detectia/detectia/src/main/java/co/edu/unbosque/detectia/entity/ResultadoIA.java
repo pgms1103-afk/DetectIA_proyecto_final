@@ -11,6 +11,22 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+/**
+ * Entidad JPA que almacena el resultado individual de un servicio de IA para
+ * un archivo analizado.
+ * <p>
+ * Cada instancia representa el voto de un único servicio externo (p. ej.
+ * Gemini, Grok, Sightengine), con su nombre, el porcentaje de detección y la
+ * fecha/hora de análisis. Se relaciona Many-to-One con
+ * {@link Archivo}.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.service.ResultadoIAService
+ * @see co.edu.unbosque.detectia.repository.ResultadoIARepository
+ */
 @Entity
 @Table(name = "resultadoia")
 public class ResultadoIA {

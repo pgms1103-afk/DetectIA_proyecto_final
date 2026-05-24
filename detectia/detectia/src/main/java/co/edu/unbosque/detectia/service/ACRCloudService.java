@@ -19,6 +19,24 @@ import co.edu.unbosque.detectia.dto.ACRCloudeDTO;
 import co.edu.unbosque.detectia.exception.ExtensionInvalidaException;
 
 
+/**
+ * Servicio de detección de audio generado por IA mediante la API de ACRCloud.
+ * <p>
+ * Envía archivos de audio (MP3, WAV, AAC, OGG, FLAC, M4A, AMR) al endpoint de
+ * análisis de ACRCloud y realiza un ciclo de polling hasta que el resultado esté
+ * disponible, retornando la probabilidad de generación artificial como
+ * {@link co.edu.unbosque.detectia.dto.ACRCloudeDTO}.
+ * </p>
+ * <p>
+ * Solo acepta formatos de audio; cualquier otro tipo MIME lanza
+ * {@link co.edu.unbosque.detectia.exception.ExtensionInvalidaException}.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.dto.ACRCloudeDTO
+ */
 @Service
 public class ACRCloudService {
 
@@ -38,8 +56,6 @@ public class ACRCloudService {
             .connectTimeout(Duration.ofSeconds(30))
             .build();
 
-    // ─── ENDPOINT 1: archivo ───────────────────────────────────────────────────
-
     public ACRCloudeDTO detectarIAArchivo(MultipartFile archivo) throws IOException, InterruptedException {
     	
     	String mimeType = archivo.getContentType();
@@ -58,7 +74,6 @@ public class ACRCloudService {
 					+ " Formatos acepetados:MPEG,MP3,WAV,AAC,M4A,AMR");
 		}
 
-        // Construir multipart/form-data manualmente
         String boundary = "----Boundary" + System.currentTimeMillis();
 
         byte[] archivoBytes = archivo.getBytes();
@@ -95,16 +110,13 @@ public class ACRCloudService {
             return new ACRCloudeDTO(0.0);
         }
 
-        // Extraer el file_id de la respuesta
         Gson gson = new Gson();
         JsonObject root = gson.fromJson(respuesta.body(), JsonObject.class);
         String fileId = root.getAsJsonObject("data").get("id").getAsString();
 
-        // Polling hasta que state == 1
+ 
         return polling(fileId);
     }
-
-    // ─── POLLING ───────────────────────────────────────────────────────────────
 
     private ACRCloudeDTO polling(String fileId) throws IOException, InterruptedException {
 
@@ -113,7 +125,7 @@ public class ACRCloudService {
         int maxIntentos = 10;
 
         while (intentos < maxIntentos) {
-            Thread.sleep(3000); // espera 3 segundos entre cada consulta
+            Thread.sleep(3000);
 
             HttpRequest getRequest = HttpRequest.newBuilder()
                     .uri(URI.create(url + containerId + "/files/" + fileId))
@@ -142,8 +154,6 @@ public class ACRCloudService {
 
         return new ACRCloudeDTO(0.0);
     }
-
-    // ─── PARSEO ────────────────────────────────────────────────────────────────
 
     private ACRCloudeDTO parsearResultado(JsonObject data) {
         try {

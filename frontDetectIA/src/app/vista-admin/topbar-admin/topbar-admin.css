@@ -187,3 +187,23 @@
     display: none;
   }
 }
+
+.btn-menu-movil {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  margin-right: 15px;
+}
+
+@media (max-width: 768px) {
+  .btn-menu-movil {
+    display: block;
+  }
+  .busqueda-admin {
+    display: none;
+  }
+}

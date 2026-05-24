@@ -14,6 +14,22 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Filtro de autenticación JWT que intercepta cada petición HTTP para validar
+ * el token Bearer presente en el encabezado {@code Authorization}.
+ * <p>
+ * Si el token es válido, extrae el nombre de usuario, carga los detalles del
+ * usuario mediante {@link UserDetailsService} y establece la autenticación en
+ * el {@link org.springframework.security.core.context.SecurityContextHolder}
+ * para que el resto del pipeline de seguridad lo reconozca.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see JwtUtil
+ * @see UserDetailsServiceImpl
+ */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 

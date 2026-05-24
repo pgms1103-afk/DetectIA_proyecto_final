@@ -21,6 +21,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+/**
+ * Controlador REST para la consulta de registros de auditoría del sistema.
+ * <p>
+ * Todas las rutas tienen el prefijo {@code /admin/auditoria} y son exclusivas
+ * para usuarios con rol {@code ADMIN}. Expone endpoints de listado completo y
+ * filtrado por correo, acción, módulo y resultado de la operación.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ * @see co.edu.unbosque.detectia.service.AuditoriaLogService
+ */
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/admin/auditoria")

@@ -8,6 +8,20 @@ import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+/**
+ * Configuración de la documentación OpenAPI (Swagger) para la plataforma
+ * DetectIA.
+ * <p>
+ * Construye el objeto {@link OpenAPI} con metadatos de la API (título, versión,
+ * descripción, contacto y licencia), el esquema de seguridad Bearer JWT y un
+ * conjunto de respuestas de error reutilizables (401, 403, 404, 400, 409).
+ * La documentación es accesible en {@code /swagger-ui/index.html}.
+ * </p>
+ *
+ * @author Martín Peña
+ * @version 1.0
+ * @since 1.0
+ */
 @Configuration
 
 public class SwaggerConfig {
