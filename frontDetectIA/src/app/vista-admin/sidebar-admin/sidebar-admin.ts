@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -25,6 +25,10 @@ export class SidebarAdmin {
 
   /** Estado de visibilidad del menú móvil */
   mobileOpen = false;
+
+  @HostBinding('class.sidebar-cerrada') get sidebarCerrada() {
+    return !this.mobileOpen;
+  }
 
   constructor(private authService: AuthService, private router: Router) {}
 
