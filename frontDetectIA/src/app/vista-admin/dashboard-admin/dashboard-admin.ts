@@ -10,7 +10,17 @@ import { AuditoriaLogModel } from '../../models/auditoria.model';
 import { ArchivoModel } from '../../models/archivo.model';
 import { ResultadoIAModel } from '../../models/resultadoIA.model';
 
-declare var Chart: any;
+declare const Chart: {
+  new (...args: unknown[]): {
+    update(): void;
+    destroy(): void;
+    data: {
+      datasets: Array<{
+        data: number[];
+      }>;
+    };
+  };
+};
 
 /**
  * Panel de control administrativo.
