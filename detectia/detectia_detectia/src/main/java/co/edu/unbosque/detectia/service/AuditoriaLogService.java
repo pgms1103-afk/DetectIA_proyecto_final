@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import co.edu.unbosque.detectia.entity.AuditoriaLog;
 import co.edu.unbosque.detectia.repository.AuditoriaLogRepository;
+import co.edu.unbosque.detectia.util.AESUtil;
 
 @Service
 public class AuditoriaLogService {
@@ -23,24 +24,45 @@ public class AuditoriaLogService {
 		auditoriaLogRepo.save(log);
 	}
 
+	/** Intenta descifrar el correo de un log. Si ya está en texto plano, lo deja igual. */
+	private void descifrarCorreo(AuditoriaLog log) {
+		if (log.getCorreo() != null && !log.getCorreo().isBlank()) {
+			try {
+				log.setCorreo(AESUtil.decrypt(log.getCorreo()));
+			} catch (Exception ignored) {
+				// Ya está en texto plano, no hace nada
+			}
+		}
+	}
+
 	public List<AuditoriaLog> getAll() {
-		return auditoriaLogRepo.findAll();
+		List<AuditoriaLog> lista = auditoriaLogRepo.findAll();
+		lista.forEach(this::descifrarCorreo);
+		return lista;
 	}
 
 	public List<AuditoriaLog> getByCorreo(String correo) {
-		return auditoriaLogRepo.findByCorreo(correo);
+		List<AuditoriaLog> lista = auditoriaLogRepo.findByCorreo(correo);
+		lista.forEach(this::descifrarCorreo);
+		return lista;
 	}
 
 	public List<AuditoriaLog> getByAccion(String accion) {
-		return auditoriaLogRepo.findByAccion(accion);
+		List<AuditoriaLog> lista = auditoriaLogRepo.findByAccion(accion);
+		lista.forEach(this::descifrarCorreo);
+		return lista;
 	}
 
 	public List<AuditoriaLog> getByExitoso(boolean exitoso) {
-		return auditoriaLogRepo.findByExitoso(exitoso);
+		List<AuditoriaLog> lista = auditoriaLogRepo.findByExitoso(exitoso);
+		lista.forEach(this::descifrarCorreo);
+		return lista;
 	}
 
 	public List<AuditoriaLog> getByModulo(String modulo) {
-		return auditoriaLogRepo.findByModulo(modulo);
+		List<AuditoriaLog> lista = auditoriaLogRepo.findByModulo(modulo);
+		lista.forEach(this::descifrarCorreo);
+		return lista;
 	}
 
 }

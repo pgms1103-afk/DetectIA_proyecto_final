@@ -75,6 +75,10 @@
   </nav>
 
   <div class="pie-lateral">
+    <a class="item-nav btn-panel-admin" *ngIf="esAdmin" (click)="irAlAdmin()" style="cursor: pointer;" title="Volver al Panel Admin">
+      <span class="icono-nav"><i class="fa-solid fa-shield-halved"></i></span>
+      <span class="texto-nav" *ngIf="!isCollapsed">Panel Admin</span>
+    </a>
     <a class="item-nav btn-cerrar-sesion" (click)="cerrarSesion()" style="cursor: pointer;">
       <span class="icono-nav"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
       <span class="texto-nav" *ngIf="!isCollapsed">Cerrar Sesión</span>
