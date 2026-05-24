@@ -17,7 +17,7 @@ import { ArchivoModel } from '../../models/archivo.model';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 
-declare var Chart: any;
+declare let Chart: any;
 
 /**
  * Representa un modelo de IA mostrado en la interfaz.
@@ -124,7 +124,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
   /**
    * Intervalo usado para rotar sugerencias.
    */
-  private intervalSugerencias: any;
+  private intervalSugerencias: ReturnType<typeof setInterval> | null = null;
 
   /**
    * Lista de mensajes mostrados durante el análisis.
