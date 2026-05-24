@@ -24,6 +24,12 @@ export class TopbarAdmin implements OnInit {
   @Output() menuToggle = new EventEmitter<void>();
 
   /** Controla la visibilidad del menú desplegable de perfil */
+
+  abrirMenuMovil() {
+    this.menuToggle.emit();
+  }
+
+
   showProfileMenu = false;
 
   /** Objeto que almacena los datos visuales del usuario en la topbar */
