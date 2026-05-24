@@ -15,6 +15,7 @@ import { ResultadoIAModel } from '../../models/resultadoIA.model';
 import { ResultadoIAService } from '../../services/resultadoIA.service';
 import { ArchivoModel } from '../../models/archivo.model';
 import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 declare var Chart: any;
 
@@ -270,7 +271,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
             this.actualizarValoresModelos(resultados);
           },
           error: (err) => {
-
+            console.log( err.error || "ta mal" )
           }
         });
 
@@ -287,7 +288,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
               this.veredictoActual = analisis.veredicto;
             }
           },
-          error: (err: any) => {
+          error: (err: HttpErrorResponse) => {
             this.actualizarPorcentaje(0);
             this.promedioActual = 0;
             this.veredictoActual = 'Sin datos';
@@ -473,8 +474,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
             this.detenerCarga();
 
             alert(
-              'Error: ' +
-              (err.error || 'Error al analizar el archivo.')
+              `Error: ${err.error || 'Error al analizar el archivo.'}`
             );
           }, 1500);
         },
@@ -522,8 +522,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
             this.detenerCarga();
 
             alert(
-              'Error: ' +
-              (err.error || 'Error al analizar la URL.')
+              `Error: ${err.error || 'Error al analizar url.'}`
             );
           }, 1500);
         },
@@ -633,8 +632,7 @@ export class Detector implements OnInit, AfterViewInit, OnChanges {
             this.detenerCarga();
 
             alert(
-              'Error: ' +
-              (err.error || 'Error al analizar el texto.')
+              `Error: ${err.error || 'Error al analizar el texto.'}`
             );
           }, 1500);
         },

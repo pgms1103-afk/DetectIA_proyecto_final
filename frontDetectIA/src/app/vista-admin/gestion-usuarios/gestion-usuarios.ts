@@ -127,8 +127,7 @@ export class GestionUsuarios implements OnInit {
   /** Elimina un usuario por su ID y recarga el listado */
   eliminarUsuario(user: any) {
     this.usuarioService.deleteUsuarios(user.id).subscribe({
-      next: () => { this.cargarUsuarios(); },
-      error: (err) => {}
+      next: () => { this.cargarUsuarios(); }
     });
   }
 }

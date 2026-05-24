@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Sidebar } from './sidebar';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { Detector } from '../detector-usuario/detector';
+import { ArchivoModel } from '../../models/archivo.model';
 
 describe('Sidebar', () => {
 
@@ -91,14 +91,14 @@ describe('Sidebar', () => {
    */
   it('should open edit modal', () => {
 
-    const archivoMock: any = {
+    const archivoMock = {
       id: 1,
       nombre: 'archivo.txt'
-    };
+    } as ArchivoModel;
 
     component.abrirModalEditar(archivoMock);
 
-    expect(component.mostrarModalEditar).toBe(true);
+    expect(component.mostrarModalEditar).toBeTrue();
 
     expect(component.nombreEditando)
       .toBe('archivo.txt');

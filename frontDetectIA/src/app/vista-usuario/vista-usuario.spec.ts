@@ -8,13 +8,19 @@ import { UsuarioService } from '../services/usuario.service';
 import { AuthService } from '../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { of, Subject } from 'rxjs';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { ArchivoModel } from '../models/archivo.model';
 
 /**
  * Suite de pruebas unitarias para {@link VistaUsuario}.
  *
  * Verifica la lógica de cambio de herramienta en la vista principal del usuario.
  */
+declare global {
+  interface Window {
+    Chart: jasmine.Spy;
+  }
+}
+
 describe('VistaUsuario', () => {
   let component: VistaUsuario;
   let fixture: ComponentFixture<VistaUsuario>;
@@ -36,7 +42,7 @@ describe('VistaUsuario', () => {
     putEditarNombre: jasmine.createSpy().and.returnValue(of('OK')),
     deleteArchivos: jasmine.createSpy().and.returnValue(of('OK')),
     analisisCompletado$: new Subject<void>(),
-    archivoSeleccionado$: new Subject<any>(),
+    archivoSeleccionado$: new Subject<ArchivoModel>(),
     postAnalizarArchivo: jasmine.createSpy().and.returnValue(of({})),
     postAnalizarUrl: jasmine.createSpy().and.returnValue(of({})),
     postAnalizarTexto: jasmine.createSpy().and.returnValue(of({})),
@@ -51,10 +57,13 @@ describe('VistaUsuario', () => {
       of({ nombreUsuario: 'user', correo: 'u@b.com', totalArchivos: 0 })
     );
 
-    // Mock Chart.js global
-    (window as any).Chart = jasmine
+    window.Chart = jasmine
       .createSpy('Chart')
-      .and.callFake(() => ({ update: () => {}, destroy: () => {}, data: { datasets: [{ data: [] }] } }));
+      .and.callFake(() => ({
+        update: () => {},
+        destroy: () => {},
+        data: { datasets: [{ data: [] }] }
+      }));
     spyOn(document, 'getElementById').and.returnValue(null);
 
     await TestBed.configureTestingModule({

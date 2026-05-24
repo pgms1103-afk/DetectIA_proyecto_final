@@ -4,6 +4,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { ToastrService } from 'ngx-toastr';
 import { of, throwError } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { Role } from '../../models/role.enum';
 
 describe('GestionUsuarios', () => {
   let component: GestionUsuarios;
@@ -14,7 +15,6 @@ describe('GestionUsuarios', () => {
   let toastrServiceSpy: jasmine.SpyObj<ToastrService>;
 
   beforeEach(async () => {
-    // Definir los métodos que vamos a mockear
     const userSpy = jasmine.createSpyObj('UsuarioService', [
       'getMostrarUsuarios',
       'postCrearUsuario',
@@ -68,7 +68,13 @@ describe('GestionUsuarios', () => {
 
   it('debería llamar al servicio de creación y mostrar éxito', () => {
     component.modoModal = 'crear';
-    component.usuarioNuevo = { nombreUsuario: 'test', correo: 'test@test.com', contrasena: '123', role: 0, totalArchivos: 0 } as any;
+    component.usuarioNuevo = {
+      nombreUsuario: 'test',
+      correo: 'test@test.com',
+      contrasena: '123',
+      role: Role.USER,
+      totalArchivos: 0
+    };
     usuarioServiceSpy.postCrearUsuario.and.returnValue(of('usuario'));
 
     component.crearOactualizar();

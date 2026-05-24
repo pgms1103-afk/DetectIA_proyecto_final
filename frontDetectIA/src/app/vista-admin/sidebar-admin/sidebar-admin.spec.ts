@@ -58,7 +58,7 @@ describe('SidebarAdmin', () => {
    */
   it('debería cerrar sesión usando el servicio', () => {
     // Evitamos que window.location.href explote en el entorno de test
-    spyOn(component as any, 'cerrarSesion').and.callFake(() => {
+    spyOn(component as unknown as { cerrarSesion(): void }, 'cerrarSesion').and.callFake(() => {
       authServiceSpy.cerrarSesion();
     });
 
